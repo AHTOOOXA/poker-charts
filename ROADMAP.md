@@ -1,5 +1,10 @@
 # Poker Charts Roadmap
 
+> **Note:** Always use `bun` for all commands. Never use npm, yarn, or pnpm.
+> - Add packages: `bun add <package>`
+> - Run scripts: `bun run <script>`
+> - Execute packages: `bunx --bun <package>`
+
 ## Phase 1: Core Grid Component
 
 ### 1.1 Hand Grid UI

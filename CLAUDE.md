@@ -2,6 +2,14 @@
 
 This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
 
+## Important: Always Use Bun
+
+This project uses **Bun** as the JavaScript runtime and package manager. Never use npm, yarn, or pnpm.
+
+- Install packages: `bun add <package>` or `bun add -d <package>` (dev)
+- Run scripts: `bun run <script>` or `bun <script>`
+- Execute packages: `bunx --bun <package>`
+
 ## Commands
 
 ```bash
