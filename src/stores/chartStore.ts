@@ -1,9 +1,26 @@
 import { create } from 'zustand'
 import { persist } from 'zustand/middleware'
+import type { Position, Scenario } from '@/types/poker'
 
 type ChartState = {
-  position: string
-  setPosition: (p: string) => void
+  // Hero's position
+  position: Position
+  setPosition: (p: Position) => void
+
+  // Current scenario
+  scenario: Scenario
+  setScenario: (s: Scenario) => void
+
+  // Villain position (for scenarios that need it)
+  villain: Position | null
+  setVillain: (v: Position | null) => void
+
+  // UI state - which view we're on
+  view: 'position' | 'chart'
+  setView: (v: 'position' | 'chart') => void
+
+  // Reset to position selection
+  reset: () => void
 }
 
 export const useChartStore = create(
@@ -11,6 +28,17 @@ export const useChartStore = create(
     (set) => ({
       position: 'BTN',
       setPosition: (position) => set({ position }),
+
+      scenario: 'RFI',
+      setScenario: (scenario) => set({ scenario, villain: null }),
+
+      villain: null,
+      setVillain: (villain) => set({ villain }),
+
+      view: 'position',
+      setView: (view) => set({ view }),
+
+      reset: () => set({ view: 'position', scenario: 'RFI', villain: null }),
     }),
     { name: 'poker-chart' }
   )
