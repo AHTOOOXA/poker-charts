@@ -4,6 +4,8 @@
 # Usage: ./orchestrator.sh [OPTIONS]
 #   -s, --stakes    Comma-separated stakes (nl10,nl25,nl50) - default: nl25
 #   -d, --days      Comma-separated days or range (1-20 or 5,10,15) - default: 20-1
+#   -m, --month     Month to scrape (1-12 or jan,dec) - default: current month
+#   -y, --year      Year to scrape (2025,2026) - default: current year
 #   -w, --wait      Wait time between scrapes in seconds - default: 60
 #   -f, --force     Force re-scrape even if file exists
 #   -h, --help      Show this help
@@ -24,9 +26,31 @@ get_blinds() {
     esac
 }
 
+# Parse month name or number to two-digit month
+parse_month() {
+    local input=$(echo "$1" | tr '[:upper:]' '[:lower:]')
+    case "$input" in
+        1|01|jan|january)   echo "01" ;;
+        2|02|feb|february)  echo "02" ;;
+        3|03|mar|march)     echo "03" ;;
+        4|04|apr|april)     echo "04" ;;
+        5|05|may)           echo "05" ;;
+        6|06|jun|june)      echo "06" ;;
+        7|07|jul|july)      echo "07" ;;
+        8|08|aug|august)    echo "08" ;;
+        9|09|sep|september) echo "09" ;;
+        10|oct|october)     echo "10" ;;
+        11|nov|november)    echo "11" ;;
+        12|dec|december)    echo "12" ;;
+        *) echo "" ;;
+    esac
+}
+
 # Defaults
 STAKE_LIST=("nl25")
 DAY_LIST=(20 19 18 17 16 15 14 13 12 11 10 9 8 7 6 5 4 3 2 1)
+MONTH=$(date '+%m')
+YEAR=$(date '+%Y')
 WAIT_TIME=60
 FORCE=false
 
@@ -42,6 +66,10 @@ usage() {
     echo "                        - Range: 1-20 (descending) or 5-10 (ascending)"
     echo "                        - List: 5,10,15,20"
     echo "                        Default: 20-1 (all days descending)"
+    echo "  -m, --month MONTH     Month (1-12 or jan,feb,...,dec)"
+    echo "                        Default: current month"
+    echo "  -y, --year YEAR       Year (e.g., 2025, 2026)"
+    echo "                        Default: current year"
     echo "  -w, --wait SECONDS    Wait time between scrapes (default: 60)"
     echo "  -f, --force           Force re-scrape even if file exists"
     echo "  -h, --help            Show this help"
@@ -51,6 +79,8 @@ usage() {
     echo "  $0 -s nl10,nl25 -d 15-20         # NL10 and NL25, days 15 to 20"
     echo "  $0 -s nl50 -d 1-5 -w 30          # NL50, days 1-5, 30s wait"
     echo "  $0 --force -s nl25 -d 20         # Force re-scrape NL25 day 20"
+    echo "  $0 -m dec -y 2025 -d 20-31       # December 2025, days 20-31"
+    echo "  $0 -m 12 -d 25,26,27             # Month 12, specific days"
 }
 
 parse_days() {
@@ -93,6 +123,18 @@ while [[ $# -gt 0 ]]; do
             ;;
         -d|--days)
             DAY_LIST=($(parse_days "$2"))
+            shift 2
+            ;;
+        -m|--month)
+            MONTH=$(parse_month "$2")
+            if [ -z "$MONTH" ]; then
+                echo "ERROR: Invalid month '$2'. Use 1-12 or jan,feb,...,dec"
+                exit 1
+            fi
+            shift 2
+            ;;
+        -y|--year)
+            YEAR="$2"
             shift 2
             ;;
         -w|--wait)
@@ -170,7 +212,7 @@ return JSON.stringify(data);
 scrape_one() {
     local stake="$1"
     local day="$2"
-    local filename="holdem-${stake}-2026-01-$(printf '%02d' $day).csv"
+    local filename="rush-holdem-${stake}-${YEAR}-${MONTH}-$(printf '%02d' $day).csv"
     local filepath="$DIR/$filename"
 
     # Skip if file exists with data (unless --force)
@@ -238,6 +280,7 @@ done
 log "=== Starting Orchestrator ==="
 log "Stakes: ${STAKE_LIST[*]}"
 log "Days: ${DAY_LIST[*]}"
+log "Month: ${YEAR}-${MONTH}"
 log "Wait: ${WAIT_TIME}s between scrapes"
 log "Force: $FORCE"
 log "Target: ${#STAKE_LIST[@]} stakes × ${#DAY_LIST[@]} days = $((${#STAKE_LIST[@]} * ${#DAY_LIST[@]})) files"
@@ -281,6 +324,6 @@ log "Scraped: $scraped | Skipped: $skipped | Failed: $failed"
 
 # Summary by stake
 for stake in "${STAKE_LIST[@]}"; do
-    count=$(ls -1 "$DIR"/holdem-${stake}-2026-01-*.csv 2>/dev/null | wc -l | tr -d ' ')
-    log "$stake: $count files total"
+    count=$(ls -1 "$DIR"/rush-holdem-${stake}-${YEAR}-${MONTH}-*.csv 2>/dev/null | wc -l | tr -d ' ')
+    log "$stake: $count files for ${YEAR}-${MONTH}"
 done
