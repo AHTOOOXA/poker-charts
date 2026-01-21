@@ -16,8 +16,8 @@ type ChartState = {
   setVillain: (v: Position | null) => void
 
   // UI state - which view we're on
-  view: 'position' | 'chart'
-  setView: (v: 'position' | 'chart') => void
+  view: 'position' | 'chart' | 'players'
+  setView: (v: 'position' | 'chart' | 'players') => void
 
   // Reset to position selection
   reset: () => void

@@ -3,9 +3,11 @@ import { HandGrid } from '@/components/chart/HandGrid'
 import { ContextBar } from '@/components/ContextBar'
 import { Legend } from '@/components/Legend'
 import { PositionSelector } from '@/components/PositionSelector'
+import { PlayerSearch } from '@/components/players/PlayerSearch'
 import { getAction } from '@/data/ranges'
 import { useChartStore } from '@/stores/chartStore'
 import { getValidVillains, SCENARIOS, type Hand, type Position } from '@/types/poker'
+import { cn } from '@/lib/utils'
 
 function App() {
   const {
@@ -58,17 +60,47 @@ function App() {
       </div>
 
       {/* Header */}
-      <header className="relative z-10 px-4 py-4 border-b border-neutral-800/50 bg-neutral-950/80 backdrop-blur-md">
-        <h1 className="text-base font-semibold text-center tracking-wide">
-          <span className="bg-gradient-to-r from-neutral-200 to-neutral-400 bg-clip-text text-transparent">
-            Poker Charts
-          </span>
-        </h1>
+      <header className="relative z-10 px-4 py-3 border-b border-neutral-800/50 bg-neutral-950/80 backdrop-blur-md">
+        <div className="flex items-center justify-between">
+          <h1 className="text-base font-semibold tracking-wide">
+            <span className="bg-gradient-to-r from-neutral-200 to-neutral-400 bg-clip-text text-transparent">
+              Poker Charts
+            </span>
+          </h1>
+
+          {/* Navigation tabs */}
+          <nav className="flex gap-1">
+            <button
+              onClick={() => setView(view === 'players' ? 'position' : view)}
+              className={cn(
+                'px-3 py-1.5 rounded-md text-sm font-medium transition-colors',
+                view !== 'players'
+                  ? 'bg-neutral-800/50 text-white'
+                  : 'text-neutral-500 hover:text-neutral-300'
+              )}
+            >
+              Charts
+            </button>
+            <button
+              onClick={() => setView('players')}
+              className={cn(
+                'px-3 py-1.5 rounded-md text-sm font-medium transition-colors',
+                view === 'players'
+                  ? 'bg-neutral-800/50 text-white'
+                  : 'text-neutral-500 hover:text-neutral-300'
+              )}
+            >
+              Players
+            </button>
+          </nav>
+        </div>
       </header>
 
       {/* Main content */}
-      <main className="relative z-10 flex-1 p-4 flex flex-col">
-        {view === 'position' ? (
+      <main className="relative z-10 flex-1 p-4 flex flex-col overflow-hidden">
+        {view === 'players' ? (
+          <PlayerSearch />
+        ) : view === 'position' ? (
           <div className="flex-1 flex flex-col justify-center">
             <PositionSelector selected={position} onSelect={handlePositionSelect} />
           </div>

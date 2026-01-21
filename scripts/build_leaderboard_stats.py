@@ -57,14 +57,35 @@ def parse_csv_files(leaderboards_dir: Path) -> list[dict]:
     return entries
 
 
-def classify_reg_type(days_active: int, activity_rate: float, days_since_last: int, days_since_first: int) -> str:
-    """Classify player as grinder/casual/new/inactive."""
-    if days_since_first <= 5 and days_active <= 3:
-        return "new"
-    if days_since_last > 5:
+def classify_reg_type(days_active: int, entries: int, days_since_last: int, days_since_first: int) -> str:
+    """
+    Classify player based on volume (entries) + consistency (days_active).
+
+    See docs/PLAYER_CLASSIFICATION.md for detailed rationale.
+    """
+    # Inactive: haven't played in 10+ days
+    if days_since_last >= 10:
         return "inactive"
-    if activity_rate >= 0.5 and days_active >= 7:
+
+    # Grinder: high volume + high consistency
+    if entries >= 20 and days_active >= 7:
         return "grinder"
+    if entries >= 10 and days_active >= 10:
+        return "grinder"
+
+    # Regular: solid presence
+    if days_active >= 10:
+        return "regular"
+    if entries >= 10 and days_active >= 5:
+        return "regular"
+    if entries >= 5 and days_active >= 7:
+        return "regular"
+
+    # New: just joined, limited data
+    if days_since_first <= 7 and days_active <= 2:
+        return "new"
+
+    # Casual: everyone else still active
     return "casual"
 
 
@@ -105,25 +126,37 @@ def build_player_stats(entries: list[dict], latest_date: str) -> list[dict]:
 
     players = defaultdict(lambda: {
         "entries": 0,
+        "total_points": 0.0,
         "stakes": defaultdict(int),
-        "dates": []
+        "dates": [],
+        "points_by_date": defaultdict(float),
     })
 
     for entry in entries:
         nick = entry["nickname"]
         p = players[nick]
         p["entries"] += 1
+        p["total_points"] += entry["points"]
         p["stakes"][entry["stake"]] += 1
         p["dates"].append(entry["date"])
+        p["points_by_date"][entry["date"]] += entry["points"]
 
     # Build final list
+    # Hand estimation: 1000 regular hands + 1000 happy hour hands (x2) = 5000 points
+    # Base rate = 5/3 points/hand, happy = 10/3 points/hand
+    # Happy hours is 2/24 hours during downtime, ~5% of hands played then
+    # Weighted avg: 0.95 * 1.667 + 0.05 * 3.333 = 1.75 points/hand
+    POINTS_PER_HAND = 1.75
+
     result = []
     for nick, p in players.items():
         entries_count = p["entries"]
+        total_points = p["total_points"]
         dates_set = sorted(set(p["dates"]))
         days_active = len(dates_set)
         stakes_dict = dict(p["stakes"])
         stakes_list = sorted(stakes_dict.keys())
+        points_by_date = dict(p["points_by_date"])
 
         first_seen = dates_set[0] if dates_set else None
         last_seen = dates_set[-1] if dates_set else None
@@ -147,7 +180,13 @@ def build_player_stats(entries: list[dict], latest_date: str) -> list[dict]:
         primary_stake = max(stakes_dict, key=stakes_dict.get) if stakes_dict else None
 
         # Classification
-        reg_type = classify_reg_type(days_active, activity_rate, days_since_last, days_since_first)
+        reg_type = classify_reg_type(days_active, entries_count, days_since_last, days_since_first)
+
+        # Estimate hands from points
+        estimated_hands = int(total_points / POINTS_PER_HAND)
+
+        # Estimate hands per date for calendar display
+        hands_by_date = {date: int(pts / POINTS_PER_HAND) for date, pts in points_by_date.items()}
 
         result.append({
             "nickname": nick,
@@ -164,6 +203,9 @@ def build_player_stats(entries: list[dict], latest_date: str) -> list[dict]:
             "primary_stake": primary_stake,
             "stake_count": len(stakes_list),
             "reg_type": reg_type,
+            "total_points": round(total_points, 0),
+            "estimated_hands": estimated_hands,
+            "hands_by_date": hands_by_date,
         })
 
     return result
@@ -187,7 +229,7 @@ def build_mega_json(leaderboards_dir: Path) -> dict:
     players_sorted = sorted(players, key=lambda x: x["entries"], reverse=True)
 
     # Count reg types
-    reg_counts = {"grinder": 0, "casual": 0, "new": 0, "inactive": 0}
+    reg_counts = {"grinder": 0, "regular": 0, "casual": 0, "new": 0, "inactive": 0}
     for p in players_sorted:
         reg_counts[p["reg_type"]] += 1
 
