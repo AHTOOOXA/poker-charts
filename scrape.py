@@ -14,6 +14,8 @@ STAKES = {
     "nl10": "$0.05/$0.10",
     "nl25": "$0.10/$0.25",
     "nl50": "$0.25/$0.50",
+    "nl100": "$0.50/$1",
+    "nl200": "$1/$2",
 }
 
 def run_playwright(script):
@@ -198,8 +200,8 @@ def main():
     existing = get_existing_files()
     print(f"Existing files: {len(existing)}")
 
-    # Order: NL25 first, then NL10, then NL50
-    stake_order = ["nl25", "nl10", "nl50"]
+    # Order: NL25 first, then others
+    stake_order = ["nl25", "nl10", "nl50", "nl100", "nl200"]
     days = list(range(20, 0, -1))  # 20 down to 1
 
     current_stake = None
