@@ -1,8 +1,12 @@
 import { create } from 'zustand'
 import { persist } from 'zustand/middleware'
-import type { Position } from '@/types/poker'
+import type { Position, Provider } from '@/types/poker'
 
 type ChartState = {
+  // Chart provider
+  provider: Provider
+  setProvider: (p: Provider) => void
+
   // Hero's position
   position: Position
   setPosition: (p: Position) => void
@@ -19,6 +23,9 @@ type ChartState = {
 export const useChartStore = create(
   persist<ChartState>(
     (set) => ({
+      provider: 'pekarstas',
+      setProvider: (provider) => set({ provider }),
+
       position: 'BTN',
       setPosition: (position) => set({ position }),
 

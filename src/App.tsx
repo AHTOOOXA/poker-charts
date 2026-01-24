@@ -3,6 +3,7 @@ import { HandGrid } from '@/components/chart/HandGrid'
 import { ChartControls } from '@/components/ChartControls'
 import { Legend } from '@/components/Legend'
 import { PlayerSearch } from '@/components/players/PlayerSearch'
+import { ProviderSelector } from '@/components/ProviderSelector'
 import { getCell } from '@/data/ranges'
 import { useChartStore } from '@/stores/chartStore'
 import { POSITIONS, SCENARIOS, type Scenario } from '@/types/poker'
@@ -45,6 +46,7 @@ function getAvailableScenarios(hero: string, villain: string | null): Scenario[]
 
 function App() {
   const {
+    provider,
     position,
     villain,
     tab,
@@ -60,10 +62,10 @@ function App() {
       const scenarioConfig = SCENARIOS.find(s => s.id === scenario)
       const villainForScenario = scenarioConfig?.requiresVillain ? villain : undefined
       return (hand: string) => {
-        return getCell(position, scenario, hand, villainForScenario || undefined)
+        return getCell(provider, position, scenario, hand, villainForScenario || undefined)
       }
     },
-    [position, villain]
+    [provider, position, villain]
   )
 
   return (
@@ -77,11 +79,14 @@ function App() {
       {/* Header */}
       <header className="relative z-10 px-4 py-3 border-b border-neutral-800/50 bg-neutral-950/80 backdrop-blur-md">
         <div className="flex items-center justify-between">
-          <h1 className="text-base font-semibold tracking-wide">
-            <span className="bg-gradient-to-r from-neutral-200 to-neutral-400 bg-clip-text text-transparent">
-              Poker Charts
-            </span>
-          </h1>
+          <div className="flex items-center gap-3">
+            <h1 className="text-base font-semibold tracking-wide">
+              <span className="bg-gradient-to-r from-neutral-200 to-neutral-400 bg-clip-text text-transparent">
+                Poker Charts
+              </span>
+            </h1>
+            <ProviderSelector />
+          </div>
 
           {/* Navigation tabs */}
           <nav className="flex gap-1">

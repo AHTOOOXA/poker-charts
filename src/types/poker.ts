@@ -1,6 +1,21 @@
 export const RANKS = ['A', 'K', 'Q', 'J', 'T', '9', '8', '7', '6', '5', '4', '3', '2'] as const
 export type Rank = (typeof RANKS)[number]
 
+export const PROVIDERS = ['pekarstas', 'greenline', 'gtowizard-gg-rc'] as const
+export type Provider = (typeof PROVIDERS)[number]
+
+export interface ProviderConfig {
+  id: Provider
+  label: string
+  description?: string
+}
+
+export const PROVIDER_CONFIGS: ProviderConfig[] = [
+  { id: 'pekarstas', label: 'Pekarstas', description: 'GGPoker chart pack' },
+  { id: 'greenline', label: 'Greenline' },
+  { id: 'gtowizard-gg-rc', label: 'GTOWizard GG R&C' },
+]
+
 export const POSITIONS = ['UTG', 'MP', 'CO', 'BTN', 'SB', 'BB'] as const
 export type Position = (typeof POSITIONS)[number]
 
