@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { Input } from '@/components/ui/input'
 
 interface PlayerSearchInputProps {
@@ -13,22 +13,27 @@ export function PlayerSearchInput({
   debounceMs = 200,
 }: PlayerSearchInputProps) {
   const [localValue, setLocalValue] = useState(value)
+  const lastEmittedRef = useRef(value)
 
-  // Sync external value changes
+  // Only sync external value changes (not our own debounced updates coming back)
   useEffect(() => {
-    setLocalValue(value)
+    if (value !== lastEmittedRef.current) {
+      setLocalValue(value)
+      lastEmittedRef.current = value
+    }
   }, [value])
 
   // Debounce the onChange callback
   useEffect(() => {
     const timer = setTimeout(() => {
-      if (localValue !== value) {
+      if (localValue !== lastEmittedRef.current) {
+        lastEmittedRef.current = localValue
         onChange(localValue)
       }
     }, debounceMs)
 
     return () => clearTimeout(timer)
-  }, [localValue, debounceMs, onChange, value])
+  }, [localValue, debounceMs, onChange])
 
   return (
     <div className="relative">

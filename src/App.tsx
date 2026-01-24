@@ -3,7 +3,7 @@ import { HandGrid } from '@/components/chart/HandGrid'
 import { ChartControls } from '@/components/ChartControls'
 import { Legend } from '@/components/Legend'
 import { PlayerSearch } from '@/components/players/PlayerSearch'
-import { getAction } from '@/data/ranges'
+import { getCell } from '@/data/ranges'
 import { useChartStore } from '@/stores/chartStore'
 import { POSITIONS, SCENARIOS, type Scenario } from '@/types/poker'
 import { cn } from '@/lib/utils'
@@ -34,14 +34,9 @@ function getAvailableScenarios(hero: string, villain: string | null): Scenario[]
       scenarios.push('vs-3bet')
     }
 
-    // vs-4bet: villain opened, hero 3bet, villain 4bet
-    if (villainBefore) {
+    // vs-4bet: hero 3bet, villain 4bet (BB facing 4bet after 3betting)
+    if (hero === 'BB' && villainBefore) {
       scenarios.push('vs-4bet')
-    }
-
-    // 3bet-defense: villain opened, hero 3bet, villain called
-    if (villainBefore) {
-      scenarios.push('3bet-defense')
     }
   }
 
@@ -58,14 +53,14 @@ function App() {
 
   const availableScenarios = getAvailableScenarios(position, villain)
 
-  // Create getAction function for a specific scenario
-  const createGetAction = useCallback(
+  // Create getCell function for a specific scenario
+  const createGetCell = useCallback(
     (scenario: Scenario) => {
       // Only pass villain for scenarios that require it
       const scenarioConfig = SCENARIOS.find(s => s.id === scenario)
       const villainForScenario = scenarioConfig?.requiresVillain ? villain : undefined
       return (hand: string) => {
-        return getAction(position, scenario, hand, villainForScenario || undefined)
+        return getCell(position, scenario, hand, villainForScenario || undefined)
       }
     },
     [position, villain]
@@ -132,7 +127,7 @@ function App() {
                 return (
                   <HandGrid
                     key={scenarioId}
-                    getAction={createGetAction(scenarioId)}
+                    getCell={createGetCell(scenarioId)}
                     compact
                     title={config?.label}
                     subtitle={config?.description}

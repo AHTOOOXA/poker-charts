@@ -1,12 +1,23 @@
 #!/usr/bin/env python3
+"""
+Parse pekarstas chart data into simplified 4-action format.
+
+Actions:
+- fold: don't play
+- call: passive (call open, call 3bet, etc.)
+- raise: aggressive (open, 3bet, 4bet depending on context)
+- allin: maximum aggression (jam)
+
+Cells can be:
+- Single action: 'raise'
+- Split (mixed/marginal): ['raise', 'fold']
+"""
 import json
-import os
 from pathlib import Path
 
 CHARTS_DIR = Path(__file__).parent / "charts_raw"
 
-# Chart ID to (hero, scenario, villain) mapping
-# RFI Charts
+# Chart mappings
 RFI_CHARTS = {
     16: ('UTG', 'RFI', None),
     24: ('MP', 'RFI', None),
@@ -15,8 +26,6 @@ RFI_CHARTS = {
     28: ('SB', 'RFI', None),
 }
 
-# vs Open Charts (3bet/call ranges) - hero facing open from villain
-# Charts 29-38 have both 3bet and cold-call options
 VS_OPEN_CHARTS = {
     29: ('MP', 'vs-open', 'UTG'),
     30: ('CO', 'vs-open', 'UTG'),
@@ -28,7 +37,6 @@ VS_OPEN_CHARTS = {
     38: ('SB', 'vs-open', 'BTN'),
 }
 
-# vs 3bet Charts - hero opened, facing 3bet from villain
 VS_3BET = {
     39: ('UTG', 'vs-3bet', 'MP'),
     44: ('UTG', 'vs-3bet', 'CO'),
@@ -47,61 +55,96 @@ VS_3BET = {
     57: ('SB', 'vs-3bet', 'BB'),
 }
 
-# BB Defense Charts - BB facing open from villain (using 2.5x sizing)
+# vs-4bet for non-BB positions (you 3bet, villain 4bets)
+# Colors: blue=call, sand=marginal call, red=5bet allin
+VS_4BET = {
+    58: ('MP', 'vs-4bet', 'UTG'),
+    59: ('CO', 'vs-4bet', 'UTG'),   # Raw data combines EP-MP
+    60: ('BTN', 'vs-4bet', 'UTG'),  # Raw data combines EP-MP
+    61: ('BTN', 'vs-4bet', 'CO'),
+    62: ('SB', 'vs-4bet', 'UTG'),
+    63: ('SB', 'vs-4bet', 'MP'),
+    64: ('SB', 'vs-4bet', 'CO'),
+    65: ('SB', 'vs-4bet', 'BTN'),
+}
+
+# BB Defense - generates TWO charts per villain:
+# 1. BB vs-open (what to do facing open): call / raise(3bet) / allin
+# 2. BB vs-4bet (if we 3bet, what if they 4bet): fold / call / allin
 BB_DEFENSE = {
-    67: ('BB', 'vs-open', 'UTG'),
-    70: ('BB', 'vs-open', 'MP'),
-    73: ('BB', 'vs-open', 'CO'),
-    76: ('BB', 'vs-open', 'BTN'),
-    78: ('BB', 'vs-open', 'SB'),
+    67: ('BB', 'UTG'),   # 2.5x sizing
+    70: ('BB', 'MP'),
+    73: ('BB', 'CO'),
+    76: ('BB', 'BTN'),
+    78: ('BB', 'SB'),
 }
 
 
-def get_rfi_action(color: str) -> str | None:
-    """RFI chart colors."""
+def parse_rfi(color: str) -> str | list | None:
+    """RFI: mariner=raise, sand=marginal raise"""
     if color == 'mariner':
         return 'raise'
     elif color == 'sand':
-        return 'raise-passive'  # vs fish only
+        return ['raise', 'fold']
     return None
 
 
-def get_vs_open_action(color: str) -> str | None:
-    """vs Open chart colors (for non-BB positions)."""
+def parse_vs_open(color: str) -> str | list | None:
+    """vs Open: mariner=3bet(raise), green=marginal call"""
     if color == 'mariner':
-        return '3bet'
+        return 'raise'
     elif color == 'green':
-        return 'call-passive'  # cold call vs fish only
+        return ['call', 'fold']
     return None
 
 
-def get_vs_3bet_action(color: str) -> str | None:
-    """vs 3bet chart colors."""
+def parse_vs_3bet(color: str) -> str | list | None:
+    """vs 3bet: blue=call, red=allin(4bet value), purple=marginal 4bet(bluff)"""
     if color == 'blue':
         return 'call'
     elif color == 'red':
-        return 'all-in'  # 4bet for value
+        return 'allin'
     elif color == 'purple':
-        return '4bet-bluff'  # 4bet bluff, fold to 5bet
-    # sand = fold, so return None
+        return ['raise', 'fold']
     return None
 
 
-def get_bb_defense_action(color: str) -> str | None:
-    """BB defense chart colors."""
+def parse_vs_4bet(color: str) -> str | list | None:
+    """vs 4bet (non-BB): blue=call, sand=marginal call, red=5bet allin"""
+    if color == 'blue':
+        return 'call'
+    elif color == 'sand':
+        return ['call', 'fold']
+    elif color == 'red':
+        return 'allin'
+    return None
+
+
+def parse_bb_vs_open(color: str) -> str | None:
+    """BB vs open: green=call, mariner/blue=raise(3bet), red=allin"""
     if color == 'green':
         return 'call'
-    elif color == 'mariner':
-        return '3bet-fold'  # 3bet, fold to 4bet
-    elif color == 'blue':
-        return '3bet-call'  # 3bet, call 4bet
+    elif color in ('mariner', 'blue'):
+        return 'raise'  # 3bet
     elif color == 'red':
-        return 'all-in'  # 3bet/5bet all-in
+        return 'allin'  # 3bet/5bet jam
     return None
 
 
-def parse_chart(chart_id: int, action_mapper) -> dict[str, str]:
-    """Parse a chart JSON file and return hand -> action mapping."""
+def parse_bb_vs_4bet(color: str) -> str | None:
+    """BB vs 4bet (after we 3bet): mariner=fold, blue=call, red=allin"""
+    if color == 'mariner':
+        return 'fold'
+    elif color == 'blue':
+        return 'call'
+    elif color == 'red':
+        return 'allin'
+    # green hands don't 3bet, so they're not in this chart
+    return None
+
+
+def parse_chart(chart_id: int, parser) -> dict:
+    """Parse a chart JSON file."""
     file_path = CHARTS_DIR / f"{chart_id}.json"
     if not file_path.exists():
         print(f"Warning: {file_path} not found")
@@ -118,26 +161,32 @@ def parse_chart(chart_id: int, action_mapper) -> dict[str, str]:
         colors = cell.get('color', [])
 
         if colors:
-            # Take the first color (highest priority action)
             color = colors[0]['color']
-            action = action_mapper(color)
+            action = parser(color)
             if action:
                 hands[name] = action
 
     return hands
 
 
-def format_range(hands: dict[str, str]) -> str:
-    """Format a range dict as TypeScript object entries."""
+def format_cell(cell) -> str:
+    """Format a cell value for TypeScript."""
+    if isinstance(cell, list):
+        return f"['{cell[0]}', '{cell[1]}']"
+    return f"'{cell}'"
+
+
+def format_chart(hands: dict) -> str:
+    """Format a chart as TypeScript object entries."""
     if not hands:
         return ""
 
     lines = []
     current_line = "    "
 
-    for hand, action in sorted(hands.items(), key=lambda x: x[0]):
-        entry = f"'{hand}': '{action}', "
-        if len(current_line) + len(entry) > 140:
+    for hand, cell in sorted(hands.items()):
+        entry = f"'{hand}': {format_cell(cell)}, "
+        if len(current_line) + len(entry) > 120:
             lines.append(current_line.rstrip())
             current_line = "    " + entry
         else:
@@ -150,85 +199,99 @@ def format_range(hands: dict[str, str]) -> str:
 
 
 def main():
-    all_ranges = {}
+    all_charts = {}
 
-    # Parse RFI charts
     print("\n=== RFI Charts ===")
     for chart_id, (hero, scenario, villain) in RFI_CHARTS.items():
         key = f"{hero}-{scenario}"
-        hands = parse_chart(chart_id, get_rfi_action)
+        hands = parse_chart(chart_id, parse_rfi)
         if hands:
-            all_ranges[key] = hands
-            print(f"Parsed {key}: {len(hands)} hands")
+            all_charts[key] = hands
+            splits = sum(1 for v in hands.values() if isinstance(v, list))
+            print(f"{key}: {len(hands)} hands ({splits} mixed)")
 
-    # Parse vs Open charts (non-BB)
     print("\n=== vs Open Charts ===")
     for chart_id, (hero, scenario, villain) in VS_OPEN_CHARTS.items():
         key = f"{hero}-{scenario}-{villain}"
-        hands = parse_chart(chart_id, get_vs_open_action)
+        hands = parse_chart(chart_id, parse_vs_open)
         if hands:
-            all_ranges[key] = hands
-            print(f"Parsed {key}: {len(hands)} hands")
+            all_charts[key] = hands
+            splits = sum(1 for v in hands.values() if isinstance(v, list))
+            print(f"{key}: {len(hands)} hands ({splits} mixed)")
 
-    # Parse vs 3bet charts
     print("\n=== vs 3bet Charts ===")
     for chart_id, (hero, scenario, villain) in VS_3BET.items():
         key = f"{hero}-{scenario}-{villain}"
-        hands = parse_chart(chart_id, get_vs_3bet_action)
+        hands = parse_chart(chart_id, parse_vs_3bet)
         if hands:
-            all_ranges[key] = hands
-            print(f"Parsed {key}: {len(hands)} hands")
+            all_charts[key] = hands
+            splits = sum(1 for v in hands.values() if isinstance(v, list))
+            print(f"{key}: {len(hands)} hands ({splits} mixed)")
 
-    # Parse BB Defense charts
-    print("\n=== BB Defense Charts ===")
-    for chart_id, (hero, scenario, villain) in BB_DEFENSE.items():
+    print("\n=== vs 4bet Charts (non-BB) ===")
+    for chart_id, (hero, scenario, villain) in VS_4BET.items():
         key = f"{hero}-{scenario}-{villain}"
-        hands = parse_chart(chart_id, get_bb_defense_action)
+        hands = parse_chart(chart_id, parse_vs_4bet)
         if hands:
-            all_ranges[key] = hands
-            print(f"Parsed {key}: {len(hands)} hands")
+            all_charts[key] = hands
+            splits = sum(1 for v in hands.values() if isinstance(v, list))
+            print(f"{key}: {len(hands)} hands ({splits} mixed)")
 
-    # Generate TypeScript code
-    ts_code = '''import type { Action, Position, Scenario } from '@/types/poker'
+    print("\n=== BB Defense Charts ===")
+    for chart_id, (hero, villain) in BB_DEFENSE.items():
+        # Chart 1: BB vs open
+        key_vs_open = f"{hero}-vs-open-{villain}"
+        hands_vs_open = parse_chart(chart_id, parse_bb_vs_open)
+        if hands_vs_open:
+            all_charts[key_vs_open] = hands_vs_open
+            print(f"{key_vs_open}: {len(hands_vs_open)} hands")
 
-// Range is a record of hand name to action
-export type Range = Record<string, Action>
+        # Chart 2: BB vs 4bet (only 3betting hands)
+        key_vs_4bet = f"{hero}-vs-4bet-{villain}"
+        hands_vs_4bet = parse_chart(chart_id, parse_bb_vs_4bet)
+        if hands_vs_4bet:
+            all_charts[key_vs_4bet] = hands_vs_4bet
+            print(f"{key_vs_4bet}: {len(hands_vs_4bet)} hands")
 
-// Key format: "hero-scenario-villain" e.g., "BTN-RFI" or "BTN-vs-3bet-BB"
-export type RangeKey = string
+    # Generate TypeScript
+    ts_code = '''import type { Cell, Position, Scenario } from '@/types/poker'
 
-export function getRangeKey(hero: Position, scenario: Scenario, villain?: Position): RangeKey {
+// Chart is a sparse map of hand -> cell (unlisted hands are fold)
+export type Chart = Record<string, Cell>
+
+export type ChartKey = string
+
+export function getChartKey(hero: Position, scenario: Scenario, villain?: Position): ChartKey {
   if (villain) {
     return `${hero}-${scenario}-${villain}`
   }
   return `${hero}-${scenario}`
 }
 
-const ranges: Record<RangeKey, Range> = {
+const charts: Record<ChartKey, Chart> = {
 '''
 
-    for key, hands in sorted(all_ranges.items()):
-        ts_code += f"  // {key}\n"
+    for key, hands in sorted(all_charts.items()):
         ts_code += f"  '{key}': {{\n"
-        ts_code += format_range(hands)
+        ts_code += format_chart(hands)
         ts_code += "\n  },\n\n"
 
     ts_code += '''}
 
-export function getRange(hero: Position, scenario: Scenario, villain?: Position): Range | null {
-  const key = getRangeKey(hero, scenario, villain)
-  return ranges[key] || null
+export function getChart(hero: Position, scenario: Scenario, villain?: Position): Chart | null {
+  const key = getChartKey(hero, scenario, villain)
+  return charts[key] || null
 }
 
-export function getAction(
+export function getCell(
   hero: Position,
   scenario: Scenario,
   hand: string,
   villain?: Position
-): Action | null {
-  const range = getRange(hero, scenario, villain)
-  if (!range) return null
-  return range[hand] || 'fold'
+): Cell {
+  const chart = getChart(hero, scenario, villain)
+  if (!chart) return 'fold'
+  return chart[hand] || 'fold'
 }
 '''
 
@@ -237,7 +300,7 @@ export function getAction(
         f.write(ts_code)
 
     print(f"\n=== Generated {output_path} ===")
-    print(f"Total ranges: {len(all_ranges)}")
+    print(f"Total charts: {len(all_charts)}")
 
 
 if __name__ == '__main__':

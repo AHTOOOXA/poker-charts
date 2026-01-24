@@ -1,37 +1,65 @@
 import { cn } from '@/lib/utils'
-import { HAND_GRID, RANKS, type Action, type Hand } from '@/types/poker'
+import { HAND_GRID, RANKS, type Action, type Cell, type Hand } from '@/types/poker'
 
-const ACTION_STYLES: Record<Action, string> = {
-  'fold': 'bg-neutral-800/60 text-neutral-500 border-neutral-700/30',
-  'call': 'bg-gradient-to-br from-emerald-500 to-emerald-700 text-white border-emerald-400/30 shadow-[inset_0_1px_0_rgba(255,255,255,0.1)]',
-  'call-passive': 'bg-gradient-to-br from-emerald-400/60 to-emerald-600/60 text-white border-emerald-400/20 border-dashed',
-  'raise': 'bg-gradient-to-br from-sky-500 to-sky-700 text-white border-sky-400/30 shadow-[inset_0_1px_0_rgba(255,255,255,0.1)]',
-  'raise-passive': 'bg-gradient-to-br from-sky-400/60 to-sky-600/60 text-white border-sky-400/20 border-dashed',
-  '3bet': 'bg-gradient-to-br from-amber-400 to-amber-600 text-black border-amber-300/30 shadow-[inset_0_1px_0_rgba(255,255,255,0.2)]',
-  '3bet-fold': 'bg-gradient-to-br from-amber-400/70 to-amber-600/70 text-black border-amber-300/20',
-  '3bet-call': 'bg-gradient-to-br from-amber-500 to-amber-700 text-white border-amber-400/30 shadow-[inset_0_1px_0_rgba(255,255,255,0.1)]',
-  '4bet-bluff': 'bg-gradient-to-br from-purple-500 to-purple-700 text-white border-purple-400/30 shadow-[inset_0_1px_0_rgba(255,255,255,0.1)]',
-  'all-in': 'bg-gradient-to-br from-rose-500 to-rose-700 text-white border-rose-400/30 shadow-[inset_0_1px_0_rgba(255,255,255,0.1)]',
+// Solid background colors for each action
+const ACTION_COLORS: Record<Action, string> = {
+  fold: 'bg-neutral-800',
+  call: 'bg-emerald-600',
+  raise: 'bg-sky-600',
+  allin: 'bg-rose-600',
+}
+
+// Text colors
+const ACTION_TEXT: Record<Action, string> = {
+  fold: 'text-neutral-500',
+  call: 'text-white',
+  raise: 'text-white',
+  allin: 'text-white',
 }
 
 interface HandCellProps {
   hand: Hand
-  action: Action | null
+  cell: Cell
   compact?: boolean
 }
 
-function HandCell({ hand, action, compact }: HandCellProps) {
-  const effectiveAction = action || 'fold'
-  const styleClass = ACTION_STYLES[effectiveAction]
+function HandCell({ hand, cell, compact }: HandCellProps) {
+  const isSplit = Array.isArray(cell)
 
+  if (isSplit) {
+    // First action is more aggressive (bottom), second is less aggressive (top)
+    const [bottom, top] = cell
+    return (
+      <div
+        className={cn(
+          'aspect-square flex items-center justify-center relative overflow-hidden',
+          'rounded-[2px] cursor-default',
+          compact ? 'text-[8px] sm:text-[10px]' : 'text-[9px] sm:text-[11px]'
+        )}
+      >
+        {/* Top half (passive) */}
+        <div className={cn('absolute inset-0 h-1/2', ACTION_COLORS[top])} />
+        {/* Bottom half (aggressive) */}
+        <div className={cn('absolute inset-0 top-1/2 h-1/2', ACTION_COLORS[bottom])} />
+        {/* Text overlay */}
+        <span className="relative z-10 font-semibold text-white mix-blend-difference">
+          {hand.name}
+        </span>
+      </div>
+    )
+  }
+
+  // Solid cell
+  const action = cell
   return (
     <div
       className={cn(
         'aspect-square flex items-center justify-center',
         'font-semibold tracking-tight',
-        'rounded-[2px] border cursor-default',
+        'rounded-[2px] cursor-default',
         compact ? 'text-[8px] sm:text-[10px]' : 'text-[9px] sm:text-[11px]',
-        styleClass
+        ACTION_COLORS[action],
+        ACTION_TEXT[action]
       )}
     >
       {hand.name}
@@ -40,14 +68,13 @@ function HandCell({ hand, action, compact }: HandCellProps) {
 }
 
 interface HandGridProps {
-  getAction: (hand: string) => Action | null
-  onHandHover?: (hand: Hand | null) => void
+  getCell: (hand: string) => Cell
   compact?: boolean
   title?: string
   subtitle?: string
 }
 
-export function HandGrid({ getAction, compact, title, subtitle }: HandGridProps) {
+export function HandGrid({ getCell, compact, title, subtitle }: HandGridProps) {
   return (
     <div className={cn('w-full', !compact && 'max-w-[420px]', 'mx-auto')}>
       {/* Title */}
@@ -97,7 +124,7 @@ export function HandGrid({ getAction, compact, title, subtitle }: HandGridProps)
               <HandCell
                 key={hand.name}
                 hand={hand}
-                action={getAction(hand.name)}
+                cell={getCell(hand.name)}
                 compact={compact}
               />
             ))}

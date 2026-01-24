@@ -4,26 +4,17 @@ export type Rank = (typeof RANKS)[number]
 export const POSITIONS = ['UTG', 'MP', 'CO', 'BTN', 'SB', 'BB'] as const
 export type Position = (typeof POSITIONS)[number]
 
-// Actions with nuanced variants
-// Base actions: fold, call, raise, 3bet, all-in
-// Variants:
-// - *-passive: exploitative/vs-fish only (optional, lighter color)
-// - 3bet-fold: 3bet then fold to 4bet
-// - 3bet-call: 3bet then call 4bet
-// - 4bet-bluff: 4bet as bluff, fold to 5bet
-export const ACTIONS = [
-  'fold',
-  'call',
-  'call-passive',      // cold call vs fish only
-  'raise',
-  'raise-passive',     // raise vs fish only
-  '3bet',
-  '3bet-fold',         // 3bet, fold to 4bet
-  '3bet-call',         // 3bet, call 4bet
-  '4bet-bluff',        // 4bet bluff, fold to 5bet
-  'all-in',            // 4bet value / 5bet / all-in
-] as const
+// 4 core actions - meaning is contextual based on scenario
+// - fold: don't play
+// - call: passive (call open, call 3bet, call 4bet)
+// - raise: aggressive (open, 3bet, 4bet depending on scenario)
+// - allin: maximum aggression (jam, 5bet)
+export const ACTIONS = ['fold', 'call', 'raise', 'allin'] as const
 export type Action = (typeof ACTIONS)[number]
+
+// A cell can be solid (one action) or split (two actions shown as left|right)
+// Split cells represent mixed/marginal hands
+export type Cell = Action | [Action, Action]
 
 export type HandType = 'pair' | 'suited' | 'offsuit'
 
