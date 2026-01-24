@@ -15,9 +15,10 @@
     "@radix-ui/react-slot": "^1.2.4",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
-    "lucide-react": "^0.562.0",
+    "lucide-react": "^0.563.0",
     "react": "^19.2.0",
     "react-dom": "^19.2.0",
+    "recharts": "2.15.4",
     "tailwind-merge": "^3.4.0",
     "zustand": "^5.0.9"
   },

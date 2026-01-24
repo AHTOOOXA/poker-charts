@@ -34,12 +34,21 @@ export interface PlayerStats {
   longest_streak: number
   dates: string[]
   stakes: Partial<Record<Stake, number>>
+  hands_by_stake: Partial<Record<Stake, number>>
   primary_stake: Stake
   stake_count: number
   reg_type: RegType
   total_points: number
   estimated_hands: number
   hands_by_date: Record<string, number>
+  // Placement stats
+  top1: number
+  top3: number
+  top10: number
+  top50: number
+  best_rank: number
+  avg_rank: number
+  total_prize: number
 }
 
 export interface StatsData {

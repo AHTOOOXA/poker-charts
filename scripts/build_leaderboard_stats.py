@@ -135,9 +135,12 @@ def build_player_stats(entries: list[dict], latest_date: str) -> list[dict]:
     players = defaultdict(lambda: {
         "entries": 0,
         "total_points": 0.0,
+        "total_prize": 0.0,
         "stakes": defaultdict(int),
+        "points_by_stake": defaultdict(float),
         "dates": [],
         "points_by_date": defaultdict(float),
+        "ranks": [],  # all placements for stats
     })
 
     for entry in entries:
@@ -145,9 +148,12 @@ def build_player_stats(entries: list[dict], latest_date: str) -> list[dict]:
         p = players[nick]
         p["entries"] += 1
         p["total_points"] += entry["points"]
+        p["total_prize"] += entry["prize"]
         p["stakes"][entry["stake"]] += 1
+        p["points_by_stake"][entry["stake"]] += entry["points"]
         p["dates"].append(entry["date"])
         p["points_by_date"][entry["date"]] += entry["points"]
+        p["ranks"].append(entry["rank"])
 
     # Build final list
     # Hand estimation based on real data:
@@ -196,6 +202,20 @@ def build_player_stats(entries: list[dict], latest_date: str) -> list[dict]:
         # Estimate hands per date for calendar display
         hands_by_date = {date: int(pts / POINTS_PER_HAND) for date, pts in points_by_date.items()}
 
+        # Estimate hands per stake
+        points_by_stake = dict(p["points_by_stake"])
+        hands_by_stake = {stake: int(pts / POINTS_PER_HAND) for stake, pts in points_by_stake.items()}
+
+        # Placement stats
+        ranks = p["ranks"]
+        total_prize = p["total_prize"]
+        top1 = sum(1 for r in ranks if r == 1)
+        top3 = sum(1 for r in ranks if r <= 3)
+        top10 = sum(1 for r in ranks if r <= 10)
+        top50 = sum(1 for r in ranks if r <= 50)
+        best_rank = min(ranks) if ranks else 0
+        avg_rank = round(sum(ranks) / len(ranks), 1) if ranks else 0
+
         result.append({
             "nickname": nick,
             "entries": entries_count,
@@ -207,13 +227,22 @@ def build_player_stats(entries: list[dict], latest_date: str) -> list[dict]:
             "current_streak": current_streak,
             "longest_streak": longest_streak,
             "dates": dates_set,  # for calendar hover
-            "stakes": stakes_dict,  # {stake: count} for pie chart
+            "stakes": stakes_dict,  # {stake: entry_count}
+            "hands_by_stake": hands_by_stake,  # {stake: estimated_hands}
             "primary_stake": primary_stake,
             "stake_count": len(stakes_list),
             "reg_type": reg_type,
             "total_points": round(total_points, 0),
             "estimated_hands": estimated_hands,
             "hands_by_date": hands_by_date,
+            # Placement stats
+            "top1": top1,
+            "top3": top3,
+            "top10": top10,
+            "top50": top50,
+            "best_rank": best_rank,
+            "avg_rank": avg_rank,
+            "total_prize": round(total_prize, 2),
         })
 
     return result

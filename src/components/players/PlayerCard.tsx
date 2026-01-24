@@ -1,25 +1,23 @@
+import { useState } from 'react'
 import { cn } from '@/lib/utils'
 import { RegTypeBadge } from './RegTypeBadge'
 import type { PlayerStats, Stake } from '@/types/player'
 import { STAKE_LABELS, STAKES } from '@/types/player'
 import { getDatesCovered } from '@/data/players'
+import { Copy, Check, Trophy } from 'lucide-react'
 
 const STAKE_COLORS: Record<Stake, string> = {
-  nl10: '#10b981',
-  nl25: '#3b82f6',
-  nl50: '#8b5cf6',
-  nl100: '#f59e0b',
-  nl200: '#ef4444',
+  nl10: 'bg-emerald-500',
+  nl25: 'bg-blue-500',
+  nl50: 'bg-violet-500',
+  nl100: 'bg-amber-500',
+  nl200: 'bg-red-500',
 }
 
 // Format large numbers: 271750 -> "272K", 1500 -> "1.5K", 500 -> "500"
-function formatHands(n: number): string {
+function formatNumber(n: number): string {
   if (n >= 100000) {
     return `${Math.round(n / 1000)}K`
-  }
-  if (n >= 10000) {
-    const k = n / 1000
-    return `${k.toFixed(1).replace(/\.0$/, '')}K`
   }
   if (n >= 1000) {
     const k = n / 1000
@@ -28,28 +26,24 @@ function formatHands(n: number): string {
   return n.toString()
 }
 
-// Get heat color based on hands played (GitHub-style)
-function getHeatColor(hands: number, maxHands: number): string {
-  if (hands === 0) return 'bg-neutral-800/50 text-neutral-600'
-
-  const intensity = Math.min(hands / maxHands, 1)
-
-  if (intensity > 0.75) return 'bg-emerald-500/50 text-emerald-300'
-  if (intensity > 0.5) return 'bg-emerald-500/35 text-emerald-400'
-  if (intensity > 0.25) return 'bg-emerald-500/25 text-emerald-400'
-  return 'bg-emerald-500/15 text-emerald-500'
+// Format rank with suffix: 1 -> "1st", 2 -> "2nd", etc.
+function formatRank(n: number): string {
+  if (n === 0) return '–'
+  const s = ['th', 'st', 'nd', 'rd']
+  const v = n % 100
+  return n + (s[(v - 20) % 10] || s[v] || s[0])
 }
 
-interface PlayerCardProps {
-  player: PlayerStats
-}
+// Generate copy text for HUD notes
+// Format: GRINDER 7K/d 87K NL10:83% NL25:17%
+function generateCopyText(player: PlayerStats): string {
+  const regType = player.reg_type.toUpperCase()
 
-export function PlayerCard({ player }: PlayerCardProps) {
-  const allDates = getDatesCovered()
+  const handsPerDay = player.days_active > 0
+    ? formatNumber(Math.round(player.estimated_hands / player.days_active))
+    : '0'
 
-  // Calculate max hands for heat scaling
-  const handsValues = Object.values(player.hands_by_date)
-  const maxHands = handsValues.length > 0 ? Math.max(...handsValues) : 1
+  const totalHands = formatNumber(player.estimated_hands)
 
   // Calculate stake percentages
   const stakeEntries = STAKES.map(stake => ({
@@ -59,124 +53,215 @@ export function PlayerCard({ player }: PlayerCardProps) {
 
   const totalStakeEntries = stakeEntries.reduce((sum, e) => sum + e.count, 0)
 
-  // Build pie chart gradient
-  let currentAngle = 0
-  const gradientStops: string[] = []
-  stakeEntries.forEach(({ stake, count }) => {
-    const percentage = (count / totalStakeEntries) * 100
-    const startAngle = currentAngle
-    const endAngle = currentAngle + percentage
-    gradientStops.push(`${STAKE_COLORS[stake]} ${startAngle}% ${endAngle}%`)
-    currentAngle = endAngle
-  })
-  const pieGradient = gradientStops.length > 0
-    ? `conic-gradient(${gradientStops.join(', ')})`
-    : 'bg-neutral-700'
+  const stakesStr = stakeEntries
+    .map(({ stake, count }) => {
+      const pct = Math.round((count / totalStakeEntries) * 100)
+      return `${STAKE_LABELS[stake]}:${pct}%`
+    })
+    .join(' ')
 
-  const formatDate = (dateStr: string) => {
-    const date = new Date(dateStr + 'T00:00:00')
-    return date.toLocaleDateString('en-US', { month: 'short', day: 'numeric' })
-  }
+  return `${regType} ${handsPerDay}/d ${totalHands} ${stakesStr}`
+}
 
-  // Average hands per active day
+interface PlayerCardProps {
+  player: PlayerStats
+}
+
+export function PlayerCard({ player }: PlayerCardProps) {
+  const [copied, setCopied] = useState(false)
+  const allDates = getDatesCovered()
+
+  // Calculate stake hands with percentages
+  const stakeHands = STAKES.map(stake => ({
+    stake,
+    hands: player.hands_by_stake[stake] ?? 0,
+  })).filter(e => e.hands > 0)
+
+  const totalStakeHands = stakeHands.reduce((sum, e) => sum + e.hands, 0)
+
+  const stakesWithPct = stakeHands.map(({ stake, hands }) => ({
+    stake,
+    hands,
+    pct: Math.round((hands / totalStakeHands) * 100),
+  }))
+
+  // Hands per day
   const handsPerDay = player.days_active > 0
     ? Math.round(player.estimated_hands / player.days_active)
     : 0
 
+  // Max hands for heat scaling
+  const handsValues = Object.values(player.hands_by_date)
+  const maxHands = handsValues.length > 0 ? Math.max(...handsValues) : 1
+
+  const copyText = generateCopyText(player)
+
+  const handleCopy = async () => {
+    await navigator.clipboard.writeText(copyText)
+    setCopied(true)
+    setTimeout(() => setCopied(false), 1500)
+  }
+
   return (
     <div className="p-4 rounded-xl bg-neutral-900/70 border border-neutral-800/50 hover:border-neutral-700/50 transition-colors">
-      {/* Header: nickname + badge */}
-      <div className="flex items-center justify-between mb-4">
-        <h3 className="text-lg font-semibold text-white">{player.nickname}</h3>
-        <RegTypeBadge type={player.reg_type} />
+      {/* Header: Name + Badge + Copy text + Copy button */}
+      <div className="flex items-center gap-3 mb-4">
+        <h3 className="text-lg font-semibold text-white truncate">{player.nickname}</h3>
+        <RegTypeBadge type={player.reg_type} className="shrink-0" />
+        <div className="ml-auto flex items-center gap-1.5">
+          <span className="text-xs text-neutral-500 font-mono whitespace-nowrap">{copyText}</span>
+          <button
+            onClick={handleCopy}
+            className="p-1.5 rounded hover:bg-neutral-800 text-neutral-500 hover:text-neutral-300 transition-colors shrink-0"
+            title={`Copy: ${copyText}`}
+          >
+            {copied ? (
+              <Check className="w-4 h-4 text-emerald-400" />
+            ) : (
+              <Copy className="w-4 h-4" />
+            )}
+          </button>
+        </div>
       </div>
 
-      {/* Stats row */}
-      <div className="grid grid-cols-5 gap-2 mb-4">
-        <Stat label="Hands" value={formatHands(player.estimated_hands)} highlight />
-        <Stat label="Hands/Day" value={formatHands(handsPerDay)} />
-        <Stat label="Days" value={player.days_active} suffix={`/${allDates.length}`} />
-        <Stat label="Streak" value={player.current_streak} suffix="d" />
-        <Stat label="Activity" value={`${Math.round(player.activity_rate * 100)}%`} />
+      {/* Row 1: Volume + Activity */}
+      <div className="grid grid-cols-2 gap-3 mb-3">
+        <Section title="Volume">
+          <StatRow label="Hands" value={formatNumber(player.estimated_hands)} />
+          <StatRow label="Intensity" value={`${formatNumber(handsPerDay)}/d`} />
+          <StatRow label="Points" value={formatNumber(Math.round(player.total_points))} />
+        </Section>
+
+        <Section title="Activity">
+          <StatRow label="Days" value={`${player.days_active}/${allDates.length}`} secondary={`${Math.round((player.days_active / allDates.length) * 100)}%`} />
+          <StatRow label="Streak" value={`${player.current_streak}d`} secondary={`best: ${player.longest_streak}d`} />
+        </Section>
       </div>
 
-      {/* Stakes + Calendar row */}
-      <div className="flex gap-4 mb-4">
-        {/* Stake distribution */}
-        <div className="shrink-0">
-          <div className="text-[10px] text-neutral-500 uppercase tracking-wide mb-2">Stakes</div>
-          <div className="flex items-center gap-3">
-            <div
-              className="w-12 h-12 rounded-full shrink-0"
-              style={{ background: pieGradient }}
-            />
-            <div className="flex flex-col gap-0.5">
-              {stakeEntries.map(({ stake, count }) => (
-                <div key={stake} className="flex items-center gap-1.5 text-xs">
+      {/* Row 2: Stakes + Placements */}
+      <div className="grid grid-cols-2 gap-3 mb-3">
+        <Section title="Stakes">
+          <div className="space-y-1.5">
+            {stakesWithPct.map(({ stake, hands, pct }) => (
+              <div key={stake} className="flex items-center gap-2">
+                <span className="text-xs text-neutral-500 w-10 shrink-0">{STAKE_LABELS[stake]}</span>
+                <div className="flex-1 h-1.5 bg-neutral-800 rounded-full overflow-hidden">
                   <div
-                    className="w-2 h-2 rounded-full shrink-0"
-                    style={{ backgroundColor: STAKE_COLORS[stake] }}
+                    className={cn('h-full rounded-full', STAKE_COLORS[stake])}
+                    style={{ width: `${pct}%` }}
                   />
-                  <span className="text-neutral-400">{STAKE_LABELS[stake]}</span>
-                  <span className="text-neutral-600">{count}</span>
                 </div>
-              ))}
-            </div>
+                <span className="text-xs text-neutral-400 w-10 text-right tabular-nums">{formatNumber(hands)}</span>
+                <span className="text-xs text-neutral-600 w-8 text-right tabular-nums">{pct}%</span>
+              </div>
+            ))}
           </div>
-        </div>
+        </Section>
 
-        {/* Activity calendar with hand counts - GitHub style */}
-        <div className="flex-1 min-w-0">
-          <div className="text-[10px] text-neutral-500 uppercase tracking-wide mb-2">
-            Hands by Day
-            <span className="text-neutral-600 ml-2 normal-case">
-              (best streak: {player.longest_streak}d)
-            </span>
+        <Section title="Placements">
+          {/* Medal row */}
+          <div className="flex items-center gap-3 mb-2">
+            <Medal place={1} count={player.top1} />
+            <Medal place={2} count={player.top3 - player.top1} />
+            <Medal place={3} count={player.top10 - player.top3} label="4-10" />
           </div>
-          <GitHubCalendar
-            dates={allDates}
-            handsByDate={player.hands_by_date}
-            maxHands={maxHands}
-          />
-          {/* Heat legend */}
-          <div className="flex items-center gap-2 mt-2 text-[9px] text-neutral-500">
-            <span>Less</span>
-            <div className="flex gap-0.5">
-              <div className="w-3 h-3 rounded bg-neutral-800/50" />
-              <div className="w-3 h-3 rounded bg-emerald-500/15" />
-              <div className="w-3 h-3 rounded bg-emerald-500/25" />
-              <div className="w-3 h-3 rounded bg-emerald-500/35" />
-              <div className="w-3 h-3 rounded bg-emerald-500/50" />
-            </div>
-            <span>More</span>
-          </div>
-        </div>
+          <StatRow label="Top 50" value={player.top50} />
+          <StatRow label="Best" value={formatRank(player.best_rank)} secondary={`avg: ${formatRank(Math.round(player.avg_rank))}`} />
+          <StatRow label="Prize" value={`$${Math.round(player.total_prize)}`} />
+        </Section>
       </div>
 
-      {/* Footer: dates + primary stake */}
-      <div className="flex items-center flex-wrap gap-x-4 gap-y-1 text-xs text-neutral-500">
-        <span>
-          First <span className="text-neutral-400">{formatDate(player.first_seen)}</span>
-        </span>
-        <span className="text-neutral-700">·</span>
-        <span>
-          Last <span className="text-neutral-400">{formatDate(player.last_seen)}</span>
-        </span>
-        <span className="text-neutral-700">·</span>
-        <span>
-          Primary <span className="text-neutral-400">{STAKE_LABELS[player.primary_stake]}</span>
-        </span>
-        <span className="text-neutral-700">·</span>
-        <span>
-          <span className="text-neutral-400">{player.entries}</span> entries
-        </span>
-        <span className="text-neutral-700">·</span>
-        <span>
-          <span className="text-neutral-400">{formatHands(Math.round(player.total_points))}</span> pts
-        </span>
-      </div>
+      {/* Row 3: Timeline */}
+      <Section title="Timeline" subtitle={`${formatDate(player.first_seen)} → ${formatDate(player.last_seen)}`}>
+        <GitHubCalendar
+          dates={allDates}
+          handsByDate={player.hands_by_date}
+          maxHands={maxHands}
+        />
+        {/* Heat legend */}
+        <div className="flex items-center gap-2 mt-2 text-[9px] text-neutral-500">
+          <span>Less</span>
+          <div className="flex gap-0.5">
+            <div className="w-3 h-3 rounded bg-neutral-800/50" />
+            <div className="w-3 h-3 rounded bg-emerald-500/15" />
+            <div className="w-3 h-3 rounded bg-emerald-500/25" />
+            <div className="w-3 h-3 rounded bg-emerald-500/35" />
+            <div className="w-3 h-3 rounded bg-emerald-500/50" />
+          </div>
+          <span>More</span>
+        </div>
+      </Section>
     </div>
   )
+}
+
+// Section wrapper with title
+function Section({
+  title,
+  subtitle,
+  children,
+}: {
+  title: string
+  subtitle?: string
+  children: React.ReactNode
+}) {
+  return (
+    <div className="p-2.5 rounded-lg bg-neutral-800/30 border border-neutral-800/50">
+      <div className="flex items-baseline justify-between mb-2">
+        <span className="text-[10px] text-neutral-500 uppercase tracking-wide font-medium">{title}</span>
+        {subtitle && <span className="text-[10px] text-neutral-600">{subtitle}</span>}
+      </div>
+      {children}
+    </div>
+  )
+}
+
+// Stat row: label + value + optional secondary
+function StatRow({
+  label,
+  value,
+  secondary,
+}: {
+  label: string
+  value: string | number
+  secondary?: string
+}) {
+  return (
+    <div className="flex items-baseline text-xs">
+      <span className="text-neutral-500 w-14 shrink-0">{label}</span>
+      <span className="text-neutral-200 tabular-nums">{value}</span>
+      {secondary && <span className="text-neutral-600 text-[10px] ml-1.5">{secondary}</span>}
+    </div>
+  )
+}
+
+// Medal display for placements
+function Medal({ place, count, label }: { place: 1 | 2 | 3; count: number; label?: string }) {
+  const colors = {
+    1: 'text-amber-400',
+    2: 'text-neutral-400',
+    3: 'text-amber-600',
+  }
+
+  const labels = {
+    1: '1st',
+    2: '2-3',
+    3: label || '4-10',
+  }
+
+  return (
+    <div className="flex items-center gap-1">
+      <Trophy className={cn('w-3 h-3', colors[place])} />
+      <span className="text-xs text-neutral-400 tabular-nums">{count}</span>
+      <span className="text-[9px] text-neutral-600">{labels[place]}</span>
+    </div>
+  )
+}
+
+// Format date for display
+function formatDate(dateStr: string): string {
+  const date = new Date(dateStr + 'T00:00:00')
+  return date.toLocaleDateString('en-US', { month: 'short', day: 'numeric' })
 }
 
 const WEEKDAYS = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun']
@@ -185,6 +270,18 @@ const WEEKDAYS = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun']
 function getMondayBasedDay(date: Date): number {
   const day = date.getDay()
   return day === 0 ? 6 : day - 1
+}
+
+// Get heat color based on hands played (GitHub-style)
+function getHeatColorWithText(hands: number, maxHands: number): string {
+  if (hands === 0) return 'bg-neutral-800/50 text-neutral-600'
+
+  const intensity = Math.min(hands / maxHands, 1)
+
+  if (intensity > 0.75) return 'bg-emerald-500/50 text-emerald-300'
+  if (intensity > 0.5) return 'bg-emerald-500/35 text-emerald-400'
+  if (intensity > 0.25) return 'bg-emerald-500/25 text-emerald-400'
+  return 'bg-emerald-500/15 text-emerald-500'
 }
 
 function GitHubCalendar({
@@ -200,7 +297,6 @@ function GitHubCalendar({
   const weeks: (string | null)[][] = []
   let currentWeek: (string | null)[] = []
 
-  // Get day of week for first date (0 = Monday)
   const firstDate = new Date(dates[0] + 'T00:00:00')
   const firstDayOfWeek = getMondayBasedDay(firstDate)
 
@@ -214,7 +310,6 @@ function GitHubCalendar({
     const d = new Date(date + 'T00:00:00')
     const dayOfWeek = getMondayBasedDay(d)
 
-    // Start new week on Monday
     if (dayOfWeek === 0 && currentWeek.length > 0) {
       weeks.push(currentWeek)
       currentWeek = []
@@ -223,7 +318,6 @@ function GitHubCalendar({
     currentWeek.push(date)
   }
 
-  // Push final week
   if (currentWeek.length > 0) {
     weeks.push(currentWeek)
   }
@@ -233,10 +327,35 @@ function GitHubCalendar({
     return date.toLocaleDateString('en-US', { month: 'short', day: 'numeric' })
   }
 
+  // Find months that have their 1st day in each week
+  const getMonthStartingInWeek = (week: (string | null)[]): number | null => {
+    for (const date of week) {
+      if (date) {
+        const d = new Date(date + 'T00:00:00')
+        if (d.getDate() === 1) {
+          return d.getMonth()
+        }
+      }
+    }
+    return null
+  }
+
+  // Get the primary month for a week (first valid date)
+  const getWeekMonth = (week: (string | null)[]): number | null => {
+    const firstDate = week.find(d => d !== null)
+    if (!firstDate) return null
+    return new Date(firstDate + 'T00:00:00').getMonth()
+  }
+
+  const monthNames = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
+
+  // Track which months we've shown labels for
+  const shownMonths = new Set<number>()
+
   return (
     <div className="flex gap-1">
       {/* Weekday labels */}
-      <div className="flex flex-col gap-1 text-[9px] text-neutral-500 pr-1">
+      <div className="flex flex-col gap-1 text-[9px] text-neutral-500 pr-1 mt-4">
         {WEEKDAYS.map((day, i) => (
           <div key={day} className="h-6 flex items-center">
             {i % 2 === 1 ? day : ''}
@@ -244,58 +363,58 @@ function GitHubCalendar({
         ))}
       </div>
 
-      {/* Week columns */}
-      {weeks.map((week, weekIdx) => (
-        <div key={weekIdx} className="flex flex-col gap-1">
-          {WEEKDAYS.map((_, dayIdx) => {
-            const date = week[dayIdx]
-            if (!date) {
-              return <div key={dayIdx} className="w-8 h-6" />
-            }
+      {/* Week columns with month labels */}
+      {weeks.map((week, weekIdx) => {
+        // Show month label when: 1) first week, or 2) a month's 1st day appears in this week
+        const monthStarting = getMonthStartingInWeek(week)
+        const weekMonth = getWeekMonth(week)
 
-            const hands = handsByDate[date] ?? 0
-            const heatClass = getHeatColor(hands, maxHands)
+        let monthLabel = ''
+        let isNewMonth = false
 
-            return (
-              <div
-                key={dayIdx}
-                className={cn(
-                  'w-8 h-6 rounded text-[8px] flex items-center justify-center font-medium tabular-nums',
-                  heatClass
-                )}
-                title={`${formatDateShort(date)}: ${hands > 0 ? formatHands(hands) + ' hands' : 'no activity'}`}
-              >
-                {hands > 0 ? formatHands(hands) : '–'}
-              </div>
-            )
-          })}
-        </div>
-      ))}
-    </div>
-  )
-}
+        // First week - show its month
+        if (weekIdx === 0 && weekMonth !== null && !shownMonths.has(weekMonth)) {
+          monthLabel = monthNames[weekMonth]
+          shownMonths.add(weekMonth)
+        }
+        // A new month starts in this week
+        if (monthStarting !== null && !shownMonths.has(monthStarting)) {
+          monthLabel = monthNames[monthStarting]
+          shownMonths.add(monthStarting)
+          isNewMonth = true
+        }
 
-function Stat({
-  label,
-  value,
-  suffix = '',
-  highlight = false,
-}: {
-  label: string
-  value: string | number
-  suffix?: string
-  highlight?: boolean
-}) {
-  return (
-    <div className="text-center">
-      <div className={cn(
-        'text-lg font-semibold',
-        highlight ? 'text-emerald-400' : 'text-white'
-      )}>
-        {value}
-        {suffix && <span className="text-sm text-neutral-500">{suffix}</span>}
-      </div>
-      <div className="text-[10px] text-neutral-500 uppercase tracking-wide">{label}</div>
+        return (
+          <div key={weekIdx} className={cn('flex flex-col gap-1', isNewMonth && weekIdx > 0 && 'ml-2')}>
+            {/* Month label */}
+            <div className="h-4 text-[9px] text-neutral-500 flex items-center justify-center">
+              {monthLabel}
+            </div>
+            {WEEKDAYS.map((_, dayIdx) => {
+              const date = week[dayIdx]
+              if (!date) {
+                return <div key={dayIdx} className="w-8 h-6" />
+              }
+
+              const hands = handsByDate[date] ?? 0
+              const heatClass = getHeatColorWithText(hands, maxHands)
+
+              return (
+                <div
+                  key={dayIdx}
+                  className={cn(
+                    'w-8 h-6 rounded text-[8px] flex items-center justify-center font-medium tabular-nums',
+                    heatClass
+                  )}
+                  title={`${formatDateShort(date)}: ${hands > 0 ? formatNumber(hands) + ' hands' : 'no activity'}`}
+                >
+                  {hands > 0 ? formatNumber(hands) : '–'}
+                </div>
+              )
+            })}
+          </div>
+        )
+      })}
     </div>
   )
 }
