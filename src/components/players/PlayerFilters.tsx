@@ -55,47 +55,45 @@ export function PlayerFilters({
   }
 
   return (
-    <div className="space-y-3">
+    <div className="flex flex-wrap items-center gap-1.5">
       {/* Reg type filters */}
-      <div className="flex flex-wrap gap-2">
-        {REG_TYPES.map(type => {
-          const isActive = selectedRegTypes.includes(type)
-          const colors = REG_TYPE_COLORS[type]
-          return (
-            <button
-              key={type}
-              onClick={() => toggleRegType(type)}
-              className={cn(
-                'px-3 py-1 rounded-full text-xs font-medium border transition-colors',
-                isActive ? colors.active : colors.inactive
-              )}
-            >
-              {REG_TYPE_LABELS[type]}
-            </button>
-          )
-        })}
-      </div>
+      {REG_TYPES.map(type => {
+        const isActive = selectedRegTypes.includes(type)
+        const colors = REG_TYPE_COLORS[type]
+        return (
+          <button
+            key={type}
+            onClick={() => toggleRegType(type)}
+            className={cn(
+              'px-2 py-0.5 rounded text-xs font-medium border transition-colors',
+              isActive ? colors.active : colors.inactive
+            )}
+          >
+            {REG_TYPE_LABELS[type]}
+          </button>
+        )
+      })}
+
+      <span className="text-neutral-700 mx-1">|</span>
 
       {/* Stake filters */}
-      <div className="flex flex-wrap gap-2">
-        {STAKES.map(stake => {
-          const isActive = selectedStakes.includes(stake)
-          return (
-            <button
-              key={stake}
-              onClick={() => toggleStake(stake)}
-              className={cn(
-                'px-3 py-1 rounded-full text-xs font-medium border transition-colors',
-                isActive
-                  ? 'bg-violet-500/20 text-violet-400 border-violet-500/40'
-                  : 'bg-neutral-800/50 text-neutral-500 border-neutral-700/30 hover:border-violet-500/30'
-              )}
-            >
-              {STAKE_LABELS[stake]}
-            </button>
-          )
-        })}
-      </div>
+      {STAKES.map(stake => {
+        const isActive = selectedStakes.includes(stake)
+        return (
+          <button
+            key={stake}
+            onClick={() => toggleStake(stake)}
+            className={cn(
+              'px-2 py-0.5 rounded text-xs font-medium border transition-colors',
+              isActive
+                ? 'bg-violet-500/20 text-violet-400 border-violet-500/40'
+                : 'bg-neutral-800/50 text-neutral-500 border-neutral-700/30 hover:border-violet-500/30'
+            )}
+          >
+            {STAKE_LABELS[stake]}
+          </button>
+        )
+      })}
     </div>
   )
 }
