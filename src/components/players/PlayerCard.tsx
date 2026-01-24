@@ -12,11 +12,18 @@ const STAKE_COLORS: Record<Stake, string> = {
   nl200: '#ef4444',
 }
 
-// Format large numbers: 271750 -> "272K", 1500 -> "1.5K"
+// Format large numbers: 271750 -> "272K", 1500 -> "1.5K", 500 -> "500"
 function formatHands(n: number): string {
+  if (n >= 100000) {
+    return `${Math.round(n / 1000)}K`
+  }
+  if (n >= 10000) {
+    const k = n / 1000
+    return `${k.toFixed(1).replace(/\.0$/, '')}K`
+  }
   if (n >= 1000) {
     const k = n / 1000
-    return k >= 100 ? `${Math.round(k)}K` : `${k.toFixed(1).replace(/\.0$/, '')}K`
+    return `${k.toFixed(1).replace(/\.0$/, '')}K`
   }
   return n.toString()
 }
@@ -88,7 +95,7 @@ export function PlayerCard({ player }: PlayerCardProps) {
       <div className="grid grid-cols-5 gap-2 mb-4">
         <Stat label="Hands" value={formatHands(player.estimated_hands)} highlight />
         <Stat label="Hands/Day" value={formatHands(handsPerDay)} />
-        <Stat label="Days" value={player.days_active} suffix="/20" />
+        <Stat label="Days" value={player.days_active} suffix={`/${allDates.length}`} />
         <Stat label="Streak" value={player.current_streak} suffix="d" />
         <Stat label="Activity" value={`${Math.round(player.activity_rate * 100)}%`} />
       </div>
@@ -118,7 +125,7 @@ export function PlayerCard({ player }: PlayerCardProps) {
           </div>
         </div>
 
-        {/* Activity calendar with hand counts */}
+        {/* Activity calendar with hand counts - GitHub style */}
         <div className="flex-1 min-w-0">
           <div className="text-[10px] text-neutral-500 uppercase tracking-wide mb-2">
             Hands by Day
@@ -126,26 +133,11 @@ export function PlayerCard({ player }: PlayerCardProps) {
               (best streak: {player.longest_streak}d)
             </span>
           </div>
-          <div className="grid grid-cols-10 gap-1">
-            {allDates.map((date) => {
-              const hands = player.hands_by_date[date] ?? 0
-              const dayNum = new Date(date + 'T00:00:00').getDate()
-              const heatClass = getHeatColor(hands, maxHands)
-
-              return (
-                <div
-                  key={date}
-                  className={cn(
-                    'aspect-square rounded text-[9px] flex items-center justify-center font-medium',
-                    heatClass
-                  )}
-                  title={`${formatDate(date)}: ${hands > 0 ? formatHands(hands) + ' hands' : 'no activity'}`}
-                >
-                  {dayNum}
-                </div>
-              )
-            })}
-          </div>
+          <GitHubCalendar
+            dates={allDates}
+            handsByDate={player.hands_by_date}
+            maxHands={maxHands}
+          />
           {/* Heat legend */}
           <div className="flex items-center gap-2 mt-2 text-[9px] text-neutral-500">
             <span>Less</span>
@@ -183,6 +175,102 @@ export function PlayerCard({ player }: PlayerCardProps) {
           <span className="text-neutral-400">{formatHands(Math.round(player.total_points))}</span> pts
         </span>
       </div>
+    </div>
+  )
+}
+
+const WEEKDAYS = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun']
+
+// Convert JS getDay() (0=Sun) to Monday-based (0=Mon)
+function getMondayBasedDay(date: Date): number {
+  const day = date.getDay()
+  return day === 0 ? 6 : day - 1
+}
+
+function GitHubCalendar({
+  dates,
+  handsByDate,
+  maxHands,
+}: {
+  dates: string[]
+  handsByDate: Record<string, number>
+  maxHands: number
+}) {
+  // Build week columns (GitHub style: rows = weekdays, cols = weeks)
+  const weeks: (string | null)[][] = []
+  let currentWeek: (string | null)[] = []
+
+  // Get day of week for first date (0 = Monday)
+  const firstDate = new Date(dates[0] + 'T00:00:00')
+  const firstDayOfWeek = getMondayBasedDay(firstDate)
+
+  // Pad the first week with nulls
+  for (let i = 0; i < firstDayOfWeek; i++) {
+    currentWeek.push(null)
+  }
+
+  // Fill in dates
+  for (const date of dates) {
+    const d = new Date(date + 'T00:00:00')
+    const dayOfWeek = getMondayBasedDay(d)
+
+    // Start new week on Monday
+    if (dayOfWeek === 0 && currentWeek.length > 0) {
+      weeks.push(currentWeek)
+      currentWeek = []
+    }
+
+    currentWeek.push(date)
+  }
+
+  // Push final week
+  if (currentWeek.length > 0) {
+    weeks.push(currentWeek)
+  }
+
+  const formatDateShort = (dateStr: string) => {
+    const date = new Date(dateStr + 'T00:00:00')
+    return date.toLocaleDateString('en-US', { month: 'short', day: 'numeric' })
+  }
+
+  return (
+    <div className="flex gap-1">
+      {/* Weekday labels */}
+      <div className="flex flex-col gap-1 text-[9px] text-neutral-500 pr-1">
+        {WEEKDAYS.map((day, i) => (
+          <div key={day} className="h-6 flex items-center">
+            {i % 2 === 1 ? day : ''}
+          </div>
+        ))}
+      </div>
+
+      {/* Week columns */}
+      {weeks.map((week, weekIdx) => (
+        <div key={weekIdx} className="flex flex-col gap-1">
+          {WEEKDAYS.map((_, dayIdx) => {
+            const date = week[dayIdx]
+            if (!date) {
+              return <div key={dayIdx} className="w-8 h-6" />
+            }
+
+            const hands = handsByDate[date] ?? 0
+            const heatClass = getHeatColor(hands, maxHands)
+
+            return (
+              <div
+                key={dayIdx}
+                className={cn(
+                  'w-8 h-6 rounded text-[8px] flex items-center justify-center font-medium tabular-nums',
+                  heatClass
+                )}
+                title={`${formatDateShort(date)}: ${hands > 0 ? formatHands(hands) + ' hands' : 'no activity'}`}
+              >
+                {hands > 0 ? formatHands(hands) : '–'}
+              </div>
+            )
+          })}
+        </div>
+      ))}
     </div>
   )
 }
