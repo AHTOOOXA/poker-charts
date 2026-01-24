@@ -1,55 +1,75 @@
-import { useCallback, useEffect, useState } from 'react'
+import { useCallback } from 'react'
 import { HandGrid } from '@/components/chart/HandGrid'
-import { ContextBar } from '@/components/ContextBar'
+import { ChartControls } from '@/components/ChartControls'
 import { Legend } from '@/components/Legend'
-import { PositionSelector } from '@/components/PositionSelector'
 import { PlayerSearch } from '@/components/players/PlayerSearch'
 import { getAction } from '@/data/ranges'
 import { useChartStore } from '@/stores/chartStore'
-import { getValidVillains, SCENARIOS, type Hand, type Position } from '@/types/poker'
+import { POSITIONS, SCENARIOS, type Scenario } from '@/types/poker'
 import { cn } from '@/lib/utils'
+
+// Get available scenarios for a hero/villain pair
+function getAvailableScenarios(hero: string, villain: string | null): Scenario[] {
+  const heroIdx = POSITIONS.indexOf(hero as any)
+  const villainIdx = villain ? POSITIONS.indexOf(villain as any) : -1
+
+  const scenarios: Scenario[] = []
+
+  // RFI - hero can open (no villain involvement, but we still show it)
+  if (hero !== 'BB') {
+    scenarios.push('RFI')
+  }
+
+  if (villain) {
+    const villainBefore = villainIdx < heroIdx
+    const villainAfter = villainIdx > heroIdx
+
+    // vs-open: villain opened before hero
+    if (villainBefore) {
+      scenarios.push('vs-open')
+    }
+
+    // vs-3bet: hero opened, villain (after) 3bet
+    if (villainAfter) {
+      scenarios.push('vs-3bet')
+    }
+
+    // vs-4bet: villain opened, hero 3bet, villain 4bet
+    if (villainBefore) {
+      scenarios.push('vs-4bet')
+    }
+
+    // 3bet-defense: villain opened, hero 3bet, villain called
+    if (villainBefore) {
+      scenarios.push('3bet-defense')
+    }
+  }
+
+  return scenarios
+}
 
 function App() {
   const {
     position,
-    setPosition,
-    scenario,
     villain,
-    setVillain,
-    view,
-    setView,
+    tab,
+    setTab,
   } = useChartStore()
 
-  const [hoveredHand, setHoveredHand] = useState<Hand | null>(null)
+  const availableScenarios = getAvailableScenarios(position, villain)
 
-  // Get action for a hand based on current context
-  const getHandAction = useCallback(
-    (hand: string) => {
-      return getAction(position, scenario, hand, villain || undefined)
-    },
-    [position, scenario, villain]
-  )
-
-  // When position is selected, go to chart view
-  const handlePositionSelect = (pos: Position) => {
-    setPosition(pos)
-    setView('chart')
-  }
-
-  // Auto-select first valid villain when scenario changes
-  useEffect(() => {
-    const currentScenarioConfig = SCENARIOS.find(s => s.id === scenario)
-    if (currentScenarioConfig?.requiresVillain) {
-      const validVillains = getValidVillains(position, scenario)
-      if (validVillains.length > 0 && !villain) {
-        setVillain(validVillains[0])
+  // Create getAction function for a specific scenario
+  const createGetAction = useCallback(
+    (scenario: Scenario) => {
+      // Only pass villain for scenarios that require it
+      const scenarioConfig = SCENARIOS.find(s => s.id === scenario)
+      const villainForScenario = scenarioConfig?.requiresVillain ? villain : undefined
+      return (hand: string) => {
+        return getAction(position, scenario, hand, villainForScenario || undefined)
       }
-    }
-  }, [scenario, position, villain, setVillain])
-
-  // Determine what info to show for hovered hand
-  const currentScenarioConfig = SCENARIOS.find(s => s.id === scenario)
-  const hoveredAction = hoveredHand ? getHandAction(hoveredHand.name) : null
+    },
+    [position, villain]
+  )
 
   return (
     <div className="min-h-screen bg-neutral-950 text-white flex flex-col overflow-hidden">
@@ -71,10 +91,10 @@ function App() {
           {/* Navigation tabs */}
           <nav className="flex gap-1">
             <button
-              onClick={() => setView(view === 'players' ? 'position' : view)}
+              onClick={() => setTab('charts')}
               className={cn(
                 'px-3 py-1.5 rounded-md text-sm font-medium transition-colors',
-                view !== 'players'
+                tab === 'charts'
                   ? 'bg-neutral-800/50 text-white'
                   : 'text-neutral-500 hover:text-neutral-300'
               )}
@@ -82,10 +102,10 @@ function App() {
               Charts
             </button>
             <button
-              onClick={() => setView('players')}
+              onClick={() => setTab('players')}
               className={cn(
                 'px-3 py-1.5 rounded-md text-sm font-medium transition-colors',
-                view === 'players'
+                tab === 'players'
                   ? 'bg-neutral-800/50 text-white'
                   : 'text-neutral-500 hover:text-neutral-300'
               )}
@@ -97,53 +117,28 @@ function App() {
       </header>
 
       {/* Main content */}
-      <main className="relative z-10 flex-1 p-4 flex flex-col overflow-hidden">
-        {view === 'players' ? (
+      <main className="relative z-10 flex-1 p-4 flex flex-col overflow-auto">
+        {tab === 'players' ? (
           <PlayerSearch />
-        ) : view === 'position' ? (
-          <div className="flex-1 flex flex-col justify-center">
-            <PositionSelector selected={position} onSelect={handlePositionSelect} />
-          </div>
         ) : (
-          <div className="flex-1 flex flex-col gap-4">
-            {/* Context bar with dropdowns */}
-            <ContextBar />
+          <div className="flex-1 flex flex-col gap-6 max-w-4xl mx-auto w-full">
+            {/* Position selectors */}
+            <ChartControls />
 
-            {/* Hand info (shows when hovering) */}
-            <div className="h-7 text-center flex items-center justify-center">
-              {hoveredHand ? (
-                <div className="flex items-center gap-2 px-4 py-1.5 rounded-full bg-neutral-800/60 backdrop-blur-sm border border-neutral-700/30">
-                  <span className="font-bold text-white">{hoveredHand.name}</span>
-                  <span className="text-neutral-600">→</span>
-                  <span
-                    className={`font-semibold ${
-                      hoveredAction === 'fold'
-                        ? 'text-neutral-500'
-                        : hoveredAction === 'call'
-                        ? 'text-emerald-400'
-                        : hoveredAction === 'raise'
-                        ? 'text-sky-400'
-                        : hoveredAction === '3bet'
-                        ? 'text-amber-400'
-                        : hoveredAction === 'all-in'
-                        ? 'text-rose-400'
-                        : 'text-neutral-500'
-                    }`}
-                  >
-                    {hoveredAction?.toUpperCase() || 'FOLD'}
-                  </span>
-                </div>
-              ) : (
-                <span className="text-neutral-600 text-sm">
-                  {currentScenarioConfig?.description}
-                  {villain && ` from ${villain}`}
-                </span>
-              )}
-            </div>
-
-            {/* The chart */}
-            <div className="flex-1 flex items-center justify-center py-2">
-              <HandGrid getAction={getHandAction} onHandHover={setHoveredHand} />
+            {/* Charts grid - 2 columns */}
+            <div className="grid grid-cols-2 gap-6">
+              {availableScenarios.map(scenarioId => {
+                const config = SCENARIOS.find(s => s.id === scenarioId)
+                return (
+                  <HandGrid
+                    key={scenarioId}
+                    getAction={createGetAction(scenarioId)}
+                    compact
+                    title={config?.label}
+                    subtitle={config?.description}
+                  />
+                )
+              })}
             </div>
 
             {/* Legend */}
