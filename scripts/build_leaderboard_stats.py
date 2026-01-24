@@ -20,10 +20,18 @@ def parse_csv_files(leaderboards_dir: Path) -> list[dict]:
     """Parse all CSV files and return list of entries."""
     entries = []
 
-    for csv_file in leaderboards_dir.glob("holdem-*.csv"):
-        # Parse filename: holdem-nl25-2026-01-18.csv
+    for csv_file in leaderboards_dir.glob("*holdem-*.csv"):
+        # Parse filename: rush-holdem-nl25-2026-01-18.csv or holdem-nl25-2026-01-18.csv
         parts = csv_file.stem.split("-")
-        if len(parts) >= 5:
+        if len(parts) >= 6 and parts[0] == "rush":
+            # rush-holdem-nl25-2026-01-18
+            stake = parts[2]  # nl25
+            year = parts[3]   # 2026
+            month = parts[4]  # 01
+            day = parts[5]    # 18
+            date_str = f"{year}-{month}-{day}"
+        elif len(parts) >= 5:
+            # holdem-nl25-2026-01-18
             stake = parts[1]  # nl25
             year = parts[2]   # 2026
             month = parts[3]  # 01
@@ -142,11 +150,11 @@ def build_player_stats(entries: list[dict], latest_date: str) -> list[dict]:
         p["points_by_date"][entry["date"]] += entry["points"]
 
     # Build final list
-    # Hand estimation: 1000 regular hands + 1000 happy hour hands (x2) = 5000 points
-    # Base rate = 5/3 points/hand, happy = 10/3 points/hand
-    # Happy hours is 2/24 hours during downtime, ~5% of hands played then
-    # Weighted avg: 0.95 * 1.667 + 0.05 * 3.333 = 1.75 points/hand
-    POINTS_PER_HAND = 1.75
+    # Hand estimation based on real data:
+    # AHTOOOXA: 76.5K hands = 92.7K points = 1.21 pts/hand
+    # Most hands are folded (1 pt), only played hands get more
+    # Points: Fold=1, Call=3, Bet/Raise=5, capped at 20/hand
+    POINTS_PER_HAND = 1.21
 
     result = []
     for nick, p in players.items():
