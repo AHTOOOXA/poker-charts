@@ -1,29 +1,42 @@
 import { cn } from '@/lib/utils'
-import type { RegType } from '@/types/player'
+import type { PlayerType } from '@/types/player'
 
-const REG_TYPE_COLORS: Record<RegType, string> = {
-  grinder: 'bg-emerald-500/20 text-emerald-400 border-emerald-500/30',
-  regular: 'bg-teal-500/20 text-teal-400 border-teal-500/30',
-  casual: 'bg-sky-500/20 text-sky-400 border-sky-500/30',
-  new: 'bg-amber-500/20 text-amber-400 border-amber-500/30',
-  inactive: 'bg-neutral-500/20 text-neutral-400 border-neutral-500/30',
+const PLAYER_TYPE_STYLES: Record<PlayerType, { colors: string; label: string }> = {
+  BOT: {
+    colors: 'bg-red-500/20 text-red-400 border-red-500/30',
+    label: '🚨 BOT',
+  },
+  GRIND: {
+    colors: 'bg-emerald-500/20 text-emerald-400 border-emerald-500/30',
+    label: 'GRIND',
+  },
+  REG: {
+    colors: 'bg-teal-500/20 text-teal-400 border-teal-500/30',
+    label: 'REG',
+  },
+  REC: {
+    colors: 'bg-amber-500/20 text-amber-400 border-amber-500/30',
+    label: 'REC',
+  },
 }
 
 interface RegTypeBadgeProps {
-  type: RegType
+  type: PlayerType
   className?: string
 }
 
 export function RegTypeBadge({ type, className }: RegTypeBadgeProps) {
+  const style = PLAYER_TYPE_STYLES[type]
+
   return (
     <span
       className={cn(
         'inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium border',
-        REG_TYPE_COLORS[type],
+        style.colors,
         className
       )}
     >
-      {type}
+      {style.label}
     </span>
   )
 }

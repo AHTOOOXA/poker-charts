@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import { cn } from '@/lib/utils'
 import { RegTypeBadge } from './RegTypeBadge'
-import type { PlayerStats, Stake, GameTypeStats } from '@/types/player'
+import type { PlayerStats, Stake, GameTypeStats, PlayerType } from '@/types/player'
 import { STAKE_LABELS, STAKES } from '@/types/player'
 import { getDatesCovered } from '@/data/players'
 import { Copy, Check, ChevronDown } from 'lucide-react'
@@ -39,10 +39,48 @@ function formatRank(n: number): string {
   return n + (s[(v - 20) % 10] || s[v] || s[0])
 }
 
+// Classify player into 4 tiers based on volume and behavior
+// BOT: Inhuman volume (15K+ hands/day) - leave table
+// GRIND: Pro grinder (3K+ h/day, 25%+ activity, 7+ days) OR 75K+ hands - tough
+// REG: Regular (15%+ activity & 5+ days, or 15K+ hands) - competent
+// REC: Everyone else (casual + tourist) - soft target
+function classifyPlayer(player: PlayerStats): PlayerType {
+  const hands = player.estimated_hands
+  const days = player.days_active
+  const hpd = days > 0 ? hands / days : 0
+
+  // Activity rate: days_active / days_since_first_seen
+  const firstSeen = new Date(player.first_seen)
+  const lastSeen = new Date(player.last_seen)
+  const daysSinceFirst = Math.max(1, Math.ceil((lastSeen.getTime() - firstSeen.getTime()) / (1000 * 60 * 60 * 24)) + 1)
+  const activityRate = days / daysSinceFirst
+
+  // BOT: Inhuman volume
+  if (hpd >= 15000) {
+    return 'BOT'
+  }
+
+  // GRIND: Pro grinder pattern
+  if ((hpd >= 3000 && activityRate >= 0.25 && days >= 7) || hands >= 75000) {
+    return 'GRIND'
+  }
+
+  // REG: Consistent regular (wider criteria)
+  if ((activityRate >= 0.15 && days >= 5) || hands >= 15000) {
+    return 'REG'
+  }
+
+  // REC: Everyone else (casual + tourist)
+  return 'REC'
+}
+
 // Generate copy text for HUD notes
-// Format: GRINDER 7k/d 87k RUSH:85% NL10:83% NL25:17%
+// Format: TYPE h/d total GAME @STAKE MIN-MAX
+// Example: GRIND 7k/d 87k RUSH @NL25 NL10-NL100
 function generateCopyText(player: PlayerStats): string {
-  const regType = player.reg_type.toUpperCase()
+  const playerTypeRaw = classifyPlayer(player)
+  // Add emoji for BOT in copy text
+  const playerType = playerTypeRaw === 'BOT' ? '🚨BOT' : playerTypeRaw
 
   const handsPerDay = player.days_active > 0
     ? formatNumber(Math.round(player.estimated_hands / player.days_active))
@@ -50,37 +88,37 @@ function generateCopyText(player: PlayerStats): string {
 
   const totalHands = formatNumber(player.estimated_hands)
 
-  // Calculate dominant game type
+  // Dominant game type (simplified)
   const rushHands = player.rush.estimated_hands
   const regularHands = player.regular.estimated_hands
   const totalGameHands = rushHands + regularHands
 
-  let gameTypeStr = ''
+  let gameType = ''
   if (totalGameHands > 0) {
-    const rushPct = Math.round((rushHands / totalGameHands) * 100)
-    if (rushPct >= 50) {
-      gameTypeStr = `RUSH:${rushPct}%`
+    const rushPct = rushHands / totalGameHands
+    if (rushPct >= 0.7) {
+      gameType = 'RUSH'
+    } else if (rushPct <= 0.3) {
+      gameType = 'HOLDEM'
     } else {
-      gameTypeStr = `HOLDEM:${100 - rushPct}%`
+      gameType = 'HYBRID'
     }
   }
 
-  // Calculate stake percentages
-  const stakeEntries = STAKES.map(stake => ({
-    stake,
-    count: player.stakes[stake] ?? 0,
-  })).filter(e => e.count > 0)
+  // Primary stake + range
+  const primaryStake = STAKE_LABELS[player.primary_stake] || 'NL?'
 
-  const totalStakeEntries = stakeEntries.reduce((sum, e) => sum + e.count, 0)
+  // Get stake range if they play multiple stakes
+  const playedStakes = STAKES.filter(stake => (player.stakes[stake] ?? 0) > 0)
+  let stakeStr = `@${primaryStake}`
 
-  const stakesStr = stakeEntries
-    .map(({ stake, count }) => {
-      const pct = Math.round((count / totalStakeEntries) * 100)
-      return `${STAKE_LABELS[stake]}:${pct}%`
-    })
-    .join(' ')
+  if (playedStakes.length > 1) {
+    const minStake = STAKE_LABELS[playedStakes[0]]
+    const maxStake = STAKE_LABELS[playedStakes[playedStakes.length - 1]]
+    stakeStr = `@${primaryStake} ${minStake}-${maxStake}`
+  }
 
-  return `${regType} ${handsPerDay}/d ${totalHands} ${gameTypeStr} ${stakesStr}`.replace(/\s+/g, ' ').trim()
+  return `${playerType} ${handsPerDay}/d ${totalHands} ${gameType} ${stakeStr}`.replace(/\s+/g, ' ').trim()
 }
 
 interface PlayerCardProps {
@@ -113,7 +151,7 @@ export function PlayerCard({ player }: PlayerCardProps) {
       {/* Header: Name + Badge + Copy text + Copy button */}
       <div className="flex items-center gap-3 mb-4">
         <h3 className="text-lg font-semibold text-white truncate min-w-0">{player.nickname}</h3>
-        <RegTypeBadge type={player.reg_type} className="shrink-0" />
+        <RegTypeBadge type={classifyPlayer(player)} className="shrink-0" />
         <div className="ml-auto flex items-center gap-1.5 shrink-0">
           <span className="text-xs text-neutral-500 font-mono whitespace-nowrap">{copyText}</span>
           <button

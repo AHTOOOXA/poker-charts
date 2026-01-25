@@ -1,5 +1,8 @@
 export type RegType = 'grinder' | 'regular' | 'casual' | 'new' | 'inactive'
 
+// New player classification for HUD notes (4 tiers)
+export type PlayerType = 'BOT' | 'GRIND' | 'REG' | 'REC'
+
 export type Stake = 'nl2' | 'nl5' | 'nl10' | 'nl25' | 'nl50' | 'nl100' | 'nl200' | 'nl500' | 'nl1000' | 'nl2000'
 
 export const STAKES: Stake[] = ['nl2', 'nl5', 'nl10', 'nl25', 'nl50', 'nl100', 'nl200', 'nl500', 'nl1000', 'nl2000']
