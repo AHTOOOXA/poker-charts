@@ -143,6 +143,7 @@ def build_player_stats(entries: list[dict], latest_date: str) -> list[dict]:
             "stakes": defaultdict(int),
             "points_by_stake": defaultdict(float),
             "ranks": [],
+            "entries_list": [],  # individual entry records
         }
 
     players = defaultdict(lambda: {
@@ -183,22 +184,33 @@ def build_player_stats(entries: list[dict], latest_date: str) -> list[dict]:
         gt["stakes"][entry["stake"]] += 1
         gt["points_by_stake"][entry["stake"]] += entry["points"]
         gt["ranks"].append(entry["rank"])
+        gt["entries_list"].append({
+            "date": entry["date"],
+            "stake": entry["stake"],
+            "rank": entry["rank"],
+            "points": entry["points"],
+            "prize": entry["prize"],
+        })
 
     # Build final list
-    # Hand estimation based on real data:
-    # AHTOOOXA: 76.5K hands = 92.7K points = 1.21 pts/hand
-    # Most hands are folded (1 pt), only played hands get more
-    # Points: Fold=1, Call=3, Bet/Raise=5, capped at 20/hand
-    POINTS_PER_HAND = 1.21
+    # Hand estimation based on real data calibration:
+    # Rush & Cash: AHTOOOXA 76.5K hands = 92.7K points = 1.21 pts/hand
+    # Regular Holdem: AHTOOOXA 12K hands = 5.7K points = 0.48 pts/hand
+    # Regular is slower paced with different point structure
+    POINTS_PER_HAND_RUSH = 1.21
+    POINTS_PER_HAND_REGULAR = 0.48
 
-    def build_game_type_output(gt_stats: dict) -> dict:
-        """Build output for a game type (rush or cash)."""
+    def build_game_type_output(gt_stats: dict, game_type: str) -> dict:
+        """Build output for a game type (rush or regular)."""
         ranks = gt_stats["ranks"]
         total_points = gt_stats["total_points"]
         points_by_stake = dict(gt_stats["points_by_stake"])
 
-        estimated_hands = int(total_points / POINTS_PER_HAND)
-        hands_by_stake = {stake: int(pts / POINTS_PER_HAND) for stake, pts in points_by_stake.items()}
+        # Use different ratio based on game type
+        pts_per_hand = POINTS_PER_HAND_RUSH if game_type == "rush" else POINTS_PER_HAND_REGULAR
+
+        estimated_hands = int(total_points / pts_per_hand) if pts_per_hand > 0 else 0
+        hands_by_stake = {stake: int(pts / pts_per_hand) for stake, pts in points_by_stake.items()} if pts_per_hand > 0 else {}
 
         top1 = sum(1 for r in ranks if r == 1)
         top3 = sum(1 for r in ranks if r <= 3)
@@ -206,6 +218,9 @@ def build_player_stats(entries: list[dict], latest_date: str) -> list[dict]:
         top50 = sum(1 for r in ranks if r <= 50)
         best_rank = min(ranks) if ranks else 0
         avg_rank = round(sum(ranks) / len(ranks), 1) if ranks else 0
+
+        # Sort entries by date descending (most recent first)
+        entries_list = sorted(gt_stats["entries_list"], key=lambda x: x["date"], reverse=True)
 
         return {
             "entries": gt_stats["entries"],
@@ -219,6 +234,7 @@ def build_player_stats(entries: list[dict], latest_date: str) -> list[dict]:
             "top50": top50,
             "best_rank": best_rank,
             "avg_rank": avg_rank,
+            "entries_list": entries_list,
         }
 
     result = []
@@ -255,15 +271,29 @@ def build_player_stats(entries: list[dict], latest_date: str) -> list[dict]:
         # Classification
         reg_type = classify_reg_type(days_active, entries_count, days_since_last, days_since_first)
 
-        # Estimate hands from points
-        estimated_hands = int(total_points / POINTS_PER_HAND)
+        # Build game type breakdowns first (need them for unified estimates)
+        rush_stats = build_game_type_output(p["rush"], "rush")
+        regular_stats = build_game_type_output(p["regular"], "regular")
 
-        # Estimate hands per date for calendar display
-        hands_by_date = {date: int(pts / POINTS_PER_HAND) for date, pts in points_by_date.items()}
+        # Total estimated hands = sum of both game types
+        estimated_hands = rush_stats["estimated_hands"] + regular_stats["estimated_hands"]
 
-        # Estimate hands per stake
-        points_by_stake = dict(p["points_by_stake"])
-        hands_by_stake = {stake: int(pts / POINTS_PER_HAND) for stake, pts in points_by_stake.items()}
+        # Calculate weighted average pts/hand based on game type split
+        rush_pts = p["rush"]["total_points"]
+        regular_pts = p["regular"]["total_points"]
+        if estimated_hands > 0 and total_points > 0:
+            weighted_pts_per_hand = total_points / estimated_hands
+        else:
+            weighted_pts_per_hand = POINTS_PER_HAND_RUSH  # fallback
+
+        # Estimate hands per date for calendar display (using weighted average)
+        hands_by_date = {date: int(pts / weighted_pts_per_hand) if weighted_pts_per_hand > 0 else 0
+                        for date, pts in points_by_date.items()}
+
+        # Estimate hands per stake (sum from game type breakdowns)
+        hands_by_stake = {}
+        for stake in set(list(rush_stats["hands_by_stake"].keys()) + list(regular_stats["hands_by_stake"].keys())):
+            hands_by_stake[stake] = rush_stats["hands_by_stake"].get(stake, 0) + regular_stats["hands_by_stake"].get(stake, 0)
 
         # Placement stats
         ranks = p["ranks"]
@@ -274,10 +304,6 @@ def build_player_stats(entries: list[dict], latest_date: str) -> list[dict]:
         top50 = sum(1 for r in ranks if r <= 50)
         best_rank = min(ranks) if ranks else 0
         avg_rank = round(sum(ranks) / len(ranks), 1) if ranks else 0
-
-        # Build game type breakdowns
-        rush_stats = build_game_type_output(p["rush"])
-        regular_stats = build_game_type_output(p["regular"])
 
         result.append({
             "nickname": nick,

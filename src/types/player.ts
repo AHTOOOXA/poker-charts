@@ -27,6 +27,15 @@ export const REG_TYPE_LABELS: Record<RegType, string> = {
   inactive: 'Inactive',
 }
 
+// Individual leaderboard entry
+export interface LeaderboardEntry {
+  date: string
+  stake: Stake
+  rank: number
+  points: number
+  prize: number
+}
+
 // Game type breakdown (used for both rush and cash)
 export interface GameTypeStats {
   entries: number
@@ -41,6 +50,8 @@ export interface GameTypeStats {
   top50: number
   best_rank: number
   avg_rank: number
+  // Individual entries
+  entries_list: LeaderboardEntry[]
 }
 
 export interface PlayerStats {

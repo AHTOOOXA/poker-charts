@@ -4,7 +4,7 @@ import { RegTypeBadge } from './RegTypeBadge'
 import type { PlayerStats, Stake, GameTypeStats } from '@/types/player'
 import { STAKE_LABELS, STAKES } from '@/types/player'
 import { getDatesCovered } from '@/data/players'
-import { Copy, Check, Trophy } from 'lucide-react'
+import { Copy, Check, ChevronDown } from 'lucide-react'
 
 const STAKE_COLORS: Record<Stake, string> = {
   nl2: 'bg-slate-400',
@@ -19,14 +19,14 @@ const STAKE_COLORS: Record<Stake, string> = {
   nl2000: 'bg-fuchsia-600',
 }
 
-// Format large numbers: 271750 -> "272K", 1500 -> "1.5K", 500 -> "500"
+// Format large numbers: 271750 -> "272k", 1500 -> "1.5k", 500 -> "500"
 function formatNumber(n: number): string {
   if (n >= 100000) {
-    return `${Math.round(n / 1000)}K`
+    return `${Math.round(n / 1000)}k`
   }
   if (n >= 1000) {
     const k = n / 1000
-    return `${k.toFixed(1).replace(/\.0$/, '')}K`
+    return `${k.toFixed(1).replace(/\.0$/, '')}k`
   }
   return n.toString()
 }
@@ -40,7 +40,7 @@ function formatRank(n: number): string {
 }
 
 // Generate copy text for HUD notes
-// Format: GRINDER 7K/d 87K NL10:83% NL25:17%
+// Format: GRINDER 7k/d 87k RUSH:85% NL10:83% NL25:17%
 function generateCopyText(player: PlayerStats): string {
   const regType = player.reg_type.toUpperCase()
 
@@ -49,6 +49,21 @@ function generateCopyText(player: PlayerStats): string {
     : '0'
 
   const totalHands = formatNumber(player.estimated_hands)
+
+  // Calculate dominant game type
+  const rushHands = player.rush.estimated_hands
+  const regularHands = player.regular.estimated_hands
+  const totalGameHands = rushHands + regularHands
+
+  let gameTypeStr = ''
+  if (totalGameHands > 0) {
+    const rushPct = Math.round((rushHands / totalGameHands) * 100)
+    if (rushPct >= 50) {
+      gameTypeStr = `RUSH:${rushPct}%`
+    } else {
+      gameTypeStr = `HOLDEM:${100 - rushPct}%`
+    }
+  }
 
   // Calculate stake percentages
   const stakeEntries = STAKES.map(stake => ({
@@ -65,7 +80,7 @@ function generateCopyText(player: PlayerStats): string {
     })
     .join(' ')
 
-  return `${regType} ${handsPerDay}/d ${totalHands} ${stakesStr}`
+  return `${regType} ${handsPerDay}/d ${totalHands} ${gameTypeStr} ${stakesStr}`.replace(/\s+/g, ' ').trim()
 }
 
 interface PlayerCardProps {
@@ -115,50 +130,50 @@ export function PlayerCard({ player }: PlayerCardProps) {
         </div>
       </div>
 
-      {/* Row 1: Volume + Activity */}
+      {/* Row 1: Volume + Activity - Hero Numbers */}
       <div className="grid grid-cols-2 gap-3 mb-3">
-        <Section title="Volume">
-          <StatRow label="Hands" value={formatNumber(player.estimated_hands)} />
-          <StatRow label="Intensity" value={`${formatNumber(handsPerDay)}/d`} />
-          <StatRow label="Points" value={formatNumber(Math.round(player.total_points))} />
-        </Section>
-
-        <Section title="Activity">
-          <StatRow label="Days" value={`${player.days_active}/${allDates.length}`} secondary={`${Math.round((player.days_active / allDates.length) * 100)}%`} />
-          <StatRow label="Streak" value={`${player.current_streak}d`} secondary={`best: ${player.longest_streak}d`} />
-        </Section>
-      </div>
-
-      {/* Row 2: Stakes + Placements (unified) */}
-      <div className="grid grid-cols-2 gap-3 mb-3">
-        <Section title="Stakes">
-          <StakesBreakdown handsByStake={player.hands_by_stake} />
-        </Section>
-
-        <Section title="Placements">
-          {/* Medal row */}
-          <div className="flex items-center gap-3 mb-2">
-            <Medal place={1} count={player.top1} />
-            <Medal place={2} count={player.top3 - player.top1} />
-            <Medal place={3} count={player.top10 - player.top3} label="4-10" />
+        {/* Volume */}
+        <div className="p-2.5 rounded-lg bg-neutral-800/30 border border-neutral-800/50">
+          <div className="text-2xl font-semibold text-neutral-100 tabular-nums">
+            {formatNumber(player.estimated_hands)}
           </div>
-          <StatRow label="Top 50" value={player.top50} />
-          <StatRow label="Best" value={formatRank(player.best_rank)} secondary={`avg: ${formatRank(Math.round(player.avg_rank))}`} />
-          <StatRow label="Prize" value={`$${Math.round(player.total_prize)}`} />
-        </Section>
+          <div className="text-xs text-neutral-500 mt-0.5">hands</div>
+          <div className="text-xs text-neutral-400 mt-2">
+            {formatNumber(handsPerDay)}<span className="text-neutral-600">/day</span>
+          </div>
+        </div>
+
+        {/* Activity */}
+        <div className="p-2.5 rounded-lg bg-neutral-800/30 border border-neutral-800/50">
+          <div className="flex items-baseline gap-1.5">
+            <span className="text-2xl font-semibold text-neutral-100 tabular-nums">{player.days_active}</span>
+            <span className="text-sm text-neutral-500">of {allDates.length} days</span>
+          </div>
+          {/* Progress bar */}
+          <div className="h-1.5 bg-neutral-800 rounded-full overflow-hidden mt-2">
+            <div
+              className="h-full bg-emerald-500/50 rounded-full"
+              style={{ width: `${Math.round((player.days_active / allDates.length) * 100)}%` }}
+            />
+          </div>
+          <div className="text-xs text-neutral-400 mt-2">
+            {player.current_streak}d streak
+            {player.longest_streak > player.current_streak && (
+              <span className="text-neutral-600"> · best: {player.longest_streak}d</span>
+            )}
+          </div>
+        </div>
       </div>
 
-      {/* Row 3: Rush & Cash / Hold'em split */}
-      {(player.rush.estimated_hands > 0 || player.regular.estimated_hands > 0) && (
-        <div className="grid grid-cols-2 gap-3 mb-3">
-          {player.rush.estimated_hands > 0 && (
-            <GameTypeSection title="Rush & Cash" stats={player.rush} />
-          )}
-          {player.regular.estimated_hands > 0 && (
-            <GameTypeSection title="Hold'em" stats={player.regular} />
-          )}
-        </div>
-      )}
+      {/* Row 2: Game Types (Rush & Cash / Hold'em) */}
+      <div className="grid grid-cols-2 gap-3 mb-3 items-stretch">
+        {player.rush.estimated_hands > 0 && (
+          <GameTypeSection title="Rush & Cash" stats={player.rush} />
+        )}
+        {player.regular.estimated_hands > 0 && (
+          <GameTypeSection title="Hold'em" stats={player.regular} />
+        )}
+      </div>
 
       {/* Row 3: Timeline */}
       <Section title="Timeline" subtitle={`${formatDate(player.first_seen)} → ${formatDate(player.last_seen)}`}>
@@ -205,84 +220,10 @@ function Section({
   )
 }
 
-// Stat row: label + value + optional secondary
-function StatRow({
-  label,
-  value,
-  secondary,
-}: {
-  label: string
-  value: string | number
-  secondary?: string
-}) {
-  return (
-    <div className="flex items-baseline text-xs">
-      <span className="text-neutral-500 w-14 shrink-0">{label}</span>
-      <span className="text-neutral-200 tabular-nums">{value}</span>
-      {secondary && <span className="text-neutral-600 text-[10px] ml-1.5">{secondary}</span>}
-    </div>
-  )
-}
-
-// Medal display for placements
-function Medal({ place, count, label }: { place: 1 | 2 | 3; count: number; label?: string }) {
-  const colors = {
-    1: 'text-amber-400',
-    2: 'text-neutral-400',
-    3: 'text-amber-600',
-  }
-
-  const labels = {
-    1: '1st',
-    2: '2-3',
-    3: label || '4-10',
-  }
-
-  return (
-    <div className="flex items-center gap-1">
-      <Trophy className={cn('w-3 h-3', colors[place])} />
-      <span className="text-xs text-neutral-400 tabular-nums">{count}</span>
-      <span className="text-[9px] text-neutral-600">{labels[place]}</span>
-    </div>
-  )
-}
-
-// Stakes breakdown bar chart
-function StakesBreakdown({ handsByStake }: { handsByStake: Partial<Record<Stake, number>> }) {
-  const stakeHands = STAKES.map(stake => ({
-    stake,
-    hands: handsByStake[stake] ?? 0,
-  })).filter(e => e.hands > 0)
-
-  const totalHands = stakeHands.reduce((sum, e) => sum + e.hands, 0)
-
-  const stakesWithPct = stakeHands.map(({ stake, hands }) => ({
-    stake,
-    hands,
-    pct: Math.round((hands / totalHands) * 100),
-  }))
-
-  return (
-    <div className="space-y-1.5">
-      {stakesWithPct.map(({ stake, hands, pct }) => (
-        <div key={stake} className="flex items-center gap-2">
-          <span className="text-xs text-neutral-500 w-10 shrink-0">{STAKE_LABELS[stake]}</span>
-          <div className="flex-1 h-1.5 bg-neutral-800 rounded-full overflow-hidden">
-            <div
-              className={cn('h-full rounded-full', STAKE_COLORS[stake])}
-              style={{ width: `${pct}%` }}
-            />
-          </div>
-          <span className="text-xs text-neutral-400 w-10 text-right tabular-nums">{formatNumber(hands)}</span>
-          <span className="text-xs text-neutral-600 w-8 text-right tabular-nums">{pct}%</span>
-        </div>
-      ))}
-    </div>
-  )
-}
-
-// Game type section (Rush or Cash)
+// Game type section (Rush or Holdem) - self-contained with stakes
 function GameTypeSection({ title, stats }: { title: string; stats: GameTypeStats }) {
+  const [expanded, setExpanded] = useState(false)
+
   // Calculate stake hands with percentages for this game type
   const stakeHands = STAKES.map(stake => ({
     stake,
@@ -293,47 +234,129 @@ function GameTypeSection({ title, stats }: { title: string; stats: GameTypeStats
 
   const stakesWithPct = stakeHands.map(({ stake, hands }) => ({
     stake,
+    hands,
     pct: Math.round((hands / totalStakeHands) * 100),
   }))
 
+  // Calculate median rank (using avg_rank as proxy)
+  const medianRank = Math.round(stats.avg_rank)
+
   return (
-    <Section title={title}>
-      {/* Volume row */}
-      <div className="flex items-baseline gap-3 mb-2">
-        <span className="text-xs text-neutral-200 tabular-nums">{formatNumber(stats.estimated_hands)}</span>
-        <span className="text-[10px] text-neutral-500">hands</span>
-        <span className="text-xs text-neutral-400 tabular-nums ml-auto">${Math.round(stats.total_prize)}</span>
+    <div className="p-2.5 rounded-lg bg-neutral-800/30 border border-neutral-800/50 flex flex-col">
+      {/* Header */}
+      <div className="flex items-baseline justify-between mb-2">
+        <span className="text-[10px] text-neutral-500 uppercase tracking-wide font-medium">{title}</span>
+        <span className="text-[10px] text-neutral-600">${Math.round(stats.total_prize)}</span>
       </div>
 
-      {/* Stakes breakdown - compact */}
-      <div className="space-y-1 mb-2">
-        {stakesWithPct.map(({ stake, pct }) => (
-          <div key={stake} className="flex items-center gap-1.5">
-            <span className="text-[10px] text-neutral-500 w-8 shrink-0">{STAKE_LABELS[stake]}</span>
-            <div className="flex-1 h-1 bg-neutral-800 rounded-full overflow-hidden">
+      {/* Total hands */}
+      <div className="flex items-baseline gap-2 mb-2">
+        <span className="text-sm text-neutral-200 font-medium tabular-nums">{formatNumber(stats.estimated_hands)}</span>
+        <span className="text-[10px] text-neutral-500">hands</span>
+      </div>
+
+      {/* Stakes breakdown */}
+      <div className="space-y-1.5 mb-4">
+        {stakesWithPct.map(({ stake, hands, pct }) => (
+          <div key={stake} className="flex items-center gap-2">
+            <span className="text-xs text-neutral-500 w-10 shrink-0">{STAKE_LABELS[stake]}</span>
+            <div className="flex-1 h-1.5 bg-neutral-800 rounded-full overflow-hidden">
               <div
                 className={cn('h-full rounded-full', STAKE_COLORS[stake])}
                 style={{ width: `${pct}%` }}
               />
             </div>
-            <span className="text-[10px] text-neutral-500 w-6 text-right tabular-nums">{pct}%</span>
+            <span className="text-xs text-neutral-400 w-10 text-right tabular-nums">{formatNumber(hands)}</span>
+            <span className="text-xs text-neutral-600 w-8 text-right tabular-nums">{pct}%</span>
           </div>
         ))}
       </div>
 
-      {/* Placements row - compact medals */}
-      <div className="flex items-center gap-2">
-        <Medal place={1} count={stats.top1} />
-        <Medal place={2} count={stats.top3 - stats.top1} />
-        <Medal place={3} count={stats.top10 - stats.top3} label="4-10" />
-        <span className="text-[10px] text-neutral-600 ml-auto">best: {formatRank(stats.best_rank)}</span>
+      {/* Leaderboard section - pushed to bottom */}
+      <div className="mt-auto pt-3 border-t border-neutral-800/50">
+        <button
+          onClick={() => setExpanded(!expanded)}
+          className="w-full flex items-center justify-between text-xs group"
+        >
+          <span className="text-[10px] text-neutral-500 uppercase tracking-wide font-medium">Leaderboard</span>
+          <ChevronDown
+            className={cn(
+              'w-4 h-4 text-neutral-500 transition-transform',
+              expanded && 'rotate-180'
+            )}
+          />
+        </button>
+
+        {/* Summary row */}
+        <div className="flex items-baseline gap-4 text-xs mt-2">
+          <div>
+            <span className="text-neutral-500">best: </span>
+            <span className="text-neutral-200 font-medium">{formatRank(stats.best_rank)}</span>
+          </div>
+          <div>
+            <span className="text-neutral-500">median: </span>
+            <span className="text-neutral-200 font-medium">{formatRank(medianRank)}</span>
+          </div>
+          <div className="ml-auto">
+            <span className="text-neutral-600">{stats.entries} entries</span>
+          </div>
+        </div>
+
+        {/* Expanded entries list */}
+        {expanded && stats.entries_list && (
+          <div className="mt-3 pt-3 border-t border-neutral-800/30">
+            {/* Header */}
+            <div className="flex items-center text-[10px] text-neutral-600 mb-2 px-1">
+              <span className="w-16">Date</span>
+              <span className="w-12">Stake</span>
+              <span className="w-10 text-right">Place</span>
+              <span className="w-14 text-right">Points</span>
+              <span className="w-12 text-right">Prize</span>
+            </div>
+            {/* Entries */}
+            <div className="max-h-48 overflow-y-auto space-y-0.5">
+              {stats.entries_list.map((entry, idx) => (
+                <div
+                  key={`${entry.date}-${entry.stake}-${idx}`}
+                  className={cn(
+                    'flex items-center text-xs px-1 py-1 rounded',
+                    entry.rank <= 3 && 'bg-amber-500/10',
+                    entry.rank > 3 && entry.rank <= 10 && 'bg-emerald-500/5'
+                  )}
+                >
+                  <span className="w-16 text-neutral-500">{formatDateCompact(entry.date)}</span>
+                  <span className="w-12 text-neutral-400">{STAKE_LABELS[entry.stake]}</span>
+                  <span className={cn(
+                    'w-10 text-right tabular-nums font-medium',
+                    entry.rank === 1 && 'text-amber-400',
+                    entry.rank === 2 && 'text-neutral-300',
+                    entry.rank === 3 && 'text-amber-600',
+                    entry.rank > 3 && 'text-neutral-400'
+                  )}>
+                    {formatRank(entry.rank)}
+                  </span>
+                  <span className="w-14 text-right text-neutral-500 tabular-nums">{formatNumber(Math.round(entry.points))}</span>
+                  <span className="w-12 text-right text-neutral-400 tabular-nums">
+                    {entry.prize > 0 ? `$${Math.round(entry.prize)}` : '–'}
+                  </span>
+                </div>
+              ))}
+            </div>
+          </div>
+        )}
       </div>
-    </Section>
+    </div>
   )
 }
 
 // Format date for display
 function formatDate(dateStr: string): string {
+  const date = new Date(dateStr + 'T00:00:00')
+  return date.toLocaleDateString('en-US', { month: 'short', day: 'numeric' })
+}
+
+// Format date compact: 2026-01-15 -> "Jan 15"
+function formatDateCompact(dateStr: string): string {
   const date = new Date(dateStr + 'T00:00:00')
   return date.toLocaleDateString('en-US', { month: 'short', day: 'numeric' })
 }

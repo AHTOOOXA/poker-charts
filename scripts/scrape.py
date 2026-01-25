@@ -103,7 +103,8 @@ def get_group_id(game_type: str, year: int, month: int) -> str | None:
         return None
     return GROUP_IDS[key].get(game_type)
 
-STAKES = ["nl2", "nl5", "nl10", "nl25", "nl50", "nl100", "nl200"]
+STAKES_RUSH = ["nl2", "nl5", "nl10", "nl25", "nl50", "nl100", "nl200"]
+STAKES_HOLDEM = ["nl2", "nl5", "nl10", "nl25", "nl50", "nl100", "nl200", "nl500", "nl1000", "nl2000"]
 
 BLINDS = {
     "nl2": "$0.01/$0.02",
@@ -113,7 +114,15 @@ BLINDS = {
     "nl50": "$0.25/$0.50",
     "nl100": "$0.50/$1",
     "nl200": "$1/$2",
+    "nl500": "$2/$5",
+    "nl1000": "$5/$10",
+    "nl2000": "$10/$20",
 }
+
+
+def get_stakes(game_type: str) -> list[str]:
+    """Get available stakes for a game type."""
+    return STAKES_HOLDEM if game_type == "holdem" else STAKES_RUSH
 
 
 def log(msg: str):
@@ -506,7 +515,7 @@ def main():
     parser.add_argument("--all", action="store_true", help="Scrape everything (both types, all stakes, full range)")
     parser.add_argument("--type", "-t", choices=["rush", "holdem"], help="Game type to scrape")
     parser.add_argument("--all-stakes", action="store_true", help="Scrape all stakes for the specified type")
-    parser.add_argument("--stake", "-s", choices=STAKES, help="Specific stake to scrape")
+    parser.add_argument("--stake", "-s", choices=STAKES_HOLDEM, help="Specific stake to scrape")
     parser.add_argument("--fix-errors", action="store_true", help="Rescrape files with validation errors")
 
     # Date range
@@ -582,14 +591,16 @@ def main():
     if args.all:
         # Scrape everything
         for game_type in ["rush", "holdem"]:
-            results = scrape_game_type(game_type, STAKES, dates, args.dry_run)
+            stakes = get_stakes(game_type)
+            results = scrape_game_type(game_type, stakes, dates, args.dry_run)
             total_results["success"] += results["success"]
             total_results["failed"] += results["failed"]
             total_results["skipped"] += results["skipped"]
             total_results["errors"].extend(results["errors"])
 
     elif args.type:
-        stakes = STAKES if args.all_stakes else ([args.stake] if args.stake else STAKES)
+        all_stakes = get_stakes(args.type)
+        stakes = all_stakes if args.all_stakes else ([args.stake] if args.stake else all_stakes)
         results = scrape_game_type(args.type, stakes, dates, args.dry_run)
         total_results = results
 
