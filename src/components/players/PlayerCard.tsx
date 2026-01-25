@@ -112,10 +112,10 @@ export function PlayerCard({ player }: PlayerCardProps) {
     <div className="p-4 rounded-xl bg-neutral-900/70 border border-neutral-800/50 hover:border-neutral-700/50 transition-colors">
       {/* Header: Name + Badge + Copy text + Copy button */}
       <div className="flex items-center gap-3 mb-4">
-        <h3 className="text-lg font-semibold text-white truncate">{player.nickname}</h3>
+        <h3 className="text-lg font-semibold text-white truncate min-w-0">{player.nickname}</h3>
         <RegTypeBadge type={player.reg_type} className="shrink-0" />
-        <div className="ml-auto flex items-center gap-1.5">
-          <span className="text-xs text-neutral-500 font-mono truncate max-w-48">{copyText}</span>
+        <div className="ml-auto flex items-center gap-1.5 shrink-0">
+          <span className="text-xs text-neutral-500 font-mono whitespace-nowrap">{copyText}</span>
           <button
             onClick={handleCopy}
             className="p-1.5 rounded hover:bg-neutral-800 text-neutral-500 hover:text-neutral-300 transition-colors shrink-0"
@@ -167,11 +167,15 @@ export function PlayerCard({ player }: PlayerCardProps) {
 
       {/* Row 2: Game Types (Rush & Cash / Hold'em) */}
       <div className="grid grid-cols-2 gap-3 mb-3 items-stretch">
-        {player.rush.estimated_hands > 0 && (
+        {player.rush.estimated_hands > 0 ? (
           <GameTypeSection title="Rush & Cash" stats={player.rush} variant="rush" />
+        ) : (
+          <GameTypeSkeleton title="Rush & Cash" variant="rush" />
         )}
-        {player.regular.estimated_hands > 0 && (
+        {player.regular.estimated_hands > 0 ? (
           <GameTypeSection title="Hold'em" stats={player.regular} variant="holdem" />
+        ) : (
+          <GameTypeSkeleton title="Hold'em" variant="holdem" />
         )}
       </div>
 
@@ -204,6 +208,35 @@ function Section({
         {subtitle && <span className="text-xs text-neutral-600">{subtitle}</span>}
       </div>
       {children}
+    </div>
+  )
+}
+
+// Skeleton placeholder when game type has no data
+function GameTypeSkeleton({ title, variant }: { title: string; variant: 'rush' | 'holdem' }) {
+  const variantStyles = {
+    rush: {
+      border: 'border-amber-500/10',
+      title: 'text-amber-500/40',
+    },
+    holdem: {
+      border: 'border-emerald-500/10',
+      title: 'text-emerald-500/40',
+    },
+  }
+  const styles = variantStyles[variant]
+
+  return (
+    <div className={cn('p-2.5 rounded-lg bg-neutral-800/10 border flex flex-col', styles.border)}>
+      {/* Header */}
+      <div className="flex items-baseline justify-between mb-2">
+        <span className={cn('text-xs uppercase tracking-wide font-medium', styles.title)}>{title}</span>
+      </div>
+
+      {/* Placeholder content */}
+      <div className="flex-1 flex items-center justify-center py-6">
+        <span className="text-xs text-neutral-600">No data yet</span>
+      </div>
     </div>
   )
 }
