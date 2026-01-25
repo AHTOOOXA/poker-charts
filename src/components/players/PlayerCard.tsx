@@ -115,11 +115,11 @@ export function PlayerCard({ player }: PlayerCardProps) {
         <h3 className="text-lg font-semibold text-white truncate">{player.nickname}</h3>
         <RegTypeBadge type={player.reg_type} className="shrink-0" />
         <div className="ml-auto flex items-center gap-1.5">
-          <span className="text-xs text-neutral-500 font-mono whitespace-nowrap">{copyText}</span>
+          <span className="text-xs text-neutral-500 font-mono truncate max-w-48">{copyText}</span>
           <button
             onClick={handleCopy}
             className="p-1.5 rounded hover:bg-neutral-800 text-neutral-500 hover:text-neutral-300 transition-colors shrink-0"
-            title={`Copy: ${copyText}`}
+            title={copyText}
           >
             {copied ? (
               <Check className="w-4 h-4 text-emerald-400" />
@@ -150,7 +150,7 @@ export function PlayerCard({ player }: PlayerCardProps) {
             <span className="text-sm text-neutral-500">of {allDates.length} days</span>
           </div>
           {/* Progress bar */}
-          <div className="h-1.5 bg-neutral-800 rounded-full overflow-hidden mt-2">
+          <div className="h-2 bg-neutral-800 rounded-full overflow-hidden mt-2">
             <div
               className="h-full bg-emerald-500/50 rounded-full"
               style={{ width: `${Math.round((player.days_active / allDates.length) * 100)}%` }}
@@ -168,10 +168,10 @@ export function PlayerCard({ player }: PlayerCardProps) {
       {/* Row 2: Game Types (Rush & Cash / Hold'em) */}
       <div className="grid grid-cols-2 gap-3 mb-3 items-stretch">
         {player.rush.estimated_hands > 0 && (
-          <GameTypeSection title="Rush & Cash" stats={player.rush} />
+          <GameTypeSection title="Rush & Cash" stats={player.rush} variant="rush" />
         )}
         {player.regular.estimated_hands > 0 && (
-          <GameTypeSection title="Hold'em" stats={player.regular} />
+          <GameTypeSection title="Hold'em" stats={player.regular} variant="holdem" />
         )}
       </div>
 
@@ -182,18 +182,6 @@ export function PlayerCard({ player }: PlayerCardProps) {
           handsByDate={player.hands_by_date}
           maxHands={maxHands}
         />
-        {/* Heat legend */}
-        <div className="flex items-center gap-2 mt-2 text-[9px] text-neutral-500">
-          <span>Less</span>
-          <div className="flex gap-0.5">
-            <div className="w-3 h-3 rounded bg-neutral-800/50" />
-            <div className="w-3 h-3 rounded bg-emerald-500/15" />
-            <div className="w-3 h-3 rounded bg-emerald-500/25" />
-            <div className="w-3 h-3 rounded bg-emerald-500/35" />
-            <div className="w-3 h-3 rounded bg-emerald-500/50" />
-          </div>
-          <span>More</span>
-        </div>
       </Section>
     </div>
   )
@@ -212,8 +200,8 @@ function Section({
   return (
     <div className="p-2.5 rounded-lg bg-neutral-800/30 border border-neutral-800/50">
       <div className="flex items-baseline justify-between mb-2">
-        <span className="text-[10px] text-neutral-500 uppercase tracking-wide font-medium">{title}</span>
-        {subtitle && <span className="text-[10px] text-neutral-600">{subtitle}</span>}
+        <span className="text-xs text-neutral-500 uppercase tracking-wide font-medium">{title}</span>
+        {subtitle && <span className="text-xs text-neutral-600">{subtitle}</span>}
       </div>
       {children}
     </div>
@@ -221,8 +209,23 @@ function Section({
 }
 
 // Game type section (Rush or Holdem) - self-contained with stakes
-function GameTypeSection({ title, stats }: { title: string; stats: GameTypeStats }) {
+function GameTypeSection({ title, stats, variant }: { title: string; stats: GameTypeStats; variant: 'rush' | 'holdem' }) {
   const [expanded, setExpanded] = useState(false)
+
+  // Variant colors: Rush = amber/orange, Holdem = emerald/green
+  const variantStyles = {
+    rush: {
+      border: 'border-amber-500/30',
+      title: 'text-amber-500',
+      accent: 'bg-amber-500',
+    },
+    holdem: {
+      border: 'border-emerald-500/30',
+      title: 'text-emerald-500',
+      accent: 'bg-emerald-500',
+    },
+  }
+  const styles = variantStyles[variant]
 
   // Calculate stake hands with percentages for this game type
   const stakeHands = STAKES.map(stake => ({
@@ -242,17 +245,16 @@ function GameTypeSection({ title, stats }: { title: string; stats: GameTypeStats
   const medianRank = Math.round(stats.avg_rank)
 
   return (
-    <div className="p-2.5 rounded-lg bg-neutral-800/30 border border-neutral-800/50 flex flex-col">
+    <div className={cn('p-2.5 rounded-lg bg-neutral-800/30 border flex flex-col', styles.border)}>
       {/* Header */}
       <div className="flex items-baseline justify-between mb-2">
-        <span className="text-[10px] text-neutral-500 uppercase tracking-wide font-medium">{title}</span>
-        <span className="text-[10px] text-neutral-600">${Math.round(stats.total_prize)}</span>
+        <span className={cn('text-xs uppercase tracking-wide font-medium', styles.title)}>{title}</span>
+        <span className="text-sm text-neutral-300 font-medium tabular-nums">${Math.round(stats.total_prize)}</span>
       </div>
 
       {/* Total hands */}
-      <div className="flex items-baseline gap-2 mb-2">
-        <span className="text-sm text-neutral-200 font-medium tabular-nums">{formatNumber(stats.estimated_hands)}</span>
-        <span className="text-[10px] text-neutral-500">hands</span>
+      <div className="text-sm text-neutral-200 font-medium tabular-nums mb-2">
+        {formatNumber(stats.estimated_hands)}
       </div>
 
       {/* Stakes breakdown */}
@@ -278,7 +280,7 @@ function GameTypeSection({ title, stats }: { title: string; stats: GameTypeStats
           onClick={() => setExpanded(!expanded)}
           className="w-full flex items-center justify-between text-xs group"
         >
-          <span className="text-[10px] text-neutral-500 uppercase tracking-wide font-medium">Leaderboard</span>
+          <span className="text-xs text-neutral-500 uppercase tracking-wide font-medium">Leaderboard</span>
           <ChevronDown
             className={cn(
               'w-4 h-4 text-neutral-500 transition-transform',
@@ -306,7 +308,7 @@ function GameTypeSection({ title, stats }: { title: string; stats: GameTypeStats
         {expanded && stats.entries_list && (
           <div className="mt-3 pt-3 border-t border-neutral-800/30">
             {/* Header */}
-            <div className="flex items-center text-[10px] text-neutral-600 mb-2 px-1">
+            <div className="flex items-center text-xs text-neutral-600 mb-2 px-1">
               <span className="w-16">Date</span>
               <span className="w-12">Stake</span>
               <span className="w-10 text-right">Place</span>
@@ -390,33 +392,75 @@ function GitHubCalendar({
   handsByDate: Record<string, number>
   maxHands: number
 }) {
-  // Build week columns (GitHub style: rows = weekdays, cols = weeks)
-  const weeks: (string | null)[][] = []
-  let currentWeek: (string | null)[] = []
+  // Extend dates to show 1 more month ahead (to avoid overflow)
+  const lastDataDate = new Date(dates[dates.length - 1] + 'T00:00:00')
+  const extendedDates = [...dates]
 
-  const firstDate = new Date(dates[0] + 'T00:00:00')
-  const firstDayOfWeek = getMondayBasedDay(firstDate)
+  // Add dates for 1 more month
+  const endDate = new Date(lastDataDate.getFullYear(), lastDataDate.getMonth() + 2, 0)
+  let currentDate = new Date(lastDataDate)
+  currentDate.setDate(currentDate.getDate() + 1)
 
-  // Pad the first week with nulls
-  for (let i = 0; i < firstDayOfWeek; i++) {
-    currentWeek.push(null)
+  while (currentDate <= endDate) {
+    extendedDates.push(currentDate.toISOString().split('T')[0])
+    currentDate.setDate(currentDate.getDate() + 1)
   }
 
-  // Fill in dates
-  for (const date of dates) {
+  // Continue until end of that week (Sunday)
+  while (getMondayBasedDay(currentDate) !== 0) {
+    extendedDates.push(currentDate.toISOString().split('T')[0])
+    currentDate.setDate(currentDate.getDate() + 1)
+  }
+
+  // Track which dates are "future" (beyond actual data)
+  const lastRealDate = dates[dates.length - 1]
+
+  // Build columns that break at month boundaries
+  type Column = {
+    month: number
+    year: number
+    days: (string | null)[]
+    isFirstOfMonth: boolean
+  }
+
+  const columns: Column[] = []
+  let currentColumn: Column | null = null
+
+  for (const date of extendedDates) {
     const d = new Date(date + 'T00:00:00')
     const dayOfWeek = getMondayBasedDay(d)
+    const month = d.getMonth()
+    const year = d.getFullYear()
 
-    if (dayOfWeek === 0 && currentWeek.length > 0) {
-      weeks.push(currentWeek)
-      currentWeek = []
+    // Check if this is a new month
+    const isNewMonth: boolean = currentColumn === null ||
+      month !== currentColumn.month ||
+      year !== currentColumn.year
+
+    // Start new column if: new week (Monday) OR new month
+    if (dayOfWeek === 0 || isNewMonth) {
+      // Save current column if exists and has data
+      if (currentColumn && currentColumn.days.some(d => d !== null)) {
+        columns.push(currentColumn)
+      }
+      // Start new column
+      currentColumn = {
+        month,
+        year,
+        days: [null, null, null, null, null, null, null],
+        isFirstOfMonth: isNewMonth && (currentColumn !== null),
+      }
     }
 
-    currentWeek.push(date)
+    // Add date to current column at correct weekday position
+    if (currentColumn) {
+      currentColumn.days[dayOfWeek] = date
+    }
   }
 
-  if (currentWeek.length > 0) {
-    weeks.push(currentWeek)
+  // Don't forget the last column
+  if (currentColumn && currentColumn.days.some(d => d !== null)) {
+    columns.push(currentColumn)
   }
 
   const formatDateShort = (dateStr: string) => {
@@ -424,88 +468,75 @@ function GitHubCalendar({
     return date.toLocaleDateString('en-US', { month: 'short', day: 'numeric' })
   }
 
-  // Find months that have their 1st day in each week
-  const getMonthStartingInWeek = (week: (string | null)[]): number | null => {
-    for (const date of week) {
-      if (date) {
-        const d = new Date(date + 'T00:00:00')
-        if (d.getDate() === 1) {
-          return d.getMonth()
-        }
-      }
-    }
-    return null
-  }
-
-  // Get the primary month for a week (first valid date)
-  const getWeekMonth = (week: (string | null)[]): number | null => {
-    const firstDate = week.find(d => d !== null)
-    if (!firstDate) return null
-    return new Date(firstDate + 'T00:00:00').getMonth()
-  }
-
   const monthNames = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
 
-  // Track which months we've shown labels for
-  const shownMonths = new Set<number>()
+  // Track which months and years we've shown labels for
+  const shownMonths = new Set<string>()
+  const shownYears = new Set<number>()
 
   return (
-    <div className="flex gap-1">
+    <div className="flex gap-1 overflow-hidden">
       {/* Weekday labels */}
-      <div className="flex flex-col gap-1 text-[9px] text-neutral-500 pr-1 mt-4">
-        {WEEKDAYS.map((day, i) => (
-          <div key={day} className="h-6 flex items-center">
-            {i % 2 === 1 ? day : ''}
+      <div className="flex flex-col gap-1 text-xs text-neutral-500 pr-1 mt-4">
+        {WEEKDAYS.map((day) => (
+          <div key={day} className="w-8 h-6 flex items-center">
+            {day}
           </div>
         ))}
       </div>
 
-      {/* Week columns with month labels */}
-      {weeks.map((week, weekIdx) => {
-        // Show month label when: 1) first week, or 2) a month's 1st day appears in this week
-        const monthStarting = getMonthStartingInWeek(week)
-        const weekMonth = getWeekMonth(week)
-
+      {/* Columns with month labels */}
+      {columns.map((col, colIdx) => {
+        const monthKey = `${col.year}-${col.month}`
         let monthLabel = ''
-        let isNewMonth = false
+        let showYear = false
 
-        // First week - show its month
-        if (weekIdx === 0 && weekMonth !== null && !shownMonths.has(weekMonth)) {
-          monthLabel = monthNames[weekMonth]
-          shownMonths.add(weekMonth)
-        }
-        // A new month starts in this week
-        if (monthStarting !== null && !shownMonths.has(monthStarting)) {
-          monthLabel = monthNames[monthStarting]
-          shownMonths.add(monthStarting)
-          isNewMonth = true
+        // Show month label on first column of each month
+        if (!shownMonths.has(monthKey)) {
+          monthLabel = monthNames[col.month]
+          shownMonths.add(monthKey)
+
+          // Show year on: first month shown OR every January
+          const isFirstMonth = shownMonths.size === 1
+          const isJanuary = col.month === 0
+          if ((isFirstMonth || isJanuary) && !shownYears.has(col.year)) {
+            showYear = true
+            shownYears.add(col.year)
+          }
         }
 
         return (
-          <div key={weekIdx} className={cn('flex flex-col gap-1', isNewMonth && weekIdx > 0 && 'ml-2')}>
-            {/* Month label */}
-            <div className="h-4 text-[9px] text-neutral-500 flex items-center justify-center">
+          <div key={colIdx} className={cn('flex flex-col gap-1', col.isFirstOfMonth && colIdx > 0 && 'ml-3')}>
+            {/* Month label with optional year */}
+            <div className="h-4 text-xs text-neutral-500 flex items-center justify-center gap-0.5">
               {monthLabel}
+              {showYear && <span className="text-neutral-600">'{String(col.year).slice(-2)}</span>}
             </div>
             {WEEKDAYS.map((_, dayIdx) => {
-              const date = week[dayIdx]
+              const date = col.days[dayIdx]
               if (!date) {
-                return <div key={dayIdx} className="w-8 h-6" />
+                return <div key={dayIdx} className="w-12 h-6" />
               }
 
+              // Check if this is a future date (beyond actual data)
+              const isFuture = date > lastRealDate
+
               const hands = handsByDate[date] ?? 0
-              const heatClass = getHeatColorWithText(hands, maxHands)
+              const heatClass = isFuture
+                ? 'bg-neutral-800/20 text-neutral-700'
+                : getHeatColorWithText(hands, maxHands)
 
               return (
                 <div
                   key={dayIdx}
                   className={cn(
-                    'w-8 h-6 rounded text-[8px] flex items-center justify-center font-medium tabular-nums',
-                    heatClass
+                    'w-12 h-6 rounded text-xs flex items-center justify-center font-medium tabular-nums',
+                    heatClass,
+                    isFuture && 'opacity-40'
                   )}
-                  title={`${formatDateShort(date)}: ${hands > 0 ? formatNumber(hands) + ' hands' : 'no activity'}`}
+                  title={isFuture ? `${formatDateShort(date)}: upcoming` : `${formatDateShort(date)}: ${hands > 0 ? formatNumber(hands) + ' hands' : 'no activity'}`}
                 >
-                  {hands > 0 ? formatNumber(hands) : '–'}
+                  {isFuture ? '·' : (hands > 0 ? formatNumber(hands) : '–')}
                 </div>
               )
             })}

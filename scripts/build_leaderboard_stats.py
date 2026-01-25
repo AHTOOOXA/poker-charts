@@ -193,11 +193,10 @@ def build_player_stats(entries: list[dict], latest_date: str) -> list[dict]:
         })
 
     # Build final list
-    # Hand estimation based on real data calibration:
-    # Rush & Cash: AHTOOOXA 76.5K hands = 92.7K points = 1.21 pts/hand
-    # Regular Holdem: AHTOOOXA 12K hands = 5.7K points = 0.48 pts/hand
-    # Regular is slower paced with different point structure
-    POINTS_PER_HAND_RUSH = 1.21
+    # Hand estimation based on real data calibration (AHTOOOXA Dec 1 - Jan 24):
+    # Rush & Cash: 114K hands = 176K points = 1.55 pts/hand
+    # Regular Holdem: 12K hands = 5.7K points = 0.48 pts/hand
+    POINTS_PER_HAND_RUSH = 1.55
     POINTS_PER_HAND_REGULAR = 0.48
 
     def build_game_type_output(gt_stats: dict, game_type: str) -> dict:
