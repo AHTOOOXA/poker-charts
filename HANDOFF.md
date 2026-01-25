@@ -1,69 +1,109 @@
 # Handoff: Leaderboard Scraping & Validation
 
-## What Was Done
+## Quick Start
 
-### 1. Added Regular Holdem Support
-- Extended scraping to support both **Rush & Cash** and **Regular Hold'em** leaderboards
-- URLs:
-  - Rush: https://www.natural8.com/en/promotions/rush-and-cash-daily-leaderboard
-  - Holdem: https://www.natural8.com/en/promotions/holdem-daily-leaderboard
+```bash
+# Prerequisites: Playwright server running on localhost:9876
 
-### 2. Updated Scripts
+# Fix validation errors (stale data, duplicates, empty files)
+python scripts/scrape.py --fix-errors
 
-**`scripts/scrape_raw.sh`**
-- Added `-t rush` / `-t regular` flag to specify game type
-- Rush saves to `leaderboards/raw/`, Regular saves to `leaderboards/raw-regular/`
-- Group IDs: Rush=1266, Regular=1269 (Jan 2026)
+# Scrape recent dates
+python scripts/scrape.py --all --from 2026-01-25 --to 2026-01-25
 
-**`scripts/parse_raw.py`**
-- Parses both `raw/` and `raw-regular/` directories
-- Outputs `rush-holdem-*.csv` and `holdem-*.csv`
+# Parse and validate
+python scripts/parse_raw.py
+python scripts/build_leaderboard_stats.py
+python scripts/validate_data.py
+```
 
-**`scripts/build_leaderboard_stats.py`**
-- Tracks `rush` and `regular` game types separately
-- Player stats include breakdown: `player.rush` and `player.regular`
+## Scraping (LLM-friendly)
 
-**`scripts/validate_data.py`**
-- Focused validation for parsing/scraping errors:
-  1. Duplicate files (identical content on different dates)
-  2. Similar adjacent dates (browser didn't update)
-  3. Duplicate entries within files
-  4. Wrong stake (blinds mismatch)
-  5. Empty/corrupt files
-  6. Raw vs CSV mismatch
-  7. Cross-file stale data
-  8. Stats.json consistency
-  9. Date coverage gaps
+The main scraping script is `scripts/scrape.py`. It's non-interactive and handles page navigation automatically, including month switching.
 
-### 3. Added Stakes
-- nl2, nl5, nl10, nl25, nl50, nl100, nl200 for both game types
-- TypeScript types and UI colors updated
+### Common Commands
 
-### 4. UI Changes
-- PlayerCard shows "Rush & Cash" and "Hold'em" sections
-- Each section displays hands, stakes breakdown, placements
+```bash
+# Scrape everything (both game types, all stakes, full date range)
+python scripts/scrape.py --all
+
+# Scrape specific game type
+python scripts/scrape.py --type rush --all-stakes
+python scripts/scrape.py --type holdem --all-stakes
+
+# Scrape specific stake and date range
+python scripts/scrape.py --type rush --stake nl10 --from 2026-01-01 --to 2026-01-25
+
+# Scrape single date
+python scripts/scrape.py --type rush --stake nl10 --date 2026-01-25
+
+# Rescrape files with validation errors (stale, duplicates, empty)
+python scripts/scrape.py --fix-errors
+
+# Dry run (show what would be scraped)
+python scripts/scrape.py --all --dry-run
+```
+
+### Game Types
+
+| Type | URL |
+|------|-----|
+| rush | https://www.natural8.com/en/promotions/rush-and-cash-daily-leaderboard |
+| holdem | https://www.natural8.com/en/promotions/holdem-daily-leaderboard |
+
+### Stakes
+
+nl2, nl5, nl10, nl25, nl50, nl100, nl200
+
+### Group IDs (UPDATE MONTHLY)
+
+The website uses different group IDs for each month. These are configured in `scripts/scrape.py`:
+
+```python
+GROUP_IDS = {
+    (2025, 12): {"rush": "1247", "holdem": "1250"},
+    (2026, 1): {"rush": "1266", "holdem": "1269"},
+    # Add new months here
+}
+```
+
+**To find new group IDs:**
+1. Open the leaderboard page
+2. Click the month button (e.g., "February")
+3. Inspect any iframe's src URL
+4. Look for `groupId=XXXX`
+5. Update `GROUP_IDS` in `scripts/scrape.py`
+
+## Validation
+
+Run `python scripts/validate_data.py` to check for:
+
+1. **Duplicate files** - Identical content on different dates
+2. **Stale data** - Adjacent dates with nearly identical top 10 (browser didn't refresh)
+3. **Duplicate entries** - Same player appearing multiple times in one file
+4. **Wrong stake** - Blinds don't match the stake in filename
+5. **Empty files** - Files with 0 entries
+6. **Raw vs CSV mismatch** - Raw files that couldn't be parsed
+7. **Cross-file stale data** - Same data appearing across multiple files
+8. **Stats consistency** - stats.json matches CSV totals
+9. **Date coverage** - Missing stakes on specific dates
+
+### --fix-errors
+
+The `--fix-errors` flag automatically:
+1. Runs validation
+2. Parses errors for stale data, duplicates, and empty files
+3. Rescrapes those specific files
+4. Handles month navigation automatically
 
 ## Current Data State
 
 ```
-Rush & Cash:    366 raw files, Dec 1 - Jan 23
-Regular Holdem: 338 raw files, Dec 1 - Jan 24
-Total entries:  191,506
-Unique players: 22,876
-```
-
-## Known Issues (Need Re-scraping)
-
-Run `python scripts/validate_data.py` to see full list.
-
-**Critical:**
-- 12 files with stale data (browser didn't update between days)
-- 16 files with duplicate entries
-- Dec 26-31 mostly empty for both game types
-
-**To fix everything:**
-```bash
-./scripts/rescrape_all.sh
+Rush & Cash:    392 valid files (Dec 1 - Jan 25)
+Regular Holdem: 392 valid files (Dec 1 - Jan 25)
+Total entries:  207,000+
+Unique players: 24,000+
+Validation:     PASSED (0 errors, 0 warnings)
 ```
 
 ## File Structure
@@ -77,33 +117,51 @@ leaderboards/
 └── stats.json              # Aggregated player stats
 
 scripts/
-├── scrape_raw.sh           # Scrape leaderboards
+├── scrape.py               # Main scraping script (LLM-friendly)
 ├── parse_raw.py            # Convert JSON to CSV
 ├── build_leaderboard_stats.py  # Aggregate stats
-├── validate_data.py        # Check for errors
-└── rescrape_all.sh         # Full rescrape task
+└── validate_data.py        # Check for errors
 ```
 
-## Commands
+## Workflow
+
+### Daily Update
 
 ```bash
-# Scrape
-./scripts/scrape_raw.sh -t rush -s nl25 -g 1266 -m jan -d 23-1
-./scripts/scrape_raw.sh -t regular -s nl25 -g 1269 -m jan -d 23-1
+# Scrape today's data
+python scripts/scrape.py --type rush --all-stakes --date $(date +%Y-%m-%d)
+python scripts/scrape.py --type holdem --all-stakes --date $(date +%Y-%m-%d)
 
-# Parse & Build
+# Parse and build
 python scripts/parse_raw.py
 python scripts/build_leaderboard_stats.py
 
 # Validate
 python scripts/validate_data.py
-
-# Dev server
-bun dev
 ```
 
-## Next Steps
+### Fix Validation Errors
 
-1. Run `./scripts/rescrape_all.sh` to get clean data
-2. After rescrape, run validation to confirm no errors
-3. Consider adding higher stakes (nl500, nl1000, nl2000) for Regular Holdem
+```bash
+# Automatically rescrapes files with issues
+python scripts/scrape.py --fix-errors
+
+# Then parse and rebuild
+python scripts/parse_raw.py
+python scripts/build_leaderboard_stats.py
+python scripts/validate_data.py
+```
+
+### New Month Setup
+
+1. Wait for the new month to start on the website
+2. Navigate to leaderboard page, click new month button
+3. Inspect iframe src to find new group IDs
+4. Update `GROUP_IDS` in `scripts/scrape.py`
+5. Scrape the new month
+
+## Prerequisites
+
+- Playwright server running on `localhost:9876`
+- Browser open (any page - script navigates automatically)
+- Python 3.10+

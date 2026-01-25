@@ -1,0 +1,9 @@
+{
+  "skills": [
+    {
+      "name": "leaderboard",
+      "description": "Scrape, validate, and maintain Natural8 poker leaderboard data",
+      "path": ".claude/skills/leaderboard.md"
+    }
+  ]
+}
