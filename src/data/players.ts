@@ -127,3 +127,63 @@ export function sortByRelevance(
 export function getDatesCovered(): string[] {
   return data.summary.dates_covered
 }
+
+export function getStakesCovered(): Stake[] {
+  return data.summary.stakes_covered
+}
+
+export type GameType = 'rush' | 'regular'
+
+export interface LeaderboardResult {
+  nickname: string
+  rank: number
+  points: number
+  prize: number
+  regType: RegType
+}
+
+export function getLeaderboardResults(
+  date: string,
+  stake: Stake,
+  gameType: GameType
+): LeaderboardResult[] {
+  const results: LeaderboardResult[] = []
+
+  for (const player of data.players) {
+    const gameStats = player[gameType]
+    if (!gameStats) continue
+
+    const entry = gameStats.entries_list.find(
+      e => e.date === date && e.stake === stake
+    )
+    if (entry) {
+      results.push({
+        nickname: player.nickname,
+        rank: entry.rank,
+        points: entry.points,
+        prize: entry.prize,
+        regType: player.reg_type,
+      })
+    }
+  }
+
+  return results.sort((a, b) => a.rank - b.rank)
+}
+
+// Get available dates for a specific stake/game type combination
+export function getDatesForStake(stake: Stake, gameType: GameType): string[] {
+  const datesSet = new Set<string>()
+
+  for (const player of data.players) {
+    const gameStats = player[gameType]
+    if (!gameStats) continue
+
+    for (const entry of gameStats.entries_list) {
+      if (entry.stake === stake) {
+        datesSet.add(entry.date)
+      }
+    }
+  }
+
+  return Array.from(datesSet).sort().reverse()
+}

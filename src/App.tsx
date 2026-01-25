@@ -2,7 +2,7 @@ import { useCallback } from 'react'
 import { HandGrid } from '@/components/chart/HandGrid'
 import { ChartControls } from '@/components/ChartControls'
 import { Legend } from '@/components/Legend'
-import { PlayerSearch } from '@/components/players/PlayerSearch'
+import { LeaderboardPage } from '@/components/leaderboard/LeaderboardPage'
 import { ProviderSelector } from '@/components/ProviderSelector'
 import { ChartTranscriber } from '@/components/transcribe/ChartTranscriber'
 import { getCell } from '@/data/ranges'
@@ -103,15 +103,15 @@ function App() {
               Charts
             </button>
             <button
-              onClick={() => setTab('players')}
+              onClick={() => setTab('leaderboard')}
               className={cn(
                 'px-3 py-1.5 rounded-md text-sm font-medium transition-colors',
-                tab === 'players'
+                tab === 'leaderboard'
                   ? 'bg-neutral-800/50 text-white'
                   : 'text-neutral-500 hover:text-neutral-300'
               )}
             >
-              Players
+              Leaderboard
             </button>
             <button
               onClick={() => setTab('transcribe')}
@@ -132,8 +132,8 @@ function App() {
       <main className="relative z-10 flex-1 p-4 flex flex-col overflow-auto">
         {tab === 'transcribe' ? (
           <ChartTranscriber />
-        ) : tab === 'players' ? (
-          <PlayerSearch />
+        ) : tab === 'leaderboard' ? (
+          <LeaderboardPage />
         ) : (
           <div className="flex-1 flex flex-col gap-6 max-w-4xl mx-auto w-full">
             {/* Position selectors */}
