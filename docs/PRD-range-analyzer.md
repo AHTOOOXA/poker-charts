@@ -1,8 +1,8 @@
-# PRD: Range Analyzer
+# PRD: Postflop Range Analyzer
 
-**Version:** 1.0
+**Version:** 2.0
 **Date:** January 2026
-**Status:** Draft
+**Status:** Implemented
 
 ---
 
@@ -10,7 +10,7 @@
 
 ### 1.1 Vision
 
-The Range Analyzer is a Flopzilla-inspired tool that allows users to see how preflop hand ranges connect with specific board textures. Users can load ranges from existing chart scenarios or create custom ranges, input a flop/turn/river, and instantly see a breakdown of hand strengths, combo counts, and equity distribution.
+The Postflop Range Analyzer is a Flopzilla-inspired tool for studying how both players' ranges connect with specific board textures in common postflop scenarios. It provides side-by-side analysis of IP (In Position) and OOP (Out of Position) ranges for Single Raised Pots and 3bet Pots.
 
 ### 1.2 Problem Statement
 
@@ -60,44 +60,39 @@ Currently, the app displays preflop ranges but provides no postflop analysis. Pl
 
 ## 3. Feature Specifications
 
-### 3.1 Range Selection
+### 3.1 Scenario Selection
 
-#### 3.1.1 Preset Range Mode (Default)
+#### 3.1.1 Pot Type
 
-Users select a range from existing chart scenarios.
+Users select the type of pot:
 
-**Inputs:**
-- Provider (dropdown): Pekarstas, Greenline, GTOWizard GG R&C
-- Hero Position (button group): UTG, MP, CO, BTN, SB, BB
-- Scenario (dropdown): RFI, vs Open, vs 3bet, vs 4bet, 3bet Defense
-- Villain Position (button group): Contextual based on scenario
+| Pot Type | Description | Range Resolution |
+|----------|-------------|------------------|
+| **SRP** | Single Raised Pot | Opener RFI vs Caller's call range |
+| **3bet Pot** | 3bet pot where opener called | Opener's vs-3bet call vs 3bettor's 3bet range |
 
-**Behavior:**
-- Range loads automatically when valid combination selected
-- Invalid combinations disabled (e.g., BB cannot RFI)
-- Grid displays range with action colors (raise=sky, call=emerald, fold=gray)
+#### 3.1.2 Position Selection
 
-**Output:**
-- Total combos in range (non-fold hands)
-- Breakdown by action: X raise, Y call
+**OOP (Out of Position):**
+- The player who acts first on each postflop street
+- Postflop order: SB → BB → UTG → MP → CO → BTN
 
-#### 3.1.2 Custom Range Mode
+**IP (In Position):**
+- The player who acts last on each postflop street
+- Must be "later" in postflop order than OOP
 
-Users can manually select/deselect hands.
+**Range Resolution Logic:**
 
-**Toggle:** Switch between "Preset" and "Custom" modes
+| Pot Type | OOP Range | IP Range |
+|----------|-----------|----------|
+| SRP (OOP opened) | OOP's RFI (raise) | IP's vs-open (call) |
+| SRP (IP opened) | OOP's vs-open (call) | IP's RFI (raise) |
+| 3bet (OOP opened) | OOP's vs-3bet (call) | IP's vs-open (raise = 3bet) |
+| 3bet (IP opened) | OOP's vs-open (raise = 3bet) | IP's vs-3bet (call) |
 
-**Custom Mode Features:**
-- Click hand to toggle in/out of range
-- Shift+Click to cycle through actions (raise → call → fold)
-- Drag to paint multiple cells
-- "Clear All" button
-- "Select All" button
-- Quick-select buttons: Pairs, Broadway, Suited, Offsuit
-
-**Persistence:**
-- Custom range persists in localStorage until cleared
-- Option to "Copy from Preset" to start with a preset and modify
+**Provider:**
+- Pekarstas, Greenline, GTOWizard GG R&C
+- Determines which range pack to use for both players
 
 ---
 

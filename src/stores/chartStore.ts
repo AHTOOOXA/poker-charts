@@ -16,8 +16,8 @@ type ChartState = {
   setVillain: (v: Position | null) => void
 
   // UI state - which tab we're on
-  tab: 'charts' | 'leaderboard' | 'transcribe'
-  setTab: (t: 'charts' | 'leaderboard' | 'transcribe') => void
+  tab: 'charts' | 'leaderboard' | 'transcribe' | 'analyze'
+  setTab: (t: 'charts' | 'leaderboard' | 'transcribe' | 'analyze') => void
 }
 
 export const useChartStore = create(

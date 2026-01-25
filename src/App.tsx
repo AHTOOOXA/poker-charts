@@ -5,6 +5,7 @@ import { Legend } from '@/components/Legend'
 import { LeaderboardPage } from '@/components/leaderboard/LeaderboardPage'
 import { ProviderSelector } from '@/components/ProviderSelector'
 import { ChartTranscriber } from '@/components/transcribe/ChartTranscriber'
+import { AnalyzerPage } from '@/components/analyze/AnalyzerPage'
 import { getCell } from '@/data/ranges'
 import { useChartStore } from '@/stores/chartStore'
 import { POSITIONS, SCENARIOS, type Scenario } from '@/types/poker'
@@ -124,13 +125,26 @@ function App() {
             >
               Transcribe
             </button>
+            <button
+              onClick={() => setTab('analyze')}
+              className={cn(
+                'px-3 py-1.5 rounded-md text-sm font-medium transition-colors',
+                tab === 'analyze'
+                  ? 'bg-neutral-800/50 text-white'
+                  : 'text-neutral-500 hover:text-neutral-300'
+              )}
+            >
+              Analyze
+            </button>
           </nav>
         </div>
       </header>
 
       {/* Main content */}
       <main className="relative z-10 flex-1 p-4 flex flex-col overflow-auto">
-        {tab === 'transcribe' ? (
+        {tab === 'analyze' ? (
+          <AnalyzerPage />
+        ) : tab === 'transcribe' ? (
           <ChartTranscriber />
         ) : tab === 'leaderboard' ? (
           <LeaderboardPage />

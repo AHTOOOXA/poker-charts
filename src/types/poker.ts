@@ -1,6 +1,67 @@
 export const RANKS = ['A', 'K', 'Q', 'J', 'T', '9', '8', '7', '6', '5', '4', '3', '2'] as const
 export type Rank = (typeof RANKS)[number]
 
+export const SUITS = ['s', 'h', 'd', 'c'] as const
+export type Suit = (typeof SUITS)[number]
+
+export interface Card {
+  rank: Rank
+  suit: Suit
+}
+
+// Hand categories for range analysis (ordered by strength)
+export const HAND_CATEGORIES = [
+  'straight-flush',
+  'quads',
+  'full-house',
+  'flush',
+  'straight',
+  'set',
+  'trips',
+  'two-pair',
+  'overpair',
+  'top-pair',
+  'second-pair',
+  'low-pair',
+  'underpair',
+  'flush-draw',
+  'oesd',
+  'gutshot',
+  'overcards',
+  'air',
+] as const
+
+export type HandCategory = (typeof HAND_CATEGORIES)[number]
+
+export interface CategoryConfig {
+  id: HandCategory
+  label: string
+  color: string
+}
+
+export const CATEGORY_CONFIGS: CategoryConfig[] = [
+  { id: 'straight-flush', label: 'Straight Flush', color: '#8B5CF6' },
+  { id: 'quads', label: 'Quads', color: '#7C3AED' },
+  { id: 'full-house', label: 'Full House', color: '#6D28D9' },
+  { id: 'flush', label: 'Flush', color: '#4F46E5' },
+  { id: 'straight', label: 'Straight', color: '#4338CA' },
+  { id: 'set', label: 'Set', color: '#6366F1' },
+  { id: 'trips', label: 'Trips', color: '#818CF8' },
+  { id: 'two-pair', label: 'Two Pair', color: '#0EA5E9' },
+  { id: 'overpair', label: 'Overpair', color: '#06B6D4' },
+  { id: 'top-pair', label: 'Top Pair', color: '#14B8A6' },
+  { id: 'second-pair', label: 'Second Pair', color: '#10B981' },
+  { id: 'low-pair', label: 'Low Pair', color: '#22C55E' },
+  { id: 'underpair', label: 'Underpair', color: '#84CC16' },
+  { id: 'flush-draw', label: 'Flush Draw', color: '#EAB308' },
+  { id: 'oesd', label: 'OESD', color: '#F59E0B' },
+  { id: 'gutshot', label: 'Gutshot', color: '#F97316' },
+  { id: 'overcards', label: 'Overcards', color: '#FB923C' },
+  { id: 'air', label: 'Air', color: '#6B7280' },
+]
+
+export type Grouping = 'simple' | 'standard' | 'detailed'
+
 export const PROVIDERS = ['pekarstas', 'greenline', 'gtowizard-gg-rc'] as const
 export type Provider = (typeof PROVIDERS)[number]
 
