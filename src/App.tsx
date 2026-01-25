@@ -4,6 +4,7 @@ import { ChartControls } from '@/components/ChartControls'
 import { Legend } from '@/components/Legend'
 import { PlayerSearch } from '@/components/players/PlayerSearch'
 import { ProviderSelector } from '@/components/ProviderSelector'
+import { ChartTranscriber } from '@/components/transcribe/ChartTranscriber'
 import { getCell } from '@/data/ranges'
 import { useChartStore } from '@/stores/chartStore'
 import { POSITIONS, SCENARIOS, type Scenario } from '@/types/poker'
@@ -112,13 +113,26 @@ function App() {
             >
               Players
             </button>
+            <button
+              onClick={() => setTab('transcribe')}
+              className={cn(
+                'px-3 py-1.5 rounded-md text-sm font-medium transition-colors',
+                tab === 'transcribe'
+                  ? 'bg-neutral-800/50 text-white'
+                  : 'text-neutral-500 hover:text-neutral-300'
+              )}
+            >
+              Transcribe
+            </button>
           </nav>
         </div>
       </header>
 
       {/* Main content */}
       <main className="relative z-10 flex-1 p-4 flex flex-col overflow-auto">
-        {tab === 'players' ? (
+        {tab === 'transcribe' ? (
+          <ChartTranscriber />
+        ) : tab === 'players' ? (
           <PlayerSearch />
         ) : (
           <div className="flex-1 flex flex-col gap-6 max-w-4xl mx-auto w-full">

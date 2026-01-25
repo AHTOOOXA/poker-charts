@@ -1,22 +1,31 @@
 #!/bin/bash
 # Save raw leaderboard data to JSON files, then parse separately
-# Usage: ./scrape_raw.sh -s nl10 -m jan -d 1-21
+#
+# Usage:
+#   Rush & Cash:    ./scrape_raw.sh -t rush -s nl10 -m jan -d 1-21
+#   Regular Holdem: ./scrape_raw.sh -t regular -s nl25 -m jan -d 1-21
+#
+# Before running, open the correct page in Playwright browser:
+#   Rush & Cash:    https://www.natural8.com/en/promotions/rush-cash-daily-leaderboard
+#   Regular Holdem: https://www.natural8.com/en/promotions/holdem-daily-leaderboard
+#
+# To find GROUP_ID: inspect iframe src URL, look for groupId=XXXX
 
-DIR="/Users/anton/poker-charts/leaderboards/raw"
-mkdir -p "$DIR"
-
+# Game type: rush or cash
+GAME_TYPE="rush"
 STAKE="nl10"
 MONTH=$(date '+%m')
 YEAR=$(date '+%Y')
 DAY_LIST=(20 19 18 17 16 15 14 13 12 11 10 9 8 7 6 5 4 3 2 1)
 WAIT_TIME=5
-GROUP_ID="1266"  # Jan 2026=1266, Dec 2025=1247
+GROUP_ID=""  # Will be set based on game type
 
 log() { echo "[$(date '+%H:%M:%S')] $1"; }
 
 # Parse args
 while [[ $# -gt 0 ]]; do
     case $1 in
+        -t|--type) GAME_TYPE="$2"; shift 2 ;;
         -s|--stake) STAKE="$2"; shift 2 ;;
         -m|--month)
             case $(echo "$2" | tr '[:upper:]' '[:lower:]') in
@@ -47,20 +56,42 @@ while [[ $# -gt 0 ]]; do
     esac
 done
 
+# Set output directory and group ID based on game type
+if [ "$GAME_TYPE" = "regular" ]; then
+    DIR="/Users/anton/poker-charts/leaderboards/raw-regular"
+    # Default group ID for regular holdem (update as needed for each month)
+    [ -z "$GROUP_ID" ] && GROUP_ID="1269"  # Jan 2026 regular holdem
+else
+    DIR="/Users/anton/poker-charts/leaderboards/raw"
+    # Default group ID for rush & cash
+    [ -z "$GROUP_ID" ] && GROUP_ID="1266"  # Jan 2026 rush & cash
+fi
+mkdir -p "$DIR"
+
 get_blinds() {
     case "$1" in
+        # Micro stakes (cash)
+        nl2)   echo '$0.01/$0.02' ;;
+        nl5)   echo '$0.02/$0.05' ;;
+        # Low stakes (rush + cash)
         nl10)  echo '$0.05/$0.10' ;;
         nl25)  echo '$0.10/$0.25' ;;
         nl50)  echo '$0.25/$0.50' ;;
         nl100) echo '$0.50/$1' ;;
         nl200) echo '$1/$2' ;;
+        # Mid/high stakes (cash)
+        nl500)  echo '$2/$5' ;;
+        nl1000) echo '$5/$10' ;;
+        nl2000) echo '$10/$20' ;;
     esac
 }
 
 BLINDS=$(get_blinds "$STAKE")
 
 log "=== Raw Scraper ==="
+log "Type: $GAME_TYPE"
 log "Stake: $STAKE ($BLINDS)"
+log "Group ID: $GROUP_ID"
 log "Days: ${DAY_LIST[*]}"
 log "Output: $DIR"
 echo ""

@@ -25,6 +25,7 @@ def parse_csv_files(leaderboards_dir: Path) -> list[dict]:
         parts = csv_file.stem.split("-")
         if len(parts) >= 6 and parts[0] == "rush":
             # rush-holdem-nl25-2026-01-18
+            game_type = "rush"
             stake = parts[2]  # nl25
             year = parts[3]   # 2026
             month = parts[4]  # 01
@@ -32,6 +33,7 @@ def parse_csv_files(leaderboards_dir: Path) -> list[dict]:
             date_str = f"{year}-{month}-{day}"
         elif len(parts) >= 5:
             # holdem-nl25-2026-01-18
+            game_type = "regular"
             stake = parts[1]  # nl25
             year = parts[2]   # 2026
             month = parts[3]  # 01
@@ -57,6 +59,7 @@ def parse_csv_files(leaderboards_dir: Path) -> list[dict]:
                             "nickname": nickname,
                             "points": points,
                             "prize": prize,
+                            "game_type": game_type,
                             "file": csv_file.name
                         })
                 except (ValueError, KeyError):
@@ -132,7 +135,18 @@ def build_player_stats(entries: list[dict], latest_date: str) -> list[dict]:
 
     latest_dt = datetime.strptime(latest_date, "%Y-%m-%d")
 
+    def make_game_type_stats():
+        return {
+            "entries": 0,
+            "total_points": 0.0,
+            "total_prize": 0.0,
+            "stakes": defaultdict(int),
+            "points_by_stake": defaultdict(float),
+            "ranks": [],
+        }
+
     players = defaultdict(lambda: {
+        # Unified stats (all game types combined)
         "entries": 0,
         "total_points": 0.0,
         "total_prize": 0.0,
@@ -141,11 +155,18 @@ def build_player_stats(entries: list[dict], latest_date: str) -> list[dict]:
         "dates": [],
         "points_by_date": defaultdict(float),
         "ranks": [],  # all placements for stats
+        # Per-game-type stats
+        "rush": make_game_type_stats(),
+        "regular": make_game_type_stats(),
     })
 
     for entry in entries:
         nick = entry["nickname"]
         p = players[nick]
+        game_type = entry["game_type"]
+        gt = p[game_type]
+
+        # Unified stats
         p["entries"] += 1
         p["total_points"] += entry["points"]
         p["total_prize"] += entry["prize"]
@@ -155,12 +176,50 @@ def build_player_stats(entries: list[dict], latest_date: str) -> list[dict]:
         p["points_by_date"][entry["date"]] += entry["points"]
         p["ranks"].append(entry["rank"])
 
+        # Per-game-type stats
+        gt["entries"] += 1
+        gt["total_points"] += entry["points"]
+        gt["total_prize"] += entry["prize"]
+        gt["stakes"][entry["stake"]] += 1
+        gt["points_by_stake"][entry["stake"]] += entry["points"]
+        gt["ranks"].append(entry["rank"])
+
     # Build final list
     # Hand estimation based on real data:
     # AHTOOOXA: 76.5K hands = 92.7K points = 1.21 pts/hand
     # Most hands are folded (1 pt), only played hands get more
     # Points: Fold=1, Call=3, Bet/Raise=5, capped at 20/hand
     POINTS_PER_HAND = 1.21
+
+    def build_game_type_output(gt_stats: dict) -> dict:
+        """Build output for a game type (rush or cash)."""
+        ranks = gt_stats["ranks"]
+        total_points = gt_stats["total_points"]
+        points_by_stake = dict(gt_stats["points_by_stake"])
+
+        estimated_hands = int(total_points / POINTS_PER_HAND)
+        hands_by_stake = {stake: int(pts / POINTS_PER_HAND) for stake, pts in points_by_stake.items()}
+
+        top1 = sum(1 for r in ranks if r == 1)
+        top3 = sum(1 for r in ranks if r <= 3)
+        top10 = sum(1 for r in ranks if r <= 10)
+        top50 = sum(1 for r in ranks if r <= 50)
+        best_rank = min(ranks) if ranks else 0
+        avg_rank = round(sum(ranks) / len(ranks), 1) if ranks else 0
+
+        return {
+            "entries": gt_stats["entries"],
+            "estimated_hands": estimated_hands,
+            "total_points": round(total_points, 0),
+            "total_prize": round(gt_stats["total_prize"], 2),
+            "hands_by_stake": hands_by_stake,
+            "top1": top1,
+            "top3": top3,
+            "top10": top10,
+            "top50": top50,
+            "best_rank": best_rank,
+            "avg_rank": avg_rank,
+        }
 
     result = []
     for nick, p in players.items():
@@ -216,6 +275,10 @@ def build_player_stats(entries: list[dict], latest_date: str) -> list[dict]:
         best_rank = min(ranks) if ranks else 0
         avg_rank = round(sum(ranks) / len(ranks), 1) if ranks else 0
 
+        # Build game type breakdowns
+        rush_stats = build_game_type_output(p["rush"])
+        regular_stats = build_game_type_output(p["regular"])
+
         result.append({
             "nickname": nick,
             "entries": entries_count,
@@ -243,6 +306,9 @@ def build_player_stats(entries: list[dict], latest_date: str) -> list[dict]:
             "best_rank": best_rank,
             "avg_rank": avg_rank,
             "total_prize": round(total_prize, 2),
+            # Game type breakdowns
+            "rush": rush_stats,
+            "regular": regular_stats,
         })
 
     return result

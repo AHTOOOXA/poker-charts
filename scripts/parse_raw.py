@@ -10,16 +10,25 @@ import json
 import sys
 from pathlib import Path
 
-RAW_DIR = Path(__file__).parent.parent / "leaderboards" / "raw"
+RAW_RUSH_DIR = Path(__file__).parent.parent / "leaderboards" / "raw"
+RAW_REGULAR_DIR = Path(__file__).parent.parent / "leaderboards" / "raw-regular"
 OUT_DIR = Path(__file__).parent.parent / "leaderboards"
 
 # Expected blinds for each stake
 STAKE_BLINDS = {
+    # Micro stakes (cash holdem)
+    "nl2": "$0.01/$0.02",
+    "nl5": "$0.02/$0.05",
+    # Low stakes (rush + cash)
     "nl10": "$0.05/$0.10",
     "nl25": "$0.10/$0.25",
     "nl50": "$0.25/$0.50",
     "nl100": "$0.50/$1",
     "nl200": "$1/$2",
+    # Mid/high stakes (cash holdem)
+    "nl500": "$2/$5",
+    "nl1000": "$5/$10",
+    "nl2000": "$10/$20",
 }
 
 def parse_raw_file(filepath: Path) -> dict:
@@ -85,19 +94,16 @@ def convert_to_csv(parsed: dict, outpath: Path) -> bool:
     return True
 
 
-def main():
-    check_only = "--check-only" in sys.argv
+def process_directory(raw_dir: Path, game_type: str, check_only: bool) -> tuple[int, int, int]:
+    """Process a raw directory and return (valid, invalid, converted) counts."""
+    if not raw_dir.exists():
+        return 0, 0, 0
 
-    if not RAW_DIR.exists():
-        print(f"Raw directory not found: {RAW_DIR}")
-        sys.exit(1)
-
-    raw_files = sorted(RAW_DIR.glob("*.json"))
+    raw_files = sorted(raw_dir.glob("*.json"))
     if not raw_files:
-        print(f"No JSON files found in {RAW_DIR}")
-        sys.exit(1)
+        return 0, 0, 0
 
-    print(f"Found {len(raw_files)} raw files in {RAW_DIR}\n")
+    print(f"\n[{game_type.upper()}] Found {len(raw_files)} raw files in {raw_dir}")
 
     valid = 0
     invalid = 0
@@ -119,22 +125,51 @@ def main():
 
             if not check_only:
                 # Convert to CSV
-                # nl10-2026-01-15.json -> rush-holdem-nl10-2026-01-15.csv
+                # nl10-2026-01-15.json -> rush-holdem-nl10-2026-01-15.csv (rush & cash)
+                # nl10-2026-01-15.json -> holdem-nl10-2026-01-15.csv (regular holdem)
                 parts = filepath.stem.split("-")
                 stake = parts[0]
                 date_parts = "-".join(parts[1:])
-                csv_name = f"rush-holdem-{stake}-{date_parts}.csv"
+
+                if game_type == "rush":
+                    csv_name = f"rush-holdem-{stake}-{date_parts}.csv"
+                else:
+                    csv_name = f"holdem-{stake}-{date_parts}.csv"
+
                 csv_path = OUT_DIR / csv_name
 
                 if convert_to_csv(parsed, csv_path):
                     print(f"    → {csv_name}")
                     converted += 1
 
+    return valid, invalid, converted
+
+
+def main():
+    check_only = "--check-only" in sys.argv
+
+    # Process rush & cash files
+    rush_valid, rush_invalid, rush_converted = process_directory(RAW_RUSH_DIR, "rush", check_only)
+
+    # Process regular holdem files
+    regular_valid, regular_invalid, regular_converted = process_directory(RAW_REGULAR_DIR, "regular", check_only)
+
+    total_valid = rush_valid + regular_valid
+    total_invalid = rush_invalid + regular_invalid
+    total_converted = rush_converted + regular_converted
+    total_files = total_valid + total_invalid
+
+    if total_files == 0:
+        print(f"No JSON files found in {RAW_RUSH_DIR} or {RAW_REGULAR_DIR}")
+        sys.exit(1)
+
     print(f"\n{'='*50}")
-    print(f"Valid: {valid} | Invalid: {invalid} | Total: {len(raw_files)}")
+    print(f"Rush & Cash:    Valid: {rush_valid} | Invalid: {rush_invalid}")
+    print(f"Regular Holdem: Valid: {regular_valid} | Invalid: {regular_invalid}")
+    print(f"Total:          Valid: {total_valid} | Invalid: {total_invalid}")
 
     if not check_only:
-        print(f"Converted: {converted} CSV files to {OUT_DIR}")
+        print(f"Converted: {total_converted} CSV files to {OUT_DIR}")
     else:
         print("(check-only mode, no files written)")
 

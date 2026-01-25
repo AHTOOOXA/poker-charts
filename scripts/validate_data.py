@@ -1,46 +1,48 @@
 #!/usr/bin/env python3
 """
-Validate leaderboard data integrity.
+Validate leaderboard data for parsing/scraping errors.
 
-Checks:
-1. No duplicate entries (same player+date+stake)
-2. CSV and raw JSON consistency
-3. stats.json matches CSV data
-4. Data quality (points ranges, rank sequences, etc.)
-5. Date continuity and coverage
+Detects:
+1. Duplicate files - same content scraped twice (browser didn't update)
+2. Similar adjacent dates - consecutive days with nearly identical data
+3. Duplicate entries - same player twice in one file
+4. Wrong stake - blinds in data don't match filename
+5. Empty/corrupt files - missing or broken data
+6. Raw vs CSV mismatch - parsing lost or added data
+7. Stale data detection - same top players with same points across dates
 
 Usage:
-    python3 scripts/validate_data.py [--fix] [--verbose]
-
-Options:
-    --fix       Auto-fix duplicate entries (keep highest points)
-    --verbose   Show detailed output for all checks
+    python3 scripts/validate_data.py [--verbose]
 """
 
 import csv
 import json
 import sys
 from pathlib import Path
-from collections import defaultdict, Counter
+from collections import defaultdict
 from datetime import datetime, timedelta
-from typing import NamedTuple
 
 # Paths
 SCRIPT_DIR = Path(__file__).parent
 ROOT_DIR = SCRIPT_DIR.parent
 LEADERBOARDS_DIR = ROOT_DIR / "leaderboards"
-RAW_DIR = LEADERBOARDS_DIR / "raw"
+RAW_RUSH_DIR = LEADERBOARDS_DIR / "raw"
+RAW_REGULAR_DIR = LEADERBOARDS_DIR / "raw-regular"
 STATS_FILE = LEADERBOARDS_DIR / "stats.json"
 
-# Constants
-STAKES = ["nl10", "nl25", "nl50", "nl100", "nl200"]
-POINTS_PER_HAND = 1.21
-
-
-class ValidationResult(NamedTuple):
-    passed: bool
-    message: str
-    details: list = []
+# Stake to blinds mapping
+STAKE_BLINDS = {
+    "nl2": "$0.01/$0.02",
+    "nl5": "$0.02/$0.05",
+    "nl10": "$0.05/$0.10",
+    "nl25": "$0.10/$0.25",
+    "nl50": "$0.25/$0.50",
+    "nl100": "$0.50/$1",
+    "nl200": "$1/$2",
+    "nl500": "$2/$5",
+    "nl1000": "$5/$10",
+    "nl2000": "$10/$20",
+}
 
 
 class DataValidator:
@@ -48,8 +50,6 @@ class DataValidator:
         self.verbose = verbose
         self.errors = []
         self.warnings = []
-        self.csv_entries = []
-        self.stats = None
 
     def log(self, msg: str, level: str = "info"):
         if level == "error":
@@ -61,571 +61,507 @@ class DataValidator:
         elif self.verbose or level == "success":
             print(f"  ✓ {msg}")
 
-    def load_csv_data(self) -> list[dict]:
-        """Load all CSV files and return entries."""
-        entries = []
-        csv_files = list(LEADERBOARDS_DIR.glob("rush-holdem-*.csv"))
+    # =========================================================================
+    # LOAD RAW DATA
+    # =========================================================================
 
-        for csv_file in csv_files:
-            parts = csv_file.stem.split("-")
-            if len(parts) >= 6:
-                stake = parts[2]
-                date_str = f"{parts[3]}-{parts[4]}-{parts[5]}"
-            else:
+    def load_raw_files(self) -> dict:
+        """Load all raw JSON files. Returns {(game_type, stake, date): data}"""
+        files = {}
+
+        for raw_dir, game_type in [(RAW_RUSH_DIR, "rush"), (RAW_REGULAR_DIR, "regular")]:
+            if not raw_dir.exists():
                 continue
 
-            try:
-                with open(csv_file, "r", encoding="utf-8") as f:
-                    reader = csv.DictReader(f)
-                    for row in reader:
-                        nickname = row.get("Nickname", "").strip()
-                        points = row.get("Points", "0")
-                        rank = row.get("Rank", "0")
+            for raw_file in raw_dir.glob("*.json"):
+                parts = raw_file.stem.split("-")
+                if len(parts) < 4:
+                    continue
 
-                        if nickname and rank.isdigit() and int(rank) > 0:
-                            entries.append({
-                                "file": csv_file.name,
-                                "date": date_str,
-                                "stake": stake,
-                                "rank": int(rank),
-                                "nickname": nickname,
-                                "points": float(points or 0),
-                            })
-            except Exception as e:
-                self.log(f"Failed to parse {csv_file.name}: {e}", "error")
+                stake = parts[0]
+                date_str = "-".join(parts[1:4])
 
-        return entries
+                try:
+                    with open(raw_file) as f:
+                        response = json.load(f)
 
-    def load_stats(self) -> dict | None:
-        """Load stats.json."""
+                    if not response.get("success"):
+                        continue
+
+                    result = json.loads(response.get("result", "{}"))
+                    data = result.get("data", [])
+                    blinds = result.get("blinds", "")
+
+                    files[(game_type, stake, date_str)] = {
+                        "file": raw_file.name,
+                        "path": raw_file,
+                        "data": data,
+                        "blinds": blinds,
+                        "nicknames": [r["nickname"] for r in data],
+                        "points": {r["nickname"]: float(r["points"]) for r in data},
+                        "top10": [(r["nickname"], float(r["points"])) for r in data[:10]],
+                    }
+                except Exception as e:
+                    self.log(f"{raw_file.name}: failed to parse - {e}", "error")
+
+        return files
+
+    def load_csv_files(self) -> dict:
+        """Load all CSV files. Returns {(game_type, stake, date): data}"""
+        files = {}
+
+        for pattern, game_type, stake_idx, date_start in [
+            ("rush-holdem-*.csv", "rush", 2, 3),
+            ("holdem-nl*.csv", "regular", 1, 2),
+        ]:
+            for csv_file in LEADERBOARDS_DIR.glob(pattern):
+                parts = csv_file.stem.split("-")
+
+                if game_type == "rush" and len(parts) >= 6:
+                    stake = parts[stake_idx]
+                    date_str = f"{parts[date_start]}-{parts[date_start+1]}-{parts[date_start+2]}"
+                elif game_type == "regular" and len(parts) >= 5:
+                    stake = parts[stake_idx]
+                    date_str = f"{parts[date_start]}-{parts[date_start+1]}-{parts[date_start+2]}"
+                else:
+                    continue
+
+                try:
+                    entries = []
+                    with open(csv_file, "r", encoding="utf-8") as f:
+                        reader = csv.DictReader(f)
+                        for row in reader:
+                            nick = row.get("Nickname", "").strip()
+                            pts = float(row.get("Points", 0) or 0)
+                            if nick:
+                                entries.append({"nickname": nick, "points": pts})
+
+                    files[(game_type, stake, date_str)] = {
+                        "file": csv_file.name,
+                        "path": csv_file,
+                        "data": entries,
+                        "nicknames": [e["nickname"] for e in entries],
+                        "points": {e["nickname"]: e["points"] for e in entries},
+                        "top10": [(e["nickname"], e["points"]) for e in entries[:10]],
+                    }
+                except Exception as e:
+                    self.log(f"{csv_file.name}: failed to parse - {e}", "error")
+
+        return files
+
+    # =========================================================================
+    # CHECK 1: DUPLICATE FILES (identical content)
+    # =========================================================================
+
+    def check_duplicate_files(self, raw_files: dict) -> int:
+        """Detect files with identical content (browser didn't refresh)."""
+        print("\n[1] DUPLICATE FILES (identical content)")
+
+        issues = 0
+
+        # Group by game_type + stake
+        by_stake = defaultdict(list)
+        for (game_type, stake, date_str), data in raw_files.items():
+            by_stake[(game_type, stake)].append((date_str, data))
+
+        for (game_type, stake), date_data_list in by_stake.items():
+            sorted_dates = sorted(date_data_list, key=lambda x: x[0])
+
+            # Only check ADJACENT dates (consecutive days)
+            for i in range(1, len(sorted_dates)):
+                date1, data1 = sorted_dates[i - 1]
+                date2, data2 = sorted_dates[i]
+
+                # Check if dates are consecutive
+                try:
+                    dt1 = datetime.strptime(date1, "%Y-%m-%d")
+                    dt2 = datetime.strptime(date2, "%Y-%m-%d")
+                    if (dt2 - dt1).days != 1:
+                        continue
+                except ValueError:
+                    continue
+
+                # Check if ALL nicknames and points are exactly the same (not just top 10)
+                if data1["points"] == data2["points"] and len(data1["points"]) > 50:
+                    label = "Rush" if game_type == "rush" else "Holdem"
+                    self.log(f"[{label}] {stake} {date1} and {date2} have IDENTICAL data - browser didn't update", "error")
+                    issues += 1
+
+        if issues == 0:
+            self.log("No duplicate files detected", "success")
+
+        return issues
+
+    # =========================================================================
+    # CHECK 2: SIMILAR ADJACENT DATES (stale browser data)
+    # =========================================================================
+
+    def check_similar_adjacent_dates(self, raw_files: dict) -> int:
+        """Detect consecutive dates with suspiciously similar data."""
+        print("\n[2] SIMILAR ADJACENT DATES (stale data)")
+
+        issues = 0
+
+        # Group by game_type + stake
+        by_stake = defaultdict(list)
+        for (game_type, stake, date_str), data in raw_files.items():
+            by_stake[(game_type, stake)].append((date_str, data))
+
+        for (game_type, stake), date_data_list in by_stake.items():
+            sorted_dates = sorted(date_data_list, key=lambda x: x[0])
+
+            for i in range(1, len(sorted_dates)):
+                date1, data1 = sorted_dates[i - 1]
+                date2, data2 = sorted_dates[i]
+
+                # Check if dates are consecutive
+                try:
+                    dt1 = datetime.strptime(date1, "%Y-%m-%d")
+                    dt2 = datetime.strptime(date2, "%Y-%m-%d")
+                    if (dt2 - dt1).days != 1:
+                        continue
+                except ValueError:
+                    continue
+
+                # Compare top 10 nicknames
+                top10_1 = [n for n, p in data1["top10"]]
+                top10_2 = [n for n, p in data2["top10"]]
+
+                if top10_1 == top10_2 and len(top10_1) > 5:
+                    # Same order of top 10 - check if points are also very similar
+                    points_match = 0
+                    for (n1, p1), (n2, p2) in zip(data1["top10"], data2["top10"]):
+                        if n1 == n2 and abs(p1 - p2) < 100:  # Within 100 points
+                            points_match += 1
+
+                    if points_match >= 8:  # 8+ of top 10 have nearly same points
+                        label = "Rush" if game_type == "rush" else "Holdem"
+                        self.log(f"[{label}] {stake} {date1} -> {date2}: top 10 nearly identical - browser may not have updated", "error")
+                        issues += 1
+
+        if issues == 0:
+            self.log("No stale adjacent date data detected", "success")
+
+        return issues
+
+    # =========================================================================
+    # CHECK 3: DUPLICATE ENTRIES WITHIN FILE
+    # =========================================================================
+
+    def check_duplicate_entries(self, raw_files: dict) -> int:
+        """Detect same player appearing twice in one file."""
+        print("\n[3] DUPLICATE ENTRIES IN FILES")
+
+        issues = 0
+
+        for (game_type, stake, date_str), data in raw_files.items():
+            nicknames = data["nicknames"]
+            unique = set(nicknames)
+
+            if len(nicknames) != len(unique):
+                dupes = len(nicknames) - len(unique)
+                label = "Rush" if game_type == "rush" else "Holdem"
+                self.log(f"[{label}] {stake} {date_str}: {dupes} duplicate entries", "error")
+                issues += 1
+
+                # Show which players are duplicated
+                if self.verbose:
+                    from collections import Counter
+                    counts = Counter(nicknames)
+                    for nick, count in counts.items():
+                        if count > 1:
+                            self.log(f"    {nick} appears {count} times", "warning")
+
+        if issues == 0:
+            self.log("No duplicate entries in any file", "success")
+
+        return issues
+
+    # =========================================================================
+    # CHECK 4: WRONG STAKE (blinds mismatch)
+    # =========================================================================
+
+    def check_wrong_stake(self, raw_files: dict) -> int:
+        """Detect files where blinds don't match the expected stake."""
+        print("\n[4] WRONG STAKE (blinds mismatch)")
+
+        issues = 0
+
+        for (game_type, stake, date_str), data in raw_files.items():
+            blinds = data.get("blinds", "")
+            expected = STAKE_BLINDS.get(stake, "")
+
+            if blinds and expected and blinds != expected:
+                label = "Rush" if game_type == "rush" else "Holdem"
+                self.log(f"[{label}] {stake} {date_str}: expected {expected}, got {blinds}", "error")
+                issues += 1
+
+        if issues == 0:
+            self.log("All stakes match their blinds", "success")
+
+        return issues
+
+    # =========================================================================
+    # CHECK 5: EMPTY OR CORRUPT FILES
+    # =========================================================================
+
+    def check_empty_files(self, raw_files: dict) -> int:
+        """Detect empty or suspiciously small files."""
+        print("\n[5] EMPTY/CORRUPT FILES")
+
+        issues = 0
+
+        for (game_type, stake, date_str), data in raw_files.items():
+            entries = data["data"]
+            label = "Rush" if game_type == "rush" else "Holdem"
+
+            if len(entries) == 0:
+                self.log(f"[{label}] {stake} {date_str}: EMPTY file (0 entries)", "error")
+                issues += 1
+            elif len(entries) < 50:
+                self.log(f"[{label}] {stake} {date_str}: only {len(entries)} entries (suspiciously low)", "warning")
+
+        if issues == 0:
+            self.log("No empty files detected", "success")
+
+        return issues
+
+    # =========================================================================
+    # CHECK 6: RAW vs CSV MISMATCH
+    # =========================================================================
+
+    def check_raw_csv_mismatch(self, raw_files: dict, csv_files: dict) -> int:
+        """Detect differences between raw JSON and parsed CSV."""
+        print("\n[6] RAW vs CSV PARSING ERRORS")
+
+        issues = 0
+
+        for key, raw_data in raw_files.items():
+            if key not in csv_files:
+                game_type, stake, date_str = key
+                label = "Rush" if game_type == "rush" else "Holdem"
+                self.log(f"[{label}] {stake} {date_str}: raw exists but CSV missing", "error")
+                issues += 1
+                continue
+
+            csv_data = csv_files[key]
+
+            raw_nicks = set(raw_data["nicknames"])
+            csv_nicks = set(csv_data["nicknames"])
+
+            # Players in CSV but not in raw (impossible - parsing error)
+            extra_in_csv = csv_nicks - raw_nicks
+            if extra_in_csv:
+                game_type, stake, date_str = key
+                label = "Rush" if game_type == "rush" else "Holdem"
+                self.log(f"[{label}] {stake} {date_str}: {len(extra_in_csv)} players in CSV but not in raw", "error")
+                issues += 1
+
+            # Significant row count difference
+            raw_count = len(raw_data["nicknames"])
+            csv_count = len(csv_data["nicknames"])
+            if abs(raw_count - csv_count) > 10:
+                game_type, stake, date_str = key
+                label = "Rush" if game_type == "rush" else "Holdem"
+                self.log(f"[{label}] {stake} {date_str}: row count mismatch (raw={raw_count}, csv={csv_count})", "warning")
+
+        if issues == 0:
+            self.log("Raw and CSV files match", "success")
+
+        return issues
+
+    # =========================================================================
+    # CHECK 7: SINGLE ENTRY DUPLICATES ACROSS FILES
+    # =========================================================================
+
+    def check_cross_file_duplicates(self, raw_files: dict) -> int:
+        """Detect if MANY entries have exact same points across consecutive dates - indicates stale data."""
+        print("\n[7] CROSS-FILE STALE DATA CHECK")
+
+        issues = 0
+
+        # Group by game_type + stake
+        by_stake = defaultdict(list)
+        for (game_type, stake, date_str), data in raw_files.items():
+            by_stake[(game_type, stake)].append((date_str, data))
+
+        for (game_type, stake), date_data_list in by_stake.items():
+            sorted_dates = sorted(date_data_list, key=lambda x: x[0])
+
+            # Check consecutive date pairs
+            for i in range(1, len(sorted_dates)):
+                date1, data1 = sorted_dates[i - 1]
+                date2, data2 = sorted_dates[i]
+
+                # Check if dates are consecutive
+                try:
+                    dt1 = datetime.strptime(date1, "%Y-%m-%d")
+                    dt2 = datetime.strptime(date2, "%Y-%m-%d")
+                    if (dt2 - dt1).days != 1:
+                        continue
+                except ValueError:
+                    continue
+
+                # Count how many players have EXACT same points on both days
+                same_points_count = 0
+                common_players = set(data1["points"].keys()) & set(data2["points"].keys())
+
+                for nick in common_players:
+                    if data1["points"][nick] == data2["points"][nick]:
+                        same_points_count += 1
+
+                # If more than 50% of common players have exact same points, suspicious
+                if len(common_players) > 50 and same_points_count > len(common_players) * 0.5:
+                    label = "Rush" if game_type == "rush" else "Holdem"
+                    pct = round(same_points_count / len(common_players) * 100)
+                    self.log(f"[{label}] {stake} {date1} -> {date2}: {pct}% of players have EXACT same points - stale data?", "error")
+                    issues += 1
+
+        if issues == 0:
+            self.log("No stale data patterns detected", "success")
+
+        return issues
+
+    # =========================================================================
+    # CHECK 8: STATS.JSON CONSISTENCY
+    # =========================================================================
+
+    def check_stats_consistency(self, csv_files: dict) -> int:
+        """Verify stats.json matches CSV totals."""
+        print("\n[8] STATS.JSON CONSISTENCY")
+
         if not STATS_FILE.exists():
-            return None
-        with open(STATS_FILE) as f:
-            return json.load(f)
-
-    def check_duplicates(self) -> ValidationResult:
-        """Check for duplicate entries (same player+date+stake)."""
-        print("\n[1] DUPLICATE ENTRIES CHECK")
-
-        by_key = defaultdict(list)
-        for entry in self.csv_entries:
-            key = (entry["date"], entry["stake"], entry["nickname"])
-            by_key[key].append(entry)
-
-        duplicates = {k: v for k, v in by_key.items() if len(v) > 1}
-
-        if duplicates:
-            self.log(f"Found {len(duplicates)} duplicate entries", "error")
-            for (date, stake, nick), entries in list(duplicates.items())[:5]:
-                pts = [e["points"] for e in entries]
-                self.log(f"  {nick} on {date} at {stake}: points={pts}", "error")
-            return ValidationResult(False, f"{len(duplicates)} duplicates found", list(duplicates.keys()))
-
-        self.log(f"No duplicates in {len(self.csv_entries)} entries", "success")
-        return ValidationResult(True, "No duplicates")
-
-    def check_raw_csv_match(self) -> ValidationResult:
-        """Verify raw JSON matches CSV for files that have both."""
-        print("\n[2] RAW JSON vs CSV CONSISTENCY")
-
-        if not RAW_DIR.exists():
-            self.log("No raw directory found, skipping", "warning")
-            return ValidationResult(True, "Skipped - no raw dir")
-
-        mismatches = []
-        checked = 0
-
-        for raw_file in RAW_DIR.glob("*.json"):
-            # nl10-2026-01-06.json -> rush-holdem-nl10-2026-01-06.csv
-            parts = raw_file.stem.split("-")
-            stake = parts[0]
-            date_parts = "-".join(parts[1:])
-            csv_name = f"rush-holdem-{stake}-{date_parts}.csv"
-            csv_file = LEADERBOARDS_DIR / csv_name
-
-            if not csv_file.exists():
-                continue
-
-            checked += 1
-
-            # Load raw data
-            try:
-                with open(raw_file) as f:
-                    response = json.load(f)
-                result = json.loads(response.get("result", "{}"))
-                raw_data = result.get("data", [])
-            except Exception as e:
-                self.log(f"Failed to parse {raw_file.name}: {e}", "error")
-                continue
-
-            # Load CSV data
-            csv_data = []
-            with open(csv_file) as f:
-                reader = csv.DictReader(f)
-                for row in reader:
-                    csv_data.append({
-                        "rank": int(row["Rank"]),
-                        "nickname": row["Nickname"],
-                        "points": float(row["Points"]),
-                    })
-
-            # Compare counts
-            raw_unique = len(set(r["nickname"] for r in raw_data))
-            csv_unique = len(set(r["nickname"] for r in csv_data))
-
-            # CSV should have deduplicated data (unique = total)
-            if len(csv_data) != csv_unique:
-                mismatches.append(f"{csv_name}: CSV has duplicates ({len(csv_data)} rows, {csv_unique} unique)")
-
-        if mismatches:
-            for m in mismatches[:5]:
-                self.log(m, "error")
-            return ValidationResult(False, f"{len(mismatches)} mismatches", mismatches)
-
-        self.log(f"Checked {checked} raw/CSV pairs, all consistent", "success")
-        return ValidationResult(True, f"{checked} files verified")
-
-    def check_stats_consistency(self) -> ValidationResult:
-        """Verify stats.json matches CSV data."""
-        print("\n[3] STATS.JSON CONSISTENCY")
-
-        if not self.stats:
-            self.log("stats.json not found", "error")
-            return ValidationResult(False, "No stats.json")
-
-        issues = []
-        summary = self.stats["summary"]
-        players = {p["nickname"]: p for p in self.stats["players"]}
-
-        # Check total entries
-        if len(self.csv_entries) != summary["total_entries"]:
-            issues.append(f"Entry count: CSV={len(self.csv_entries)}, stats={summary['total_entries']}")
-
-        # Check unique players
-        csv_players = set(e["nickname"] for e in self.csv_entries)
-        if len(csv_players) != summary["unique_players"]:
-            issues.append(f"Player count: CSV={len(csv_players)}, stats={summary['unique_players']}")
-
-        # Spot check a few players
-        player_entries = defaultdict(lambda: {"entries": 0, "points": 0, "stakes": defaultdict(int), "dates": set()})
-        for e in self.csv_entries:
-            pe = player_entries[e["nickname"]]
-            pe["entries"] += 1
-            pe["points"] += e["points"]
-            pe["stakes"][e["stake"]] += 1
-            pe["dates"].add(e["date"])
-
-        # Check first 10 players
-        for nick in list(players.keys())[:10]:
-            if nick not in player_entries:
-                issues.append(f"Player {nick} in stats but not in CSV")
-                continue
-
-            csv_pe = player_entries[nick]
-            stats_pe = players[nick]
-
-            if csv_pe["entries"] != stats_pe["entries"]:
-                issues.append(f"{nick}: entries CSV={csv_pe['entries']}, stats={stats_pe['entries']}")
-
-            if abs(csv_pe["points"] - stats_pe["total_points"]) > 1:
-                issues.append(f"{nick}: points CSV={csv_pe['points']:.0f}, stats={stats_pe['total_points']:.0f}")
-
-            if len(csv_pe["dates"]) != stats_pe["days_active"]:
-                issues.append(f"{nick}: days CSV={len(csv_pe['dates'])}, stats={stats_pe['days_active']}")
-
-        if issues:
-            for issue in issues[:10]:
-                self.log(issue, "error")
-            return ValidationResult(False, f"{len(issues)} inconsistencies", issues)
-
-        self.log("stats.json matches CSV data", "success")
-        return ValidationResult(True, "Consistent")
-
-    def check_data_quality(self) -> ValidationResult:
-        """Check data quality: points ranges, ranks, etc."""
-        print("\n[4] DATA QUALITY CHECK")
-
-        issues = []
-
-        # Group by file
-        by_file = defaultdict(list)
-        for e in self.csv_entries:
-            by_file[e["file"]].append(e)
-
-        for fname, entries in by_file.items():
-            entries_sorted = sorted(entries, key=lambda x: x["rank"])
-
-            # Check for rank gaps
-            ranks = [e["rank"] for e in entries_sorted]
-            for i in range(1, len(ranks)):
-                gap = ranks[i] - ranks[i - 1]
-                if gap > 5:  # Allow small gaps
-                    issues.append(f"{fname}: rank gap {ranks[i-1]} -> {ranks[i]}")
-
-            # Check points are roughly decreasing
-            points = [e["points"] for e in entries_sorted]
-            increases = 0
-            for i in range(1, len(points)):
-                if points[i] > points[i - 1] * 1.1:  # 10% tolerance
-                    increases += 1
-
-            if increases > 2:
-                issues.append(f"{fname}: {increases} significant points increases (expected monotonic decrease)")
-
-            # Check for zero/negative points
-            zero_pts = sum(1 for p in points if p <= 0)
-            if zero_pts > 0:
-                issues.append(f"{fname}: {zero_pts} entries with zero/negative points")
-
-            # Check for suspiciously low points (min should be > 1000 typically)
-            if min(points) < 100:
-                issues.append(f"{fname}: suspiciously low min points: {min(points)}")
-
-        if issues:
-            for issue in issues[:10]:
-                self.log(issue, "warning")
-            return ValidationResult(len(issues) < 5, f"{len(issues)} quality issues", issues)
-
-        self.log("Data quality looks good", "success")
-        return ValidationResult(True, "Good quality")
-
-    def check_date_coverage(self) -> ValidationResult:
-        """Check for gaps in date coverage."""
-        print("\n[5] DATE COVERAGE CHECK")
-
-        dates = set()
-        stakes_by_date = defaultdict(set)
-
-        for e in self.csv_entries:
-            dates.add(e["date"])
-            stakes_by_date[e["date"]].add(e["stake"])
-
-        dates_sorted = sorted(dates)
-
-        if not dates_sorted:
-            self.log("No dates found", "error")
-            return ValidationResult(False, "No data")
-
-        issues = []
-
-        # Check for date gaps
-        date_objs = [datetime.strptime(d, "%Y-%m-%d") for d in dates_sorted]
-        for i in range(1, len(date_objs)):
-            gap = (date_objs[i] - date_objs[i - 1]).days
-            if gap > 1:
-                issues.append(f"Gap: {dates_sorted[i-1]} to {dates_sorted[i]} ({gap} days)")
-
-        # Check each date has all stakes
-        for date in dates_sorted:
-            missing = set(STAKES) - stakes_by_date[date]
-            if missing:
-                issues.append(f"{date}: missing stakes {missing}")
-
-        if issues:
-            for issue in issues[:10]:
-                self.log(issue, "warning")
-
-        self.log(f"Coverage: {dates_sorted[0]} to {dates_sorted[-1]} ({len(dates_sorted)} days)", "success")
-        return ValidationResult(len(issues) == 0, f"{len(dates_sorted)} days", issues)
-
-    def check_player_stats(self) -> ValidationResult:
-        """Verify player-level statistics."""
-        print("\n[6] PLAYER STATISTICS CHECK")
-
-        if not self.stats:
-            return ValidationResult(True, "Skipped - no stats")
-
-        issues = []
-        players = self.stats["players"]
-
-        for p in players[:50]:  # Check first 50
-            # Stake sum should equal entries
-            stake_sum = sum(p["stakes"].values())
-            if stake_sum != p["entries"]:
-                issues.append(f"{p['nickname']}: stake sum {stake_sum} != entries {p['entries']}")
-
-            # Days active should equal len(dates)
-            if len(p["dates"]) != p["days_active"]:
-                issues.append(f"{p['nickname']}: dates len {len(p['dates'])} != days_active {p['days_active']}")
-
-            # Hands estimation check
-            expected_hands = int(p["total_points"] / POINTS_PER_HAND)
-            if expected_hands != p["estimated_hands"]:
-                issues.append(f"{p['nickname']}: hands calc {expected_hands} != {p['estimated_hands']}")
-
-            # Activity rate should be <= 1
-            if p["activity_rate"] > 1.0 or p["activity_rate"] < 0:
-                issues.append(f"{p['nickname']}: invalid activity_rate {p['activity_rate']}")
-
-            # first_seen should be dates[0]
-            if p["dates"] and p["dates"][0] != p["first_seen"]:
-                issues.append(f"{p['nickname']}: first_seen mismatch")
-
-            # last_seen should be dates[-1]
-            if p["dates"] and p["dates"][-1] != p["last_seen"]:
-                issues.append(f"{p['nickname']}: last_seen mismatch")
-
-        if issues:
-            for issue in issues[:10]:
-                self.log(issue, "error")
-            return ValidationResult(False, f"{len(issues)} stat issues", issues)
-
-        self.log("Player statistics verified", "success")
-        return ValidationResult(True, "Stats correct")
-
-    def check_raw_data_quality(self) -> ValidationResult:
-        """Check raw JSON files for issues (duplicates, ordering)."""
-        print("\n[7] RAW DATA QUALITY CHECK")
-
-        if not RAW_DIR.exists():
-            self.log("No raw directory, skipping", "warning")
-            return ValidationResult(True, "Skipped")
-
-        issues = []
-
-        for raw_file in sorted(RAW_DIR.glob("*.json")):
-            try:
-                with open(raw_file) as f:
-                    response = json.load(f)
-                result = json.loads(response.get("result", "{}"))
-                data = result.get("data", [])
-            except Exception:
-                issues.append(f"{raw_file.name}: failed to parse")
-                continue
-
-            if not data:
-                continue
-
-            # Check for duplicates in raw data
-            nicknames = [r["nickname"] for r in data]
-            unique = len(set(nicknames))
-            if len(nicknames) != unique:
-                dupes = len(nicknames) - unique
-                issues.append(f"{raw_file.name}: {dupes} duplicate entries in raw data")
-
-            # Check for significant points ordering issues
-            points = [float(r["points"]) for r in data]
-            increases = sum(1 for i in range(1, len(points)) if points[i] > points[i-1] * 1.05)
-            if increases > 5:
-                issues.append(f"{raw_file.name}: {increases} points increases (rank/points mismatch)")
-
-        if issues:
-            for issue in issues[:10]:
-                self.log(issue, "warning")
-            return ValidationResult(True, f"{len(issues)} raw file issues (warnings)", issues)
-
-        self.log(f"All {len(list(RAW_DIR.glob('*.json')))} raw files look clean", "success")
-        return ValidationResult(True, "Raw data OK")
-
-    def check_reg_type_counts(self) -> ValidationResult:
-        """Verify reg type counts match."""
-        print("\n[8] REG TYPE COUNTS CHECK")
-
-        if not self.stats:
-            return ValidationResult(True, "Skipped - no stats")
-
-        computed = defaultdict(int)
-        for p in self.stats["players"]:
-            computed[p["reg_type"]] += 1
-
-        stored = self.stats["summary"]["reg_counts"]
-
-        if dict(computed) != stored:
-            self.log(f"Mismatch: computed={dict(computed)}, stored={stored}", "error")
-            return ValidationResult(False, "Reg type mismatch")
-
-        self.log(f"Reg types: {dict(computed)}", "success")
-        return ValidationResult(True, "Counts match")
-
-    def fix_duplicates(self) -> int:
-        """Fix duplicate entries by keeping highest points."""
-        print("\n[FIX] Removing duplicates...")
-
-        # Find files with duplicates
-        by_file = defaultdict(list)
-        for e in self.csv_entries:
-            by_file[(e["file"], e["date"], e["stake"])].append(e)
-
-        fixed_count = 0
-
-        for (fname, date, stake), entries in by_file.items():
-            # Group by nickname
-            by_nick = defaultdict(list)
-            for e in entries:
-                by_nick[e["nickname"]].append(e)
-
-            dupes = {k: v for k, v in by_nick.items() if len(v) > 1}
-            if not dupes:
-                continue
-
-            # Deduplicate: keep highest points
-            deduped = []
-            for nick, nick_entries in by_nick.items():
-                best = max(nick_entries, key=lambda x: x["points"])
-                deduped.append(best)
-
-            # Sort by points descending, reassign ranks
-            deduped.sort(key=lambda x: -x["points"])
-            for i, entry in enumerate(deduped):
-                entry["rank"] = i + 1
-
-            # Write fixed CSV
-            csv_path = LEADERBOARDS_DIR / fname
-            with open(csv_path, "w") as f:
-                f.write("Rank,Nickname,Points,Prize\n")
-                for entry in deduped:
-                    nick = entry["nickname"].replace(",", " ")
-                    f.write(f"{entry['rank']},{nick},{entry['points']:.2f},\n")
-
-            fixed_count += len(dupes)
-            print(f"  Fixed {fname}: removed {len(dupes)} duplicates")
-
-        return fixed_count
-
-    def fix_from_raw(self) -> int:
-        """Regenerate CSVs from raw JSON with deduplication and proper sorting."""
-        print("\n[FIX] Regenerating CSVs from raw data...")
-
-        if not RAW_DIR.exists():
-            print("  No raw directory found")
+            self.log("stats.json not found - run build_leaderboard_stats.py", "warning")
             return 0
 
-        fixed_count = 0
+        issues = 0
 
-        for raw_file in sorted(RAW_DIR.glob("*.json")):
-            try:
-                with open(raw_file) as f:
-                    response = json.load(f)
-                result = json.loads(response.get("result", "{}"))
-                data = result.get("data", [])
-            except Exception:
+        with open(STATS_FILE) as f:
+            stats = json.load(f)
+
+        # Count CSV entries
+        csv_total = sum(len(data["data"]) for data in csv_files.values())
+        stats_total = stats["summary"]["total_entries"]
+
+        if csv_total != stats_total:
+            self.log(f"Entry count mismatch: CSV has {csv_total}, stats.json has {stats_total}", "error")
+            issues += 1
+        else:
+            self.log(f"Entry counts match: {csv_total}", "success")
+
+        return issues
+
+    # =========================================================================
+    # CHECK 9: DATE COVERAGE
+    # =========================================================================
+
+    def check_date_coverage(self, raw_files: dict) -> int:
+        """Check for missing dates or stakes."""
+        print("\n[9] DATE COVERAGE")
+
+        issues = 0
+        stakes = ["nl2", "nl5", "nl10", "nl25", "nl50", "nl100", "nl200"]
+
+        for game_type in ["rush", "regular"]:
+            dates_by_stake = defaultdict(set)
+
+            for (gt, stake, date_str), data in raw_files.items():
+                if gt == game_type:
+                    dates_by_stake[stake].add(date_str)
+
+            if not dates_by_stake:
                 continue
 
-            if not data:
+            label = "Rush & Cash" if game_type == "rush" else "Hold'em"
+
+            # Find date range
+            all_dates = set()
+            for dates in dates_by_stake.values():
+                all_dates.update(dates)
+
+            if not all_dates:
                 continue
 
-            # Check if this file needs fixing
-            nicknames = [r["nickname"] for r in data]
-            has_dupes = len(nicknames) != len(set(nicknames))
+            sorted_dates = sorted(all_dates)
+            self.log(f"{label}: {sorted_dates[0]} to {sorted_dates[-1]}", "success")
 
-            points = [float(r["points"]) for r in data]
-            increases = sum(1 for i in range(1, len(points)) if points[i] > points[i-1] * 1.05)
-            needs_sort = increases > 5
+            # Check for gaps
+            date_objs = [datetime.strptime(d, "%Y-%m-%d") for d in sorted_dates]
+            for i in range(1, len(date_objs)):
+                gap = (date_objs[i] - date_objs[i-1]).days
+                if gap > 1:
+                    self.log(f"[{label}] Gap: {sorted_dates[i-1]} to {sorted_dates[i]} ({gap} days)", "warning")
+                    issues += 1
 
-            if not has_dupes and not needs_sort:
-                continue
+            # Check missing stakes per date
+            for date_str in sorted_dates:
+                missing = []
+                for stake in stakes:
+                    if date_str not in dates_by_stake.get(stake, set()):
+                        missing.append(stake)
+                if missing:
+                    self.log(f"[{label}] {date_str}: missing {missing}", "warning")
+                    issues += 1
 
-            # Dedupe: keep highest points per nickname
-            by_nick = {}
-            for row in data:
-                nick = row["nickname"]
-                pts = float(row["points"])
-                if nick not in by_nick or pts > float(by_nick[nick]["points"]):
-                    by_nick[nick] = row
+        return issues
 
-            # Sort by points descending and reassign ranks
-            deduped = sorted(by_nick.values(), key=lambda x: -float(x["points"]))
-            for i, row in enumerate(deduped):
-                row["rank"] = i + 1
+    # =========================================================================
+    # RUN ALL CHECKS
+    # =========================================================================
 
-            # Write CSV
-            parts = raw_file.stem.split("-")
-            stake = parts[0]
-            date_parts = "-".join(parts[1:])
-            csv_name = f"rush-holdem-{stake}-{date_parts}.csv"
-            csv_path = LEADERBOARDS_DIR / csv_name
-
-            with open(csv_path, "w") as f:
-                f.write("Rank,Nickname,Points,Prize\n")
-                for row in deduped:
-                    nick = row["nickname"].replace(",", " ")
-                    f.write(f"{row['rank']},{nick},{row['points']},{row.get('prize', '')}\n")
-
-            fixed_count += 1
-            action = []
-            if has_dupes:
-                action.append(f"deduped {len(data) - len(deduped)}")
-            if needs_sort:
-                action.append("re-sorted")
-            print(f"  {csv_name}: {', '.join(action)}")
-
-        return fixed_count
-
-    def run(self, fix: bool = False) -> bool:
+    def run(self) -> bool:
         """Run all validation checks."""
-        print("=" * 60)
+        print("=" * 70)
         print("LEADERBOARD DATA VALIDATION")
-        print("=" * 60)
+        print("=" * 70)
 
         # Load data
-        print("\nLoading data...")
-        self.csv_entries = self.load_csv_data()
-        self.stats = self.load_stats()
-        print(f"  Loaded {len(self.csv_entries)} CSV entries")
-        print(f"  Stats file: {'found' if self.stats else 'not found'}")
+        print("\nLoading raw files...")
+        raw_files = self.load_raw_files()
+        print(f"  Loaded {len(raw_files)} raw files")
 
-        # Run checks
-        results = [
-            self.check_duplicates(),
-            self.check_raw_csv_match(),
-            self.check_stats_consistency(),
-            self.check_data_quality(),
-            self.check_date_coverage(),
-            self.check_player_stats(),
-            self.check_raw_data_quality(),
-            self.check_reg_type_counts(),
-        ]
+        print("Loading CSV files...")
+        csv_files = self.load_csv_files()
+        print(f"  Loaded {len(csv_files)} CSV files")
 
-        # Fix if requested
-        if fix:
-            needs_fix = not results[0].passed or (results[6].details if len(results) > 6 else [])
-            if needs_fix:
-                # Try fixing from raw first (handles both dupes and sorting)
-                fixed_raw = self.fix_from_raw()
-                if fixed_raw:
-                    print(f"\nFixed {fixed_raw} files from raw data.")
-                else:
-                    # Fall back to CSV-only fix
-                    fixed_csv = self.fix_duplicates()
-                    if fixed_csv:
-                        print(f"\nFixed {fixed_csv} duplicate entries.")
-                print("Re-run validation to verify.")
-                print("Also run: python3 scripts/build_leaderboard_stats.py")
+        # Critical checks (parsing/scraping errors)
+        critical_issues = 0
+        critical_issues += self.check_duplicate_files(raw_files)
+        critical_issues += self.check_similar_adjacent_dates(raw_files)
+        critical_issues += self.check_duplicate_entries(raw_files)
+        critical_issues += self.check_wrong_stake(raw_files)
+        critical_issues += self.check_empty_files(raw_files)
+        critical_issues += self.check_raw_csv_mismatch(raw_files, csv_files)
+        critical_issues += self.check_cross_file_duplicates(raw_files)
+        critical_issues += self.check_stats_consistency(csv_files)
+        self.check_date_coverage(raw_files)
 
         # Summary
-        print("\n" + "=" * 60)
+        print("\n" + "=" * 70)
         print("VALIDATION SUMMARY")
-        print("=" * 60)
+        print("=" * 70)
 
-        passed = sum(1 for r in results if r.passed)
-        total = len(results)
-
-        print(f"Passed: {passed}/{total}")
-        print(f"Errors: {len(self.errors)}")
+        print(f"\nCritical errors: {len(self.errors)}")
         print(f"Warnings: {len(self.warnings)}")
 
         if self.errors:
-            print("\nErrors:")
-            for e in self.errors[:10]:
-                print(f"  ✗ {e}")
+            print("\n❌ ERRORS (re-scrape needed):")
+            for e in self.errors[:20]:
+                print(f"   {e}")
 
-        if passed == total and not self.errors:
-            print("\n✅ ALL CHECKS PASSED!")
+        if not self.errors:
+            print("\n✅ NO CRITICAL ERRORS - Data looks good!")
             return True
-        elif self.errors:
-            print("\n❌ VALIDATION FAILED")
-            return False
         else:
-            print("\n⚠️ PASSED WITH WARNINGS")
-            return True
+            print(f"\n❌ VALIDATION FAILED - {len(self.errors)} errors need re-scraping")
+            return False
 
 
 def main():
-    fix = "--fix" in sys.argv
     verbose = "--verbose" in sys.argv or "-v" in sys.argv
 
     validator = DataValidator(verbose=verbose)
-    success = validator.run(fix=fix)
+    success = validator.run()
 
     sys.exit(0 if success else 1)
 

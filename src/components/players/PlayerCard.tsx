@@ -1,17 +1,22 @@
 import { useState } from 'react'
 import { cn } from '@/lib/utils'
 import { RegTypeBadge } from './RegTypeBadge'
-import type { PlayerStats, Stake } from '@/types/player'
+import type { PlayerStats, Stake, GameTypeStats } from '@/types/player'
 import { STAKE_LABELS, STAKES } from '@/types/player'
 import { getDatesCovered } from '@/data/players'
 import { Copy, Check, Trophy } from 'lucide-react'
 
 const STAKE_COLORS: Record<Stake, string> = {
+  nl2: 'bg-slate-400',
+  nl5: 'bg-teal-500',
   nl10: 'bg-emerald-500',
   nl25: 'bg-blue-500',
   nl50: 'bg-violet-500',
   nl100: 'bg-amber-500',
   nl200: 'bg-red-500',
+  nl500: 'bg-rose-600',
+  nl1000: 'bg-pink-600',
+  nl2000: 'bg-fuchsia-600',
 }
 
 // Format large numbers: 271750 -> "272K", 1500 -> "1.5K", 500 -> "500"
@@ -71,20 +76,6 @@ export function PlayerCard({ player }: PlayerCardProps) {
   const [copied, setCopied] = useState(false)
   const allDates = getDatesCovered()
 
-  // Calculate stake hands with percentages
-  const stakeHands = STAKES.map(stake => ({
-    stake,
-    hands: player.hands_by_stake[stake] ?? 0,
-  })).filter(e => e.hands > 0)
-
-  const totalStakeHands = stakeHands.reduce((sum, e) => sum + e.hands, 0)
-
-  const stakesWithPct = stakeHands.map(({ stake, hands }) => ({
-    stake,
-    hands,
-    pct: Math.round((hands / totalStakeHands) * 100),
-  }))
-
   // Hands per day
   const handsPerDay = player.days_active > 0
     ? Math.round(player.estimated_hands / player.days_active)
@@ -138,24 +129,10 @@ export function PlayerCard({ player }: PlayerCardProps) {
         </Section>
       </div>
 
-      {/* Row 2: Stakes + Placements */}
+      {/* Row 2: Stakes + Placements (unified) */}
       <div className="grid grid-cols-2 gap-3 mb-3">
         <Section title="Stakes">
-          <div className="space-y-1.5">
-            {stakesWithPct.map(({ stake, hands, pct }) => (
-              <div key={stake} className="flex items-center gap-2">
-                <span className="text-xs text-neutral-500 w-10 shrink-0">{STAKE_LABELS[stake]}</span>
-                <div className="flex-1 h-1.5 bg-neutral-800 rounded-full overflow-hidden">
-                  <div
-                    className={cn('h-full rounded-full', STAKE_COLORS[stake])}
-                    style={{ width: `${pct}%` }}
-                  />
-                </div>
-                <span className="text-xs text-neutral-400 w-10 text-right tabular-nums">{formatNumber(hands)}</span>
-                <span className="text-xs text-neutral-600 w-8 text-right tabular-nums">{pct}%</span>
-              </div>
-            ))}
-          </div>
+          <StakesBreakdown handsByStake={player.hands_by_stake} />
         </Section>
 
         <Section title="Placements">
@@ -170,6 +147,18 @@ export function PlayerCard({ player }: PlayerCardProps) {
           <StatRow label="Prize" value={`$${Math.round(player.total_prize)}`} />
         </Section>
       </div>
+
+      {/* Row 3: Rush & Cash / Hold'em split */}
+      {(player.rush.estimated_hands > 0 || player.regular.estimated_hands > 0) && (
+        <div className="grid grid-cols-2 gap-3 mb-3">
+          {player.rush.estimated_hands > 0 && (
+            <GameTypeSection title="Rush & Cash" stats={player.rush} />
+          )}
+          {player.regular.estimated_hands > 0 && (
+            <GameTypeSection title="Hold'em" stats={player.regular} />
+          )}
+        </div>
+      )}
 
       {/* Row 3: Timeline */}
       <Section title="Timeline" subtitle={`${formatDate(player.first_seen)} → ${formatDate(player.last_seen)}`}>
@@ -255,6 +244,91 @@ function Medal({ place, count, label }: { place: 1 | 2 | 3; count: number; label
       <span className="text-xs text-neutral-400 tabular-nums">{count}</span>
       <span className="text-[9px] text-neutral-600">{labels[place]}</span>
     </div>
+  )
+}
+
+// Stakes breakdown bar chart
+function StakesBreakdown({ handsByStake }: { handsByStake: Partial<Record<Stake, number>> }) {
+  const stakeHands = STAKES.map(stake => ({
+    stake,
+    hands: handsByStake[stake] ?? 0,
+  })).filter(e => e.hands > 0)
+
+  const totalHands = stakeHands.reduce((sum, e) => sum + e.hands, 0)
+
+  const stakesWithPct = stakeHands.map(({ stake, hands }) => ({
+    stake,
+    hands,
+    pct: Math.round((hands / totalHands) * 100),
+  }))
+
+  return (
+    <div className="space-y-1.5">
+      {stakesWithPct.map(({ stake, hands, pct }) => (
+        <div key={stake} className="flex items-center gap-2">
+          <span className="text-xs text-neutral-500 w-10 shrink-0">{STAKE_LABELS[stake]}</span>
+          <div className="flex-1 h-1.5 bg-neutral-800 rounded-full overflow-hidden">
+            <div
+              className={cn('h-full rounded-full', STAKE_COLORS[stake])}
+              style={{ width: `${pct}%` }}
+            />
+          </div>
+          <span className="text-xs text-neutral-400 w-10 text-right tabular-nums">{formatNumber(hands)}</span>
+          <span className="text-xs text-neutral-600 w-8 text-right tabular-nums">{pct}%</span>
+        </div>
+      ))}
+    </div>
+  )
+}
+
+// Game type section (Rush or Cash)
+function GameTypeSection({ title, stats }: { title: string; stats: GameTypeStats }) {
+  // Calculate stake hands with percentages for this game type
+  const stakeHands = STAKES.map(stake => ({
+    stake,
+    hands: stats.hands_by_stake[stake] ?? 0,
+  })).filter(e => e.hands > 0)
+
+  const totalStakeHands = stakeHands.reduce((sum, e) => sum + e.hands, 0)
+
+  const stakesWithPct = stakeHands.map(({ stake, hands }) => ({
+    stake,
+    pct: Math.round((hands / totalStakeHands) * 100),
+  }))
+
+  return (
+    <Section title={title}>
+      {/* Volume row */}
+      <div className="flex items-baseline gap-3 mb-2">
+        <span className="text-xs text-neutral-200 tabular-nums">{formatNumber(stats.estimated_hands)}</span>
+        <span className="text-[10px] text-neutral-500">hands</span>
+        <span className="text-xs text-neutral-400 tabular-nums ml-auto">${Math.round(stats.total_prize)}</span>
+      </div>
+
+      {/* Stakes breakdown - compact */}
+      <div className="space-y-1 mb-2">
+        {stakesWithPct.map(({ stake, pct }) => (
+          <div key={stake} className="flex items-center gap-1.5">
+            <span className="text-[10px] text-neutral-500 w-8 shrink-0">{STAKE_LABELS[stake]}</span>
+            <div className="flex-1 h-1 bg-neutral-800 rounded-full overflow-hidden">
+              <div
+                className={cn('h-full rounded-full', STAKE_COLORS[stake])}
+                style={{ width: `${pct}%` }}
+              />
+            </div>
+            <span className="text-[10px] text-neutral-500 w-6 text-right tabular-nums">{pct}%</span>
+          </div>
+        ))}
+      </div>
+
+      {/* Placements row - compact medals */}
+      <div className="flex items-center gap-2">
+        <Medal place={1} count={stats.top1} />
+        <Medal place={2} count={stats.top3 - stats.top1} />
+        <Medal place={3} count={stats.top10 - stats.top3} label="4-10" />
+        <span className="text-[10px] text-neutral-600 ml-auto">best: {formatRank(stats.best_rank)}</span>
+      </div>
+    </Section>
   )
 }
 

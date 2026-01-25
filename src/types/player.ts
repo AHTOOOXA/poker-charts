@@ -1,15 +1,20 @@
 export type RegType = 'grinder' | 'regular' | 'casual' | 'new' | 'inactive'
 
-export type Stake = 'nl10' | 'nl25' | 'nl50' | 'nl100' | 'nl200'
+export type Stake = 'nl2' | 'nl5' | 'nl10' | 'nl25' | 'nl50' | 'nl100' | 'nl200' | 'nl500' | 'nl1000' | 'nl2000'
 
-export const STAKES: Stake[] = ['nl10', 'nl25', 'nl50', 'nl100', 'nl200']
+export const STAKES: Stake[] = ['nl2', 'nl5', 'nl10', 'nl25', 'nl50', 'nl100', 'nl200', 'nl500', 'nl1000', 'nl2000']
 
 export const STAKE_LABELS: Record<Stake, string> = {
+  nl2: 'NL2',
+  nl5: 'NL5',
   nl10: 'NL10',
   nl25: 'NL25',
   nl50: 'NL50',
   nl100: 'NL100',
   nl200: 'NL200',
+  nl500: 'NL500',
+  nl1000: 'NL1K',
+  nl2000: 'NL2K',
 }
 
 export const REG_TYPES: RegType[] = ['grinder', 'regular', 'casual', 'new', 'inactive']
@@ -20,6 +25,22 @@ export const REG_TYPE_LABELS: Record<RegType, string> = {
   casual: 'Casual',
   new: 'New',
   inactive: 'Inactive',
+}
+
+// Game type breakdown (used for both rush and cash)
+export interface GameTypeStats {
+  entries: number
+  estimated_hands: number
+  total_points: number
+  total_prize: number
+  hands_by_stake: Partial<Record<Stake, number>>
+  // Placements
+  top1: number
+  top3: number
+  top10: number
+  top50: number
+  best_rank: number
+  avg_rank: number
 }
 
 export interface PlayerStats {
@@ -49,6 +70,9 @@ export interface PlayerStats {
   best_rank: number
   avg_rank: number
   total_prize: number
+  // Game type breakdowns
+  rush: GameTypeStats
+  regular: GameTypeStats
 }
 
 export interface StatsData {
