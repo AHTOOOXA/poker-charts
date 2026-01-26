@@ -14,10 +14,6 @@ type ChartState = {
   // Villain position
   villain: Position | null
   setVillain: (v: Position | null) => void
-
-  // UI state - which tab we're on
-  tab: 'charts' | 'leaderboard' | 'transcribe' | 'analyze'
-  setTab: (t: 'charts' | 'leaderboard' | 'transcribe' | 'analyze') => void
 }
 
 export const useChartStore = create(
@@ -31,9 +27,6 @@ export const useChartStore = create(
 
       villain: null,
       setVillain: (villain) => set({ villain }),
-
-      tab: 'charts',
-      setTab: (tab) => set({ tab }),
     }),
     { name: 'poker-chart' }
   )
