@@ -81,14 +81,11 @@ function App() {
       {/* Header */}
       <header className="relative z-10 px-4 py-3 border-b border-neutral-800/50 bg-neutral-950/80 backdrop-blur-md">
         <div className="flex items-center justify-between">
-          <div className="flex items-center gap-3">
-            <h1 className="text-base font-semibold tracking-wide">
-              <span className="bg-gradient-to-r from-neutral-200 to-neutral-400 bg-clip-text text-transparent">
-                Poker Charts
-              </span>
-            </h1>
-            <ProviderSelector />
-          </div>
+          <h1 className="text-base font-semibold tracking-wide">
+            <span className="bg-gradient-to-r from-neutral-200 to-neutral-400 bg-clip-text text-transparent">
+              Poker Charts
+            </span>
+          </h1>
 
           {/* Navigation tabs */}
           <nav className="flex gap-1">
@@ -150,8 +147,11 @@ function App() {
           <LeaderboardPage />
         ) : (
           <div className="flex-1 flex flex-col gap-6 max-w-4xl mx-auto w-full">
-            {/* Position selectors */}
-            <ChartControls />
+            {/* Provider + Position selectors */}
+            <div className="flex flex-col items-center gap-4">
+              <ProviderSelector />
+              <ChartControls />
+            </div>
 
             {/* Charts grid - 2 columns */}
             <div className="grid grid-cols-2 gap-6">

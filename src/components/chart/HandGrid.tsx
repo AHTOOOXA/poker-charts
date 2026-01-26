@@ -21,19 +21,33 @@ interface HandCellProps {
   hand: Hand
   cell: Cell
   compact?: boolean
+  interactive?: boolean
+  onMouseDown?: (hand: string, e: React.MouseEvent) => void
+  onMouseEnter?: (hand: string) => void
 }
 
-function HandCell({ hand, cell, compact }: HandCellProps) {
+function HandCell({ hand, cell, compact, interactive, onMouseDown, onMouseEnter }: HandCellProps) {
   const isSplit = Array.isArray(cell)
+
+  const handleMouseDown = interactive && onMouseDown
+    ? (e: React.MouseEvent) => onMouseDown(hand.name, e)
+    : undefined
+
+  const handleMouseEnter = interactive && onMouseEnter
+    ? () => onMouseEnter(hand.name)
+    : undefined
 
   if (isSplit) {
     // First action is more aggressive (bottom), second is less aggressive (top)
     const [bottom, top] = cell
     return (
       <div
+        onMouseDown={handleMouseDown}
+        onMouseEnter={handleMouseEnter}
         className={cn(
           'aspect-square flex items-center justify-center relative overflow-hidden',
-          'rounded-[2px] cursor-default',
+          'rounded-[2px]',
+          interactive ? 'cursor-crosshair' : 'cursor-default',
           compact ? 'text-[8px] sm:text-[10px]' : 'text-[9px] sm:text-[11px]'
         )}
       >
@@ -53,10 +67,13 @@ function HandCell({ hand, cell, compact }: HandCellProps) {
   const action = cell
   return (
     <div
+      onMouseDown={handleMouseDown}
+      onMouseEnter={handleMouseEnter}
       className={cn(
         'aspect-square flex items-center justify-center',
         'font-semibold tracking-tight',
-        'rounded-[2px] cursor-default',
+        'rounded-[2px]',
+        interactive ? 'cursor-crosshair' : 'cursor-default',
         compact ? 'text-[8px] sm:text-[10px]' : 'text-[9px] sm:text-[11px]',
         ACTION_COLORS[action],
         ACTION_TEXT[action]
@@ -72,11 +89,15 @@ interface HandGridProps {
   compact?: boolean
   title?: string
   subtitle?: string
+  // Interactive mode for painting
+  interactive?: boolean
+  onCellMouseDown?: (hand: string, e: React.MouseEvent) => void
+  onCellMouseEnter?: (hand: string) => void
 }
 
-export function HandGrid({ getCell, compact, title, subtitle }: HandGridProps) {
+export function HandGrid({ getCell, compact, title, subtitle, interactive, onCellMouseDown, onCellMouseEnter }: HandGridProps) {
   return (
-    <div className={cn('w-full', !compact && 'max-w-[420px]', 'mx-auto')}>
+    <div className={cn('w-full', !compact && 'max-w-[420px]', interactive && 'select-none', 'mx-auto')}>
       {/* Title */}
       {title && (
         <div className={cn('mb-2', compact ? 'text-center' : '')}>
@@ -126,6 +147,9 @@ export function HandGrid({ getCell, compact, title, subtitle }: HandGridProps) {
                 hand={hand}
                 cell={getCell(hand.name)}
                 compact={compact}
+                interactive={interactive}
+                onMouseDown={onCellMouseDown}
+                onMouseEnter={onCellMouseEnter}
               />
             ))}
           </div>
