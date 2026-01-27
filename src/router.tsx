@@ -1,5 +1,6 @@
 /* eslint-disable react-refresh/only-export-components */
 import { createRouter, createRootRoute, createRoute, Link, Outlet } from '@tanstack/react-router'
+import { ErrorBoundary } from '@/components/ErrorBoundary'
 import { cn } from '@/lib/utils'
 import { HandGrid } from '@/components/chart/HandGrid'
 import { ChartControls } from '@/components/ChartControls'
@@ -43,7 +44,9 @@ function RootLayout() {
 
       {/* Main content */}
       <main className="relative z-10 flex-1 p-4 flex flex-col overflow-auto">
-        <Outlet />
+        <ErrorBoundary>
+          <Outlet />
+        </ErrorBoundary>
       </main>
     </div>
   )

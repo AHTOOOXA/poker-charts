@@ -1,5 +1,6 @@
 import type { Action, Position, Provider } from '@/types/poker'
 import { POSITIONS } from '@/types/poker'
+import { POSTFLOP_ORDER } from '@/constants/poker'
 import { getChart, type Chart } from '@/data/ranges'
 
 type PotType = 'srp' | '3bet'
@@ -55,8 +56,7 @@ function isEarlierPosition(a: Position, b: Position): boolean {
  * Return: true if A acts before B postflop (A is OOP relative to B)
  */
 export function isOopRelativeTo(a: Position, b: Position): boolean {
-  const postflopOrder: Position[] = ['SB', 'BB', 'UTG', 'MP', 'CO', 'BTN']
-  return postflopOrder.indexOf(a) < postflopOrder.indexOf(b)
+  return POSTFLOP_ORDER.indexOf(a) < POSTFLOP_ORDER.indexOf(b)
 }
 
 /**
@@ -64,9 +64,8 @@ export function isOopRelativeTo(a: Position, b: Position): boolean {
  * IP must act after OOP postflop
  */
 export function getValidIpPositions(oopPosition: Position): Position[] {
-  const postflopOrder: Position[] = ['SB', 'BB', 'UTG', 'MP', 'CO', 'BTN']
-  const oopIdx = postflopOrder.indexOf(oopPosition)
-  return postflopOrder.slice(oopIdx + 1)
+  const oopIdx = POSTFLOP_ORDER.indexOf(oopPosition)
+  return POSTFLOP_ORDER.slice(oopIdx + 1)
 }
 
 /**
@@ -74,9 +73,8 @@ export function getValidIpPositions(oopPosition: Position): Position[] {
  * OOP must act before IP postflop
  */
 export function getValidOopPositions(ipPosition: Position): Position[] {
-  const postflopOrder: Position[] = ['SB', 'BB', 'UTG', 'MP', 'CO', 'BTN']
-  const ipIdx = postflopOrder.indexOf(ipPosition)
-  return postflopOrder.slice(0, ipIdx)
+  const ipIdx = POSTFLOP_ORDER.indexOf(ipPosition)
+  return POSTFLOP_ORDER.slice(0, ipIdx)
 }
 
 export interface ResolvedRanges {

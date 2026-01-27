@@ -1,21 +1,7 @@
+import { memo } from 'react'
 import { cn } from '@/lib/utils'
-import { HAND_GRID, RANKS, type Action, type Cell, type Hand } from '@/types/poker'
-
-// Solid background colors for each action
-const ACTION_COLORS: Record<Action, string> = {
-  fold: 'bg-neutral-800',
-  call: 'bg-emerald-600',
-  raise: 'bg-sky-600',
-  allin: 'bg-rose-600',
-}
-
-// Text colors
-const ACTION_TEXT: Record<Action, string> = {
-  fold: 'text-neutral-500',
-  call: 'text-white',
-  raise: 'text-white',
-  allin: 'text-white',
-}
+import { ACTION_COLORS, ACTION_TEXT } from '@/constants/poker'
+import { HAND_GRID, RANKS, type Cell, type Hand } from '@/types/poker'
 
 interface HandCellProps {
   hand: Hand
@@ -95,7 +81,7 @@ interface HandGridProps {
   onCellMouseEnter?: (hand: string) => void
 }
 
-export function HandGrid({ getCell, compact, title, subtitle, interactive, onCellMouseDown, onCellMouseEnter }: HandGridProps) {
+export const HandGrid = memo(function HandGrid({ getCell, compact, title, subtitle, interactive, onCellMouseDown, onCellMouseEnter }: HandGridProps) {
   return (
     <div className={cn('w-full', !compact && 'max-w-[420px]', interactive && 'select-none', 'mx-auto')}>
       {/* Title */}
@@ -157,4 +143,4 @@ export function HandGrid({ getCell, compact, title, subtitle, interactive, onCel
       </div>
     </div>
   )
-}
+})

@@ -1,32 +1,41 @@
 import { create } from 'zustand'
 import { persist } from 'zustand/middleware'
+import { z } from 'zod/v4'
+import { POSITIONS, PROVIDERS, RANKS, SUITS, HAND_CATEGORIES } from '@/types/poker'
 import type { Card, Grouping, HandCategory, Position, Provider } from '@/types/poker'
 
 type PotType = 'srp' | '3bet'
 
+// Schema for validation on restore
+const cardSchema = z.object({
+  rank: z.enum(RANKS),
+  suit: z.enum(SUITS),
+})
+
+const analyzerStateSchema = z.object({
+  potType: z.enum(['srp', '3bet']),
+  oopPosition: z.enum(POSITIONS),
+  ipPosition: z.enum(POSITIONS),
+  provider: z.enum(PROVIDERS),
+  board: z.array(cardSchema).max(5),
+  grouping: z.enum(['simple', 'standard', 'detailed']),
+  highlightedCategories: z.array(z.enum(HAND_CATEGORIES)),
+})
+
 type AnalyzerState = {
-  // Pot configuration
   potType: PotType
   setPotType: (p: PotType) => void
-
-  // Positions (OOP acts first postflop, IP acts last)
   oopPosition: Position
   setOopPosition: (p: Position) => void
   ipPosition: Position
   setIpPosition: (p: Position) => void
-
-  // Provider for range data
   provider: Provider
   setProvider: (p: Provider) => void
-
-  // Board state (0-5 cards)
   board: Card[]
   addCard: (card: Card) => void
   removeCard: (index: number) => void
   clearBoard: () => void
   setBoard: (cards: Card[]) => void
-
-  // UI state
   grouping: Grouping
   setGrouping: (g: Grouping) => void
   highlightedCategories: HandCategory[]
@@ -34,25 +43,24 @@ type AnalyzerState = {
   clearHighlights: () => void
 }
 
+const defaultState = {
+  potType: 'srp' as PotType,
+  oopPosition: 'CO' as Position,
+  ipPosition: 'BTN' as Position,
+  provider: 'pekarstas' as Provider,
+  board: [] as Card[],
+  grouping: 'standard' as Grouping,
+  highlightedCategories: [] as HandCategory[],
+}
+
 export const useAnalyzerStore = create(
   persist<AnalyzerState>(
     (set) => ({
-      // Pot config
-      potType: 'srp',
+      ...defaultState,
       setPotType: (potType) => set({ potType }),
-
-      // Positions - default to common scenario: CO opens, BTN calls
-      oopPosition: 'CO',
       setOopPosition: (oopPosition) => set({ oopPosition }),
-      ipPosition: 'BTN',
       setIpPosition: (ipPosition) => set({ ipPosition }),
-
-      // Provider
-      provider: 'pekarstas',
       setProvider: (provider) => set({ provider }),
-
-      // Board
-      board: [],
       addCard: (card) =>
         set((state) => {
           if (state.board.length >= 5) return state
@@ -68,11 +76,7 @@ export const useAnalyzerStore = create(
         })),
       clearBoard: () => set({ board: [] }),
       setBoard: (board) => set({ board: board.slice(0, 5) }),
-
-      // UI
-      grouping: 'standard',
       setGrouping: (grouping) => set({ grouping }),
-      highlightedCategories: [],
       toggleHighlight: (cat) =>
         set((state) => {
           const has = state.highlightedCategories.includes(cat)
@@ -84,6 +88,16 @@ export const useAnalyzerStore = create(
         }),
       clearHighlights: () => set({ highlightedCategories: [] }),
     }),
-    { name: 'poker-analyzer' }
+    {
+      name: 'poker-analyzer',
+      merge: (persisted, current) => {
+        const result = analyzerStateSchema.safeParse(persisted)
+        if (result.success) {
+          return { ...current, ...result.data }
+        }
+        console.warn('Invalid analyzerStore state, using defaults')
+        return current
+      },
+    }
   )
 )

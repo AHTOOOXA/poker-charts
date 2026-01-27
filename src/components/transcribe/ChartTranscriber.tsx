@@ -1,10 +1,8 @@
 import { useState, useCallback, useEffect } from 'react'
-import { POSITIONS, PROVIDERS, HAND_GRID, RANKS, type Action, type Position, type Provider } from '@/types/poker'
-import { cn } from '@/lib/utils'
+import { POSITIONS, type Action, type Position, type Provider } from '@/types/poker'
+import { TranscriberToolbar, SCENARIO_ACTIONS, type ScenarioType } from './TranscriberToolbar'
+import { TranscriberGrid, type EditorCell, type GridState } from './TranscriberGrid'
 
-// Editor cell format matches the app's Cell type
-type EditorCell = Action | [Action, Action]
-type GridState = Record<string, EditorCell>
 type ChartSet = Record<string, GridState>
 
 interface EditorState {
@@ -13,37 +11,6 @@ interface EditorState {
 }
 
 const STORAGE_KEY = 'poker-chart-editor-v4'
-
-const ACTION_COLORS: Record<Action, string> = {
-  fold: 'bg-neutral-800',
-  call: 'bg-emerald-600',
-  raise: 'bg-sky-600',
-  allin: 'bg-rose-600',
-}
-
-const ACTION_TEXT: Record<Action, string> = {
-  fold: 'text-neutral-500',
-  call: 'text-white',
-  raise: 'text-white',
-  allin: 'text-white',
-}
-
-// Scenario types and labels
-type ScenarioType = 'RFI' | 'vs-open' | 'vs-3bet' | 'vs-4bet'
-
-const SCENARIO_ACTIONS: Record<ScenarioType, Action[]> = {
-  'RFI': ['fold', 'raise'],
-  'vs-open': ['fold', 'call', 'raise', 'allin'],
-  'vs-3bet': ['fold', 'call', 'raise', 'allin'],
-  'vs-4bet': ['fold', 'call', 'allin'],
-}
-
-const ACTION_LABELS: Record<ScenarioType, Record<Action, string>> = {
-  'RFI': { fold: 'Fold', call: 'Call', raise: 'Open', allin: 'Jam' },
-  'vs-open': { fold: 'Fold', call: 'Call', raise: '3bet', allin: 'Jam' },
-  'vs-3bet': { fold: 'Fold', call: 'Call', raise: '4bet', allin: 'Jam' },
-  'vs-4bet': { fold: 'Fold', call: 'Call', raise: '4bet', allin: 'Jam' },
-}
 
 interface ChartKeyInfo {
   key: string
@@ -110,7 +77,7 @@ function loadState(): EditorState {
   try {
     const stored = localStorage.getItem(STORAGE_KEY)
     if (stored) return JSON.parse(stored)
-  } catch {}
+  } catch { /* ignore */ }
   return { provider: 'greenline', charts: {} }
 }
 
@@ -157,70 +124,6 @@ function chartsToCode(charts: ChartSet): string {
   return lines.join('\n')
 }
 
-function calcRangeStats(grid: GridState) {
-  let pairs = 0, suited = 0, offsuit = 0
-
-  for (const [hand, cell] of Object.entries(grid)) {
-    if (isFoldCell(cell)) continue
-    const weight = Array.isArray(cell) ? 0.5 : 1
-
-    if (hand.length === 2) pairs += 6 * weight
-    else if (hand.endsWith('s')) suited += 4 * weight
-    else if (hand.endsWith('o')) offsuit += 12 * weight
-  }
-
-  const combos = pairs + suited + offsuit
-  return {
-    combos: Math.round(combos),
-    percent: Math.round((combos / 1326) * 1000) / 10,
-    pairs: Math.round(pairs),
-    suited: Math.round(suited),
-    offsuit: Math.round(offsuit)
-  }
-}
-
-// Mini hand cell for the editor grid
-interface MiniCellProps {
-  hand: string
-  cell: EditorCell | undefined
-  onMouseDown: (e: React.MouseEvent) => void
-  onMouseEnter: () => void
-}
-
-function MiniCell({ hand, cell, onMouseDown, onMouseEnter }: MiniCellProps) {
-  const isSplit = Array.isArray(cell)
-  const action = isSplit ? cell[0] : (cell || 'fold')
-
-  if (isSplit) {
-    const [bottom, top] = cell
-    return (
-      <div
-        onMouseDown={onMouseDown}
-        onMouseEnter={onMouseEnter}
-        className="aspect-square flex items-center justify-center relative overflow-hidden rounded-[2px] cursor-crosshair text-[9px] sm:text-[11px]"
-      >
-        <div className={cn('absolute inset-0 h-1/2', ACTION_COLORS[top])} />
-        <div className={cn('absolute inset-0 top-1/2 h-1/2', ACTION_COLORS[bottom])} />
-        <span className="relative z-10 font-semibold text-white mix-blend-difference">{hand}</span>
-      </div>
-    )
-  }
-
-  return (
-    <div
-      onMouseDown={onMouseDown}
-      onMouseEnter={onMouseEnter}
-      className={cn(
-        'aspect-square flex items-center justify-center font-semibold tracking-tight rounded-[2px] cursor-crosshair text-[9px] sm:text-[11px]',
-        ACTION_COLORS[action],
-        ACTION_TEXT[action]
-      )}
-    >
-      {hand}
-    </div>
-  )
-}
-
 export function ChartTranscriber() {
   const [state, setState] = useState<EditorState>(loadState)
   const [isPainting, setIsPainting] = useState(false)
@@ -230,17 +133,16 @@ export function ChartTranscriber() {
   // Brush state
   const [scenario, setScenario] = useState<ScenarioType>('RFI')
   const [isSplitMode, setIsSplitMode] = useState(false)
-  const [action1, setAction1] = useState<Action>('raise') // bottom/primary
-  const [action2, setAction2] = useState<Action>('fold')  // top/secondary
+  const [action1, setAction1] = useState<Action>('raise')
+  const [action2, setAction2] = useState<Action>('fold')
 
   const { provider, charts } = state
   const actions = SCENARIO_ACTIONS[scenario]
-  const labels = ACTION_LABELS[scenario]
 
   // Persist
   useEffect(() => { saveState(state) }, [state])
 
-  // Mouse up anywhere stops painting
+  // Mouse up stops painting
   useEffect(() => {
     const handler = () => setIsPainting(false)
     window.addEventListener('mouseup', handler)
@@ -250,34 +152,25 @@ export function ChartTranscriber() {
   // Keyboard shortcuts
   useEffect(() => {
     const handler = (e: KeyboardEvent) => {
-      // Ignore if typing in an input
       if (e.target instanceof HTMLInputElement || e.target instanceof HTMLSelectElement) return
 
       const key = e.key
 
-      // Number keys 1-4 select action1
       if (key >= '1' && key <= '4') {
         const idx = parseInt(key) - 1
-        if (idx < actions.length) {
-          setAction1(actions[idx])
-        }
+        if (idx < actions.length) setAction1(actions[idx])
         return
       }
 
-      // Shift + number keys select action2
       if (e.shiftKey && key >= '!' && key <= '$') {
         const shiftMap: Record<string, number> = { '!': 0, '@': 1, '#': 2, '$': 3 }
         const idx = shiftMap[key]
-        if (idx !== undefined && idx < actions.length) {
-          setAction2(actions[idx])
-        }
+        if (idx !== undefined && idx < actions.length) setAction2(actions[idx])
         return
       }
 
-      // S toggles split mode
       if (key.toLowerCase() === 's') {
         setIsSplitMode(prev => !prev)
-        return
       }
     }
 
@@ -287,12 +180,8 @@ export function ChartTranscriber() {
 
   const setProvider = (p: Provider) => setState(s => ({ ...s, provider: p }))
 
-  // Get the cell to paint based on current brush state
   const getBrushCell = useCallback((): EditorCell => {
-    if (isSplitMode) {
-      return [action1, action2]
-    }
-    return action1
+    return isSplitMode ? [action1, action2] : action1
   }, [isSplitMode, action1, action2])
 
   const paintCell = useCallback((chartKey: string, hand: string) => {
@@ -300,7 +189,8 @@ export function ChartTranscriber() {
     setState(s => {
       const grid = s.charts[chartKey] || {}
       if (isFoldCell(brushCell)) {
-        const { [hand]: _, ...rest } = grid
+        const { [hand]: _removed, ...rest } = grid
+void _removed
         return { ...s, charts: { ...s.charts, [chartKey]: rest } }
       }
       return { ...s, charts: { ...s.charts, [chartKey]: { ...grid, [hand]: brushCell } } }
@@ -314,9 +204,7 @@ export function ChartTranscriber() {
   }, [paintCell])
 
   const handleCellMouseEnter = useCallback((chartKey: string, hand: string) => {
-    if (isPainting) {
-      paintCell(chartKey, hand)
-    }
+    if (isPainting) paintCell(chartKey, hand)
   }, [isPainting, paintCell])
 
   const handleCopyCode = useCallback(async () => {
@@ -338,118 +226,24 @@ export function ChartTranscriber() {
     return grid && Object.values(grid).some(cell => !isFoldCell(cell))
   }).length
 
-  // Preview of current brush
-  const brushPreview = isSplitMode ? (
-    <div className="w-8 h-8 relative rounded overflow-hidden border border-neutral-600">
-      <div className={cn('absolute inset-0 h-1/2', ACTION_COLORS[action2])} />
-      <div className={cn('absolute inset-0 top-1/2 h-1/2', ACTION_COLORS[action1])} />
-    </div>
-  ) : (
-    <div className={cn('w-8 h-8 rounded border border-neutral-600', ACTION_COLORS[action1])} />
-  )
-
   return (
     <div className="flex flex-col gap-4 w-full max-w-6xl mx-auto">
-      {/* Toolbar */}
-      <div className="sticky top-0 z-20 bg-neutral-950/95 backdrop-blur-sm py-3 border-b border-neutral-800 -mx-4 px-4">
-        <div className="flex flex-wrap items-center gap-4">
-          {/* Provider */}
-          <select
-            value={provider}
-            onChange={(e) => setProvider(e.target.value as Provider)}
-            className="bg-neutral-900 border border-neutral-700 rounded px-2 py-1.5 text-sm"
-          >
-            {PROVIDERS.map(p => <option key={p} value={p}>{p}</option>)}
-          </select>
-
-          <div className="h-6 w-px bg-neutral-700" />
-
-          {/* Mode toggle */}
-          <div className="flex rounded overflow-hidden border border-neutral-700">
-            <button
-              onClick={() => setIsSplitMode(false)}
-              className={cn(
-                'px-3 py-1.5 text-sm font-medium',
-                !isSplitMode ? 'bg-neutral-700 text-white' : 'bg-neutral-900 text-neutral-400'
-              )}
-            >
-              Solid
-            </button>
-            <button
-              onClick={() => setIsSplitMode(true)}
-              className={cn(
-                'px-3 py-1.5 text-sm font-medium',
-                isSplitMode ? 'bg-neutral-700 text-white' : 'bg-neutral-900 text-neutral-400'
-              )}
-            >
-              Split
-            </button>
-          </div>
-
-          {/* Action 1 (bottom/primary) */}
-          <div className="flex items-center gap-2">
-            <span className="text-xs text-neutral-500">{isSplitMode ? 'Bottom:' : 'Action:'}</span>
-            <div className="flex gap-1">
-              {actions.map((a, i) => (
-                <button
-                  key={a}
-                  onClick={() => setAction1(a)}
-                  className={cn(
-                    'px-2 py-1 rounded text-sm font-medium min-w-[50px]',
-                    ACTION_COLORS[a],
-                    action1 === a ? 'ring-2 ring-white' : 'opacity-50 hover:opacity-75'
-                  )}
-                >
-                  {labels[a]} <span className="opacity-50 text-xs">{i + 1}</span>
-                </button>
-              ))}
-            </div>
-          </div>
-
-          {/* Action 2 (top/secondary) - only in split mode */}
-          {isSplitMode && (
-            <div className="flex items-center gap-2">
-              <span className="text-xs text-neutral-500">Top:</span>
-              <div className="flex gap-1">
-                {actions.map((a) => (
-                  <button
-                    key={a}
-                    onClick={() => setAction2(a)}
-                    className={cn(
-                      'px-2 py-1 rounded text-sm font-medium min-w-[50px]',
-                      ACTION_COLORS[a],
-                      action2 === a ? 'ring-2 ring-white' : 'opacity-50 hover:opacity-75'
-                    )}
-                  >
-                    {labels[a]}
-                  </button>
-                ))}
-              </div>
-            </div>
-          )}
-
-          <div className="h-6 w-px bg-neutral-700" />
-
-          {/* Brush preview */}
-          {brushPreview}
-
-          <div className="flex-1" />
-
-          <span className="text-neutral-500 text-sm">{filledCharts}/{totalCharts}</span>
-
-          <button onClick={handleClearAll} className="px-3 py-1.5 bg-neutral-800 hover:bg-neutral-700 rounded text-sm">
-            Clear
-          </button>
-          <button onClick={handleCopyCode} className="px-4 py-1.5 bg-emerald-700 hover:bg-emerald-600 rounded text-sm font-medium">
-            {copied ? 'Copied!' : 'Copy TS'}
-          </button>
-        </div>
-
-        {/* Help text */}
-        <div className="text-xs text-neutral-600 mt-2">
-          Keys: 1-4 = action · S = toggle split · Drag to paint
-        </div>
-      </div>
+      <TranscriberToolbar
+        provider={provider}
+        setProvider={setProvider}
+        scenario={scenario}
+        isSplitMode={isSplitMode}
+        setIsSplitMode={setIsSplitMode}
+        action1={action1}
+        setAction1={setAction1}
+        action2={action2}
+        setAction2={setAction2}
+        filledCharts={filledCharts}
+        totalCharts={totalCharts}
+        onClear={handleClearAll}
+        onCopy={handleCopyCode}
+        copied={copied}
+      />
 
       {/* Charts by position */}
       <div className="flex flex-col gap-6">
@@ -478,59 +272,16 @@ export function ChartTranscriber() {
 
               {expandedHero === hero && (
                 <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
-                  {heroCharts.map(({ key, scenario: chartScenario }) => {
-                    const grid = charts[key] || {}
-                    const stats = calcRangeStats(grid)
-                    const label = key.replace(/-/g, ' ')
-
-                    return (
-                      <div
-                        key={key}
-                        className="flex flex-col gap-2"
-                        onMouseEnter={() => setScenario(chartScenario)}
-                      >
-                        <div className="text-sm font-medium text-neutral-300">{label}</div>
-
-                        {/* Grid */}
-                        <div className="bg-neutral-900/50 rounded-lg border border-neutral-800/50 p-3 select-none">
-                          {/* Column headers */}
-                          <div className="grid grid-cols-[auto_repeat(13,1fr)] gap-[2px] mb-[2px]">
-                            <div className="w-5 sm:w-6" />
-                            {RANKS.map(r => (
-                              <div key={r} className="aspect-square flex items-center justify-center text-neutral-500 font-medium text-[9px] sm:text-[10px]">
-                                {r}
-                              </div>
-                            ))}
-                          </div>
-
-                          {/* Grid rows */}
-                          {HAND_GRID.map((row, rowIdx) => (
-                            <div key={rowIdx} className="grid grid-cols-[auto_repeat(13,1fr)] gap-[2px] mb-[2px]">
-                              <div className="w-5 sm:w-6 flex items-center justify-center text-neutral-500 font-medium text-[9px] sm:text-[10px]">
-                                {RANKS[rowIdx]}
-                              </div>
-                              {row.map(hand => (
-                                <MiniCell
-                                  key={hand.name}
-                                  hand={hand.name}
-                                  cell={grid[hand.name]}
-                                  onMouseDown={(e) => handleCellMouseDown(key, hand.name, e)}
-                                  onMouseEnter={() => handleCellMouseEnter(key, hand.name)}
-                                />
-                              ))}
-                            </div>
-                          ))}
-                        </div>
-
-                        {/* Stats */}
-                        <div className="text-xs text-neutral-500 flex gap-2">
-                          <span className="text-neutral-400 font-medium">{stats.combos} combos</span>
-                          <span>({stats.percent}%)</span>
-                          <span className="text-neutral-600">{stats.pairs}p {stats.suited}s {stats.offsuit}o</span>
-                        </div>
-                      </div>
-                    )
-                  })}
+                  {heroCharts.map(({ key, scenario: chartScenario }) => (
+                    <div key={key} onMouseEnter={() => setScenario(chartScenario)}>
+                      <TranscriberGrid
+                        chartKey={key}
+                        grid={charts[key] || {}}
+                        onCellMouseDown={handleCellMouseDown}
+                        onCellMouseEnter={handleCellMouseEnter}
+                      />
+                    </div>
+                  ))}
                 </div>
               )}
             </div>

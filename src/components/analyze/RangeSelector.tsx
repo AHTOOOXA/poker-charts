@@ -1,5 +1,6 @@
 import { useAnalyzerStore } from '@/stores/analyzerStore'
 import { type Position, PROVIDER_CONFIGS } from '@/types/poker'
+import { POSTFLOP_ORDER } from '@/constants/poker'
 import { getValidIpPositions, getValidOopPositions } from '@/lib/analyzer'
 import { cn } from '@/lib/utils'
 import {
@@ -9,9 +10,6 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select'
-
-// Postflop position order (who acts first)
-const POSTFLOP_ORDER: Position[] = ['SB', 'BB', 'UTG', 'MP', 'CO', 'BTN']
 
 interface PositionGridProps {
   label: string
