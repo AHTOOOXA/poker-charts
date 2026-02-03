@@ -1,81 +1,61 @@
 Rank,Nickname,Points,Prize
-1,StatiCKy,1488.00,800.00
-2,lagano,1454.00,550.00
-3,Misha Inner,1342.00,400.00
-4,Iblundered,1182.00,280.00
-5,A Goncharov,1167.00,200.00
-6,Nassgebiet,1166.00,160.00
-7,RiverRunAA,911.50,140.00
-8,RocketCake,893.50,120.00
-9,Manuel Saavedra,793.00,110.00
-10,HabibiStackWeg,724.00,110.00
-11,R Gabdullin,690.00,100.00
-12,Michael Weiss,690.00,100.00
-13,Maimodifier,667.00,90.00
-14,Andrew Tate III,616.00,90.00
-15,Ben Raven,562.00,90.00
-16,Jan Rullkoetter,534.00,80.00
-17,hulahHULAH,526.00,80.00
-18,Ditto1031,480.00,80.00
-19,Rafal Maluchnik,472.00,80.00
-20,Matjaz Vogrinec,405.00,70.00
-21,Antonio Scala,403.00,70.00
-22,H Rodriguez,395.00,70.00
-23,Boris Premovic,374.00,70.00
-24,cascoonss,363.00,70.00
-25,Tomasz Cichocki,338.00,70.00
-26,Rodrigo Paredes,328.00,70.00
-27,SprasesAces,317.00,70.00
-28,Lphuang,298.00,60.00
-29,H Pesonen,287.00,60.00
-30,Jo Hiratsuka,284.50,60.00
-31,IntoTheVoid,257.00,60.00
-32,D Vicente,250.00,60.00
-33,Scott Corbett,239.00,60.00
-34,Matthias Ehlers,231.50,60.00
-35,Vander9,227.00,60.00
-36,GenerousGod,225.00,60.00
-37,Dmitrii Vitugin,221.00,60.00
-38,MMelo,216.00,60.00
-39,I MP I,215.00,60.00
-40,Catuai Amarelo,215.00,60.00
-41,TrueProGambler,215.00,50.00
-42,Alex Wejdrup,210.00,50.00
-43,VietJetAir,209.00,50.00
-44,Lisan al-Gaib!,180.00,50.00
-45,Peter Kovacs,160.00,50.00
-46,Tabbypoint,159.00,50.00
-47,Jinx Poker,159.00,50.00
-48,_B_O_S_S_,159.00,50.00
-49,blzbu,157.50,50.00
-50,iamfatty,151.00,50.00
-51,naxomsed,148.00,50.00
-52,oucherpp,146.00,50.00
-53,BerMalBerIst,143.00,50.00
-54,N Evdokimov,143.00,50.00
-55,Mar_KK,134.50,50.00
-56,AiKami,132.00,50.00
-57,psyhoagromor,129.50,50.00
-58,P Sekinger,129.00,50.00
-59,HELP!!!,125.50,50.00
-60,mizva1,124.00,50.00
-61,GameOn13,123.00,
-62,Checazzofai,119.00,
-63,Caloggero T,114.00,
-64,teamace,111.00,
-65,TropicalTilt,111.00,
-66,Howard Roark,108.00,
-67,ratyian77,108.00,
-68,JK1122,106.00,
-69,Zlata Roka,105.00,
-70,Abu1006,99.50,
-71,HHHH878754335,98.00,
-72,Agustin Coelli,98.00,
-73,TheWall_,97.00,
-74,LLinusLL0ve,95.00,
-75,Florent889,94.00,
-76,Beer y GinTonic,93.00,
-77,Lijinghao,90.00,
-78,Simon Kerrigan,86.00,
-79,Artem Skakun,86.00,
-80,Limpwienerhans,84.00,
+1,Marius Gierse,1279.50,800.00
+2,Jan Rullkoetter,1021.50,550.00
+3,H Pesonen,1011.00,400.00
+4,Antonio Scala,802.00,280.00
+5,Scott Corbett,597.00,200.00
+6,Teufelhohle!,573.00,160.00
+7,Laboorieroo,572.00,140.00
+8,Andrew Tate III,563.00,120.00
+9,Michael Weiss,540.50,110.00
+10,Animal8,518.50,110.00
+11,DISFRUTA,513.00,100.00
+12,Mr_TA73,489.00,100.00
+13,VendaS,470.00,90.00
+14,V Nebogin,466.00,90.00
+15,Zeljko Tokic,458.00,90.00
+16,RocketCake,450.50,80.00
+17,GrahamGooch,418.00,80.00
+18,R Gabdullin,410.00,80.00
+19,Ming-Li,405.00,80.00
+20,Toni Verlander,392.50,70.00
+21,IIllIIllI,383.00,70.00
+22,Alex Wejdrup,381.50,70.00
+23,Rodrigo Paredes,358.00,70.00
+24,Niv Heled,340.00,70.00
+25,Robin Lacey,333.50,70.00
+26,Zoltan Vrancsik,330.00,70.00
+27,StitCx,309.00,70.00
+28,G Kovari,271.00,60.00
+29,Pathetic Beluga,265.00,60.00
+30,IQunder40,255.00,60.00
+31,dms_root,248.00,60.00
+32,Imstar2,243.50,60.00
+33,Gabor Burgony,241.00,60.00
+34,Lavoisier,232.00,60.00
+35,BerryTTT,228.50,60.00
+36,AtsuA,226.00,60.00
+37,ZCwz1995,215.50,60.00
+38,N Evdokimov,212.00,60.00
+39,FrequencyRaiser,197.00,60.00
+40,I Kapnopoulos,193.00,60.00
+41,KhaleesiFire,191.00,50.00
+42,WorkAlpha,187.00,50.00
+43,dom_sz8b8,185.00,50.00
+44,OneMoreEspresso,180.00,50.00
+45,MyMonkeyToldMe2,176.00,50.00
+46,Levente Szabo,169.00,50.00
+47,A Zgirouski,166.00,50.00
+48,B__0__S__S,155.00,50.00
+49,Tim Rabey,150.00,50.00
+50,GL_MGL,143.00,50.00
+51,Flafercina,141.00,50.00
+52,IAmThePope,137.00,50.00
+53,And Stoenescu,135.00,50.00
+54,a_xing_,125.00,50.00
+55,J Tacoronte,123.00,50.00
+56,MachoAppa,123.00,50.00
+57,K Markakis,122.00,50.00
+58,cascoonss,121.00,50.00
+59,FunAmsterdam,119.00,50.00
+60,GoBIGGERR,118.00,50.00

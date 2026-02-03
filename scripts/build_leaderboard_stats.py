@@ -11,17 +11,43 @@ Outputs a JSON file with:
 
 import csv
 import json
+import math
 from pathlib import Path
 from collections import defaultdict
 from datetime import datetime
+
+
+def get_rush_pts_per_hand(avg_pts_per_entry: float) -> float:
+    """
+    Calculate pts/hand for Rush based on avg points per entry.
+
+    Uses sqrt curve to account for happy hour usage:
+    - Casual players (~8k avg): 1.55 pts/hand (baseline, ~5% HH)
+    - Grinders (~32k avg): 1.70 pts/hand (heavy HH abuse, ~15-20% HH)
+
+    Happy hours give 2x points during 2hr daily window.
+    Grinders maximize this, casuals don't.
+    """
+    # Anchor points
+    MIN_AVG = 8000   # casual avg pts/entry
+    MAX_AVG = 32000  # grinder avg pts/entry
+    MIN_RATE = 1.55  # casual pts/hand
+    MAX_RATE = 1.70  # grinder pts/hand
+
+    # Normalize to 0-1 range
+    t = (avg_pts_per_entry - MIN_AVG) / (MAX_AVG - MIN_AVG)
+    t = max(0.0, min(1.0, t))  # clamp
+
+    # Sqrt curve: diminishing returns
+    return MIN_RATE + (MAX_RATE - MIN_RATE) * math.sqrt(t)
 
 
 def parse_csv_files(leaderboards_dir: Path) -> list[dict]:
     """Parse all CSV files and return list of entries."""
     entries = []
 
-    for csv_file in leaderboards_dir.glob("*holdem-*.csv"):
-        # Parse filename: rush-holdem-nl25-2026-01-18.csv or holdem-nl25-2026-01-18.csv
+    for csv_file in leaderboards_dir.glob("*holdem*.csv"):
+        # Parse filename: rush-holdem-nl25-2026-01-18.csv, holdem-nl25-2026-01-18.csv, or holdem9max-nl25-2026-01-18.csv
         parts = csv_file.stem.split("-")
         if len(parts) >= 6 and parts[0] == "rush":
             # rush-holdem-nl25-2026-01-18
@@ -31,7 +57,15 @@ def parse_csv_files(leaderboards_dir: Path) -> list[dict]:
             month = parts[4]  # 01
             day = parts[5]    # 18
             date_str = f"{year}-{month}-{day}"
-        elif len(parts) >= 5:
+        elif len(parts) >= 5 and parts[0] == "holdem9max":
+            # holdem9max-nl25-2026-01-18
+            game_type = "9max"
+            stake = parts[1]  # nl25
+            year = parts[2]   # 2026
+            month = parts[3]  # 01
+            day = parts[4]    # 18
+            date_str = f"{year}-{month}-{day}"
+        elif len(parts) >= 5 and parts[0] == "holdem":
             # holdem-nl25-2026-01-18
             game_type = "regular"
             stake = parts[1]  # nl25
@@ -159,6 +193,7 @@ def build_player_stats(entries: list[dict], latest_date: str) -> list[dict]:
         # Per-game-type stats
         "rush": make_game_type_stats(),
         "regular": make_game_type_stats(),
+        "9max": make_game_type_stats(),
     })
 
     for entry in entries:
@@ -194,19 +229,27 @@ def build_player_stats(entries: list[dict], latest_date: str) -> list[dict]:
 
     # Build final list
     # Hand estimation based on real data calibration (AHTOOOXA Dec 1 - Jan 24):
-    # Rush & Cash: 114K hands = 176K points = 1.55 pts/hand
+    # Rush & Cash: 114K hands = 176K points = 1.55 pts/hand (baseline, ~5% HH)
+    # Rush grinders get up to 1.70 pts/hand due to happy hour abuse
     # Regular Holdem: 12K hands = 5.7K points = 0.48 pts/hand
-    POINTS_PER_HAND_RUSH = 1.55
+    # 9-max Holdem: assumed similar to regular (0.48 pts/hand)
     POINTS_PER_HAND_REGULAR = 0.48
+    POINTS_PER_HAND_9MAX = 0.48
 
-    def build_game_type_output(gt_stats: dict, game_type: str) -> dict:
-        """Build output for a game type (rush or regular)."""
+    def build_game_type_output(gt_stats: dict, game_type: str, rush_avg_pts_entry: float = 0) -> dict:
+        """Build output for a game type (rush, regular, or 9max)."""
         ranks = gt_stats["ranks"]
         total_points = gt_stats["total_points"]
         points_by_stake = dict(gt_stats["points_by_stake"])
 
         # Use different ratio based on game type
-        pts_per_hand = POINTS_PER_HAND_RUSH if game_type == "rush" else POINTS_PER_HAND_REGULAR
+        if game_type == "rush":
+            # Dynamic pts/hand based on avg pts/entry (accounts for HH usage)
+            pts_per_hand = get_rush_pts_per_hand(rush_avg_pts_entry)
+        elif game_type == "9max":
+            pts_per_hand = POINTS_PER_HAND_9MAX
+        else:
+            pts_per_hand = POINTS_PER_HAND_REGULAR
 
         estimated_hands = int(total_points / pts_per_hand) if pts_per_hand > 0 else 0
         hands_by_stake = {stake: int(pts / pts_per_hand) for stake, pts in points_by_stake.items()} if pts_per_hand > 0 else {}
@@ -233,7 +276,7 @@ def build_player_stats(entries: list[dict], latest_date: str) -> list[dict]:
             "top50": top50,
             "best_rank": best_rank,
             "avg_rank": avg_rank,
-            "entries_list": entries_list,
+            "entries_list": entries_list,  # Will be compacted later
         }
 
     result = []
@@ -271,15 +314,22 @@ def build_player_stats(entries: list[dict], latest_date: str) -> list[dict]:
         reg_type = classify_reg_type(days_active, entries_count, days_since_last, days_since_first)
 
         # Build game type breakdowns first (need them for unified estimates)
-        rush_stats = build_game_type_output(p["rush"], "rush")
-        regular_stats = build_game_type_output(p["regular"], "regular")
+        # Calculate Rush avg pts/entry for dynamic pts/hand calculation
+        rush_entries = p["rush"]["entries"]
+        rush_total_pts = p["rush"]["total_points"]
+        rush_avg_pts_entry = rush_total_pts / rush_entries if rush_entries > 0 else 0
 
-        # Total estimated hands = sum of both game types
-        estimated_hands = rush_stats["estimated_hands"] + regular_stats["estimated_hands"]
+        rush_stats = build_game_type_output(p["rush"], "rush", rush_avg_pts_entry)
+        regular_stats = build_game_type_output(p["regular"], "regular")
+        ninemax_stats = build_game_type_output(p["9max"], "9max")
+
+        # Total estimated hands = sum of all game types
+        estimated_hands = rush_stats["estimated_hands"] + regular_stats["estimated_hands"] + ninemax_stats["estimated_hands"]
 
         # Calculate weighted average pts/hand based on game type split
         rush_pts = p["rush"]["total_points"]
         regular_pts = p["regular"]["total_points"]
+        ninemax_pts = p["9max"]["total_points"]
         if estimated_hands > 0 and total_points > 0:
             weighted_pts_per_hand = total_points / estimated_hands
         else:
@@ -291,8 +341,13 @@ def build_player_stats(entries: list[dict], latest_date: str) -> list[dict]:
 
         # Estimate hands per stake (sum from game type breakdowns)
         hands_by_stake = {}
-        for stake in set(list(rush_stats["hands_by_stake"].keys()) + list(regular_stats["hands_by_stake"].keys())):
-            hands_by_stake[stake] = rush_stats["hands_by_stake"].get(stake, 0) + regular_stats["hands_by_stake"].get(stake, 0)
+        all_stakes = set(list(rush_stats["hands_by_stake"].keys()) +
+                        list(regular_stats["hands_by_stake"].keys()) +
+                        list(ninemax_stats["hands_by_stake"].keys()))
+        for stake in all_stakes:
+            hands_by_stake[stake] = (rush_stats["hands_by_stake"].get(stake, 0) +
+                                    regular_stats["hands_by_stake"].get(stake, 0) +
+                                    ninemax_stats["hands_by_stake"].get(stake, 0))
 
         # Placement stats
         ranks = p["ranks"]
@@ -334,9 +389,29 @@ def build_player_stats(entries: list[dict], latest_date: str) -> list[dict]:
             # Game type breakdowns
             "rush": rush_stats,
             "regular": regular_stats,
+            "9max": ninemax_stats,
         })
 
     return result
+
+
+def compact_entries_list(entries_list: list[dict], date_to_idx: dict, stake_to_idx: dict) -> list[list]:
+    """
+    Convert entries_list from objects to compact tuples.
+
+    Input:  [{"date": "2026-01-30", "stake": "nl1000", "rank": 5, "points": 1039.0, "prize": 200.0}, ...]
+    Output: [[61, 5, 5, 1039, 200], ...]  (dateIdx, stakeIdx, rank, points, prize)
+    """
+    compact = []
+    for e in entries_list:
+        compact.append([
+            date_to_idx[e["date"]],
+            stake_to_idx[e["stake"]],
+            e["rank"],
+            int(e["points"]),  # Round to int to save space
+            int(e["prize"]),   # Round to int to save space
+        ])
+    return compact
 
 
 def build_mega_json(leaderboards_dir: Path) -> dict:
@@ -351,10 +426,26 @@ def build_mega_json(leaderboards_dir: Path) -> dict:
     stakes = sorted(set(e["stake"] for e in entries))
     latest_date = dates[-1] if dates else "2026-01-01"
 
+    # Build lookup tables for compact encoding
+    date_to_idx = {d: i for i, d in enumerate(dates)}
+    stake_to_idx = {s: i for i, s in enumerate(stakes)}
+
     players = build_player_stats(entries, latest_date)
 
     # Sort players by entries (volume) as default order
     players_sorted = sorted(players, key=lambda x: x["entries"], reverse=True)
+
+    # Compact the data: remove redundant fields, use tuple format for entries_list
+    for p in players_sorted:
+        # Remove redundant 'dates' field - can be derived from hands_by_date keys
+        del p["dates"]
+
+        # Compact entries_list in each game type
+        for gt in ["rush", "regular", "9max"]:
+            if gt in p and p[gt].get("entries_list"):
+                p[gt]["entries_list"] = compact_entries_list(
+                    p[gt]["entries_list"], date_to_idx, stake_to_idx
+                )
 
     # Count reg types
     reg_counts = {"grinder": 0, "regular": 0, "casual": 0, "new": 0, "inactive": 0}

@@ -8,20 +8,23 @@ import type { PlayerStats, PlayerType } from '@/types/player'
 import { STAKE_LABELS, STAKES } from '@/types/player'
 import { getDatesCovered } from '@/data/players'
 
-// Classify player into 4 tiers based on volume and behavior
+// Classify player into 4 tiers based on volume
+// Thresholds calibrated for 60-day dataset (2 months)
 function classifyPlayer(player: PlayerStats): PlayerType {
   const hands = player.estimated_hands
   const days = player.days_active
   const hpd = days > 0 ? hands / days : 0
 
-  const firstSeen = new Date(player.first_seen)
-  const lastSeen = new Date(player.last_seen)
-  const daysSinceFirst = Math.max(1, Math.ceil((lastSeen.getTime() - firstSeen.getTime()) / (1000 * 60 * 60 * 24)) + 1)
-  const activityRate = days / daysSinceFirst
+  // BOT: 25k+ hands/day is ~21+ hours of 4-table Rush - inhuman
+  if (hpd >= 25000) return 'BOT'
 
-  if (hpd >= 15000) return 'BOT'
-  if ((hpd >= 3000 && activityRate >= 0.25 && days >= 7) || hands >= 75000) return 'GRIND'
-  if ((activityRate >= 0.15 && days >= 5) || hands >= 15000) return 'REG'
+  // GRIND: 100k+ hands/month (200k over 60 days) - this is their job
+  if (hands >= 200000) return 'GRIND'
+
+  // REG: 30k+ hands/month (60k over 60 days) - serious regular
+  if (hands >= 60000) return 'REG'
+
+  // REC: everyone else - recreational
   return 'REC'
 }
 

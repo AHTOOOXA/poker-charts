@@ -1,81 +1,61 @@
 Rank,Nickname,Points,Prize
-1,Antonio Scala,1272.00,800.00
-2,ElPerroMagico1,968.00,550.00
-3,RiverRunAA,936.50,400.00
-4,H Pesonen,896.50,280.00
-5,Michael Weiss,873.00,200.00
-6,KopjeKoffie,826.00,160.00
-7,Ben Raven,664.00,140.00
-8,Scott Corbett,577.00,120.00
-9,BTC2030,570.50,110.00
-10,HonestMeyer,526.00,110.00
-11,Misha Inner,510.00,100.00
-12,hulahHULAH,495.00,100.00
-13,Jan Rullkoetter,475.00,90.00
-14,iamfatty,465.50,90.00
-15,Iblundered,465.00,90.00
-16,cascoonss,456.00,80.00
-17,A Goncharov,410.50,80.00
-18,Andrew Tate III,404.50,80.00
-19,Peter Kovacs,394.00,80.00
-20,lagano,392.00,70.00
-21,psyhoagromor,385.00,70.00
-22,Vander9,370.00,70.00
-23,aaron2026,334.50,70.00
-24,H Rodriguez,332.00,70.00
-25,Toljan4ik89,323.50,70.00
-26,Elias Holloway,321.00,70.00
-27,George Pittam,318.50,70.00
-28,OJBKC,316.00,60.00
-29,Simon Kerrigan,307.00,60.00
-30,Matjaz Vogrinec,303.00,60.00
-31,Ronparty,297.00,60.00
-32,Kings-Noodle,262.00,60.00
-33,Matthias Ehlers,259.00,60.00
-34,Toni Verlander,257.50,60.00
-35,erreus,231.00,60.00
-36,blzbu,209.50,60.00
-37,JustdoIt53,206.00,60.00
-38,Hugh_Hustler,203.00,60.00
-39,SyncXWin73,198.00,60.00
-40,HabibiStackWeg,197.00,60.00
-41,Filip685,188.50,50.00
-42,Fully Aligned,186.00,50.00
-43,Stonecoldbluff,184.00,50.00
-44,TrueProGambler,181.00,50.00
-45,Tomasz Cichocki,180.00,50.00
-46,Oleksii Krylov,174.00,50.00
-47,Rodrigo Motoki,174.00,50.00
-48,Anton Vasyliev,174.00,50.00
-49,Sonkynew,173.00,50.00
-50,U Sidoranka,168.00,50.00
-51,Mikhail Rykov,164.00,50.00
-52,V Nebogin,162.00,50.00
-53,Forever_Now,160.00,50.00
-54,Taro1955,159.00,50.00
-55,Checazzofai,158.00,50.00
-56,E Monari,154.00,50.00
-57,Lphuang,154.00,50.00
-58,DingLiren,153.00,50.00
-59,Ticheross,153.00,50.00
-60,padr3,150.50,50.00
-61,LaabD,145.00,
-62,BerMalBerIst,144.00,
-63,Caloggero T,143.00,
-64,C0nanKun,139.00,
-65,maledon,138.00,
-66,IntoTheVoid,136.00,
-67,gosu ship it,133.00,
-68,Sindre Hansen,129.00,
-69,LeLoup24,129.00,
-70,ImTHEcharlie,119.00,
-71,Ross-,106.00,
-72,DougPolkTwin,106.00,
-73,Tabbypoint,100.50,
-74,Gabor Burgony,100.00,
-75,AAAKKKOO,99.00,
-76,GGlovesFlush,98.00,
-77,Vlad Archybasov,97.00,
-78,Xky-,94.00,
-79,Nyuli Tibor,92.00,
-80,Zeljko Tokic,92.00,
+1,H Pesonen,1689.00,800.00
+2,Teufelhohle!,1335.00,550.00
+3,Antonio Scala,1077.00,400.00
+4,GREAGYPoker,954.00,280.00
+5,Cheers!,732.00,200.00
+6,Zeljko Tokic,707.00,160.00
+7,H Rodriguez,694.50,140.00
+8,Lavoisier,611.00,120.00
+9,Tre_Kronor,609.00,110.00
+10,George Pittam,595.00,110.00
+11,FitzyE,593.00,100.00
+12,Ditto1031,511.00,100.00
+13,Levente Szabo,493.00,90.00
+14,Tomasz Cichocki,419.00,90.00
+15,E Monari,380.00,90.00
+16,Matthias Ehlers,376.00,80.00
+17,Vander9,375.00,80.00
+18,FunAmsterdam,361.00,80.00
+19,ElPerroMagico1,349.50,80.00
+20,Robin Lacey,339.00,70.00
+21,Ben Raven,275.00,70.00
+22,LaabD,271.00,70.00
+23,Andrew Tate III,255.00,70.00
+24,AleksandrPetrov,255.00,70.00
+25,VendaS,251.00,70.00
+26,Afouteza,242.00,70.00
+27,Travmagav,239.00,70.00
+28,nairayelen,223.00,60.00
+29,memakebighand,218.00,60.00
+30,Aheuristicor,216.00,60.00
+31,Mandark1,216.00,60.00
+32,WorkAlpha,215.50,60.00
+33,FrequencyRaiser,203.00,60.00
+34,F Kapetanovic,200.00,60.00
+35,Rake3highr,195.00,60.00
+36,forh7,189.00,60.00
+37,joaofilho,185.00,60.00
+38,tomakawk,183.00,60.00
+39,stef6489,179.00,60.00
+40,InFIuX,177.00,60.00
+41,Boris Premovic,173.00,50.00
+42,qwerabcd,172.00,50.00
+43,P Sekinger,170.00,50.00
+44,Sergei Pronin,169.50,50.00
+45,ZwyklyFishek,168.00,50.00
+46,dom_sz8b8,158.00,50.00
+47,Tianma--,155.00,50.00
+48,pororo_@,149.50,50.00
+49,I MP I,140.00,50.00
+50,BerryTTT,134.00,50.00
+51,DirtyPusher,134.00,50.00
+52,Peachh,127.00,50.00
+53,Hugh_Hustler,127.00,50.00
+54,Imstar2,125.00,50.00
+55,LeoZ,121.00,50.00
+56,S Sontheimer,120.00,50.00
+57,VerifiedBE,120.00,50.00
+58,psyhoagromor,119.00,50.00
+59,Marco Zevola,118.00,50.00
+60,king jack nine,118.00,50.00

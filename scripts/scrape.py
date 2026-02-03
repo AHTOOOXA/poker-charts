@@ -29,8 +29,9 @@ USAGE:
     python scripts/scrape.py --all --dry-run
 
 GAME TYPES:
-    rush   - Rush & Cash (fast-fold poker)
-    holdem - Regular Hold'em (standard cash games)
+    rush      - Rush & Cash (fast-fold poker)
+    holdem    - Regular Hold'em 6-max (standard cash games)
+    holdem9max - Regular Hold'em 9-max
 
 STAKES:
     nl2, nl5, nl10, nl25, nl50, nl100, nl200
@@ -78,14 +79,19 @@ GAME_CONFIG = {
         "raw_dir": "raw-regular",
         "csv_prefix": "holdem",
     },
+    "holdem9max": {
+        "url": "https://www.natural8.com/en/promotions/holdem-daily-leaderboard",
+        "raw_dir": "raw-9max",
+        "csv_prefix": "holdem9max",
+    },
 }
 
 # Group IDs by month - UPDATE AS NEW MONTHS BECOME AVAILABLE
-# Format: (year, month) -> {"rush": id, "holdem": id}
+# Format: (year, month) -> {"rush": id, "holdem": id, "holdem9max": id}
 # To find new IDs: navigate to page, click month button, inspect iframe src URLs
 GROUP_IDS = {
-    (2025, 12): {"rush": "1247", "holdem": "1250"},
-    (2026, 1): {"rush": "1266", "holdem": "1269"},
+    (2025, 12): {"rush": "1247", "holdem": "1250", "holdem9max": "1251"},
+    (2026, 1): {"rush": "1266", "holdem": "1269", "holdem9max": "1270"},
     # Add new months here as they become available
 }
 
@@ -105,6 +111,7 @@ def get_group_id(game_type: str, year: int, month: int) -> str | None:
 
 STAKES_RUSH = ["nl2", "nl5", "nl10", "nl25", "nl50", "nl100", "nl200"]
 STAKES_HOLDEM = ["nl2", "nl5", "nl10", "nl25", "nl50", "nl100", "nl200", "nl500", "nl1000", "nl2000"]
+STAKES_HOLDEM9MAX = ["nl2", "nl5", "nl10", "nl25", "nl50", "nl100", "nl200", "nl500", "nl1000"]
 
 BLINDS = {
     "nl2": "$0.01/$0.02",
@@ -119,10 +126,28 @@ BLINDS = {
     "nl2000": "$10/$20",
 }
 
+# 9-max blinds include a suffix like ($0.01) for the minimum stake
+BLINDS_9MAX = {
+    "nl2": "$0.01/$0.02 ($0.01)",
+    "nl5": "$0.02/$0.05 ($0.02)",
+    "nl10": "$0.05/$0.10 ($0.05)",
+    "nl25": "$0.10/$0.25 ($0.10)",
+    "nl50": "$0.25/$0.50 ($0.25)",
+    "nl100": "$0.50/$1.00 ($0.50)",
+    "nl200": "$1/$2 ($1)",
+    "nl500": "$2/$5 ($2)",
+    "nl1000": "$5/$10 ($5)",
+}
+
 
 def get_stakes(game_type: str) -> list[str]:
     """Get available stakes for a game type."""
-    return STAKES_HOLDEM if game_type == "holdem" else STAKES_RUSH
+    if game_type == "holdem":
+        return STAKES_HOLDEM
+    elif game_type == "holdem9max":
+        return STAKES_HOLDEM9MAX
+    else:
+        return STAKES_RUSH
 
 
 def log(msg: str):
@@ -159,11 +184,28 @@ def check_playwright_server() -> bool:
     return True
 
 
-def navigate_to_page(game_type: str, year: int = None, month: int = None) -> bool:
-    """Navigate browser to the correct leaderboard page and select month."""
-    config = GAME_CONFIG[game_type]
-    url = config["url"]
+def init_browser_context() -> bool:
+    """Initialize browser context with proper user agent to avoid Cloudflare blocking."""
+    js = '''
+    // Create new context with realistic user agent
+    await context.close();
+    context = await browser.newContext({
+        ignoreHTTPSErrors: true,
+        viewport: { width: 1920, height: 1080 },
+        userAgent: "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36"
+    });
+    page = await context.newPage();
+    return 'ok';
+    '''
+    result = exec_playwright(js, timeout=30)
+    if "error" in result:
+        log(f"ERROR: Failed to init browser context: {result['error']}")
+        return False
+    return True
 
+
+def navigate_to_page(game_type: str, year: int = None, month: int = None) -> bool:
+    """Navigate browser directly to the leaderboard iframe URL."""
     # Use current month if not specified
     if year is None or month is None:
         now = datetime.now()
@@ -177,35 +219,30 @@ def navigate_to_page(game_type: str, year: int = None, month: int = None) -> boo
         return False
 
     month_name = MONTH_NAMES[month]
-    log(f"Navigating to {game_type} page for {month_name} {year}...")
+    log(f"Navigating to {game_type} leaderboard for {month_name} {year}...")
+
+    # Navigate directly to iframe URL - more reliable than main page
+    iframe_url = f"https://pml.good-game-service.com/pm-leaderboard/group?groupId={group_id}&lang=en&timezone=UTC-8"
 
     js = f"""
-    await page.goto('{url}', {{ waitUntil: 'domcontentloaded', timeout: 60000 }});
+    await page.goto('{iframe_url}', {{ waitUntil: 'domcontentloaded', timeout: 60000 }});
     await page.waitForTimeout(3000);
 
-    // Click the month button on the main page to switch months
-    const monthButton = page.locator('text={month_name}').first();
-    try {{
-        await monthButton.click({{ timeout: 5000 }});
-        await page.waitForTimeout(2000);
-    }} catch (e) {{
-        // Month button might not exist if only one month available
-    }}
-
-    // Wait for the correct iframe to load
-    let frame;
-    for (let i = 0; i < 3; i++) {{
-        try {{
-            frame = page.frameLocator('iframe[src*="groupId={group_id}"]');
-            await frame.locator('.blind-text').first().waitFor({{ timeout: 20000 }});
-            break;
-        }} catch (e) {{
-            if (i === 2) throw e;
-            await page.waitForTimeout(3000);
+    // Wait for leaderboard to load
+    for (let i = 0; i < 5; i++) {{
+        const tables = await page.locator('table').count();
+        if (tables >= 2) {{
+            return 'ok';
         }}
+        await page.waitForTimeout(2000);
     }}
 
-    return 'ok';
+    // Check if we got content
+    const tables = await page.locator('table').count();
+    if (tables >= 2) {{
+        return 'ok';
+    }}
+    throw new Error('Leaderboard tables not found after waiting');
     """
 
     result = exec_playwright(js, timeout=120)
@@ -213,7 +250,7 @@ def navigate_to_page(game_type: str, year: int = None, month: int = None) -> boo
         log(f"ERROR: Failed to navigate: {result}")
         return False
 
-    log(f"Successfully loaded {game_type} page for {month_name} {year}")
+    log(f"Successfully loaded {game_type} leaderboard for {month_name} {year}")
     return True
 
 
@@ -223,19 +260,23 @@ _current_nav = {"game_type": None, "year": None, "month": None}
 
 def set_stake(game_type: str, stake: str, year: int, month: int) -> bool:
     """Set the stake dropdown to the specified value."""
-    group_id = get_group_id(game_type, year, month)
-    if not group_id:
-        log(f"ERROR: No group ID for {game_type} {year}-{month:02d}")
-        return False
-    blinds = BLINDS[stake]
+    # Use different blinds format for 9-max
+    if game_type == "holdem9max":
+        blinds = BLINDS_9MAX[stake]
+    else:
+        blinds = BLINDS[stake]
 
     js = f"""
-    const frame = page.frameLocator('iframe[src*="groupId={group_id}"]');
-    await frame.locator('.blind-text').first().click();
+    // Click stake dropdown
+    await page.locator('.blind-text').first().click();
     await page.waitForTimeout(1000);
-    await frame.locator('li').filter({{hasText: '{blinds}'}}).first().click();
+
+    // Select the stake
+    await page.locator('li').filter({{hasText: '{blinds}'}}).first().click();
     await page.waitForTimeout(2000);
-    const current = await frame.locator('.blind-text').first().innerText();
+
+    // Verify
+    const current = await page.locator('.blind-text').first().innerText();
     return current;
     """
 
@@ -258,49 +299,115 @@ def scrape_day(game_type: str, stake: str, date: str) -> dict:
     month = int(month_str)
     day = str(int(day_str))  # Remove leading zero for calendar click
 
-    group_id = get_group_id(game_type, year, month)
-    if not group_id:
-        return {"error": f"No group ID configured for {year}-{month:02d}"}
-
     js = f"""
-    const frame = page.frameLocator('iframe[src*="groupId={group_id}"]');
+    // Open calendar (PrimeNG datepicker)
+    await page.locator('.calender-container').first().click();
+    await page.waitForTimeout(1500);
 
-    // Open calendar
-    await frame.locator('.calender-container').first().click();
-    await page.waitForTimeout(1000);
+    // Click the day in PrimeNG datepicker - only select from current month cells (not other-month)
+    const panel = page.locator('.p-datepicker-panel');
+    // Find the day cell that is NOT in other-month class
+    const dayCell = panel.locator('td:not(.p-datepicker-other-month) span:text-is("{day}")').first();
+    await dayCell.click();
+    await page.waitForTimeout(1500);
 
-    // Click the day in the datepicker (month is already correct from page navigation)
-    const dayLinks = await frame.locator('.ui-datepicker-calendar a.ui-state-default').all();
-    let clicked = false;
-    for (const d of dayLinks) {{
-        const text = await d.innerText();
-        if (text.trim() === '{day}') {{
-            await d.click();
-            clicked = true;
+    // Close calendar by clicking outside (on body, away from controls)
+    await page.locator('body').click({{position: {{x: 100, y: 600}}}});
+    await page.waitForTimeout(1500);
+
+    // Get displayed stake for verification
+    const blinds = await page.locator('.blind-text').first().innerText().catch(() => '');
+
+    // Wait for data to load (network idle + DOM stable)
+    await page.waitForLoadState('networkidle').catch(() => {{}});
+    await page.waitForTimeout(500);
+
+    // Find leaderboard table (the one with "Rank" header, not "My Rank")
+    const tables = await page.locator('table').all();
+    let leaderboardTable = null;
+    for (const t of tables) {{
+        const text = await t.innerText();
+        if (text.includes('Rank\\tNickname')) {{
+            leaderboardTable = t;
             break;
         }}
     }}
-    if (!clicked) {{
-        return JSON.stringify({{error: 'Day {day} not found in calendar'}});
+
+    if (!leaderboardTable) {{
+        return JSON.stringify({{error: 'Leaderboard table not found'}});
     }}
-    await page.waitForTimeout(2000);
 
-    // Get displayed stake and date for verification
-    const blinds = await frame.locator('.blind-text').first().innerText().catch(() => '');
-    const dateText = await frame.locator('.calender-container').first().innerText().catch(() => '');
+    // Scroll to load all rows (handles lazy/virtual loading)
+    let prevRowCount = 0;
+    let currRowCount = await leaderboardTable.locator('tr').count();
+    let scrollAttempts = 0;
+    const maxScrollAttempts = 20;
+    const initialRowCount = currRowCount;
 
-    // Extract table data
-    const rows = await frame.locator('table tr').all();
+    while (scrollAttempts < maxScrollAttempts) {{
+        // Check for "Load More" / "Show More" button and click it
+        const loadMoreBtn = page.locator('button, a').filter({{
+            hasText: /load more|show more|view more|see more/i
+        }}).first();
+        if (await loadMoreBtn.count() > 0) {{
+            try {{
+                await loadMoreBtn.click();
+                await page.waitForTimeout(1000);
+            }} catch (e) {{
+                // Button might have disappeared
+            }}
+        }}
+
+        // Scroll table container to bottom
+        await leaderboardTable.evaluate(el => {{
+            const container = el.closest('.p-datatable-wrapper') || el.parentElement;
+            if (container) {{
+                container.scrollTop = container.scrollHeight;
+            }}
+            // Also try scrolling the table itself
+            el.scrollIntoView({{behavior: 'instant', block: 'end'}});
+        }});
+        await page.waitForTimeout(600);
+
+        currRowCount = await leaderboardTable.locator('tr').count();
+
+        // If no new rows loaded after scroll, we're done
+        if (currRowCount === prevRowCount) {{
+            break;
+        }}
+        prevRowCount = currRowCount;
+        scrollAttempts++;
+    }}
+
+    // Log if scrolling loaded additional rows
+    const scrollInfo = scrollAttempts > 0 && currRowCount > initialRowCount
+        ? ' (scrolled ' + scrollAttempts + 'x: ' + initialRowCount + ' -> ' + currRowCount + ')'
+        : '';
+
+    const rows = await leaderboardTable.locator('tr').all();
     const data = [];
-    for (const row of rows) {{
-        const cells = await row.locator('td').all();
-        if (cells.length >= 5) {{
-            const rank = (await cells[0].innerText().catch(() => '')).trim();
-            const nickname = (await cells[1].innerText().catch(() => '')).trim().split('\\n')[0];
-            const points = (await cells[3].innerText().catch(() => '')).trim().replace(/,/g, '');
-            const prize = (await cells[4].innerText().catch(() => '')).trim().replace('C$', '').replace(/,/g, '');
-            if (/^\\d+$/.test(rank) && nickname && !/^\\d+$/.test(nickname) && /^\\d+(\\.\\d+)?$/.test(points) && parseFloat(points) > 50) {{
-                data.push({{rank: parseInt(rank), nickname, points, prize: prize || ''}});
+
+    for (let i = 1; i < rows.length; i++) {{  // Skip header row
+        const text = await rows[i].innerText();
+        const parts = text.split('\\t');
+        if (parts.length >= 4) {{
+            const rank = parts[0].trim();
+            // Nickname may have newlines (e.g., from flag icons), take first non-empty line
+            let nickname = parts[1].trim().split('\\n').filter(s => s.trim())[0] || '';
+            nickname = nickname.trim();
+            // Points and prize positions may vary, find them by pattern
+            let points = '';
+            let prize = '';
+            for (let j = 2; j < parts.length; j++) {{
+                const val = parts[j].trim();
+                if (val.includes('.') && !val.includes('$') && !points) {{
+                    points = val.replace(/,/g, '');
+                }} else if (val.includes('C$') || (prize === '' && j === parts.length - 1)) {{
+                    prize = val.replace('C$', '').replace(/,/g, '');
+                }}
+            }}
+            if (rank && nickname && !isNaN(parseInt(rank)) && points && parseFloat(points) > 50) {{
+                data.push({{rank: parseInt(rank), nickname, points, prize}});
             }}
         }}
     }}
@@ -309,13 +416,13 @@ def scrape_day(game_type: str, stake: str, date: str) -> dict:
         stake: '{stake}',
         blinds: blinds,
         date: '{date}',
-        dateText: dateText,
         rows: data.length,
+        scrollInfo: scrollInfo,
         data: data
     }});
     """
 
-    result = exec_playwright(js)
+    result = exec_playwright(js, timeout=60)
     if "error" in result:
         return {"error": result["error"]}
 
@@ -323,6 +430,71 @@ def scrape_day(game_type: str, stake: str, date: str) -> dict:
         return json.loads(result.get("result", "{}"))
     except json.JSONDecodeError:
         return {"error": "Invalid JSON in scraped data"}
+
+
+def compare_scrape_results(result1: dict, result2: dict) -> bool:
+    """Compare two scrape results for consistency.
+
+    Returns True if they are essentially the same (same players, similar row count).
+    """
+    if "error" in result1 or "error" in result2:
+        return False
+
+    # Must have same row count (within 5% tolerance)
+    rows1 = result1.get("rows", 0)
+    rows2 = result2.get("rows", 0)
+    if rows1 == 0 or rows2 == 0:
+        return False
+    if abs(rows1 - rows2) / max(rows1, rows2) > 0.05:
+        return False
+
+    # Compare top 10 nicknames - must match exactly
+    data1 = result1.get("data", [])
+    data2 = result2.get("data", [])
+    top10_1 = [r["nickname"] for r in data1[:10]]
+    top10_2 = [r["nickname"] for r in data2[:10]]
+
+    return top10_1 == top10_2
+
+
+def scrape_day_with_retry(game_type: str, stake: str, date: str, max_attempts: int = 3) -> dict:
+    """Scrape a day with retry and consistency verification.
+
+    Scrapes up to max_attempts times and returns the result that appears most consistent.
+    If 2+ scrapes match, uses that result. Otherwise takes the one with most rows.
+    """
+    results = []
+
+    for attempt in range(max_attempts):
+        if attempt > 0:
+            log(f"      Retry {attempt + 1}/{max_attempts}...")
+            time.sleep(1)  # Brief pause before retry
+
+        result = scrape_day(game_type, stake, date)
+        results.append(result)
+
+        # If we have 2 successful results that match, we're done
+        if len(results) >= 2:
+            successful = [r for r in results if "error" not in r and r.get("rows", 0) > 0]
+            if len(successful) >= 2:
+                # Check if last two match
+                if compare_scrape_results(successful[-1], successful[-2]):
+                    log(f"      Verified (2 consistent reads)")
+                    return successful[-1]
+
+    # No two results matched - pick the best one
+    successful = [r for r in results if "error" not in r and r.get("rows", 0) > 0]
+
+    if not successful:
+        # All attempts failed - return the last error
+        return results[-1] if results else {"error": "No scrape attempts made"}
+
+    # Return the result with the most rows (likely most complete)
+    best = max(successful, key=lambda r: r.get("rows", 0))
+    if len(successful) > 1:
+        log(f"      Warning: inconsistent reads, using best ({best.get('rows', 0)} rows)")
+
+    return best
 
 
 def save_raw(game_type: str, stake: str, date: str, data: dict) -> Path:
@@ -411,7 +583,7 @@ def scrape_stake(game_type: str, stake: str, dates: list[str], dry_run: bool = F
         for date in month_dates:
             log(f"  Scraping {date}...")
 
-            data = scrape_day(game_type, stake, date)
+            data = scrape_day_with_retry(game_type, stake, date)
 
             if "error" in data:
                 log(f"    ERROR: {data['error']}")
@@ -473,26 +645,34 @@ def get_files_to_fix() -> list[tuple[str, str, str]]:
     files_to_fix = []
     import re
 
+    def parse_game_type(label: str) -> str:
+        if label == "Rush":
+            return "rush"
+        elif label == "Holdem9max":
+            return "holdem9max"
+        else:
+            return "holdem"
+
     # Parse stale data errors (need to rescrape the second date)
     # Format: [Rush] nl10 2025-12-03 -> 2025-12-04: top 10 nearly identical
-    for match in re.finditer(r'\[(Rush|Holdem)\] (nl\d+) (\d{4}-\d{2}-\d{2}) -> (\d{4}-\d{2}-\d{2}): top 10 nearly identical', output):
-        game_type = "rush" if match.group(1) == "Rush" else "holdem"
+    for match in re.finditer(r'\[(Rush|Holdem|Holdem9max)\] (nl\d+) (\d{4}-\d{2}-\d{2}) -> (\d{4}-\d{2}-\d{2}): top 10 nearly identical', output):
+        game_type = parse_game_type(match.group(1))
         stake = match.group(2)
         date = match.group(4)  # Rescrape the second date
         files_to_fix.append((game_type, stake, date))
 
     # Parse duplicate entry errors
     # Format: [Rush] nl2 2026-01-17: 7 duplicate entries
-    for match in re.finditer(r'\[(Rush|Holdem)\] (nl\d+) (\d{4}-\d{2}-\d{2}): \d+ duplicate entries', output):
-        game_type = "rush" if match.group(1) == "Rush" else "holdem"
+    for match in re.finditer(r'\[(Rush|Holdem|Holdem9max)\] (nl\d+) (\d{4}-\d{2}-\d{2}): \d+ duplicate entries', output):
+        game_type = parse_game_type(match.group(1))
         stake = match.group(2)
         date = match.group(3)
         files_to_fix.append((game_type, stake, date))
 
     # Parse empty file errors
     # Format: [Rush] nl2 2025-12-28: EMPTY file (0 entries)
-    for match in re.finditer(r'\[(Rush|Holdem)\] (nl\d+) (\d{4}-\d{2}-\d{2}): EMPTY file', output):
-        game_type = "rush" if match.group(1) == "Rush" else "holdem"
+    for match in re.finditer(r'\[(Rush|Holdem|Holdem9max)\] (nl\d+) (\d{4}-\d{2}-\d{2}): EMPTY file', output):
+        game_type = parse_game_type(match.group(1))
         stake = match.group(2)
         date = match.group(3)
         # Only include if we have a group ID for this month
@@ -513,7 +693,7 @@ def main():
 
     # What to scrape
     parser.add_argument("--all", action="store_true", help="Scrape everything (both types, all stakes, full range)")
-    parser.add_argument("--type", "-t", choices=["rush", "holdem"], help="Game type to scrape")
+    parser.add_argument("--type", "-t", choices=["rush", "holdem", "holdem9max"], help="Game type to scrape")
     parser.add_argument("--all-stakes", action="store_true", help="Scrape all stakes for the specified type")
     parser.add_argument("--stake", "-s", choices=STAKES_HOLDEM, help="Specific stake to scrape")
     parser.add_argument("--fix-errors", action="store_true", help="Rescrape files with validation errors")
@@ -533,12 +713,17 @@ def main():
     if args.wait != WAIT_BETWEEN_REQUESTS:
         update_wait_time(args.wait)
 
-    # Check Playwright server
+    # Check Playwright server and init browser context
     if not args.dry_run:
         log("Checking Playwright server...")
         if not check_playwright_server():
             sys.exit(1)
         log("Playwright server OK")
+
+        log("Initializing browser context...")
+        if not init_browser_context():
+            sys.exit(1)
+        log("Browser context ready")
 
     # Handle --fix-errors
     if args.fix_errors:
@@ -590,7 +775,7 @@ def main():
 
     if args.all:
         # Scrape everything
-        for game_type in ["rush", "holdem"]:
+        for game_type in ["rush", "holdem", "holdem9max"]:
             stakes = get_stakes(game_type)
             results = scrape_game_type(game_type, stakes, dates, args.dry_run)
             total_results["success"] += results["success"]

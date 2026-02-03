@@ -28,6 +28,7 @@ ROOT_DIR = SCRIPT_DIR.parent
 LEADERBOARDS_DIR = ROOT_DIR / "leaderboards"
 RAW_RUSH_DIR = LEADERBOARDS_DIR / "raw"
 RAW_REGULAR_DIR = LEADERBOARDS_DIR / "raw-regular"
+RAW_9MAX_DIR = LEADERBOARDS_DIR / "raw-9max"
 STATS_FILE = LEADERBOARDS_DIR / "stats.json"
 
 # Stake to blinds mapping
@@ -43,6 +44,48 @@ STAKE_BLINDS = {
     "nl1000": "$5/$10",
     "nl2000": "$10/$20",
 }
+
+# 9-max blinds include a suffix like ($0.01)
+STAKE_BLINDS_9MAX = {
+    "nl2": "$0.01/$0.02 ($0.01)",
+    "nl5": "$0.02/$0.05 ($0.02)",
+    "nl10": "$0.05/$0.10 ($0.05)",
+    "nl25": "$0.10/$0.25 ($0.10)",
+    "nl50": "$0.25/$0.50 ($0.25)",
+    "nl100": "$0.50/$1.00 ($0.50)",
+    "nl200": "$1/$2 ($1)",
+    "nl500": "$2/$5 ($2)",
+    "nl1000": "$5/$10 ($5)",
+}
+
+# Minimum expected row counts per stake (below this = likely error)
+# Based on analysis: set to ~50% of typical minimum observed
+MIN_EXPECTED_ROWS = {
+    "rush": {
+        "nl2": 200, "nl5": 175, "nl10": 150, "nl25": 150,
+        "nl50": 120, "nl100": 70, "nl200": 50,
+    },
+    "regular": {
+        "nl2": 150, "nl5": 125, "nl10": 125, "nl25": 110,
+        "nl50": 100, "nl100": 75, "nl200": 55,
+        "nl500": 45, "nl1000": 30, "nl2000": 20,
+    },
+    "9max": {
+        "nl2": 100, "nl5": 80, "nl10": 80, "nl25": 70,
+        "nl50": 60, "nl100": 50, "nl200": 40,
+        "nl500": 30, "nl1000": 20,
+    },
+}
+
+
+def game_type_label(game_type: str) -> str:
+    """Convert internal game type to display label."""
+    if game_type == "rush":
+        return "Rush"
+    elif game_type == "9max":
+        return "Holdem9max"
+    else:
+        return "Holdem"
 
 
 class DataValidator:
@@ -69,7 +112,7 @@ class DataValidator:
         """Load all raw JSON files. Returns {(game_type, stake, date): data}"""
         files = {}
 
-        for raw_dir, game_type in [(RAW_RUSH_DIR, "rush"), (RAW_REGULAR_DIR, "regular")]:
+        for raw_dir, game_type in [(RAW_RUSH_DIR, "rush"), (RAW_REGULAR_DIR, "regular"), (RAW_9MAX_DIR, "9max")]:
             if not raw_dir.exists():
                 continue
 
@@ -113,6 +156,7 @@ class DataValidator:
         for pattern, game_type, stake_idx, date_start in [
             ("rush-holdem-*.csv", "rush", 2, 3),
             ("holdem-nl*.csv", "regular", 1, 2),
+            ("holdem9max-*.csv", "9max", 1, 2),
         ]:
             for csv_file in LEADERBOARDS_DIR.glob(pattern):
                 parts = csv_file.stem.split("-")
@@ -121,6 +165,9 @@ class DataValidator:
                     stake = parts[stake_idx]
                     date_str = f"{parts[date_start]}-{parts[date_start+1]}-{parts[date_start+2]}"
                 elif game_type == "regular" and len(parts) >= 5:
+                    stake = parts[stake_idx]
+                    date_str = f"{parts[date_start]}-{parts[date_start+1]}-{parts[date_start+2]}"
+                elif game_type == "9max" and len(parts) >= 5:
                     stake = parts[stake_idx]
                     date_str = f"{parts[date_start]}-{parts[date_start+1]}-{parts[date_start+2]}"
                 else:
@@ -183,7 +230,7 @@ class DataValidator:
 
                 # Check if ALL nicknames and points are exactly the same (not just top 10)
                 if data1["points"] == data2["points"] and len(data1["points"]) > 50:
-                    label = "Rush" if game_type == "rush" else "Holdem"
+                    label = game_type_label(game_type)
                     self.log(f"[{label}] {stake} {date1} and {date2} have IDENTICAL data - browser didn't update", "error")
                     issues += 1
 
@@ -235,7 +282,7 @@ class DataValidator:
                             points_match += 1
 
                     if points_match >= 8:  # 8+ of top 10 have nearly same points
-                        label = "Rush" if game_type == "rush" else "Holdem"
+                        label = game_type_label(game_type)
                         self.log(f"[{label}] {stake} {date1} -> {date2}: top 10 nearly identical - browser may not have updated", "error")
                         issues += 1
 
@@ -260,7 +307,7 @@ class DataValidator:
 
             if len(nicknames) != len(unique):
                 dupes = len(nicknames) - len(unique)
-                label = "Rush" if game_type == "rush" else "Holdem"
+                label = game_type_label(game_type)
                 self.log(f"[{label}] {stake} {date_str}: {dupes} duplicate entries", "error")
                 issues += 1
 
@@ -289,10 +336,14 @@ class DataValidator:
 
         for (game_type, stake, date_str), data in raw_files.items():
             blinds = data.get("blinds", "")
-            expected = STAKE_BLINDS.get(stake, "")
+            # Use appropriate blinds format based on game type
+            if game_type == "9max":
+                expected = STAKE_BLINDS_9MAX.get(stake, "")
+            else:
+                expected = STAKE_BLINDS.get(stake, "")
 
             if blinds and expected and blinds != expected:
-                label = "Rush" if game_type == "rush" else "Holdem"
+                label = game_type_label(game_type)
                 self.log(f"[{label}] {stake} {date_str}: expected {expected}, got {blinds}", "error")
                 issues += 1
 
@@ -313,13 +364,14 @@ class DataValidator:
 
         for (game_type, stake, date_str), data in raw_files.items():
             entries = data["data"]
-            label = "Rush" if game_type == "rush" else "Holdem"
+            label = game_type_label(game_type)
+            min_expected = MIN_EXPECTED_ROWS.get(game_type, {}).get(stake, 20)
 
             if len(entries) == 0:
                 self.log(f"[{label}] {stake} {date_str}: EMPTY file (0 entries)", "error")
                 issues += 1
-            elif len(entries) < 50:
-                self.log(f"[{label}] {stake} {date_str}: only {len(entries)} entries (suspiciously low)", "warning")
+            elif len(entries) < min_expected:
+                self.log(f"[{label}] {stake} {date_str}: only {len(entries)} entries (min expected: {min_expected})", "warning")
 
         if issues == 0:
             self.log("No empty files detected", "success")
@@ -339,7 +391,7 @@ class DataValidator:
         for key, raw_data in raw_files.items():
             if key not in csv_files:
                 game_type, stake, date_str = key
-                label = "Rush" if game_type == "rush" else "Holdem"
+                label = game_type_label(game_type)
                 self.log(f"[{label}] {stake} {date_str}: raw exists but CSV missing", "error")
                 issues += 1
                 continue
@@ -353,7 +405,7 @@ class DataValidator:
             extra_in_csv = csv_nicks - raw_nicks
             if extra_in_csv:
                 game_type, stake, date_str = key
-                label = "Rush" if game_type == "rush" else "Holdem"
+                label = game_type_label(game_type)
                 self.log(f"[{label}] {stake} {date_str}: {len(extra_in_csv)} players in CSV but not in raw", "error")
                 issues += 1
 
@@ -362,7 +414,7 @@ class DataValidator:
             csv_count = len(csv_data["nicknames"])
             if abs(raw_count - csv_count) > 10:
                 game_type, stake, date_str = key
-                label = "Rush" if game_type == "rush" else "Holdem"
+                label = game_type_label(game_type)
                 self.log(f"[{label}] {stake} {date_str}: row count mismatch (raw={raw_count}, csv={csv_count})", "warning")
 
         if issues == 0:
@@ -412,7 +464,7 @@ class DataValidator:
 
                 # If more than 50% of common players have exact same points, suspicious
                 if len(common_players) > 50 and same_points_count > len(common_players) * 0.5:
-                    label = "Rush" if game_type == "rush" else "Holdem"
+                    label = game_type_label(game_type)
                     pct = round(same_points_count / len(common_players) * 100)
                     self.log(f"[{label}] {stake} {date1} -> {date2}: {pct}% of players have EXACT same points - stale data?", "error")
                     issues += 1
@@ -423,12 +475,130 @@ class DataValidator:
         return issues
 
     # =========================================================================
-    # CHECK 8: STATS.JSON CONSISTENCY
+    # CHECK 8: ROW COUNT OUTLIERS (significantly below typical for stake)
+    # =========================================================================
+
+    def check_row_count_outliers(self, raw_files: dict) -> int:
+        """Detect row counts significantly below typical for that stake (scraping error)."""
+        print("\n[8] ROW COUNT OUTLIERS")
+
+        issues = 0
+
+        # Group by game_type + stake
+        by_stake = defaultdict(list)
+        for (game_type, stake, date_str), data in raw_files.items():
+            row_count = len(data["data"])
+            by_stake[(game_type, stake)].append((date_str, row_count))
+
+        for (game_type, stake), date_counts in by_stake.items():
+            if len(date_counts) < 5:
+                continue
+
+            counts = [c for _, c in date_counts]
+            min_count, max_count = min(counts), max(counts)
+
+            # Find most common count (mode) - this is the "typical" value
+            from collections import Counter
+            count_freq = Counter(counts)
+            typical = count_freq.most_common(1)[0][0]
+
+            label = game_type_label(game_type)
+
+            # Flag files more than 40% below typical (likely scraping error)
+            threshold = typical * 0.6
+            outliers = [(d, c) for d, c in date_counts if c < threshold]
+
+            if outliers:
+                for date_str, count in sorted(outliers):
+                    drop_pct = round((1 - count / typical) * 100)
+                    self.log(f"[{label}] {stake} {date_str}: {count} rows ({drop_pct}% below typical {typical}, {len(date_counts)} files)", "error")
+                    issues += 1
+
+        if issues == 0:
+            self.log("No row count outliers detected", "success")
+
+        return issues
+
+    # =========================================================================
+    # CHECK 9: MINIMUM ROW COUNTS
+    # =========================================================================
+
+    def check_minimum_row_counts(self, raw_files: dict) -> int:
+        """Check if row counts meet minimum thresholds (below = likely scraping error)."""
+        print("\n[9] MINIMUM ROW COUNTS")
+
+        issues = 0
+
+        for (game_type, stake, date_str), data in raw_files.items():
+            row_count = len(data["data"])
+            min_expected = MIN_EXPECTED_ROWS.get(game_type, {}).get(stake)
+
+            if min_expected is None:
+                continue
+
+            label = game_type_label(game_type)
+
+            if row_count < min_expected:
+                self.log(f"[{label}] {stake} {date_str}: {row_count} rows (minimum: {min_expected})", "error")
+                issues += 1
+
+        if issues == 0:
+            self.log("All row counts meet minimum thresholds", "success")
+
+        return issues
+
+    # =========================================================================
+    # CHECK 10: RANK SEQUENCE GAPS
+    # =========================================================================
+
+    def check_rank_gaps(self, raw_files: dict) -> int:
+        """Check for gaps in rank sequence (should be 1,2,3... with no gaps)."""
+        print("\n[10] RANK SEQUENCE GAPS")
+
+        issues = 0
+        files_with_gaps = 0
+
+        for (game_type, stake, date_str), data in raw_files.items():
+            entries = data["data"]
+            if not entries:
+                continue
+
+            label = game_type_label(game_type)
+            gaps = []
+
+            prev_rank = 0
+            for entry in entries:
+                rank = entry.get("rank", 0)
+                if rank != prev_rank + 1:
+                    gap_size = rank - prev_rank
+                    if gap_size > 1:
+                        gaps.append((prev_rank, rank, gap_size - 1))
+                prev_rank = rank
+
+            if gaps:
+                files_with_gaps += 1
+                total_missing = sum(g[2] for g in gaps)
+                # Show first few gaps
+                gap_str = ", ".join([f"{g[0]}->{g[1]}" for g in gaps[:3]])
+                if len(gaps) > 3:
+                    gap_str += f" (+{len(gaps)-3} more)"
+                self.log(f"[{label}] {stake} {date_str}: {len(gaps)} rank gaps, {total_missing} missing ranks ({gap_str})", "warning")
+                issues += 1
+
+        if issues == 0:
+            self.log("No rank gaps detected", "success")
+        else:
+            self.log(f"Total: {files_with_gaps} files with rank gaps", "warning")
+
+        return issues
+
+    # =========================================================================
+    # CHECK 11: STATS.JSON CONSISTENCY
     # =========================================================================
 
     def check_stats_consistency(self, csv_files: dict) -> int:
         """Verify stats.json matches CSV totals."""
-        print("\n[8] STATS.JSON CONSISTENCY")
+        print("\n[11] STATS.JSON CONSISTENCY")
 
         if not STATS_FILE.exists():
             self.log("stats.json not found - run build_leaderboard_stats.py", "warning")
@@ -452,17 +622,22 @@ class DataValidator:
         return issues
 
     # =========================================================================
-    # CHECK 9: DATE COVERAGE
+    # CHECK 12: DATE COVERAGE
     # =========================================================================
 
     def check_date_coverage(self, raw_files: dict) -> int:
         """Check for missing dates or stakes."""
-        print("\n[9] DATE COVERAGE")
+        print("\n[12] DATE COVERAGE")
 
         issues = 0
-        stakes = ["nl2", "nl5", "nl10", "nl25", "nl50", "nl100", "nl200"]
+        stakes_by_type = {
+            "rush": ["nl2", "nl5", "nl10", "nl25", "nl50", "nl100", "nl200"],
+            "regular": ["nl2", "nl5", "nl10", "nl25", "nl50", "nl100", "nl200", "nl500", "nl1000", "nl2000"],
+            "9max": ["nl2", "nl5", "nl10", "nl25", "nl50", "nl100", "nl200", "nl500", "nl1000"],
+        }
 
-        for game_type in ["rush", "regular"]:
+        for game_type in ["rush", "regular", "9max"]:
+            stakes = stakes_by_type[game_type]
             dates_by_stake = defaultdict(set)
 
             for (gt, stake, date_str), data in raw_files.items():
@@ -472,7 +647,7 @@ class DataValidator:
             if not dates_by_stake:
                 continue
 
-            label = "Rush & Cash" if game_type == "rush" else "Hold'em"
+            label = {"rush": "Rush & Cash", "regular": "Hold'em 6-max", "9max": "Hold'em 9-max"}[game_type]
 
             # Find date range
             all_dates = set()
@@ -533,6 +708,9 @@ class DataValidator:
         critical_issues += self.check_empty_files(raw_files)
         critical_issues += self.check_raw_csv_mismatch(raw_files, csv_files)
         critical_issues += self.check_cross_file_duplicates(raw_files)
+        self.check_row_count_outliers(raw_files)
+        self.check_minimum_row_counts(raw_files)
+        self.check_rank_gaps(raw_files)
         critical_issues += self.check_stats_consistency(csv_files)
         self.check_date_coverage(raw_files)
 

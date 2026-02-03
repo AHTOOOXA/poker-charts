@@ -3,6 +3,7 @@ import { PlayerSearchInput } from './PlayerSearchInput'
 import { PlayerFilters } from './PlayerFilters'
 import { PlayerList } from './PlayerList'
 import { getAllPlayers, applyFilters, sortPlayers, getStatsData, SORT_OPTIONS, type SortOption } from '@/data/players'
+import { convertToQwerty } from '@/lib/search'
 import type { RegType, Stake } from '@/types/player'
 
 export function PlayerSearch() {
@@ -14,13 +15,18 @@ export function PlayerSearch() {
   const allPlayers = useMemo(() => getAllPlayers(), [])
   const statsData = useMemo(() => getStatsData(), [])
 
-  const filteredPlayers = useMemo(() => {
-    const filtered = applyFilters(allPlayers, {
+  const { players: filteredPlayers, usedLayoutConversion, convertedQuery } = useMemo(() => {
+    const filterResult = applyFilters(allPlayers, {
       search,
       regTypes: selectedRegTypes,
       stakes: selectedStakes,
     })
-    return sortPlayers(filtered, sortBy, search)
+    const sorted = sortPlayers(filterResult.players, sortBy, search)
+    return {
+      players: sorted,
+      usedLayoutConversion: filterResult.usedLayoutConversion,
+      convertedQuery: filterResult.usedLayoutConversion ? convertToQwerty(search) : null,
+    }
   }, [allPlayers, search, selectedRegTypes, selectedStakes, sortBy])
 
   return (
@@ -34,6 +40,24 @@ export function PlayerSearch() {
           selectedStakes={selectedStakes}
           onStakesChange={setSelectedStakes}
         />
+        {/* Layout conversion hint */}
+        {usedLayoutConversion && convertedQuery && (
+          <div className="text-xs text-amber-500/80 flex items-center gap-1.5">
+            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+              <rect width="20" height="16" x="2" y="4" rx="2"/>
+              <path d="M6 8h.001"/>
+              <path d="M10 8h.001"/>
+              <path d="M14 8h.001"/>
+              <path d="M18 8h.001"/>
+              <path d="M8 12h.001"/>
+              <path d="M12 12h.001"/>
+              <path d="M16 12h.001"/>
+              <path d="M7 16h10"/>
+            </svg>
+            <span>Searching for "{convertedQuery}"</span>
+          </div>
+        )}
+
         {/* Results count + sort */}
         <div className="flex items-center justify-between text-xs">
           <span className="text-neutral-500">

@@ -1,8 +1,93 @@
-import type { PlayerStats, StatsData, PlayerFilters, RegType, Stake } from '@/types/player'
-import statsData from '../../leaderboards/stats.json'
+import type {
+  PlayerStats,
+  StatsData,
+  PlayerFilters,
+  RegType,
+  Stake,
+  RawStatsData,
+  RawPlayerStats,
+  RawGameTypeStats,
+  GameTypeStats,
+  LeaderboardEntry,
+  CompactLeaderboardEntry,
+} from '@/types/player'
+import { smartSearch } from '@/lib/search'
+import rawStatsData from '../../leaderboards/stats.json'
 
-// Type the imported JSON
-const data = statsData as StatsData
+// Decode compact entries_list format: [dateIdx, stakeIdx, rank, points, prize] -> LeaderboardEntry
+function decodeEntriesList(
+  compactEntries: CompactLeaderboardEntry[],
+  dates: string[],
+  stakes: Stake[]
+): LeaderboardEntry[] {
+  return compactEntries.map(([dateIdx, stakeIdx, rank, points, prize]) => ({
+    date: dates[dateIdx],
+    stake: stakes[stakeIdx],
+    rank,
+    points,
+    prize,
+  }))
+}
+
+// Decode a game type's stats
+function decodeGameTypeStats(
+  raw: RawGameTypeStats,
+  dates: string[],
+  stakes: Stake[]
+): GameTypeStats {
+  return {
+    ...raw,
+    entries_list: decodeEntriesList(raw.entries_list, dates, stakes),
+  }
+}
+
+// Decode a player's stats
+function decodePlayerStats(
+  raw: RawPlayerStats,
+  dates: string[],
+  stakes: Stake[]
+): PlayerStats {
+  return {
+    nickname: raw.nickname,
+    entries: raw.entries,
+    days_active: raw.days_active,
+    first_seen: raw.first_seen,
+    last_seen: raw.last_seen,
+    activity_rate: raw.activity_rate,
+    entries_per_day: raw.entries_per_day,
+    current_streak: raw.current_streak,
+    longest_streak: raw.longest_streak,
+    stakes: raw.stakes,
+    hands_by_stake: raw.hands_by_stake,
+    primary_stake: raw.primary_stake,
+    stake_count: raw.stake_count,
+    reg_type: raw.reg_type,
+    total_points: raw.total_points,
+    estimated_hands: raw.estimated_hands,
+    hands_by_date: raw.hands_by_date,
+    top1: raw.top1,
+    top3: raw.top3,
+    top10: raw.top10,
+    top50: raw.top50,
+    best_rank: raw.best_rank,
+    avg_rank: raw.avg_rank,
+    total_prize: raw.total_prize,
+    rush: decodeGameTypeStats(raw.rush, dates, stakes),
+    regular: decodeGameTypeStats(raw.regular, dates, stakes),
+  }
+}
+
+// Decode the entire stats data
+function decodeStatsData(raw: RawStatsData): StatsData {
+  const { dates_covered, stakes_covered } = raw.summary
+  return {
+    ...raw,
+    players: raw.players.map(p => decodePlayerStats(p, dates_covered, stakes_covered)),
+  }
+}
+
+// Type and decode the imported JSON
+const data = decodeStatsData(rawStatsData as RawStatsData)
 
 export function getAllPlayers(): PlayerStats[] {
   return data.players
@@ -12,16 +97,46 @@ export function getStatsData(): StatsData {
   return data
 }
 
+export interface PlayerSearchResult {
+  players: PlayerStats[]
+  /** True if keyboard layout conversion was used */
+  usedLayoutConversion: boolean
+}
+
+/**
+ * Search players with fuzzy matching and keyboard layout conversion
+ * - Tolerates typos (e.g., "Smityg" matches "SmithyG")
+ * - Handles wrong keyboard layout (e.g., Russian "ызшен" matches "smith")
+ */
 export function searchPlayers(
   players: PlayerStats[],
   query: string
-): PlayerStats[] {
-  if (!query.trim()) return players
+): PlayerSearchResult {
+  if (!query.trim()) {
+    return { players, usedLayoutConversion: false }
+  }
 
-  const lowerQuery = query.toLowerCase()
-  return players.filter(p =>
-    p.nickname.toLowerCase().includes(lowerQuery)
+  const results = smartSearch(
+    players,
+    query,
+    (p) => p.nickname,
+    { threshold: 0.25 }
   )
+
+  const usedLayoutConversion = results.some(r => r.matchType === 'layout')
+
+  return {
+    players: results.map(r => r.item),
+    usedLayoutConversion,
+  }
+}
+
+/** Simple search that returns just the filtered array (for backwards compatibility) */
+export function searchPlayersSimple(
+  players: PlayerStats[],
+  query: string
+): PlayerStats[] {
+  return searchPlayers(players, query).players
 }
 
 export function filterByRegType(
@@ -43,17 +158,27 @@ export function filterByStake(
   })
 }
 
+export interface FilterResult {
+  players: PlayerStats[]
+  usedLayoutConversion: boolean
+}
+
 export function applyFilters(
   players: PlayerStats[],
   filters: PlayerFilters
-): PlayerStats[] {
-  let result = players
+): FilterResult {
+  // Search first (includes fuzzy matching and layout conversion)
+  const searchResult = searchPlayers(players, filters.search)
+  let result = searchResult.players
 
-  result = searchPlayers(result, filters.search)
+  // Apply other filters
   result = filterByRegType(result, filters.regTypes)
   result = filterByStake(result, filters.stakes)
 
-  return result
+  return {
+    players: result,
+    usedLayoutConversion: searchResult.usedLayoutConversion,
+  }
 }
 
 export type SortOption = 'hands' | 'prize' | 'entries' | 'days' | 'best_rank'
@@ -71,30 +196,13 @@ export function sortPlayers(
   sortBy: SortOption,
   query: string
 ): PlayerStats[] {
-  const sorted = [...players]
-
-  // If there's a search query, prioritize relevance first
+  // If there's a search query, results are already sorted by relevance from smartSearch
+  // Only apply secondary sort when no search query
   if (query.trim()) {
-    const lowerQuery = query.toLowerCase()
-    sorted.sort((a, b) => {
-      const aLower = a.nickname.toLowerCase()
-      const bLower = b.nickname.toLowerCase()
-
-      // Exact match first
-      if (aLower === lowerQuery && bLower !== lowerQuery) return -1
-      if (bLower === lowerQuery && aLower !== lowerQuery) return 1
-
-      // Starts with query
-      const aStarts = aLower.startsWith(lowerQuery)
-      const bStarts = bLower.startsWith(lowerQuery)
-      if (aStarts && !bStarts) return -1
-      if (bStarts && !aStarts) return 1
-
-      return 0
-    })
+    return players
   }
 
-  // Then apply selected sort
+  const sorted = [...players]
   return sorted.sort((a, b) => {
     switch (sortBy) {
       case 'hands':

@@ -2,16 +2,21 @@ import { useState } from 'react'
 import { PlayerSearch } from '@/components/players/PlayerSearch'
 import { LeaderboardArchive } from './LeaderboardArchive'
 import { cn } from '@/lib/utils'
+import { getDatesCovered } from '@/data/players'
 
 type ViewMode = 'players' | 'archive'
 
 export function LeaderboardPage() {
   const [viewMode, setViewMode] = useState<ViewMode>('players')
+  const dates = getDatesCovered()
+  const firstDate = dates[0]
+  const lastDate = dates[dates.length - 1]
 
   return (
     <div className="flex flex-col h-full">
-      {/* View mode toggle */}
-      <div className="flex gap-1 mb-4 p-1 bg-neutral-900/50 rounded-lg w-fit">
+      {/* View mode toggle + date range */}
+      <div className="flex items-center gap-4 mb-4">
+        <div className="flex gap-1 p-1 bg-neutral-900/50 rounded-lg w-fit">
         <button
           onClick={() => setViewMode('players')}
           className={cn(
@@ -34,6 +39,10 @@ export function LeaderboardPage() {
         >
           Results Archive
         </button>
+        </div>
+        <span className="text-xs text-neutral-500">
+          {firstDate} — {lastDate}
+        </span>
       </div>
 
       {/* Content */}

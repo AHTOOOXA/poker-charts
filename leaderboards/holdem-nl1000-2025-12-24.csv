@@ -1,81 +1,61 @@
 Rank,Nickname,Points,Prize
-1,Tuitamo,1481.00,800.00
-2,A Goncharov,959.00,550.00
-3,Angelo Krom,906.50,400.00
-4,Pavel Meshkov,820.00,280.00
-5,R Gabdullin,810.00,200.00
-6,lagano,716.00,160.00
-7,KhaleesiFire,472.00,140.00
-8,Halfy Potter,407.00,120.00
-9,Bring_Them_Home,402.00,110.00
-10,GenerousGod,391.50,110.00
-11,F Kapetanovic,384.50,100.00
-12,iamfatty,372.00,100.00
-13,SprasesAces,360.00,90.00
-14,FitzyE,349.00,90.00
-15,RedLisitsa,326.00,90.00
-16,J Tacoronte,266.00,80.00
-17,Gokuzzz7_,249.50,80.00
-18,_B_O_S_S_,249.50,80.00
-19,Mamont_bit,245.00,80.00
-20,wild garza,240.00,70.00
-21,Ticheross,238.00,70.00
-22,LuckyyyAri,234.00,70.00
-23,VJCThao,226.00,70.00
-24,Matthias Ehlers,226.00,70.00
-25,Misha Inner,224.00,70.00
-26,yeweiyang,213.00,70.00
-27,Lavoisier,211.00,70.00
-28,A Cvetkovic,209.00,60.00
-29,CARLlTOS,187.00,60.00
-30,Lemil Ivoskodi,186.00,60.00
-31,BTC2030,185.00,60.00
-32,Puebla808,184.00,60.00
-33,Whakapapa,183.00,60.00
-34,Anton Vasyliev,183.00,60.00
-35,N Evdokimov,176.50,60.00
-36,Mix34,174.00,60.00
-37,P Sekinger,172.00,60.00
-38,HHSRttt,171.00,60.00
-39,LeopardodaVinci,166.00,60.00
-40,DlegiJ,165.00,60.00
-41,chiennx,162.50,50.00
-42,Catuai Amarelo,162.00,50.00
-43,Mikhail Rykov,159.00,50.00
-44,MandM85,158.00,50.00
-45,Istvan Kovacs,156.50,50.00
-46,TropicalTilt,154.00,50.00
-47,CiuciMima,148.00,50.00
-48,Francis B,147.00,50.00
-49,Matheus Souza,141.00,50.00
-50,makaproon,140.50,50.00
-51,Douradoboy,138.00,50.00
-52,tomakawk,136.00,50.00
-53,IAmThePope,132.00,50.00
-54,Howard Roark,130.00,50.00
-55,Afouteza,128.00,50.00
-56,ZZH0089,124.00,50.00
-57,AAAMMMOR,122.00,50.00
-58,benimaru1,118.00,50.00
-59,GGDiusman,118.00,50.00
-60,V Nebogin,111.00,50.00
-61,Sergei Pronin,107.00,
-62,AA!AA!AA,105.00,
-63,Matjaz Vogrinec,104.00,
-64,CLbisheng,100.00,
-65,TLV-JFK,99.00,
-66,JohnBoos,99.00,
-67,Matulla,99.00,
-68,Provenance,98.00,
-69,skyH,97.50,
-70,tan god,91.00,
-71,xiatianluck,88.00,
-72,XIEFEN,87.00,
-73,JOqRH932,81.00,
-74,Saaai,79.00,
-75,Guadalobon2,75.00,
-76,Elias Holloway,75.00,
-77,NoHandHoldEm,70.00,
-78,erreus,69.00,
-79,easyGameasyLife,67.00,
-80,VendaS,67.00,
+1,Siebe Hartog,934.00,800.00
+2,Majino,889.00,550.00
+3,Ming-Li,874.00,400.00
+4,Ignacio Puebla,821.00,280.00
+5,Zoltan Vrancsik,787.00,200.00
+6,madzi,613.00,160.00
+7,Afouteza,577.00,140.00
+8,StitCx,564.00,120.00
+9,IIllIIllI,498.00,110.00
+10,Ivan Erena,481.00,110.00
+11,VHDY,480.00,100.00
+12,dom_sz8b8,463.00,100.00
+13,Teufelhohle!,448.00,90.00
+14,Ben Raven,438.00,90.00
+15,Michael Weiss,425.50,90.00
+16,Kevez,424.00,80.00
+17,H Rodriguez,423.00,80.00
+18,iamfatty,422.50,80.00
+19,Rodrigo Paredes,359.00,80.00
+20,Tuitamo,358.00,70.00
+21,SHEEZY,351.00,70.00
+22,LuckyyyAri,350.00,70.00
+23,Matjaz Vogrinec,338.00,70.00
+24,Robin Lacey,331.00,70.00
+25,Sergei Pronin,328.50,70.00
+26,R Gabdullin,316.00,70.00
+27,Zeljko Tokic,305.00,70.00
+28,Toni Verlander,296.50,60.00
+29,PhilVsSandwich,292.50,60.00
+30,Cameron Couch,288.00,60.00
+31,Dirlanda,274.00,60.00
+32,fish20260114,264.50,60.00
+33,RocketCake,246.00,60.00
+34,J Bogdanovski,246.00,60.00
+35,MrVanWeyden,244.00,60.00
+36,PuntyMcPunt,232.00,60.00
+37,Reg-Hunter,215.00,60.00
+38,Nelfi,211.00,60.00
+39,kusumafox,204.00,60.00
+40,xiaozhhen,198.50,60.00
+41,Boris Premovic,197.00,50.00
+42,qwerabcd,194.00,50.00
+43,Shiny__Flakes,177.00,50.00
+44,FitzyE,176.00,50.00
+45,FundingSecured,170.00,50.00
+46,Mr_TA73,169.00,50.00
+47,AV3RAGE,167.50,50.00
+48,ElPerroMagico1,166.00,50.00
+49,Laboorieroo,164.00,50.00
+50,VendaS,162.00,50.00
+51,Levente Szabo,160.00,50.00
+52,WorkAlpha,151.00,50.00
+53,John Galt!,150.00,50.00
+54,Amram Bulldog!,149.00,50.00
+55,Hugh_Hustler,142.50,50.00
+56,I MP I,138.00,50.00
+57,Alex Wejdrup,138.00,50.00
+58,J Laczkowski,134.00,50.00
+59,Conor Bergin,132.00,50.00
+60,Filip685,128.00,50.00

@@ -1,81 +1,61 @@
 Rank,Nickname,Points,Prize
-1,lagano,1718.50,800.00
-2,Bring_Them_Home,1367.00,550.00
-3,Scott Corbett,1057.00,400.00
-4,R Gabdullin,912.00,280.00
-5,iamfatty,753.50,200.00
-6,Tuitamo,747.00,160.00
-7,Antonio Scala,678.00,140.00
-8,SprasesAces,658.00,120.00
-9,Andrew Tate III,645.00,110.00
-10,Cheers!,638.00,110.00
-11,Mucky,512.00,100.00
-12,G Kovari,461.00,100.00
-13,Halfy Potter,457.00,90.00
-14,Pavel Meshkov,449.50,90.00
-15,KhaleesiFire,376.00,90.00
-16,Matthias Ehlers,368.00,80.00
-17,psyhoagromor,361.00,80.00
-18,Angelo Krom,313.00,80.00
-19,LuckyyyAri,301.00,80.00
-20,yeweiyang,277.00,70.00
-21,TropicalTilt,271.00,70.00
-22,Ben Raven,266.00,70.00
-23,makaproon,263.50,70.00
-24,Istvan Kovacs,263.50,70.00
-25,OneMoreEspresso,257.00,70.00
-26,LaabD,250.00,70.00
-27,Dirlanda,240.50,70.00
-28,Misha Inner,227.00,60.00
-29,77ASTANA77,226.00,60.00
-30,GenerousGod,223.00,60.00
-31,dom_sz8b8,210.00,60.00
-32,Matheus Souza,209.00,60.00
-33,Alex Wejdrup,208.00,60.00
-34,willbin,201.00,60.00
-35,Catuai Amarelo,193.00,60.00
-36,Jo Hiratsuka,190.00,60.00
-37,ElPerroMagico1,189.00,60.00
-38,VJCThao,189.00,60.00
-39,Vlad Archybasov,171.00,60.00
-40,Lang ji,165.00,60.00
-41,chiennx,157.00,50.00
-42,knxwledge,154.50,50.00
-43,Gokuzzz7_,154.00,50.00
-44,Matulla,151.00,50.00
-45,Nevan Chang,149.00,50.00
-46,imn0tluckbox,148.00,50.00
-47,Wei lee,147.50,50.00
-48,Francis B,143.00,50.00
-49,OJBKC,140.50,50.00
-50,J Tacoronte,139.50,50.00
-51,BTC2030,139.00,50.00
-52,maledon,138.00,50.00
-53,Filip685,134.50,50.00
-54,H Pesonen,132.00,50.00
-55,Angrypandaaa,132.00,50.00
-56,Mandark1,129.00,50.00
-57,Neglyazhe,122.00,50.00
-58,N Evdokimov,119.50,50.00
-59,Rodrigo Paredes,118.50,50.00
-60,T O J,117.00,50.00
-61,Winner961,116.00,
-62,aIIIIIIIII,116.00,
-63,A Zgirouski,112.00,
-64,aaron2026,112.00,
-65,milliArD,110.00,
-66,Just@doit,109.00,
-67,fishcup,107.00,
-68,LeLoup24,106.00,
-69,FrequencyRaiser,99.00,
-70,AAAMMMOR,98.00,
-71,JBSMJ,98.00,
-72,CARLlTOS,97.00,
-73,JustdoIt53,95.00,
-74,Tomasz Cichocki,93.00,
-75,JianTeng Feng,92.00,
-76,AleksandrPetrov,87.00,
-77,David Lacasa,87.00,
-78,Michael Weiss,86.00,
-79,NZNHSHA,85.50,
-80,Va5yl2020,84.00,
+1,Siebe Hartog,1481.00,800.00
+2,H Rodriguez,1101.50,550.00
+3,Misha Inner,1026.00,400.00
+4,Tuitamo,889.00,280.00
+5,Niv Heled,766.00,200.00
+6,Zoltan Vrancsik,623.00,160.00
+7,J Tacoronte,609.50,140.00
+8,R Gabdullin,534.00,120.00
+9,Laboorieroo,496.00,110.00
+10,KTGM,456.00,110.00
+11,onetim3p1z,415.00,100.00
+12,Angelo Krom,380.00,100.00
+13,StitCx,372.00,90.00
+14,dom_sz8b8,368.00,90.00
+15,IIllIIllI,362.00,90.00
+16,Matheus Souza,336.00,80.00
+17,TrueProGambler,319.00,80.00
+18,Mr_TA73,292.00,80.00
+19,Scott Corbett,259.00,80.00
+20,PhilVsSandwich,258.00,70.00
+21,Peter Kovacs,248.00,70.00
+22,Zeljko Tokic,232.00,70.00
+23,OhDidIWin,223.00,70.00
+24,Ben Raven,221.00,70.00
+25,FXDRAGON,212.00,70.00
+26,OriVH30o,206.00,70.00
+27,Michael Weiss,202.00,70.00
+28,Davide Suriano,184.00,60.00
+29,OG-OM,183.50,60.00
+30,Shiny__Flakes,182.00,60.00
+31,JustdoIt53,178.00,60.00
+32,RocketCake,178.00,60.00
+33,bOOlasgrandes,174.00,60.00
+34,ThugPolk,174.00,60.00
+35,VietJetAir,168.00,60.00
+36,VHDY,166.00,60.00
+37,Anton Vasyliev,160.00,60.00
+38,Istvan Kovacs,158.00,60.00
+39,SHEEZY,158.00,60.00
+40,SirPauI,150.50,60.00
+41,Universal Mind,149.00,50.00
+42,John Galt!,148.00,50.00
+43,Roman Duong,148.00,50.00
+44,Teufelhohle!,139.00,50.00
+45,Kingisreal1,138.00,50.00
+46,Simon Kerrigan,137.00,50.00
+47,joaofilho,136.00,50.00
+48,Gabor Burgony,136.00,50.00
+49,JBSMJ,132.00,50.00
+50,MMelo,131.00,50.00
+51,FitzyE,128.00,50.00
+52,WorkAlpha,127.50,50.00
+53,Robin Lacey,125.00,50.00
+54,PadThaiYung,124.00,50.00
+55,Nyuli Tibor,122.00,50.00
+56,LuckyyyAri,121.00,50.00
+57,Rodrigo Paredes,117.00,50.00
+58,VendaS,116.00,50.00
+59,Petrus_L,113.00,50.00
+60,bad nick,111.00,50.00
