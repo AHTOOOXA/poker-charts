@@ -1,0 +1,7036 @@
+{
+  "generated_at": "2026-02-05T00:23:58.126146",
+  "game_types": [
+    {
+      "id": "rush",
+      "name": "Rush & Cash",
+      "has_happy_hour": true,
+      "stakes": [
+        {
+          "id": "nl2",
+          "name": "NL2",
+          "bb_value": 0.02,
+          "prize_levels": [
+            {
+              "prize": 30.0,
+              "ranks": "1",
+              "min_points": 38238,
+              "max_points": 60003,
+              "hands_no_hh": 32276,
+              "bb100_no_hh": 4.65,
+              "is_top_value": true,
+              "hands_max_hh": 30516,
+              "bb100_max_hh": 4.92
+            },
+            {
+              "prize": 25.0,
+              "ranks": "2",
+              "min_points": 31080,
+              "max_points": 56921,
+              "hands_no_hh": 29889,
+              "bb100_no_hh": 4.18,
+              "is_top_value": true,
+              "hands_max_hh": 28129,
+              "bb100_max_hh": 4.44
+            },
+            {
+              "prize": 21.0,
+              "ranks": "3-4",
+              "min_points": 29647,
+              "max_points": 55366,
+              "hands_no_hh": 27439,
+              "bb100_no_hh": 3.83,
+              "is_top_value": true,
+              "hands_max_hh": 25679,
+              "bb100_max_hh": 4.09
+            },
+            {
+              "prize": 17.0,
+              "ranks": "5-6",
+              "min_points": 24769,
+              "max_points": 47362,
+              "hands_no_hh": 24929,
+              "bb100_no_hh": 3.41,
+              "is_top_value": false,
+              "hands_max_hh": 23169,
+              "bb100_max_hh": 3.67
+            },
+            {
+              "prize": 13.0,
+              "ranks": "7-8",
+              "min_points": 24081,
+              "max_points": 43625,
+              "hands_no_hh": 22868,
+              "bb100_no_hh": 2.84,
+              "is_top_value": false,
+              "hands_max_hh": 21108,
+              "bb100_max_hh": 3.08
+            },
+            {
+              "prize": 10.0,
+              "ranks": "9-10",
+              "min_points": 22424,
+              "max_points": 42574,
+              "hands_no_hh": 21332,
+              "bb100_no_hh": 2.34,
+              "is_top_value": false,
+              "hands_max_hh": 19572,
+              "bb100_max_hh": 2.55
+            },
+            {
+              "prize": 7.0,
+              "ranks": "11",
+              "min_points": 21947,
+              "max_points": 62307,
+              "hands_no_hh": 20397,
+              "bb100_no_hh": 1.72,
+              "is_top_value": false,
+              "hands_max_hh": 18637,
+              "bb100_max_hh": 1.88
+            },
+            {
+              "prize": 5.0,
+              "ranks": "12-15",
+              "min_points": 17935,
+              "max_points": 54818,
+              "hands_no_hh": 17922,
+              "bb100_no_hh": 1.39,
+              "is_top_value": false,
+              "hands_max_hh": 16162,
+              "bb100_max_hh": 1.55
+            },
+            {
+              "prize": 4.5,
+              "ranks": "16-17",
+              "min_points": 16798,
+              "max_points": 44977,
+              "hands_no_hh": 16147,
+              "bb100_no_hh": 1.39,
+              "is_top_value": false,
+              "hands_max_hh": 14387,
+              "bb100_max_hh": 1.56
+            },
+            {
+              "prize": 4.0,
+              "ranks": "18-20",
+              "min_points": 15760,
+              "max_points": 31345,
+              "hands_no_hh": 14883,
+              "bb100_no_hh": 1.34,
+              "is_top_value": false,
+              "hands_max_hh": 13123,
+              "bb100_max_hh": 1.52
+            },
+            {
+              "prize": 3.5,
+              "ranks": "21-24",
+              "min_points": 14430,
+              "max_points": 28123,
+              "hands_no_hh": 13655,
+              "bb100_no_hh": 1.28,
+              "is_top_value": false,
+              "hands_max_hh": 11895,
+              "bb100_max_hh": 1.47
+            },
+            {
+              "prize": 3.0,
+              "ranks": "25-29",
+              "min_points": 14071,
+              "max_points": 26162,
+              "hands_no_hh": 12561,
+              "bb100_no_hh": 1.19,
+              "is_top_value": false,
+              "hands_max_hh": 10801,
+              "bb100_max_hh": 1.39
+            },
+            {
+              "prize": 2.5,
+              "ranks": "30-35",
+              "min_points": 13460,
+              "max_points": 35980,
+              "hands_no_hh": 11563,
+              "bb100_no_hh": 1.08,
+              "is_top_value": false,
+              "hands_max_hh": 9803,
+              "bb100_max_hh": 1.28
+            },
+            {
+              "prize": 2.0,
+              "ranks": "36-60",
+              "min_points": 10188,
+              "max_points": 33616,
+              "hands_no_hh": 9683,
+              "bb100_no_hh": 1.03,
+              "is_top_value": false,
+              "hands_max_hh": 7923,
+              "bb100_max_hh": 1.26
+            },
+            {
+              "prize": 1.8,
+              "ranks": "61-70",
+              "min_points": 9440,
+              "max_points": 24380,
+              "hands_no_hh": 8366,
+              "bb100_no_hh": 1.08,
+              "is_top_value": false,
+              "hands_max_hh": 6606,
+              "bb100_max_hh": 1.36
+            },
+            {
+              "prize": 1.5,
+              "ranks": "71-80",
+              "min_points": 8806,
+              "max_points": 15286,
+              "hands_no_hh": 7802,
+              "bb100_no_hh": 0.96,
+              "is_top_value": false,
+              "hands_max_hh": 6042,
+              "bb100_max_hh": 1.24
+            },
+            {
+              "prize": 1.4,
+              "ranks": "81-100",
+              "min_points": 8078,
+              "max_points": 23322,
+              "hands_no_hh": 7162,
+              "bb100_no_hh": 0.98,
+              "is_top_value": false,
+              "hands_max_hh": 5402,
+              "bb100_max_hh": 1.3
+            },
+            {
+              "prize": 1.2,
+              "ranks": "101-120",
+              "min_points": 7387,
+              "max_points": 19552,
+              "hands_no_hh": 6476,
+              "bb100_no_hh": 0.93,
+              "is_top_value": false,
+              "hands_max_hh": 4716,
+              "bb100_max_hh": 1.27
+            },
+            {
+              "prize": 1.1,
+              "ranks": "121-140",
+              "min_points": 6696,
+              "max_points": 16404,
+              "hands_no_hh": 5924,
+              "bb100_no_hh": 0.93,
+              "is_top_value": false,
+              "hands_max_hh": 4164,
+              "bb100_max_hh": 1.32
+            },
+            {
+              "prize": 1.0,
+              "ranks": "141-150",
+              "min_points": 6378,
+              "max_points": 10669,
+              "hands_no_hh": 5568,
+              "bb100_no_hh": 0.9,
+              "is_top_value": false,
+              "hands_max_hh": 3808,
+              "bb100_max_hh": 1.31
+            },
+            {
+              "prize": 0.9,
+              "ranks": "151-170",
+              "min_points": 5831,
+              "max_points": 14674,
+              "hands_no_hh": 5271,
+              "bb100_no_hh": 0.85,
+              "is_top_value": false,
+              "hands_max_hh": 3511,
+              "bb100_max_hh": 1.28
+            },
+            {
+              "prize": 0.8,
+              "ranks": "171-190",
+              "min_points": 5442,
+              "max_points": 14222,
+              "hands_no_hh": 4906,
+              "bb100_no_hh": 0.82,
+              "is_top_value": false,
+              "hands_max_hh": 3146,
+              "bb100_max_hh": 1.27
+            },
+            {
+              "prize": 0.7,
+              "ranks": "191-230",
+              "min_points": 4673,
+              "max_points": 12704,
+              "hands_no_hh": 4442,
+              "bb100_no_hh": 0.79,
+              "is_top_value": false,
+              "hands_max_hh": 2682,
+              "bb100_max_hh": 1.3
+            },
+            {
+              "prize": 0.6,
+              "ranks": "231-400",
+              "min_points": 3113,
+              "max_points": 11617,
+              "hands_no_hh": 3424,
+              "bb100_no_hh": 0.88,
+              "is_top_value": false,
+              "hands_max_hh": 1664,
+              "bb100_max_hh": 1.8
+            }
+          ]
+        },
+        {
+          "id": "nl5",
+          "name": "NL5",
+          "bb_value": 0.05,
+          "prize_levels": [
+            {
+              "prize": 60.0,
+              "ranks": "1",
+              "min_points": 18125,
+              "max_points": 58532,
+              "hands_no_hh": 30711,
+              "bb100_no_hh": 3.91,
+              "is_top_value": true,
+              "hands_max_hh": 28951,
+              "bb100_max_hh": 4.14
+            },
+            {
+              "prize": 45.0,
+              "ranks": "2",
+              "min_points": 16864,
+              "max_points": 53461,
+              "hands_no_hh": 28503,
+              "bb100_no_hh": 3.16,
+              "is_top_value": true,
+              "hands_max_hh": 26743,
+              "bb100_max_hh": 3.37
+            },
+            {
+              "prize": 35.0,
+              "ranks": "3-4",
+              "min_points": 14538,
+              "max_points": 44352,
+              "hands_no_hh": 24459,
+              "bb100_no_hh": 2.86,
+              "is_top_value": true,
+              "hands_max_hh": 22699,
+              "bb100_max_hh": 3.08
+            },
+            {
+              "prize": 30.0,
+              "ranks": "5-6",
+              "min_points": 12516,
+              "max_points": 53366,
+              "hands_no_hh": 22044,
+              "bb100_no_hh": 2.72,
+              "is_top_value": false,
+              "hands_max_hh": 20284,
+              "bb100_max_hh": 2.96
+            },
+            {
+              "prize": 25.0,
+              "ranks": "7-8",
+              "min_points": 11172,
+              "max_points": 35951,
+              "hands_no_hh": 19941,
+              "bb100_no_hh": 2.51,
+              "is_top_value": false,
+              "hands_max_hh": 18181,
+              "bb100_max_hh": 2.75
+            },
+            {
+              "prize": 20.0,
+              "ranks": "9-10",
+              "min_points": 10025,
+              "max_points": 34904,
+              "hands_no_hh": 18783,
+              "bb100_no_hh": 2.13,
+              "is_top_value": false,
+              "hands_max_hh": 17023,
+              "bb100_max_hh": 2.35
+            },
+            {
+              "prize": 16.0,
+              "ranks": "11",
+              "min_points": 9880,
+              "max_points": 31691,
+              "hands_no_hh": 17871,
+              "bb100_no_hh": 1.79,
+              "is_top_value": false,
+              "hands_max_hh": 16111,
+              "bb100_max_hh": 1.99
+            },
+            {
+              "prize": 12.0,
+              "ranks": "12",
+              "min_points": 9558,
+              "max_points": 31147,
+              "hands_no_hh": 17074,
+              "bb100_no_hh": 1.41,
+              "is_top_value": false,
+              "hands_max_hh": 15314,
+              "bb100_max_hh": 1.57
+            },
+            {
+              "prize": 10.0,
+              "ranks": "13",
+              "min_points": 9555,
+              "max_points": 30260,
+              "hands_no_hh": 16421,
+              "bb100_no_hh": 1.22,
+              "is_top_value": false,
+              "hands_max_hh": 14661,
+              "bb100_max_hh": 1.36
+            },
+            {
+              "prize": 8.0,
+              "ranks": "14",
+              "min_points": 9486,
+              "max_points": 29569,
+              "hands_no_hh": 15969,
+              "bb100_no_hh": 1.0,
+              "is_top_value": false,
+              "hands_max_hh": 14209,
+              "bb100_max_hh": 1.13
+            },
+            {
+              "prize": 7.0,
+              "ranks": "15-18",
+              "min_points": 8663,
+              "max_points": 26876,
+              "hands_no_hh": 14403,
+              "bb100_no_hh": 0.97,
+              "is_top_value": false,
+              "hands_max_hh": 12643,
+              "bb100_max_hh": 1.11
+            },
+            {
+              "prize": 6.0,
+              "ranks": "19-23",
+              "min_points": 7455,
+              "max_points": 32296,
+              "hands_no_hh": 12491,
+              "bb100_no_hh": 0.96,
+              "is_top_value": false,
+              "hands_max_hh": 10731,
+              "bb100_max_hh": 1.12
+            },
+            {
+              "prize": 5.0,
+              "ranks": "24-28",
+              "min_points": 7331,
+              "max_points": 19797,
+              "hands_no_hh": 10985,
+              "bb100_no_hh": 0.91,
+              "is_top_value": false,
+              "hands_max_hh": 9225,
+              "bb100_max_hh": 1.08
+            },
+            {
+              "prize": 4.5,
+              "ranks": "29-34",
+              "min_points": 6843,
+              "max_points": 35190,
+              "hands_no_hh": 10015,
+              "bb100_no_hh": 0.9,
+              "is_top_value": false,
+              "hands_max_hh": 8255,
+              "bb100_max_hh": 1.09
+            },
+            {
+              "prize": 4.0,
+              "ranks": "35-40",
+              "min_points": 6152,
+              "max_points": 30936,
+              "hands_no_hh": 9289,
+              "bb100_no_hh": 0.86,
+              "is_top_value": false,
+              "hands_max_hh": 7529,
+              "bb100_max_hh": 1.06
+            },
+            {
+              "prize": 3.5,
+              "ranks": "41-80",
+              "min_points": 4447,
+              "max_points": 27512,
+              "hands_no_hh": 7527,
+              "bb100_no_hh": 0.93,
+              "is_top_value": false,
+              "hands_max_hh": 5767,
+              "bb100_max_hh": 1.21
+            },
+            {
+              "prize": 3.0,
+              "ranks": "81-140",
+              "min_points": 3069,
+              "max_points": 17697,
+              "hands_no_hh": 5563,
+              "bb100_no_hh": 1.08,
+              "is_top_value": false,
+              "hands_max_hh": 3803,
+              "bb100_max_hh": 1.58
+            },
+            {
+              "prize": 2.5,
+              "ranks": "141-180",
+              "min_points": 2569,
+              "max_points": 12997,
+              "hands_no_hh": 4439,
+              "bb100_no_hh": 1.13,
+              "is_top_value": false,
+              "hands_max_hh": 2679,
+              "bb100_max_hh": 1.87
+            },
+            {
+              "prize": 2.0,
+              "ranks": "181-220",
+              "min_points": 2172,
+              "max_points": 12898,
+              "hands_no_hh": 3839,
+              "bb100_no_hh": 1.04,
+              "is_top_value": false,
+              "hands_max_hh": 2079,
+              "bb100_max_hh": 1.92
+            },
+            {
+              "prize": 1.5,
+              "ranks": "221-350",
+              "min_points": 1404,
+              "max_points": 11402,
+              "hands_no_hh": 3020,
+              "bb100_no_hh": 0.99,
+              "is_top_value": false,
+              "hands_max_hh": 1260,
+              "bb100_max_hh": 2.38
+            }
+          ]
+        },
+        {
+          "id": "nl10",
+          "name": "NL10",
+          "bb_value": 0.1,
+          "prize_levels": [
+            {
+              "prize": 90.0,
+              "ranks": "1",
+              "min_points": 20951,
+              "max_points": 57684,
+              "hands_no_hh": 30307,
+              "bb100_no_hh": 2.97,
+              "is_top_value": true,
+              "hands_max_hh": 28547,
+              "bb100_max_hh": 3.15
+            },
+            {
+              "prize": 70.0,
+              "ranks": "2",
+              "min_points": 20124,
+              "max_points": 81114,
+              "hands_no_hh": 28437,
+              "bb100_no_hh": 2.46,
+              "is_top_value": false,
+              "hands_max_hh": 26677,
+              "bb100_max_hh": 2.62
+            },
+            {
+              "prize": 65.0,
+              "ranks": "3",
+              "min_points": 18434,
+              "max_points": 51442,
+              "hands_no_hh": 25576,
+              "bb100_no_hh": 2.54,
+              "is_top_value": true,
+              "hands_max_hh": 23816,
+              "bb100_max_hh": 2.73
+            },
+            {
+              "prize": 60.0,
+              "ranks": "4",
+              "min_points": 16942,
+              "max_points": 40473,
+              "hands_no_hh": 24239,
+              "bb100_no_hh": 2.48,
+              "is_top_value": true,
+              "hands_max_hh": 22479,
+              "bb100_max_hh": 2.67
+            },
+            {
+              "prize": 55.0,
+              "ranks": "5",
+              "min_points": 15009,
+              "max_points": 40060,
+              "hands_no_hh": 23056,
+              "bb100_no_hh": 2.39,
+              "is_top_value": false,
+              "hands_max_hh": 21296,
+              "bb100_max_hh": 2.58
+            },
+            {
+              "prize": 50.0,
+              "ranks": "6",
+              "min_points": 14565,
+              "max_points": 38910,
+              "hands_no_hh": 22074,
+              "bb100_no_hh": 2.27,
+              "is_top_value": false,
+              "hands_max_hh": 20314,
+              "bb100_max_hh": 2.46
+            },
+            {
+              "prize": 45.0,
+              "ranks": "7",
+              "min_points": 14334,
+              "max_points": 38038,
+              "hands_no_hh": 21227,
+              "bb100_no_hh": 2.12,
+              "is_top_value": false,
+              "hands_max_hh": 19467,
+              "bb100_max_hh": 2.31
+            },
+            {
+              "prize": 40.0,
+              "ranks": "8",
+              "min_points": 13946,
+              "max_points": 38028,
+              "hands_no_hh": 20579,
+              "bb100_no_hh": 1.94,
+              "is_top_value": false,
+              "hands_max_hh": 18819,
+              "bb100_max_hh": 2.13
+            },
+            {
+              "prize": 35.0,
+              "ranks": "9-10",
+              "min_points": 13369,
+              "max_points": 37875,
+              "hands_no_hh": 19347,
+              "bb100_no_hh": 1.81,
+              "is_top_value": false,
+              "hands_max_hh": 17587,
+              "bb100_max_hh": 1.99
+            },
+            {
+              "prize": 30.0,
+              "ranks": "11",
+              "min_points": 12845,
+              "max_points": 36096,
+              "hands_no_hh": 18602,
+              "bb100_no_hh": 1.61,
+              "is_top_value": false,
+              "hands_max_hh": 16842,
+              "bb100_max_hh": 1.78
+            },
+            {
+              "prize": 25.0,
+              "ranks": "12",
+              "min_points": 12434,
+              "max_points": 35595,
+              "hands_no_hh": 17778,
+              "bb100_no_hh": 1.41,
+              "is_top_value": false,
+              "hands_max_hh": 16018,
+              "bb100_max_hh": 1.56
+            },
+            {
+              "prize": 20.0,
+              "ranks": "13",
+              "min_points": 12341,
+              "max_points": 34497,
+              "hands_no_hh": 17102,
+              "bb100_no_hh": 1.17,
+              "is_top_value": false,
+              "hands_max_hh": 15342,
+              "bb100_max_hh": 1.3
+            },
+            {
+              "prize": 15.0,
+              "ranks": "14",
+              "min_points": 12187,
+              "max_points": 34126,
+              "hands_no_hh": 16272,
+              "bb100_no_hh": 0.92,
+              "is_top_value": false,
+              "hands_max_hh": 14512,
+              "bb100_max_hh": 1.03
+            },
+            {
+              "prize": 10.0,
+              "ranks": "15-16",
+              "min_points": 11938,
+              "max_points": 31071,
+              "hands_no_hh": 15315,
+              "bb100_no_hh": 0.65,
+              "is_top_value": false,
+              "hands_max_hh": 13555,
+              "bb100_max_hh": 0.74
+            },
+            {
+              "prize": 9.0,
+              "ranks": "17-21",
+              "min_points": 10517,
+              "max_points": 28015,
+              "hands_no_hh": 13653,
+              "bb100_no_hh": 0.66,
+              "is_top_value": false,
+              "hands_max_hh": 11893,
+              "bb100_max_hh": 0.76
+            },
+            {
+              "prize": 8.0,
+              "ranks": "22-26",
+              "min_points": 9571,
+              "max_points": 40958,
+              "hands_no_hh": 12132,
+              "bb100_no_hh": 0.66,
+              "is_top_value": false,
+              "hands_max_hh": 10372,
+              "bb100_max_hh": 0.77
+            },
+            {
+              "prize": 7.0,
+              "ranks": "27-32",
+              "min_points": 8980,
+              "max_points": 23036,
+              "hands_no_hh": 10795,
+              "bb100_no_hh": 0.65,
+              "is_top_value": false,
+              "hands_max_hh": 9035,
+              "bb100_max_hh": 0.77
+            },
+            {
+              "prize": 6.0,
+              "ranks": "33-80",
+              "min_points": 5216,
+              "max_points": 28432,
+              "hands_no_hh": 8116,
+              "bb100_no_hh": 0.74,
+              "is_top_value": false,
+              "hands_max_hh": 6356,
+              "bb100_max_hh": 0.94
+            },
+            {
+              "prize": 5.0,
+              "ranks": "81-180",
+              "min_points": 3129,
+              "max_points": 18076,
+              "hands_no_hh": 5404,
+              "bb100_no_hh": 0.93,
+              "is_top_value": false,
+              "hands_max_hh": 3644,
+              "bb100_max_hh": 1.37
+            },
+            {
+              "prize": 4.0,
+              "ranks": "181-250",
+              "min_points": 2375,
+              "max_points": 13419,
+              "hands_no_hh": 4073,
+              "bb100_no_hh": 0.98,
+              "is_top_value": false,
+              "hands_max_hh": 2313,
+              "bb100_max_hh": 1.73
+            },
+            {
+              "prize": 3.0,
+              "ranks": "251-300",
+              "min_points": 2056,
+              "max_points": 10596,
+              "hands_no_hh": 3489,
+              "bb100_no_hh": 0.86,
+              "is_top_value": false,
+              "hands_max_hh": 1729,
+              "bb100_max_hh": 1.74
+            }
+          ]
+        },
+        {
+          "id": "nl25",
+          "name": "NL25",
+          "bb_value": 0.25,
+          "prize_levels": [
+            {
+              "prize": 150.0,
+              "ranks": "1",
+              "min_points": 18799,
+              "max_points": 102036,
+              "hands_no_hh": 30757,
+              "bb100_no_hh": 1.95,
+              "is_top_value": true,
+              "hands_max_hh": 28997,
+              "bb100_max_hh": 2.07
+            },
+            {
+              "prize": 110.0,
+              "ranks": "2",
+              "min_points": 17492,
+              "max_points": 48810,
+              "hands_no_hh": 26419,
+              "bb100_no_hh": 1.67,
+              "is_top_value": true,
+              "hands_max_hh": 24659,
+              "bb100_max_hh": 1.78
+            },
+            {
+              "prize": 100.0,
+              "ranks": "3",
+              "min_points": 16178,
+              "max_points": 44113,
+              "hands_no_hh": 23933,
+              "bb100_no_hh": 1.67,
+              "is_top_value": true,
+              "hands_max_hh": 22173,
+              "bb100_max_hh": 1.8
+            },
+            {
+              "prize": 90.0,
+              "ranks": "4",
+              "min_points": 12561,
+              "max_points": 42332,
+              "hands_no_hh": 22561,
+              "bb100_no_hh": 1.6,
+              "is_top_value": false,
+              "hands_max_hh": 20801,
+              "bb100_max_hh": 1.73
+            },
+            {
+              "prize": 80.0,
+              "ranks": "5-6",
+              "min_points": 11723,
+              "max_points": 63323,
+              "hands_no_hh": 21204,
+              "bb100_no_hh": 1.51,
+              "is_top_value": false,
+              "hands_max_hh": 19444,
+              "bb100_max_hh": 1.65
+            },
+            {
+              "prize": 70.0,
+              "ranks": "7-8",
+              "min_points": 10824,
+              "max_points": 34405,
+              "hands_no_hh": 19440,
+              "bb100_no_hh": 1.44,
+              "is_top_value": false,
+              "hands_max_hh": 17680,
+              "bb100_max_hh": 1.58
+            },
+            {
+              "prize": 60.0,
+              "ranks": "9-10",
+              "min_points": 10678,
+              "max_points": 31179,
+              "hands_no_hh": 18239,
+              "bb100_no_hh": 1.32,
+              "is_top_value": false,
+              "hands_max_hh": 16479,
+              "bb100_max_hh": 1.46
+            },
+            {
+              "prize": 50.0,
+              "ranks": "11",
+              "min_points": 10655,
+              "max_points": 30817,
+              "hands_no_hh": 17386,
+              "bb100_no_hh": 1.15,
+              "is_top_value": false,
+              "hands_max_hh": 15626,
+              "bb100_max_hh": 1.28
+            },
+            {
+              "prize": 40.0,
+              "ranks": "12",
+              "min_points": 10250,
+              "max_points": 30576,
+              "hands_no_hh": 16691,
+              "bb100_no_hh": 0.96,
+              "is_top_value": false,
+              "hands_max_hh": 14931,
+              "bb100_max_hh": 1.07
+            },
+            {
+              "prize": 30.0,
+              "ranks": "13",
+              "min_points": 9785,
+              "max_points": 51814,
+              "hands_no_hh": 16408,
+              "bb100_no_hh": 0.73,
+              "is_top_value": false,
+              "hands_max_hh": 14648,
+              "bb100_max_hh": 0.82
+            },
+            {
+              "prize": 20.0,
+              "ranks": "14",
+              "min_points": 9601,
+              "max_points": 28199,
+              "hands_no_hh": 15425,
+              "bb100_no_hh": 0.52,
+              "is_top_value": false,
+              "hands_max_hh": 13665,
+              "bb100_max_hh": 0.59
+            },
+            {
+              "prize": 16.0,
+              "ranks": "15-16",
+              "min_points": 9593,
+              "max_points": 40187,
+              "hands_no_hh": 14612,
+              "bb100_no_hh": 0.44,
+              "is_top_value": false,
+              "hands_max_hh": 12852,
+              "bb100_max_hh": 0.5
+            },
+            {
+              "prize": 15.0,
+              "ranks": "17-19",
+              "min_points": 8960,
+              "max_points": 39792,
+              "hands_no_hh": 13287,
+              "bb100_no_hh": 0.45,
+              "is_top_value": false,
+              "hands_max_hh": 11527,
+              "bb100_max_hh": 0.52
+            },
+            {
+              "prize": 14.0,
+              "ranks": "20-23",
+              "min_points": 8199,
+              "max_points": 24466,
+              "hands_no_hh": 11923,
+              "bb100_no_hh": 0.47,
+              "is_top_value": false,
+              "hands_max_hh": 10163,
+              "bb100_max_hh": 0.55
+            },
+            {
+              "prize": 13.0,
+              "ranks": "24-27",
+              "min_points": 7626,
+              "max_points": 31392,
+              "hands_no_hh": 10813,
+              "bb100_no_hh": 0.48,
+              "is_top_value": false,
+              "hands_max_hh": 9053,
+              "bb100_max_hh": 0.57
+            },
+            {
+              "prize": 12.0,
+              "ranks": "28-32",
+              "min_points": 6928,
+              "max_points": 18599,
+              "hands_no_hh": 9817,
+              "bb100_no_hh": 0.49,
+              "is_top_value": false,
+              "hands_max_hh": 8057,
+              "bb100_max_hh": 0.6
+            },
+            {
+              "prize": 11.0,
+              "ranks": "33-37",
+              "min_points": 6338,
+              "max_points": 16527,
+              "hands_no_hh": 9077,
+              "bb100_no_hh": 0.48,
+              "is_top_value": false,
+              "hands_max_hh": 7317,
+              "bb100_max_hh": 0.6
+            },
+            {
+              "prize": 10.0,
+              "ranks": "38-40",
+              "min_points": 6138,
+              "max_points": 14942,
+              "hands_no_hh": 8585,
+              "bb100_no_hh": 0.47,
+              "is_top_value": false,
+              "hands_max_hh": 6825,
+              "bb100_max_hh": 0.59
+            },
+            {
+              "prize": 9.0,
+              "ranks": "41-120",
+              "min_points": 3328,
+              "max_points": 24829,
+              "hands_no_hh": 6174,
+              "bb100_no_hh": 0.58,
+              "is_top_value": false,
+              "hands_max_hh": 4414,
+              "bb100_max_hh": 0.82
+            },
+            {
+              "prize": 8.0,
+              "ranks": "121-300",
+              "min_points": 1518,
+              "max_points": 14714,
+              "hands_no_hh": 3659,
+              "bb100_no_hh": 0.87,
+              "is_top_value": false,
+              "hands_max_hh": 1899,
+              "bb100_max_hh": 1.69
+            }
+          ]
+        },
+        {
+          "id": "nl50",
+          "name": "NL50",
+          "bb_value": 0.5,
+          "prize_levels": [
+            {
+              "prize": 250.0,
+              "ranks": "1",
+              "min_points": 20147,
+              "max_points": 45465,
+              "hands_no_hh": 25105,
+              "bb100_no_hh": 1.99,
+              "is_top_value": true,
+              "hands_max_hh": 23345,
+              "bb100_max_hh": 2.14
+            },
+            {
+              "prize": 180.0,
+              "ranks": "2",
+              "min_points": 19398,
+              "max_points": 43996,
+              "hands_no_hh": 23110,
+              "bb100_no_hh": 1.56,
+              "is_top_value": true,
+              "hands_max_hh": 21350,
+              "bb100_max_hh": 1.69
+            },
+            {
+              "prize": 160.0,
+              "ranks": "3",
+              "min_points": 18915,
+              "max_points": 42301,
+              "hands_no_hh": 21385,
+              "bb100_no_hh": 1.5,
+              "is_top_value": false,
+              "hands_max_hh": 19625,
+              "bb100_max_hh": 1.63
+            },
+            {
+              "prize": 150.0,
+              "ranks": "4",
+              "min_points": 14884,
+              "max_points": 37906,
+              "hands_no_hh": 19919,
+              "bb100_no_hh": 1.51,
+              "is_top_value": false,
+              "hands_max_hh": 18159,
+              "bb100_max_hh": 1.65
+            },
+            {
+              "prize": 140.0,
+              "ranks": "5-6",
+              "min_points": 12737,
+              "max_points": 33505,
+              "hands_no_hh": 18278,
+              "bb100_no_hh": 1.53,
+              "is_top_value": true,
+              "hands_max_hh": 16518,
+              "bb100_max_hh": 1.7
+            },
+            {
+              "prize": 130.0,
+              "ranks": "7-8",
+              "min_points": 10717,
+              "max_points": 31887,
+              "hands_no_hh": 17144,
+              "bb100_no_hh": 1.52,
+              "is_top_value": false,
+              "hands_max_hh": 15384,
+              "bb100_max_hh": 1.69
+            },
+            {
+              "prize": 120.0,
+              "ranks": "9-10",
+              "min_points": 10442,
+              "max_points": 30446,
+              "hands_no_hh": 16217,
+              "bb100_no_hh": 1.48,
+              "is_top_value": false,
+              "hands_max_hh": 14457,
+              "bb100_max_hh": 1.66
+            },
+            {
+              "prize": 100.0,
+              "ranks": "11",
+              "min_points": 10140,
+              "max_points": 28966,
+              "hands_no_hh": 15466,
+              "bb100_no_hh": 1.29,
+              "is_top_value": false,
+              "hands_max_hh": 13706,
+              "bb100_max_hh": 1.46
+            },
+            {
+              "prize": 80.0,
+              "ranks": "12",
+              "min_points": 9839,
+              "max_points": 27348,
+              "hands_no_hh": 14772,
+              "bb100_no_hh": 1.08,
+              "is_top_value": false,
+              "hands_max_hh": 13012,
+              "bb100_max_hh": 1.23
+            },
+            {
+              "prize": 70.0,
+              "ranks": "13",
+              "min_points": 9226,
+              "max_points": 27239,
+              "hands_no_hh": 14048,
+              "bb100_no_hh": 1.0,
+              "is_top_value": false,
+              "hands_max_hh": 12288,
+              "bb100_max_hh": 1.14
+            },
+            {
+              "prize": 60.0,
+              "ranks": "14",
+              "min_points": 8274,
+              "max_points": 26869,
+              "hands_no_hh": 13429,
+              "bb100_no_hh": 0.89,
+              "is_top_value": false,
+              "hands_max_hh": 11669,
+              "bb100_max_hh": 1.03
+            },
+            {
+              "prize": 50.0,
+              "ranks": "15",
+              "min_points": 7839,
+              "max_points": 25438,
+              "hands_no_hh": 12901,
+              "bb100_no_hh": 0.78,
+              "is_top_value": false,
+              "hands_max_hh": 11141,
+              "bb100_max_hh": 0.9
+            },
+            {
+              "prize": 40.0,
+              "ranks": "16",
+              "min_points": 7663,
+              "max_points": 23934,
+              "hands_no_hh": 12455,
+              "bb100_no_hh": 0.64,
+              "is_top_value": false,
+              "hands_max_hh": 10695,
+              "bb100_max_hh": 0.75
+            },
+            {
+              "prize": 30.0,
+              "ranks": "17-26",
+              "min_points": 5977,
+              "max_points": 21918,
+              "hands_no_hh": 10399,
+              "bb100_no_hh": 0.58,
+              "is_top_value": false,
+              "hands_max_hh": 8639,
+              "bb100_max_hh": 0.69
+            },
+            {
+              "prize": 20.0,
+              "ranks": "27-40",
+              "min_points": 4810,
+              "max_points": 25478,
+              "hands_no_hh": 7913,
+              "bb100_no_hh": 0.51,
+              "is_top_value": false,
+              "hands_max_hh": 6153,
+              "bb100_max_hh": 0.65
+            },
+            {
+              "prize": 15.0,
+              "ranks": "41-240",
+              "min_points": 1137,
+              "max_points": 22877,
+              "hands_no_hh": 3743,
+              "bb100_no_hh": 0.8,
+              "is_top_value": false,
+              "hands_max_hh": 1983,
+              "bb100_max_hh": 1.51
+            }
+          ]
+        },
+        {
+          "id": "nl100",
+          "name": "NL100",
+          "bb_value": 1.0,
+          "prize_levels": [
+            {
+              "prize": 400.0,
+              "ranks": "1",
+              "min_points": 14445,
+              "max_points": 43718,
+              "hands_no_hh": 23090,
+              "bb100_no_hh": 1.73,
+              "is_top_value": true,
+              "hands_max_hh": 21330,
+              "bb100_max_hh": 1.88
+            },
+            {
+              "prize": 320.0,
+              "ranks": "2",
+              "min_points": 12708,
+              "max_points": 38959,
+              "hands_no_hh": 20736,
+              "bb100_no_hh": 1.54,
+              "is_top_value": true,
+              "hands_max_hh": 18976,
+              "bb100_max_hh": 1.69
+            },
+            {
+              "prize": 260.0,
+              "ranks": "3",
+              "min_points": 11276,
+              "max_points": 37554,
+              "hands_no_hh": 19171,
+              "bb100_no_hh": 1.36,
+              "is_top_value": true,
+              "hands_max_hh": 17411,
+              "bb100_max_hh": 1.49
+            },
+            {
+              "prize": 220.0,
+              "ranks": "4",
+              "min_points": 10794,
+              "max_points": 37125,
+              "hands_no_hh": 17622,
+              "bb100_no_hh": 1.25,
+              "is_top_value": false,
+              "hands_max_hh": 15862,
+              "bb100_max_hh": 1.39
+            },
+            {
+              "prize": 200.0,
+              "ranks": "5",
+              "min_points": 10619,
+              "max_points": 30432,
+              "hands_no_hh": 16506,
+              "bb100_no_hh": 1.21,
+              "is_top_value": false,
+              "hands_max_hh": 14746,
+              "bb100_max_hh": 1.36
+            },
+            {
+              "prize": 180.0,
+              "ranks": "6",
+              "min_points": 9792,
+              "max_points": 28548,
+              "hands_no_hh": 15772,
+              "bb100_no_hh": 1.14,
+              "is_top_value": false,
+              "hands_max_hh": 14012,
+              "bb100_max_hh": 1.28
+            },
+            {
+              "prize": 160.0,
+              "ranks": "7-8",
+              "min_points": 8840,
+              "max_points": 28067,
+              "hands_no_hh": 14779,
+              "bb100_no_hh": 1.08,
+              "is_top_value": false,
+              "hands_max_hh": 13019,
+              "bb100_max_hh": 1.23
+            },
+            {
+              "prize": 140.0,
+              "ranks": "9-10",
+              "min_points": 8615,
+              "max_points": 33085,
+              "hands_no_hh": 13382,
+              "bb100_no_hh": 1.05,
+              "is_top_value": false,
+              "hands_max_hh": 11622,
+              "bb100_max_hh": 1.2
+            },
+            {
+              "prize": 120.0,
+              "ranks": "11",
+              "min_points": 7926,
+              "max_points": 23922,
+              "hands_no_hh": 12484,
+              "bb100_no_hh": 0.96,
+              "is_top_value": false,
+              "hands_max_hh": 10724,
+              "bb100_max_hh": 1.12
+            },
+            {
+              "prize": 100.0,
+              "ranks": "12",
+              "min_points": 7889,
+              "max_points": 23888,
+              "hands_no_hh": 12063,
+              "bb100_no_hh": 0.83,
+              "is_top_value": false,
+              "hands_max_hh": 10303,
+              "bb100_max_hh": 0.97
+            },
+            {
+              "prize": 80.0,
+              "ranks": "13-14",
+              "min_points": 6577,
+              "max_points": 23490,
+              "hands_no_hh": 11499,
+              "bb100_no_hh": 0.7,
+              "is_top_value": false,
+              "hands_max_hh": 9739,
+              "bb100_max_hh": 0.82
+            },
+            {
+              "prize": 60.0,
+              "ranks": "15-18",
+              "min_points": 6105,
+              "max_points": 20914,
+              "hands_no_hh": 10260,
+              "bb100_no_hh": 0.58,
+              "is_top_value": false,
+              "hands_max_hh": 8500,
+              "bb100_max_hh": 0.71
+            },
+            {
+              "prize": 50.0,
+              "ranks": "19-30",
+              "min_points": 5193,
+              "max_points": 17953,
+              "hands_no_hh": 8303,
+              "bb100_no_hh": 0.6,
+              "is_top_value": false,
+              "hands_max_hh": 6543,
+              "bb100_max_hh": 0.76
+            },
+            {
+              "prize": 40.0,
+              "ranks": "31-60",
+              "min_points": 3538,
+              "max_points": 18998,
+              "hands_no_hh": 5929,
+              "bb100_no_hh": 0.67,
+              "is_top_value": false,
+              "hands_max_hh": 4169,
+              "bb100_max_hh": 0.96
+            },
+            {
+              "prize": 30.0,
+              "ranks": "61-140",
+              "min_points": 1773,
+              "max_points": 11598,
+              "hands_no_hh": 3847,
+              "bb100_no_hh": 0.78,
+              "is_top_value": false,
+              "hands_max_hh": 2087,
+              "bb100_max_hh": 1.44
+            }
+          ]
+        },
+        {
+          "id": "nl200",
+          "name": "NL200",
+          "bb_value": 2.0,
+          "prize_levels": [
+            {
+              "prize": 600.0,
+              "ranks": "1",
+              "min_points": 15198,
+              "max_points": 39659,
+              "hands_no_hh": 21468,
+              "bb100_no_hh": 1.4,
+              "is_top_value": true,
+              "hands_max_hh": 19708,
+              "bb100_max_hh": 1.52
+            },
+            {
+              "prize": 500.0,
+              "ranks": "2",
+              "min_points": 11383,
+              "max_points": 37490,
+              "hands_no_hh": 19237,
+              "bb100_no_hh": 1.3,
+              "is_top_value": true,
+              "hands_max_hh": 17477,
+              "bb100_max_hh": 1.43
+            },
+            {
+              "prize": 450.0,
+              "ranks": "3",
+              "min_points": 10008,
+              "max_points": 42391,
+              "hands_no_hh": 18047,
+              "bb100_no_hh": 1.25,
+              "is_top_value": true,
+              "hands_max_hh": 16287,
+              "bb100_max_hh": 1.38
+            },
+            {
+              "prize": 400.0,
+              "ranks": "4",
+              "min_points": 9951,
+              "max_points": 30105,
+              "hands_no_hh": 16697,
+              "bb100_no_hh": 1.2,
+              "is_top_value": false,
+              "hands_max_hh": 14937,
+              "bb100_max_hh": 1.34
+            },
+            {
+              "prize": 350.0,
+              "ranks": "5-6",
+              "min_points": 8219,
+              "max_points": 29118,
+              "hands_no_hh": 15431,
+              "bb100_no_hh": 1.13,
+              "is_top_value": false,
+              "hands_max_hh": 13671,
+              "bb100_max_hh": 1.28
+            },
+            {
+              "prize": 300.0,
+              "ranks": "7-8",
+              "min_points": 7693,
+              "max_points": 37331,
+              "hands_no_hh": 14501,
+              "bb100_no_hh": 1.03,
+              "is_top_value": false,
+              "hands_max_hh": 12741,
+              "bb100_max_hh": 1.18
+            },
+            {
+              "prize": 250.0,
+              "ranks": "9-10",
+              "min_points": 7132,
+              "max_points": 25400,
+              "hands_no_hh": 13348,
+              "bb100_no_hh": 0.94,
+              "is_top_value": false,
+              "hands_max_hh": 11588,
+              "bb100_max_hh": 1.08
+            },
+            {
+              "prize": 210.0,
+              "ranks": "11",
+              "min_points": 6621,
+              "max_points": 23387,
+              "hands_no_hh": 12590,
+              "bb100_no_hh": 0.83,
+              "is_top_value": false,
+              "hands_max_hh": 10830,
+              "bb100_max_hh": 0.97
+            },
+            {
+              "prize": 170.0,
+              "ranks": "12",
+              "min_points": 6389,
+              "max_points": 23326,
+              "hands_no_hh": 12144,
+              "bb100_no_hh": 0.7,
+              "is_top_value": false,
+              "hands_max_hh": 10384,
+              "bb100_max_hh": 0.82
+            },
+            {
+              "prize": 130.0,
+              "ranks": "13",
+              "min_points": 6289,
+              "max_points": 22712,
+              "hands_no_hh": 11348,
+              "bb100_no_hh": 0.57,
+              "is_top_value": false,
+              "hands_max_hh": 9588,
+              "bb100_max_hh": 0.68
+            },
+            {
+              "prize": 110.0,
+              "ranks": "14",
+              "min_points": 6028,
+              "max_points": 22141,
+              "hands_no_hh": 10849,
+              "bb100_no_hh": 0.51,
+              "is_top_value": false,
+              "hands_max_hh": 9089,
+              "bb100_max_hh": 0.61
+            },
+            {
+              "prize": 90.0,
+              "ranks": "15-19",
+              "min_points": 5348,
+              "max_points": 21196,
+              "hands_no_hh": 9736,
+              "bb100_no_hh": 0.46,
+              "is_top_value": false,
+              "hands_max_hh": 7976,
+              "bb100_max_hh": 0.56
+            },
+            {
+              "prize": 80.0,
+              "ranks": "20-30",
+              "min_points": 4179,
+              "max_points": 16261,
+              "hands_no_hh": 7619,
+              "bb100_no_hh": 0.53,
+              "is_top_value": false,
+              "hands_max_hh": 5859,
+              "bb100_max_hh": 0.68
+            },
+            {
+              "prize": 70.0,
+              "ranks": "31-40",
+              "min_points": 3579,
+              "max_points": 15664,
+              "hands_no_hh": 6036,
+              "bb100_no_hh": 0.58,
+              "is_top_value": false,
+              "hands_max_hh": 4276,
+              "bb100_max_hh": 0.82
+            },
+            {
+              "prize": 60.0,
+              "ranks": "41-100",
+              "min_points": 1377,
+              "max_points": 10260,
+              "hands_no_hh": 4059,
+              "bb100_no_hh": 0.74,
+              "is_top_value": false,
+              "hands_max_hh": 2299,
+              "bb100_max_hh": 1.3
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "regular",
+      "name": "Regular Holdem",
+      "has_happy_hour": false,
+      "stakes": [
+        {
+          "id": "nl2",
+          "name": "NL2",
+          "bb_value": 0.02,
+          "prize_levels": [
+            {
+              "prize": 25.0,
+              "ranks": "1",
+              "min_points": 1150,
+              "max_points": 2242,
+              "hands_no_hh": 3543,
+              "bb100_no_hh": 35.28,
+              "is_top_value": true
+            },
+            {
+              "prize": 20.0,
+              "ranks": "2",
+              "min_points": 1020,
+              "max_points": 2239,
+              "hands_no_hh": 3201,
+              "bb100_no_hh": 31.24,
+              "is_top_value": true
+            },
+            {
+              "prize": 17.0,
+              "ranks": "3",
+              "min_points": 947,
+              "max_points": 1699,
+              "hands_no_hh": 2849,
+              "bb100_no_hh": 29.84,
+              "is_top_value": true
+            },
+            {
+              "prize": 14.0,
+              "ranks": "4",
+              "min_points": 808,
+              "max_points": 1599,
+              "hands_no_hh": 2562,
+              "bb100_no_hh": 27.32,
+              "is_top_value": false
+            },
+            {
+              "prize": 11.0,
+              "ranks": "5",
+              "min_points": 727,
+              "max_points": 1474,
+              "hands_no_hh": 2336,
+              "bb100_no_hh": 23.54,
+              "is_top_value": false
+            },
+            {
+              "prize": 9.0,
+              "ranks": "6",
+              "min_points": 680,
+              "max_points": 1273,
+              "hands_no_hh": 2113,
+              "bb100_no_hh": 21.3,
+              "is_top_value": false
+            },
+            {
+              "prize": 8.0,
+              "ranks": "7",
+              "min_points": 651,
+              "max_points": 1225,
+              "hands_no_hh": 1983,
+              "bb100_no_hh": 20.17,
+              "is_top_value": false
+            },
+            {
+              "prize": 7.0,
+              "ranks": "8",
+              "min_points": 596,
+              "max_points": 1116,
+              "hands_no_hh": 1839,
+              "bb100_no_hh": 19.03,
+              "is_top_value": false
+            },
+            {
+              "prize": 6.0,
+              "ranks": "9",
+              "min_points": 574,
+              "max_points": 1072,
+              "hands_no_hh": 1718,
+              "bb100_no_hh": 17.46,
+              "is_top_value": false
+            },
+            {
+              "prize": 5.0,
+              "ranks": "10",
+              "min_points": 557,
+              "max_points": 1042,
+              "hands_no_hh": 1612,
+              "bb100_no_hh": 15.51,
+              "is_top_value": false
+            },
+            {
+              "prize": 4.0,
+              "ranks": "11",
+              "min_points": 508,
+              "max_points": 987,
+              "hands_no_hh": 1533,
+              "bb100_no_hh": 13.05,
+              "is_top_value": false
+            },
+            {
+              "prize": 3.5,
+              "ranks": "12-13",
+              "min_points": 475,
+              "max_points": 868,
+              "hands_no_hh": 1416,
+              "bb100_no_hh": 12.36,
+              "is_top_value": false
+            },
+            {
+              "prize": 3.0,
+              "ranks": "14",
+              "min_points": 451,
+              "max_points": 799,
+              "hands_no_hh": 1328,
+              "bb100_no_hh": 11.3,
+              "is_top_value": false
+            },
+            {
+              "prize": 2.5,
+              "ranks": "15-18",
+              "min_points": 411,
+              "max_points": 776,
+              "hands_no_hh": 1230,
+              "bb100_no_hh": 10.16,
+              "is_top_value": false
+            },
+            {
+              "prize": 2.0,
+              "ranks": "19-22",
+              "min_points": 373,
+              "max_points": 686,
+              "hands_no_hh": 1114,
+              "bb100_no_hh": 8.98,
+              "is_top_value": false
+            },
+            {
+              "prize": 1.8,
+              "ranks": "23-25",
+              "min_points": 363,
+              "max_points": 622,
+              "hands_no_hh": 1042,
+              "bb100_no_hh": 8.64,
+              "is_top_value": false
+            },
+            {
+              "prize": 1.6,
+              "ranks": "26-29",
+              "min_points": 356,
+              "max_points": 612,
+              "hands_no_hh": 986,
+              "bb100_no_hh": 8.11,
+              "is_top_value": false
+            },
+            {
+              "prize": 1.4,
+              "ranks": "30-33",
+              "min_points": 341,
+              "max_points": 599,
+              "hands_no_hh": 928,
+              "bb100_no_hh": 7.54,
+              "is_top_value": false
+            },
+            {
+              "prize": 1.2,
+              "ranks": "34-36",
+              "min_points": 338,
+              "max_points": 580,
+              "hands_no_hh": 891,
+              "bb100_no_hh": 6.73,
+              "is_top_value": false
+            },
+            {
+              "prize": 1.0,
+              "ranks": "37-40",
+              "min_points": 326,
+              "max_points": 544,
+              "hands_no_hh": 857,
+              "bb100_no_hh": 5.83,
+              "is_top_value": false
+            },
+            {
+              "prize": 0.8,
+              "ranks": "41-60",
+              "min_points": 266,
+              "max_points": 490,
+              "hands_no_hh": 755,
+              "bb100_no_hh": 5.3,
+              "is_top_value": false
+            },
+            {
+              "prize": 0.6,
+              "ranks": "61-80",
+              "min_points": 230,
+              "max_points": 448,
+              "hands_no_hh": 637,
+              "bb100_no_hh": 4.71,
+              "is_top_value": false
+            },
+            {
+              "prize": 0.4,
+              "ranks": "81-110",
+              "min_points": 205,
+              "max_points": 552,
+              "hands_no_hh": 540,
+              "bb100_no_hh": 3.7,
+              "is_top_value": false
+            },
+            {
+              "prize": 0.3,
+              "ranks": "111-140",
+              "min_points": 176,
+              "max_points": 420,
+              "hands_no_hh": 461,
+              "bb100_no_hh": 3.25,
+              "is_top_value": false
+            },
+            {
+              "prize": 0.2,
+              "ranks": "141-200",
+              "min_points": 144,
+              "max_points": 412,
+              "hands_no_hh": 387,
+              "bb100_no_hh": 2.58,
+              "is_top_value": false
+            },
+            {
+              "prize": 0.1,
+              "ranks": "201-300",
+              "min_points": 108,
+              "max_points": 326,
+              "hands_no_hh": 304,
+              "bb100_no_hh": 1.64,
+              "is_top_value": false
+            }
+          ]
+        },
+        {
+          "id": "nl5",
+          "name": "NL5",
+          "bb_value": 0.05,
+          "prize_levels": [
+            {
+              "prize": 40.0,
+              "ranks": "1",
+              "min_points": 1753,
+              "max_points": 3927,
+              "hands_no_hh": 6324,
+              "bb100_no_hh": 12.65,
+              "is_top_value": true
+            },
+            {
+              "prize": 30.0,
+              "ranks": "2",
+              "min_points": 1712,
+              "max_points": 3626,
+              "hands_no_hh": 5716,
+              "bb100_no_hh": 10.5,
+              "is_top_value": true
+            },
+            {
+              "prize": 24.0,
+              "ranks": "3",
+              "min_points": 1634,
+              "max_points": 3244,
+              "hands_no_hh": 5037,
+              "bb100_no_hh": 9.53,
+              "is_top_value": true
+            },
+            {
+              "prize": 20.0,
+              "ranks": "4",
+              "min_points": 1565,
+              "max_points": 2580,
+              "hands_no_hh": 4567,
+              "bb100_no_hh": 8.76,
+              "is_top_value": false
+            },
+            {
+              "prize": 18.0,
+              "ranks": "5",
+              "min_points": 1515,
+              "max_points": 2433,
+              "hands_no_hh": 4158,
+              "bb100_no_hh": 8.66,
+              "is_top_value": false
+            },
+            {
+              "prize": 16.0,
+              "ranks": "6",
+              "min_points": 1378,
+              "max_points": 2386,
+              "hands_no_hh": 3951,
+              "bb100_no_hh": 8.1,
+              "is_top_value": false
+            },
+            {
+              "prize": 14.0,
+              "ranks": "7",
+              "min_points": 1345,
+              "max_points": 2106,
+              "hands_no_hh": 3742,
+              "bb100_no_hh": 7.48,
+              "is_top_value": false
+            },
+            {
+              "prize": 12.0,
+              "ranks": "8",
+              "min_points": 1256,
+              "max_points": 2096,
+              "hands_no_hh": 3530,
+              "bb100_no_hh": 6.8,
+              "is_top_value": false
+            },
+            {
+              "prize": 10.0,
+              "ranks": "9",
+              "min_points": 1205,
+              "max_points": 2016,
+              "hands_no_hh": 3348,
+              "bb100_no_hh": 5.97,
+              "is_top_value": false
+            },
+            {
+              "prize": 8.0,
+              "ranks": "10",
+              "min_points": 979,
+              "max_points": 1887,
+              "hands_no_hh": 3165,
+              "bb100_no_hh": 5.06,
+              "is_top_value": false
+            },
+            {
+              "prize": 7.0,
+              "ranks": "11",
+              "min_points": 885,
+              "max_points": 1859,
+              "hands_no_hh": 3007,
+              "bb100_no_hh": 4.66,
+              "is_top_value": false
+            },
+            {
+              "prize": 6.0,
+              "ranks": "12",
+              "min_points": 855,
+              "max_points": 1777,
+              "hands_no_hh": 2882,
+              "bb100_no_hh": 4.16,
+              "is_top_value": false
+            },
+            {
+              "prize": 5.0,
+              "ranks": "13-14",
+              "min_points": 783,
+              "max_points": 1702,
+              "hands_no_hh": 2689,
+              "bb100_no_hh": 3.72,
+              "is_top_value": false
+            },
+            {
+              "prize": 4.5,
+              "ranks": "15-17",
+              "min_points": 669,
+              "max_points": 1519,
+              "hands_no_hh": 2460,
+              "bb100_no_hh": 3.66,
+              "is_top_value": false
+            },
+            {
+              "prize": 4.0,
+              "ranks": "18-21",
+              "min_points": 605,
+              "max_points": 1388,
+              "hands_no_hh": 2222,
+              "bb100_no_hh": 3.6,
+              "is_top_value": false
+            },
+            {
+              "prize": 3.5,
+              "ranks": "22-23",
+              "min_points": 568,
+              "max_points": 1266,
+              "hands_no_hh": 2061,
+              "bb100_no_hh": 3.4,
+              "is_top_value": false
+            },
+            {
+              "prize": 3.0,
+              "ranks": "24-27",
+              "min_points": 528,
+              "max_points": 1252,
+              "hands_no_hh": 1923,
+              "bb100_no_hh": 3.12,
+              "is_top_value": false
+            },
+            {
+              "prize": 2.5,
+              "ranks": "28-34",
+              "min_points": 452,
+              "max_points": 1082,
+              "hands_no_hh": 1711,
+              "bb100_no_hh": 2.92,
+              "is_top_value": false
+            },
+            {
+              "prize": 2.0,
+              "ranks": "35-37",
+              "min_points": 439,
+              "max_points": 1710,
+              "hands_no_hh": 1588,
+              "bb100_no_hh": 2.52,
+              "is_top_value": false
+            },
+            {
+              "prize": 1.8,
+              "ranks": "38",
+              "min_points": 433,
+              "max_points": 834,
+              "hands_no_hh": 1531,
+              "bb100_no_hh": 2.35,
+              "is_top_value": false
+            },
+            {
+              "prize": 1.6,
+              "ranks": "39-40",
+              "min_points": 409,
+              "max_points": 828,
+              "hands_no_hh": 1499,
+              "bb100_no_hh": 2.13,
+              "is_top_value": false
+            },
+            {
+              "prize": 1.4,
+              "ranks": "41-50",
+              "min_points": 379,
+              "max_points": 1431,
+              "hands_no_hh": 1406,
+              "bb100_no_hh": 1.99,
+              "is_top_value": false
+            },
+            {
+              "prize": 1.2,
+              "ranks": "51-60",
+              "min_points": 335,
+              "max_points": 725,
+              "hands_no_hh": 1263,
+              "bb100_no_hh": 1.9,
+              "is_top_value": false
+            },
+            {
+              "prize": 1.0,
+              "ranks": "61-70",
+              "min_points": 306,
+              "max_points": 680,
+              "hands_no_hh": 1161,
+              "bb100_no_hh": 1.72,
+              "is_top_value": false
+            },
+            {
+              "prize": 0.8,
+              "ranks": "71-90",
+              "min_points": 252,
+              "max_points": 625,
+              "hands_no_hh": 1047,
+              "bb100_no_hh": 1.53,
+              "is_top_value": false
+            },
+            {
+              "prize": 0.6,
+              "ranks": "91-130",
+              "min_points": 196,
+              "max_points": 841,
+              "hands_no_hh": 872,
+              "bb100_no_hh": 1.38,
+              "is_top_value": false
+            },
+            {
+              "prize": 0.4,
+              "ranks": "131-170",
+              "min_points": 165,
+              "max_points": 745,
+              "hands_no_hh": 712,
+              "bb100_no_hh": 1.12,
+              "is_top_value": false
+            },
+            {
+              "prize": 0.2,
+              "ranks": "171-250",
+              "min_points": 121,
+              "max_points": 596,
+              "hands_no_hh": 563,
+              "bb100_no_hh": 0.71,
+              "is_top_value": false
+            }
+          ]
+        },
+        {
+          "id": "nl10",
+          "name": "NL10",
+          "bb_value": 0.1,
+          "prize_levels": [
+            {
+              "prize": 60.0,
+              "ranks": "1",
+              "min_points": 2593,
+              "max_points": 5084,
+              "hands_no_hh": 8660,
+              "bb100_no_hh": 6.93,
+              "is_top_value": true
+            },
+            {
+              "prize": 45.0,
+              "ranks": "2",
+              "min_points": 2309,
+              "max_points": 4854,
+              "hands_no_hh": 7688,
+              "bb100_no_hh": 5.85,
+              "is_top_value": true
+            },
+            {
+              "prize": 35.0,
+              "ranks": "3",
+              "min_points": 1703,
+              "max_points": 4802,
+              "hands_no_hh": 6811,
+              "bb100_no_hh": 5.14,
+              "is_top_value": true
+            },
+            {
+              "prize": 30.0,
+              "ranks": "4",
+              "min_points": 1700,
+              "max_points": 3630,
+              "hands_no_hh": 6146,
+              "bb100_no_hh": 4.88,
+              "is_top_value": false
+            },
+            {
+              "prize": 25.0,
+              "ranks": "5",
+              "min_points": 1679,
+              "max_points": 3595,
+              "hands_no_hh": 5655,
+              "bb100_no_hh": 4.42,
+              "is_top_value": false
+            },
+            {
+              "prize": 20.0,
+              "ranks": "6",
+              "min_points": 1605,
+              "max_points": 3203,
+              "hands_no_hh": 5304,
+              "bb100_no_hh": 3.77,
+              "is_top_value": false
+            },
+            {
+              "prize": 16.0,
+              "ranks": "7",
+              "min_points": 1581,
+              "max_points": 3071,
+              "hands_no_hh": 4996,
+              "bb100_no_hh": 3.2,
+              "is_top_value": false
+            },
+            {
+              "prize": 13.0,
+              "ranks": "8",
+              "min_points": 1555,
+              "max_points": 3046,
+              "hands_no_hh": 4757,
+              "bb100_no_hh": 2.73,
+              "is_top_value": false
+            },
+            {
+              "prize": 11.0,
+              "ranks": "9",
+              "min_points": 1551,
+              "max_points": 2689,
+              "hands_no_hh": 4467,
+              "bb100_no_hh": 2.46,
+              "is_top_value": false
+            },
+            {
+              "prize": 9.0,
+              "ranks": "10",
+              "min_points": 1427,
+              "max_points": 2608,
+              "hands_no_hh": 4277,
+              "bb100_no_hh": 2.1,
+              "is_top_value": false
+            },
+            {
+              "prize": 8.0,
+              "ranks": "11",
+              "min_points": 1297,
+              "max_points": 2592,
+              "hands_no_hh": 4094,
+              "bb100_no_hh": 1.95,
+              "is_top_value": false
+            },
+            {
+              "prize": 7.0,
+              "ranks": "12-13",
+              "min_points": 1169,
+              "max_points": 2423,
+              "hands_no_hh": 3846,
+              "bb100_no_hh": 1.82,
+              "is_top_value": false
+            },
+            {
+              "prize": 6.0,
+              "ranks": "14-16",
+              "min_points": 849,
+              "max_points": 2152,
+              "hands_no_hh": 3500,
+              "bb100_no_hh": 1.71,
+              "is_top_value": false
+            },
+            {
+              "prize": 5.0,
+              "ranks": "17-21",
+              "min_points": 748,
+              "max_points": 3475,
+              "hands_no_hh": 3158,
+              "bb100_no_hh": 1.58,
+              "is_top_value": false
+            },
+            {
+              "prize": 4.0,
+              "ranks": "22-27",
+              "min_points": 690,
+              "max_points": 1703,
+              "hands_no_hh": 2753,
+              "bb100_no_hh": 1.45,
+              "is_top_value": false
+            },
+            {
+              "prize": 3.0,
+              "ranks": "28-39",
+              "min_points": 594,
+              "max_points": 2702,
+              "hands_no_hh": 2398,
+              "bb100_no_hh": 1.25,
+              "is_top_value": false
+            },
+            {
+              "prize": 2.0,
+              "ranks": "40-60",
+              "min_points": 462,
+              "max_points": 1784,
+              "hands_no_hh": 1920,
+              "bb100_no_hh": 1.04,
+              "is_top_value": false
+            },
+            {
+              "prize": 1.5,
+              "ranks": "61-80",
+              "min_points": 393,
+              "max_points": 1526,
+              "hands_no_hh": 1566,
+              "bb100_no_hh": 0.96,
+              "is_top_value": false
+            },
+            {
+              "prize": 1.2,
+              "ranks": "81-100",
+              "min_points": 364,
+              "max_points": 816,
+              "hands_no_hh": 1355,
+              "bb100_no_hh": 0.89,
+              "is_top_value": false
+            },
+            {
+              "prize": 1.0,
+              "ranks": "101-180",
+              "min_points": 237,
+              "max_points": 879,
+              "hands_no_hh": 1047,
+              "bb100_no_hh": 0.96,
+              "is_top_value": false
+            },
+            {
+              "prize": 0.5,
+              "ranks": "181-250",
+              "min_points": 171,
+              "max_points": 728,
+              "hands_no_hh": 766,
+              "bb100_no_hh": 0.65,
+              "is_top_value": false
+            }
+          ]
+        },
+        {
+          "id": "nl25",
+          "name": "NL25",
+          "bb_value": 0.25,
+          "prize_levels": [
+            {
+              "prize": 100.0,
+              "ranks": "1",
+              "min_points": 2305,
+              "max_points": 4998,
+              "hands_no_hh": 8753,
+              "bb100_no_hh": 4.57,
+              "is_top_value": true
+            },
+            {
+              "prize": 80.0,
+              "ranks": "2",
+              "min_points": 1947,
+              "max_points": 4987,
+              "hands_no_hh": 7902,
+              "bb100_no_hh": 4.05,
+              "is_top_value": true
+            },
+            {
+              "prize": 65.0,
+              "ranks": "3",
+              "min_points": 1710,
+              "max_points": 4340,
+              "hands_no_hh": 7178,
+              "bb100_no_hh": 3.62,
+              "is_top_value": true
+            },
+            {
+              "prize": 50.0,
+              "ranks": "4",
+              "min_points": 1673,
+              "max_points": 4299,
+              "hands_no_hh": 6503,
+              "bb100_no_hh": 3.08,
+              "is_top_value": false
+            },
+            {
+              "prize": 35.0,
+              "ranks": "5",
+              "min_points": 1497,
+              "max_points": 3729,
+              "hands_no_hh": 6031,
+              "bb100_no_hh": 2.32,
+              "is_top_value": false
+            },
+            {
+              "prize": 25.0,
+              "ranks": "6",
+              "min_points": 1494,
+              "max_points": 3680,
+              "hands_no_hh": 5556,
+              "bb100_no_hh": 1.8,
+              "is_top_value": false
+            },
+            {
+              "prize": 20.0,
+              "ranks": "7",
+              "min_points": 1444,
+              "max_points": 3216,
+              "hands_no_hh": 5160,
+              "bb100_no_hh": 1.55,
+              "is_top_value": false
+            },
+            {
+              "prize": 16.0,
+              "ranks": "8",
+              "min_points": 1245,
+              "max_points": 3019,
+              "hands_no_hh": 4770,
+              "bb100_no_hh": 1.34,
+              "is_top_value": false
+            },
+            {
+              "prize": 13.0,
+              "ranks": "9",
+              "min_points": 1219,
+              "max_points": 2934,
+              "hands_no_hh": 4409,
+              "bb100_no_hh": 1.18,
+              "is_top_value": false
+            },
+            {
+              "prize": 11.0,
+              "ranks": "10",
+              "min_points": 1187,
+              "max_points": 2532,
+              "hands_no_hh": 4178,
+              "bb100_no_hh": 1.05,
+              "is_top_value": false
+            },
+            {
+              "prize": 10.0,
+              "ranks": "11",
+              "min_points": 1087,
+              "max_points": 2469,
+              "hands_no_hh": 4016,
+              "bb100_no_hh": 1.0,
+              "is_top_value": false
+            },
+            {
+              "prize": 9.0,
+              "ranks": "12-13",
+              "min_points": 962,
+              "max_points": 2361,
+              "hands_no_hh": 3713,
+              "bb100_no_hh": 0.97,
+              "is_top_value": false
+            },
+            {
+              "prize": 8.0,
+              "ranks": "14-16",
+              "min_points": 879,
+              "max_points": 2206,
+              "hands_no_hh": 3412,
+              "bb100_no_hh": 0.94,
+              "is_top_value": false
+            },
+            {
+              "prize": 7.0,
+              "ranks": "17-22",
+              "min_points": 703,
+              "max_points": 2788,
+              "hands_no_hh": 3034,
+              "bb100_no_hh": 0.92,
+              "is_top_value": false
+            },
+            {
+              "prize": 6.0,
+              "ranks": "23-28",
+              "min_points": 636,
+              "max_points": 1803,
+              "hands_no_hh": 2684,
+              "bb100_no_hh": 0.89,
+              "is_top_value": false
+            },
+            {
+              "prize": 5.0,
+              "ranks": "29-35",
+              "min_points": 598,
+              "max_points": 2243,
+              "hands_no_hh": 2408,
+              "bb100_no_hh": 0.83,
+              "is_top_value": false
+            },
+            {
+              "prize": 4.0,
+              "ranks": "36-70",
+              "min_points": 384,
+              "max_points": 1504,
+              "hands_no_hh": 1869,
+              "bb100_no_hh": 0.86,
+              "is_top_value": false
+            },
+            {
+              "prize": 3.0,
+              "ranks": "71-110",
+              "min_points": 278,
+              "max_points": 1384,
+              "hands_no_hh": 1372,
+              "bb100_no_hh": 0.87,
+              "is_top_value": false
+            },
+            {
+              "prize": 2.0,
+              "ranks": "111-160",
+              "min_points": 187,
+              "max_points": 1106,
+              "hands_no_hh": 1036,
+              "bb100_no_hh": 0.77,
+              "is_top_value": false
+            },
+            {
+              "prize": 1.0,
+              "ranks": "161-220",
+              "min_points": 143,
+              "max_points": 850,
+              "hands_no_hh": 787,
+              "bb100_no_hh": 0.51,
+              "is_top_value": false
+            }
+          ]
+        },
+        {
+          "id": "nl50",
+          "name": "NL50",
+          "bb_value": 0.5,
+          "prize_levels": [
+            {
+              "prize": 120.0,
+              "ranks": "1",
+              "min_points": 1224,
+              "max_points": 5338,
+              "hands_no_hh": 8027,
+              "bb100_no_hh": 2.99,
+              "is_top_value": true
+            },
+            {
+              "prize": 90.0,
+              "ranks": "2",
+              "min_points": 1112,
+              "max_points": 4920,
+              "hands_no_hh": 6924,
+              "bb100_no_hh": 2.6,
+              "is_top_value": true
+            },
+            {
+              "prize": 70.0,
+              "ranks": "3",
+              "min_points": 1081,
+              "max_points": 5002,
+              "hands_no_hh": 6129,
+              "bb100_no_hh": 2.28,
+              "is_top_value": true
+            },
+            {
+              "prize": 55.0,
+              "ranks": "4",
+              "min_points": 970,
+              "max_points": 3512,
+              "hands_no_hh": 5162,
+              "bb100_no_hh": 2.13,
+              "is_top_value": false
+            },
+            {
+              "prize": 40.0,
+              "ranks": "5",
+              "min_points": 966,
+              "max_points": 3116,
+              "hands_no_hh": 4595,
+              "bb100_no_hh": 1.74,
+              "is_top_value": false
+            },
+            {
+              "prize": 30.0,
+              "ranks": "6",
+              "min_points": 869,
+              "max_points": 2748,
+              "hands_no_hh": 4287,
+              "bb100_no_hh": 1.4,
+              "is_top_value": false
+            },
+            {
+              "prize": 25.0,
+              "ranks": "7",
+              "min_points": 838,
+              "max_points": 2522,
+              "hands_no_hh": 3969,
+              "bb100_no_hh": 1.26,
+              "is_top_value": false
+            },
+            {
+              "prize": 20.0,
+              "ranks": "8",
+              "min_points": 835,
+              "max_points": 2378,
+              "hands_no_hh": 3661,
+              "bb100_no_hh": 1.09,
+              "is_top_value": false
+            },
+            {
+              "prize": 15.0,
+              "ranks": "9",
+              "min_points": 831,
+              "max_points": 2276,
+              "hands_no_hh": 3445,
+              "bb100_no_hh": 0.87,
+              "is_top_value": false
+            },
+            {
+              "prize": 12.0,
+              "ranks": "10",
+              "min_points": 793,
+              "max_points": 2176,
+              "hands_no_hh": 3279,
+              "bb100_no_hh": 0.73,
+              "is_top_value": false
+            },
+            {
+              "prize": 11.0,
+              "ranks": "11-12",
+              "min_points": 729,
+              "max_points": 2162,
+              "hands_no_hh": 3087,
+              "bb100_no_hh": 0.71,
+              "is_top_value": false
+            },
+            {
+              "prize": 10.0,
+              "ranks": "13-14",
+              "min_points": 682,
+              "max_points": 1666,
+              "hands_no_hh": 2765,
+              "bb100_no_hh": 0.72,
+              "is_top_value": false
+            },
+            {
+              "prize": 9.0,
+              "ranks": "15-17",
+              "min_points": 657,
+              "max_points": 2722,
+              "hands_no_hh": 2594,
+              "bb100_no_hh": 0.69,
+              "is_top_value": false
+            },
+            {
+              "prize": 8.0,
+              "ranks": "18-20",
+              "min_points": 641,
+              "max_points": 1370,
+              "hands_no_hh": 2371,
+              "bb100_no_hh": 0.67,
+              "is_top_value": false
+            },
+            {
+              "prize": 7.0,
+              "ranks": "21-25",
+              "min_points": 606,
+              "max_points": 1232,
+              "hands_no_hh": 2179,
+              "bb100_no_hh": 0.64,
+              "is_top_value": false
+            },
+            {
+              "prize": 6.0,
+              "ranks": "26-35",
+              "min_points": 523,
+              "max_points": 1094,
+              "hands_no_hh": 1912,
+              "bb100_no_hh": 0.63,
+              "is_top_value": false
+            },
+            {
+              "prize": 5.0,
+              "ranks": "36-60",
+              "min_points": 403,
+              "max_points": 1526,
+              "hands_no_hh": 1550,
+              "bb100_no_hh": 0.65,
+              "is_top_value": false
+            },
+            {
+              "prize": 4.0,
+              "ranks": "61-70",
+              "min_points": 364,
+              "max_points": 711,
+              "hands_no_hh": 1282,
+              "bb100_no_hh": 0.62,
+              "is_top_value": false
+            },
+            {
+              "prize": 3.5,
+              "ranks": "71-100",
+              "min_points": 264,
+              "max_points": 1229,
+              "hands_no_hh": 1076,
+              "bb100_no_hh": 0.65,
+              "is_top_value": false
+            },
+            {
+              "prize": 3.0,
+              "ranks": "101-130",
+              "min_points": 186,
+              "max_points": 873,
+              "hands_no_hh": 851,
+              "bb100_no_hh": 0.71,
+              "is_top_value": false
+            },
+            {
+              "prize": 2.5,
+              "ranks": "131-200",
+              "min_points": 120,
+              "max_points": 806,
+              "hands_no_hh": 624,
+              "bb100_no_hh": 0.8,
+              "is_top_value": false
+            }
+          ]
+        },
+        {
+          "id": "nl100",
+          "name": "NL100",
+          "bb_value": 1.0,
+          "prize_levels": [
+            {
+              "prize": 200.0,
+              "ranks": "1",
+              "min_points": 1835,
+              "max_points": 5589,
+              "hands_no_hh": 6513,
+              "bb100_no_hh": 3.07,
+              "is_top_value": true
+            },
+            {
+              "prize": 160.0,
+              "ranks": "2",
+              "min_points": 1697,
+              "max_points": 4343,
+              "hands_no_hh": 5808,
+              "bb100_no_hh": 2.75,
+              "is_top_value": true
+            },
+            {
+              "prize": 130.0,
+              "ranks": "3",
+              "min_points": 1615,
+              "max_points": 3003,
+              "hands_no_hh": 4963,
+              "bb100_no_hh": 2.62,
+              "is_top_value": true
+            },
+            {
+              "prize": 100.0,
+              "ranks": "4",
+              "min_points": 1522,
+              "max_points": 2965,
+              "hands_no_hh": 4493,
+              "bb100_no_hh": 2.23,
+              "is_top_value": false
+            },
+            {
+              "prize": 80.0,
+              "ranks": "5",
+              "min_points": 1141,
+              "max_points": 2427,
+              "hands_no_hh": 4153,
+              "bb100_no_hh": 1.93,
+              "is_top_value": false
+            },
+            {
+              "prize": 60.0,
+              "ranks": "6",
+              "min_points": 1127,
+              "max_points": 2241,
+              "hands_no_hh": 3781,
+              "bb100_no_hh": 1.59,
+              "is_top_value": false
+            },
+            {
+              "prize": 50.0,
+              "ranks": "7",
+              "min_points": 1088,
+              "max_points": 2210,
+              "hands_no_hh": 3563,
+              "bb100_no_hh": 1.4,
+              "is_top_value": false
+            },
+            {
+              "prize": 40.0,
+              "ranks": "8",
+              "min_points": 1079,
+              "max_points": 1992,
+              "hands_no_hh": 3342,
+              "bb100_no_hh": 1.2,
+              "is_top_value": false
+            },
+            {
+              "prize": 30.0,
+              "ranks": "9",
+              "min_points": 893,
+              "max_points": 1857,
+              "hands_no_hh": 3163,
+              "bb100_no_hh": 0.95,
+              "is_top_value": false
+            },
+            {
+              "prize": 25.0,
+              "ranks": "10-11",
+              "min_points": 861,
+              "max_points": 1835,
+              "hands_no_hh": 2960,
+              "bb100_no_hh": 0.84,
+              "is_top_value": false
+            },
+            {
+              "prize": 20.0,
+              "ranks": "12-15",
+              "min_points": 785,
+              "max_points": 1756,
+              "hands_no_hh": 2629,
+              "bb100_no_hh": 0.76,
+              "is_top_value": false
+            },
+            {
+              "prize": 15.0,
+              "ranks": "16-25",
+              "min_points": 531,
+              "max_points": 1437,
+              "hands_no_hh": 2162,
+              "bb100_no_hh": 0.69,
+              "is_top_value": false
+            },
+            {
+              "prize": 10.0,
+              "ranks": "26-50",
+              "min_points": 348,
+              "max_points": 1473,
+              "hands_no_hh": 1625,
+              "bb100_no_hh": 0.62,
+              "is_top_value": false
+            },
+            {
+              "prize": 8.0,
+              "ranks": "51-80",
+              "min_points": 251,
+              "max_points": 771,
+              "hands_no_hh": 1136,
+              "bb100_no_hh": 0.7,
+              "is_top_value": false
+            },
+            {
+              "prize": 6.0,
+              "ranks": "81-110",
+              "min_points": 171,
+              "max_points": 848,
+              "hands_no_hh": 841,
+              "bb100_no_hh": 0.71,
+              "is_top_value": false
+            },
+            {
+              "prize": 5.0,
+              "ranks": "111-150",
+              "min_points": 113,
+              "max_points": 656,
+              "hands_no_hh": 623,
+              "bb100_no_hh": 0.8,
+              "is_top_value": false
+            }
+          ]
+        },
+        {
+          "id": "nl200",
+          "name": "NL200",
+          "bb_value": 2.0,
+          "prize_levels": [
+            {
+              "prize": 350.0,
+              "ranks": "1",
+              "min_points": 1969,
+              "max_points": 4160,
+              "hands_no_hh": 6178,
+              "bb100_no_hh": 2.83,
+              "is_top_value": true
+            },
+            {
+              "prize": 270.0,
+              "ranks": "2",
+              "min_points": 1469,
+              "max_points": 3456,
+              "hands_no_hh": 5328,
+              "bb100_no_hh": 2.53,
+              "is_top_value": true
+            },
+            {
+              "prize": 210.0,
+              "ranks": "3",
+              "min_points": 1264,
+              "max_points": 3900,
+              "hands_no_hh": 4704,
+              "bb100_no_hh": 2.23,
+              "is_top_value": true
+            },
+            {
+              "prize": 170.0,
+              "ranks": "4",
+              "min_points": 1216,
+              "max_points": 2782,
+              "hands_no_hh": 4228,
+              "bb100_no_hh": 2.01,
+              "is_top_value": false
+            },
+            {
+              "prize": 130.0,
+              "ranks": "5",
+              "min_points": 1056,
+              "max_points": 2748,
+              "hands_no_hh": 3747,
+              "bb100_no_hh": 1.73,
+              "is_top_value": false
+            },
+            {
+              "prize": 100.0,
+              "ranks": "6",
+              "min_points": 859,
+              "max_points": 2491,
+              "hands_no_hh": 3336,
+              "bb100_no_hh": 1.5,
+              "is_top_value": false
+            },
+            {
+              "prize": 80.0,
+              "ranks": "7",
+              "min_points": 794,
+              "max_points": 2444,
+              "hands_no_hh": 3160,
+              "bb100_no_hh": 1.27,
+              "is_top_value": false
+            },
+            {
+              "prize": 60.0,
+              "ranks": "8",
+              "min_points": 707,
+              "max_points": 2224,
+              "hands_no_hh": 2981,
+              "bb100_no_hh": 1.01,
+              "is_top_value": false
+            },
+            {
+              "prize": 50.0,
+              "ranks": "9-10",
+              "min_points": 634,
+              "max_points": 2000,
+              "hands_no_hh": 2714,
+              "bb100_no_hh": 0.92,
+              "is_top_value": false
+            },
+            {
+              "prize": 40.0,
+              "ranks": "11-12",
+              "min_points": 586,
+              "max_points": 1869,
+              "hands_no_hh": 2406,
+              "bb100_no_hh": 0.83,
+              "is_top_value": false
+            },
+            {
+              "prize": 30.0,
+              "ranks": "13-16",
+              "min_points": 542,
+              "max_points": 1983,
+              "hands_no_hh": 2116,
+              "bb100_no_hh": 0.71,
+              "is_top_value": false
+            },
+            {
+              "prize": 25.0,
+              "ranks": "17-23",
+              "min_points": 429,
+              "max_points": 1579,
+              "hands_no_hh": 1760,
+              "bb100_no_hh": 0.71,
+              "is_top_value": false
+            },
+            {
+              "prize": 20.0,
+              "ranks": "24-33",
+              "min_points": 362,
+              "max_points": 926,
+              "hands_no_hh": 1426,
+              "bb100_no_hh": 0.7,
+              "is_top_value": false
+            },
+            {
+              "prize": 15.0,
+              "ranks": "34-70",
+              "min_points": 174,
+              "max_points": 924,
+              "hands_no_hh": 941,
+              "bb100_no_hh": 0.8,
+              "is_top_value": false
+            },
+            {
+              "prize": 10.0,
+              "ranks": "71-110",
+              "min_points": 97,
+              "max_points": 567,
+              "hands_no_hh": 557,
+              "bb100_no_hh": 0.9,
+              "is_top_value": false
+            }
+          ]
+        },
+        {
+          "id": "nl500",
+          "name": "NL500",
+          "bb_value": 5.0,
+          "prize_levels": [
+            {
+              "prize": 500.0,
+              "ranks": "1",
+              "min_points": 1605,
+              "max_points": 4139,
+              "hands_no_hh": 4979,
+              "bb100_no_hh": 2.01,
+              "is_top_value": true
+            },
+            {
+              "prize": 400.0,
+              "ranks": "2",
+              "min_points": 1512,
+              "max_points": 2484,
+              "hands_no_hh": 4206,
+              "bb100_no_hh": 1.9,
+              "is_top_value": true
+            },
+            {
+              "prize": 320.0,
+              "ranks": "3",
+              "min_points": 1155,
+              "max_points": 2442,
+              "hands_no_hh": 3505,
+              "bb100_no_hh": 1.83,
+              "is_top_value": true
+            },
+            {
+              "prize": 260.0,
+              "ranks": "4",
+              "min_points": 941,
+              "max_points": 1920,
+              "hands_no_hh": 2988,
+              "bb100_no_hh": 1.74,
+              "is_top_value": false
+            },
+            {
+              "prize": 210.0,
+              "ranks": "5",
+              "min_points": 844,
+              "max_points": 3001,
+              "hands_no_hh": 2801,
+              "bb100_no_hh": 1.5,
+              "is_top_value": false
+            },
+            {
+              "prize": 170.0,
+              "ranks": "6",
+              "min_points": 820,
+              "max_points": 1548,
+              "hands_no_hh": 2513,
+              "bb100_no_hh": 1.35,
+              "is_top_value": false
+            },
+            {
+              "prize": 140.0,
+              "ranks": "7",
+              "min_points": 721,
+              "max_points": 1421,
+              "hands_no_hh": 2317,
+              "bb100_no_hh": 1.21,
+              "is_top_value": false
+            },
+            {
+              "prize": 110.0,
+              "ranks": "8",
+              "min_points": 691,
+              "max_points": 1352,
+              "hands_no_hh": 2136,
+              "bb100_no_hh": 1.03,
+              "is_top_value": false
+            },
+            {
+              "prize": 90.0,
+              "ranks": "9",
+              "min_points": 678,
+              "max_points": 1322,
+              "hands_no_hh": 2038,
+              "bb100_no_hh": 0.88,
+              "is_top_value": false
+            },
+            {
+              "prize": 70.0,
+              "ranks": "10-11",
+              "min_points": 534,
+              "max_points": 1246,
+              "hands_no_hh": 1876,
+              "bb100_no_hh": 0.75,
+              "is_top_value": false
+            },
+            {
+              "prize": 60.0,
+              "ranks": "12-17",
+              "min_points": 390,
+              "max_points": 1930,
+              "hands_no_hh": 1586,
+              "bb100_no_hh": 0.76,
+              "is_top_value": false
+            },
+            {
+              "prize": 50.0,
+              "ranks": "18-24",
+              "min_points": 246,
+              "max_points": 1230,
+              "hands_no_hh": 1273,
+              "bb100_no_hh": 0.79,
+              "is_top_value": false
+            },
+            {
+              "prize": 40.0,
+              "ranks": "25-36",
+              "min_points": 175,
+              "max_points": 701,
+              "hands_no_hh": 978,
+              "bb100_no_hh": 0.82,
+              "is_top_value": false
+            },
+            {
+              "prize": 30.0,
+              "ranks": "37-60",
+              "min_points": 97,
+              "max_points": 554,
+              "hands_no_hh": 657,
+              "bb100_no_hh": 0.91,
+              "is_top_value": false
+            },
+            {
+              "prize": 25.0,
+              "ranks": "61-90",
+              "min_points": 59,
+              "max_points": 534,
+              "hands_no_hh": 410,
+              "bb100_no_hh": 1.22,
+              "is_top_value": false
+            }
+          ]
+        },
+        {
+          "id": "nl1000",
+          "name": "NL1000",
+          "bb_value": 10.0,
+          "prize_levels": [
+            {
+              "prize": 800.0,
+              "ranks": "1",
+              "min_points": 868,
+              "max_points": 2304,
+              "hands_no_hh": 3134,
+              "bb100_no_hh": 2.55,
+              "is_top_value": true
+            },
+            {
+              "prize": 550.0,
+              "ranks": "2",
+              "min_points": 720,
+              "max_points": 2089,
+              "hands_no_hh": 2667,
+              "bb100_no_hh": 2.06,
+              "is_top_value": true
+            },
+            {
+              "prize": 400.0,
+              "ranks": "3",
+              "min_points": 626,
+              "max_points": 1738,
+              "hands_no_hh": 2245,
+              "bb100_no_hh": 1.78,
+              "is_top_value": true
+            },
+            {
+              "prize": 280.0,
+              "ranks": "4",
+              "min_points": 466,
+              "max_points": 1358,
+              "hands_no_hh": 1921,
+              "bb100_no_hh": 1.46,
+              "is_top_value": false
+            },
+            {
+              "prize": 200.0,
+              "ranks": "5",
+              "min_points": 408,
+              "max_points": 1320,
+              "hands_no_hh": 1628,
+              "bb100_no_hh": 1.23,
+              "is_top_value": false
+            },
+            {
+              "prize": 160.0,
+              "ranks": "6",
+              "min_points": 366,
+              "max_points": 916,
+              "hands_no_hh": 1426,
+              "bb100_no_hh": 1.12,
+              "is_top_value": false
+            },
+            {
+              "prize": 140.0,
+              "ranks": "7",
+              "min_points": 327,
+              "max_points": 826,
+              "hands_no_hh": 1298,
+              "bb100_no_hh": 1.08,
+              "is_top_value": false
+            },
+            {
+              "prize": 120.0,
+              "ranks": "8",
+              "min_points": 308,
+              "max_points": 772,
+              "hands_no_hh": 1211,
+              "bb100_no_hh": 0.99,
+              "is_top_value": false
+            },
+            {
+              "prize": 110.0,
+              "ranks": "9-10",
+              "min_points": 285,
+              "max_points": 740,
+              "hands_no_hh": 1111,
+              "bb100_no_hh": 0.99,
+              "is_top_value": false
+            },
+            {
+              "prize": 100.0,
+              "ranks": "11-12",
+              "min_points": 222,
+              "max_points": 677,
+              "hands_no_hh": 990,
+              "bb100_no_hh": 1.01,
+              "is_top_value": false
+            },
+            {
+              "prize": 90.0,
+              "ranks": "13-15",
+              "min_points": 195,
+              "max_points": 605,
+              "hands_no_hh": 879,
+              "bb100_no_hh": 1.02,
+              "is_top_value": false
+            },
+            {
+              "prize": 80.0,
+              "ranks": "16-19",
+              "min_points": 164,
+              "max_points": 522,
+              "hands_no_hh": 774,
+              "bb100_no_hh": 1.03,
+              "is_top_value": false
+            },
+            {
+              "prize": 70.0,
+              "ranks": "20-27",
+              "min_points": 125,
+              "max_points": 559,
+              "hands_no_hh": 644,
+              "bb100_no_hh": 1.09,
+              "is_top_value": false
+            },
+            {
+              "prize": 60.0,
+              "ranks": "28-40",
+              "min_points": 91,
+              "max_points": 352,
+              "hands_no_hh": 480,
+              "bb100_no_hh": 1.25,
+              "is_top_value": false
+            },
+            {
+              "prize": 50.0,
+              "ranks": "41-60",
+              "min_points": 57,
+              "max_points": 270,
+              "hands_no_hh": 316,
+              "bb100_no_hh": 1.58,
+              "is_top_value": false
+            }
+          ]
+        },
+        {
+          "id": "nl2000",
+          "name": "NL2000",
+          "bb_value": 20.0,
+          "prize_levels": [
+            {
+              "prize": 1400.0,
+              "ranks": "1",
+              "min_points": 768,
+              "max_points": 2116,
+              "hands_no_hh": 2731,
+              "bb100_no_hh": 2.56,
+              "is_top_value": true
+            },
+            {
+              "prize": 800.0,
+              "ranks": "2",
+              "min_points": 639,
+              "max_points": 1666,
+              "hands_no_hh": 2238,
+              "bb100_no_hh": 1.79,
+              "is_top_value": true
+            },
+            {
+              "prize": 500.0,
+              "ranks": "3",
+              "min_points": 532,
+              "max_points": 1373,
+              "hands_no_hh": 1917,
+              "bb100_no_hh": 1.3,
+              "is_top_value": false
+            },
+            {
+              "prize": 380.0,
+              "ranks": "4",
+              "min_points": 343,
+              "max_points": 1030,
+              "hands_no_hh": 1605,
+              "bb100_no_hh": 1.18,
+              "is_top_value": false
+            },
+            {
+              "prize": 320.0,
+              "ranks": "5",
+              "min_points": 324,
+              "max_points": 980,
+              "hands_no_hh": 1432,
+              "bb100_no_hh": 1.12,
+              "is_top_value": false
+            },
+            {
+              "prize": 300.0,
+              "ranks": "6",
+              "min_points": 315,
+              "max_points": 968,
+              "hands_no_hh": 1320,
+              "bb100_no_hh": 1.14,
+              "is_top_value": false
+            },
+            {
+              "prize": 280.0,
+              "ranks": "7-8",
+              "min_points": 269,
+              "max_points": 824,
+              "hands_no_hh": 1176,
+              "bb100_no_hh": 1.19,
+              "is_top_value": false
+            },
+            {
+              "prize": 260.0,
+              "ranks": "9",
+              "min_points": 238,
+              "max_points": 786,
+              "hands_no_hh": 1062,
+              "bb100_no_hh": 1.22,
+              "is_top_value": false
+            },
+            {
+              "prize": 240.0,
+              "ranks": "10",
+              "min_points": 216,
+              "max_points": 759,
+              "hands_no_hh": 984,
+              "bb100_no_hh": 1.22,
+              "is_top_value": false
+            },
+            {
+              "prize": 220.0,
+              "ranks": "11-12",
+              "min_points": 189,
+              "max_points": 739,
+              "hands_no_hh": 901,
+              "bb100_no_hh": 1.22,
+              "is_top_value": false
+            },
+            {
+              "prize": 200.0,
+              "ranks": "13-14",
+              "min_points": 155,
+              "max_points": 566,
+              "hands_no_hh": 807,
+              "bb100_no_hh": 1.24,
+              "is_top_value": false
+            },
+            {
+              "prize": 180.0,
+              "ranks": "15-17",
+              "min_points": 147,
+              "max_points": 487,
+              "hands_no_hh": 717,
+              "bb100_no_hh": 1.26,
+              "is_top_value": false
+            },
+            {
+              "prize": 160.0,
+              "ranks": "18-21",
+              "min_points": 106,
+              "max_points": 436,
+              "hands_no_hh": 620,
+              "bb100_no_hh": 1.29,
+              "is_top_value": false
+            },
+            {
+              "prize": 140.0,
+              "ranks": "22-27",
+              "min_points": 75,
+              "max_points": 450,
+              "hands_no_hh": 514,
+              "bb100_no_hh": 1.36,
+              "is_top_value": false
+            },
+            {
+              "prize": 120.0,
+              "ranks": "28-31",
+              "min_points": 68,
+              "max_points": 296,
+              "hands_no_hh": 434,
+              "bb100_no_hh": 1.38,
+              "is_top_value": false
+            },
+            {
+              "prize": 100.0,
+              "ranks": "32-40",
+              "min_points": 51,
+              "max_points": 265,
+              "hands_no_hh": 357,
+              "bb100_no_hh": 1.4,
+              "is_top_value": true
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "9max",
+      "name": "9-max Holdem",
+      "has_happy_hour": false,
+      "stakes": [
+        {
+          "id": "nl2",
+          "name": "NL2",
+          "bb_value": 0.02,
+          "prize_levels": [
+            {
+              "prize": 25.0,
+              "ranks": "1",
+              "min_points": 1848,
+              "max_points": 3940,
+              "hands_no_hh": 6221,
+              "bb100_no_hh": 20.09,
+              "is_top_value": true
+            },
+            {
+              "prize": 21.0,
+              "ranks": "2",
+              "min_points": 1834,
+              "max_points": 3877,
+              "hands_no_hh": 5600,
+              "bb100_no_hh": 18.75,
+              "is_top_value": true
+            },
+            {
+              "prize": 18.0,
+              "ranks": "3",
+              "min_points": 1566,
+              "max_points": 2908,
+              "hands_no_hh": 4963,
+              "bb100_no_hh": 18.13,
+              "is_top_value": true
+            },
+            {
+              "prize": 15.0,
+              "ranks": "4",
+              "min_points": 1456,
+              "max_points": 2753,
+              "hands_no_hh": 4497,
+              "bb100_no_hh": 16.68,
+              "is_top_value": false
+            },
+            {
+              "prize": 13.0,
+              "ranks": "5",
+              "min_points": 1360,
+              "max_points": 2526,
+              "hands_no_hh": 4055,
+              "bb100_no_hh": 16.03,
+              "is_top_value": false
+            },
+            {
+              "prize": 11.0,
+              "ranks": "6",
+              "min_points": 1284,
+              "max_points": 2407,
+              "hands_no_hh": 3622,
+              "bb100_no_hh": 15.18,
+              "is_top_value": false
+            },
+            {
+              "prize": 9.0,
+              "ranks": "7",
+              "min_points": 1237,
+              "max_points": 2074,
+              "hands_no_hh": 3381,
+              "bb100_no_hh": 13.31,
+              "is_top_value": false
+            },
+            {
+              "prize": 8.0,
+              "ranks": "8",
+              "min_points": 1200,
+              "max_points": 1936,
+              "hands_no_hh": 3136,
+              "bb100_no_hh": 12.76,
+              "is_top_value": false
+            },
+            {
+              "prize": 7.0,
+              "ranks": "9",
+              "min_points": 955,
+              "max_points": 1924,
+              "hands_no_hh": 2951,
+              "bb100_no_hh": 11.86,
+              "is_top_value": false
+            },
+            {
+              "prize": 6.0,
+              "ranks": "10",
+              "min_points": 918,
+              "max_points": 1754,
+              "hands_no_hh": 2805,
+              "bb100_no_hh": 10.7,
+              "is_top_value": false
+            },
+            {
+              "prize": 5.0,
+              "ranks": "11",
+              "min_points": 894,
+              "max_points": 1744,
+              "hands_no_hh": 2662,
+              "bb100_no_hh": 9.39,
+              "is_top_value": false
+            },
+            {
+              "prize": 4.5,
+              "ranks": "12",
+              "min_points": 870,
+              "max_points": 1452,
+              "hands_no_hh": 2532,
+              "bb100_no_hh": 8.89,
+              "is_top_value": false
+            },
+            {
+              "prize": 4.0,
+              "ranks": "13",
+              "min_points": 854,
+              "max_points": 1422,
+              "hands_no_hh": 2436,
+              "bb100_no_hh": 8.21,
+              "is_top_value": false
+            },
+            {
+              "prize": 3.5,
+              "ranks": "14-15",
+              "min_points": 832,
+              "max_points": 1356,
+              "hands_no_hh": 2321,
+              "bb100_no_hh": 7.54,
+              "is_top_value": false
+            },
+            {
+              "prize": 3.0,
+              "ranks": "16-17",
+              "min_points": 825,
+              "max_points": 1274,
+              "hands_no_hh": 2180,
+              "bb100_no_hh": 6.88,
+              "is_top_value": false
+            },
+            {
+              "prize": 2.5,
+              "ranks": "18-22",
+              "min_points": 708,
+              "max_points": 1191,
+              "hands_no_hh": 1976,
+              "bb100_no_hh": 6.33,
+              "is_top_value": false
+            },
+            {
+              "prize": 2.0,
+              "ranks": "23-25",
+              "min_points": 653,
+              "max_points": 1060,
+              "hands_no_hh": 1807,
+              "bb100_no_hh": 5.53,
+              "is_top_value": false
+            },
+            {
+              "prize": 1.8,
+              "ranks": "26-28",
+              "min_points": 596,
+              "max_points": 1012,
+              "hands_no_hh": 1707,
+              "bb100_no_hh": 5.27,
+              "is_top_value": false
+            },
+            {
+              "prize": 1.6,
+              "ranks": "29-31",
+              "min_points": 571,
+              "max_points": 926,
+              "hands_no_hh": 1621,
+              "bb100_no_hh": 4.94,
+              "is_top_value": false
+            },
+            {
+              "prize": 1.4,
+              "ranks": "32-36",
+              "min_points": 511,
+              "max_points": 883,
+              "hands_no_hh": 1520,
+              "bb100_no_hh": 4.61,
+              "is_top_value": false
+            },
+            {
+              "prize": 1.2,
+              "ranks": "37-40",
+              "min_points": 465,
+              "max_points": 1399,
+              "hands_no_hh": 1432,
+              "bb100_no_hh": 4.19,
+              "is_top_value": false
+            },
+            {
+              "prize": 1.0,
+              "ranks": "41-50",
+              "min_points": 446,
+              "max_points": 798,
+              "hands_no_hh": 1308,
+              "bb100_no_hh": 3.82,
+              "is_top_value": false
+            },
+            {
+              "prize": 0.8,
+              "ranks": "51-60",
+              "min_points": 410,
+              "max_points": 952,
+              "hands_no_hh": 1174,
+              "bb100_no_hh": 3.41,
+              "is_top_value": false
+            },
+            {
+              "prize": 0.6,
+              "ranks": "61-80",
+              "min_points": 344,
+              "max_points": 942,
+              "hands_no_hh": 1020,
+              "bb100_no_hh": 2.94,
+              "is_top_value": false
+            },
+            {
+              "prize": 0.4,
+              "ranks": "81-100",
+              "min_points": 303,
+              "max_points": 872,
+              "hands_no_hh": 875,
+              "bb100_no_hh": 2.29,
+              "is_top_value": false
+            },
+            {
+              "prize": 0.3,
+              "ranks": "101-120",
+              "min_points": 288,
+              "max_points": 772,
+              "hands_no_hh": 767,
+              "bb100_no_hh": 1.96,
+              "is_top_value": false
+            },
+            {
+              "prize": 0.2,
+              "ranks": "121-150",
+              "min_points": 235,
+              "max_points": 690,
+              "hands_no_hh": 666,
+              "bb100_no_hh": 1.5,
+              "is_top_value": false
+            }
+          ]
+        },
+        {
+          "id": "nl5",
+          "name": "NL5",
+          "bb_value": 0.05,
+          "prize_levels": [
+            {
+              "prize": 50.0,
+              "ranks": "1",
+              "min_points": 2066,
+              "max_points": 4464,
+              "hands_no_hh": 7446,
+              "bb100_no_hh": 13.43,
+              "is_top_value": true
+            },
+            {
+              "prize": 44.0,
+              "ranks": "2",
+              "min_points": 1792,
+              "max_points": 4417,
+              "hands_no_hh": 6747,
+              "bb100_no_hh": 13.04,
+              "is_top_value": true
+            },
+            {
+              "prize": 38.0,
+              "ranks": "3",
+              "min_points": 1558,
+              "max_points": 3398,
+              "hands_no_hh": 6110,
+              "bb100_no_hh": 12.44,
+              "is_top_value": true
+            },
+            {
+              "prize": 32.0,
+              "ranks": "4",
+              "min_points": 1448,
+              "max_points": 3197,
+              "hands_no_hh": 5771,
+              "bb100_no_hh": 11.09,
+              "is_top_value": false
+            },
+            {
+              "prize": 28.0,
+              "ranks": "5",
+              "min_points": 1371,
+              "max_points": 3050,
+              "hands_no_hh": 5417,
+              "bb100_no_hh": 10.34,
+              "is_top_value": false
+            },
+            {
+              "prize": 24.0,
+              "ranks": "6",
+              "min_points": 1358,
+              "max_points": 3008,
+              "hands_no_hh": 5126,
+              "bb100_no_hh": 9.36,
+              "is_top_value": false
+            },
+            {
+              "prize": 20.0,
+              "ranks": "7",
+              "min_points": 1352,
+              "max_points": 2932,
+              "hands_no_hh": 4791,
+              "bb100_no_hh": 8.35,
+              "is_top_value": false
+            },
+            {
+              "prize": 17.0,
+              "ranks": "8",
+              "min_points": 1314,
+              "max_points": 2634,
+              "hands_no_hh": 4476,
+              "bb100_no_hh": 7.6,
+              "is_top_value": false
+            },
+            {
+              "prize": 15.0,
+              "ranks": "9",
+              "min_points": 1194,
+              "max_points": 2438,
+              "hands_no_hh": 4130,
+              "bb100_no_hh": 7.26,
+              "is_top_value": false
+            },
+            {
+              "prize": 13.0,
+              "ranks": "10",
+              "min_points": 1077,
+              "max_points": 2368,
+              "hands_no_hh": 3929,
+              "bb100_no_hh": 6.62,
+              "is_top_value": false
+            },
+            {
+              "prize": 11.0,
+              "ranks": "11",
+              "min_points": 1071,
+              "max_points": 2280,
+              "hands_no_hh": 3723,
+              "bb100_no_hh": 5.91,
+              "is_top_value": false
+            },
+            {
+              "prize": 10.0,
+              "ranks": "12",
+              "min_points": 1045,
+              "max_points": 2152,
+              "hands_no_hh": 3558,
+              "bb100_no_hh": 5.62,
+              "is_top_value": false
+            },
+            {
+              "prize": 9.0,
+              "ranks": "13",
+              "min_points": 1020,
+              "max_points": 2120,
+              "hands_no_hh": 3404,
+              "bb100_no_hh": 5.29,
+              "is_top_value": false
+            },
+            {
+              "prize": 8.0,
+              "ranks": "14",
+              "min_points": 1016,
+              "max_points": 1812,
+              "hands_no_hh": 3207,
+              "bb100_no_hh": 4.99,
+              "is_top_value": false
+            },
+            {
+              "prize": 7.0,
+              "ranks": "15-16",
+              "min_points": 938,
+              "max_points": 1755,
+              "hands_no_hh": 3021,
+              "bb100_no_hh": 4.63,
+              "is_top_value": false
+            },
+            {
+              "prize": 6.0,
+              "ranks": "17-18",
+              "min_points": 882,
+              "max_points": 1642,
+              "hands_no_hh": 2817,
+              "bb100_no_hh": 4.26,
+              "is_top_value": false
+            },
+            {
+              "prize": 5.0,
+              "ranks": "19-20",
+              "min_points": 754,
+              "max_points": 1557,
+              "hands_no_hh": 2633,
+              "bb100_no_hh": 3.8,
+              "is_top_value": false
+            },
+            {
+              "prize": 4.0,
+              "ranks": "21-27",
+              "min_points": 633,
+              "max_points": 2520,
+              "hands_no_hh": 2346,
+              "bb100_no_hh": 3.41,
+              "is_top_value": false
+            },
+            {
+              "prize": 3.0,
+              "ranks": "28-31",
+              "min_points": 594,
+              "max_points": 1183,
+              "hands_no_hh": 2059,
+              "bb100_no_hh": 2.91,
+              "is_top_value": false
+            },
+            {
+              "prize": 2.5,
+              "ranks": "32-39",
+              "min_points": 536,
+              "max_points": 1098,
+              "hands_no_hh": 1868,
+              "bb100_no_hh": 2.68,
+              "is_top_value": false
+            },
+            {
+              "prize": 2.0,
+              "ranks": "40-50",
+              "min_points": 491,
+              "max_points": 1783,
+              "hands_no_hh": 1608,
+              "bb100_no_hh": 2.49,
+              "is_top_value": false
+            },
+            {
+              "prize": 1.6,
+              "ranks": "51-60",
+              "min_points": 430,
+              "max_points": 1443,
+              "hands_no_hh": 1412,
+              "bb100_no_hh": 2.27,
+              "is_top_value": false
+            },
+            {
+              "prize": 1.2,
+              "ranks": "61-70",
+              "min_points": 391,
+              "max_points": 1121,
+              "hands_no_hh": 1260,
+              "bb100_no_hh": 1.9,
+              "is_top_value": false
+            },
+            {
+              "prize": 1.0,
+              "ranks": "71-90",
+              "min_points": 341,
+              "max_points": 646,
+              "hands_no_hh": 1083,
+              "bb100_no_hh": 1.85,
+              "is_top_value": false
+            },
+            {
+              "prize": 0.5,
+              "ranks": "91-120",
+              "min_points": 261,
+              "max_points": 899,
+              "hands_no_hh": 890,
+              "bb100_no_hh": 1.12,
+              "is_top_value": false
+            }
+          ]
+        },
+        {
+          "id": "nl10",
+          "name": "NL10",
+          "bb_value": 0.1,
+          "prize_levels": [
+            {
+              "prize": 60.0,
+              "ranks": "1",
+              "min_points": 5279,
+              "max_points": 10264,
+              "hands_no_hh": 14061,
+              "bb100_no_hh": 4.27,
+              "is_top_value": true
+            },
+            {
+              "prize": 50.0,
+              "ranks": "2",
+              "min_points": 4460,
+              "max_points": 7822,
+              "hands_no_hh": 12419,
+              "bb100_no_hh": 4.03,
+              "is_top_value": true
+            },
+            {
+              "prize": 44.0,
+              "ranks": "3",
+              "min_points": 4146,
+              "max_points": 6568,
+              "hands_no_hh": 11365,
+              "bb100_no_hh": 3.87,
+              "is_top_value": true
+            },
+            {
+              "prize": 38.0,
+              "ranks": "4",
+              "min_points": 3778,
+              "max_points": 6082,
+              "hands_no_hh": 10365,
+              "bb100_no_hh": 3.67,
+              "is_top_value": false
+            },
+            {
+              "prize": 32.0,
+              "ranks": "5",
+              "min_points": 3583,
+              "max_points": 6070,
+              "hands_no_hh": 9584,
+              "bb100_no_hh": 3.34,
+              "is_top_value": false
+            },
+            {
+              "prize": 26.0,
+              "ranks": "6",
+              "min_points": 3325,
+              "max_points": 5660,
+              "hands_no_hh": 8931,
+              "bb100_no_hh": 2.91,
+              "is_top_value": false
+            },
+            {
+              "prize": 22.0,
+              "ranks": "7",
+              "min_points": 3090,
+              "max_points": 5242,
+              "hands_no_hh": 8386,
+              "bb100_no_hh": 2.62,
+              "is_top_value": false
+            },
+            {
+              "prize": 18.0,
+              "ranks": "8",
+              "min_points": 2938,
+              "max_points": 4598,
+              "hands_no_hh": 7944,
+              "bb100_no_hh": 2.27,
+              "is_top_value": false
+            },
+            {
+              "prize": 15.0,
+              "ranks": "9",
+              "min_points": 2852,
+              "max_points": 4593,
+              "hands_no_hh": 7476,
+              "bb100_no_hh": 2.01,
+              "is_top_value": false
+            },
+            {
+              "prize": 13.0,
+              "ranks": "10",
+              "min_points": 2841,
+              "max_points": 4552,
+              "hands_no_hh": 7135,
+              "bb100_no_hh": 1.82,
+              "is_top_value": false
+            },
+            {
+              "prize": 11.0,
+              "ranks": "11",
+              "min_points": 2769,
+              "max_points": 4460,
+              "hands_no_hh": 6808,
+              "bb100_no_hh": 1.62,
+              "is_top_value": false
+            },
+            {
+              "prize": 10.0,
+              "ranks": "12",
+              "min_points": 2648,
+              "max_points": 4349,
+              "hands_no_hh": 6502,
+              "bb100_no_hh": 1.54,
+              "is_top_value": false
+            },
+            {
+              "prize": 9.0,
+              "ranks": "13",
+              "min_points": 2532,
+              "max_points": 4102,
+              "hands_no_hh": 6197,
+              "bb100_no_hh": 1.45,
+              "is_top_value": false
+            },
+            {
+              "prize": 8.0,
+              "ranks": "14-15",
+              "min_points": 2329,
+              "max_points": 3946,
+              "hands_no_hh": 5827,
+              "bb100_no_hh": 1.37,
+              "is_top_value": false
+            },
+            {
+              "prize": 7.0,
+              "ranks": "16-18",
+              "min_points": 2050,
+              "max_points": 3287,
+              "hands_no_hh": 5369,
+              "bb100_no_hh": 1.3,
+              "is_top_value": false
+            },
+            {
+              "prize": 6.0,
+              "ranks": "19-20",
+              "min_points": 1951,
+              "max_points": 3158,
+              "hands_no_hh": 4998,
+              "bb100_no_hh": 1.2,
+              "is_top_value": false
+            },
+            {
+              "prize": 5.0,
+              "ranks": "21-27",
+              "min_points": 1729,
+              "max_points": 3108,
+              "hands_no_hh": 4479,
+              "bb100_no_hh": 1.12,
+              "is_top_value": false
+            },
+            {
+              "prize": 4.0,
+              "ranks": "28-31",
+              "min_points": 1581,
+              "max_points": 2568,
+              "hands_no_hh": 4025,
+              "bb100_no_hh": 0.99,
+              "is_top_value": false
+            },
+            {
+              "prize": 3.0,
+              "ranks": "32-40",
+              "min_points": 1357,
+              "max_points": 3233,
+              "hands_no_hh": 3620,
+              "bb100_no_hh": 0.83,
+              "is_top_value": false
+            },
+            {
+              "prize": 2.5,
+              "ranks": "41-50",
+              "min_points": 1010,
+              "max_points": 1870,
+              "hands_no_hh": 3144,
+              "bb100_no_hh": 0.8,
+              "is_top_value": false
+            },
+            {
+              "prize": 2.0,
+              "ranks": "51-70",
+              "min_points": 782,
+              "max_points": 1936,
+              "hands_no_hh": 2639,
+              "bb100_no_hh": 0.76,
+              "is_top_value": false
+            },
+            {
+              "prize": 1.5,
+              "ranks": "71-90",
+              "min_points": 635,
+              "max_points": 2206,
+              "hands_no_hh": 2187,
+              "bb100_no_hh": 0.69,
+              "is_top_value": false
+            },
+            {
+              "prize": 1.0,
+              "ranks": "91-120",
+              "min_points": 446,
+              "max_points": 1121,
+              "hands_no_hh": 1788,
+              "bb100_no_hh": 0.56,
+              "is_top_value": false
+            }
+          ]
+        },
+        {
+          "id": "nl25",
+          "name": "NL25",
+          "bb_value": 0.25,
+          "prize_levels": [
+            {
+              "prize": 120.0,
+              "ranks": "1",
+              "min_points": 3886,
+              "max_points": 8367,
+              "hands_no_hh": 14418,
+              "bb100_no_hh": 3.33,
+              "is_top_value": true
+            },
+            {
+              "prize": 100.0,
+              "ranks": "2",
+              "min_points": 3853,
+              "max_points": 7819,
+              "hands_no_hh": 12953,
+              "bb100_no_hh": 3.09,
+              "is_top_value": true
+            },
+            {
+              "prize": 80.0,
+              "ranks": "3",
+              "min_points": 3812,
+              "max_points": 7594,
+              "hands_no_hh": 12076,
+              "bb100_no_hh": 2.65,
+              "is_top_value": true
+            },
+            {
+              "prize": 65.0,
+              "ranks": "4",
+              "min_points": 3656,
+              "max_points": 7328,
+              "hands_no_hh": 11222,
+              "bb100_no_hh": 2.32,
+              "is_top_value": false
+            },
+            {
+              "prize": 50.0,
+              "ranks": "5",
+              "min_points": 3068,
+              "max_points": 6864,
+              "hands_no_hh": 10580,
+              "bb100_no_hh": 1.89,
+              "is_top_value": false
+            },
+            {
+              "prize": 40.0,
+              "ranks": "6",
+              "min_points": 2955,
+              "max_points": 5967,
+              "hands_no_hh": 9799,
+              "bb100_no_hh": 1.63,
+              "is_top_value": false
+            },
+            {
+              "prize": 35.0,
+              "ranks": "7",
+              "min_points": 2782,
+              "max_points": 5144,
+              "hands_no_hh": 8899,
+              "bb100_no_hh": 1.57,
+              "is_top_value": false
+            },
+            {
+              "prize": 30.0,
+              "ranks": "8",
+              "min_points": 2443,
+              "max_points": 5071,
+              "hands_no_hh": 8454,
+              "bb100_no_hh": 1.42,
+              "is_top_value": false
+            },
+            {
+              "prize": 25.0,
+              "ranks": "9",
+              "min_points": 2418,
+              "max_points": 4823,
+              "hands_no_hh": 7981,
+              "bb100_no_hh": 1.25,
+              "is_top_value": false
+            },
+            {
+              "prize": 20.0,
+              "ranks": "10",
+              "min_points": 2353,
+              "max_points": 4469,
+              "hands_no_hh": 7503,
+              "bb100_no_hh": 1.07,
+              "is_top_value": false
+            },
+            {
+              "prize": 15.0,
+              "ranks": "11",
+              "min_points": 2184,
+              "max_points": 4284,
+              "hands_no_hh": 6968,
+              "bb100_no_hh": 0.86,
+              "is_top_value": false
+            },
+            {
+              "prize": 14.0,
+              "ranks": "12",
+              "min_points": 2090,
+              "max_points": 4145,
+              "hands_no_hh": 6543,
+              "bb100_no_hh": 0.86,
+              "is_top_value": false
+            },
+            {
+              "prize": 13.0,
+              "ranks": "13",
+              "min_points": 1985,
+              "max_points": 6144,
+              "hands_no_hh": 6392,
+              "bb100_no_hh": 0.81,
+              "is_top_value": false
+            },
+            {
+              "prize": 12.0,
+              "ranks": "14",
+              "min_points": 1910,
+              "max_points": 3574,
+              "hands_no_hh": 5903,
+              "bb100_no_hh": 0.81,
+              "is_top_value": false
+            },
+            {
+              "prize": 11.0,
+              "ranks": "15-16",
+              "min_points": 1811,
+              "max_points": 3547,
+              "hands_no_hh": 5508,
+              "bb100_no_hh": 0.8,
+              "is_top_value": false
+            },
+            {
+              "prize": 10.0,
+              "ranks": "17-18",
+              "min_points": 1760,
+              "max_points": 3081,
+              "hands_no_hh": 5141,
+              "bb100_no_hh": 0.78,
+              "is_top_value": false
+            },
+            {
+              "prize": 9.0,
+              "ranks": "19-20",
+              "min_points": 1714,
+              "max_points": 4203,
+              "hands_no_hh": 4862,
+              "bb100_no_hh": 0.74,
+              "is_top_value": false
+            },
+            {
+              "prize": 8.0,
+              "ranks": "21-23",
+              "min_points": 1556,
+              "max_points": 4405,
+              "hands_no_hh": 4579,
+              "bb100_no_hh": 0.7,
+              "is_top_value": false
+            },
+            {
+              "prize": 7.0,
+              "ranks": "24-28",
+              "min_points": 1291,
+              "max_points": 2503,
+              "hands_no_hh": 4146,
+              "bb100_no_hh": 0.68,
+              "is_top_value": false
+            },
+            {
+              "prize": 6.0,
+              "ranks": "29-35",
+              "min_points": 1063,
+              "max_points": 3567,
+              "hands_no_hh": 3700,
+              "bb100_no_hh": 0.65,
+              "is_top_value": false
+            },
+            {
+              "prize": 5.0,
+              "ranks": "36-40",
+              "min_points": 1003,
+              "max_points": 3888,
+              "hands_no_hh": 3340,
+              "bb100_no_hh": 0.6,
+              "is_top_value": false
+            },
+            {
+              "prize": 4.0,
+              "ranks": "41-60",
+              "min_points": 681,
+              "max_points": 3553,
+              "hands_no_hh": 2787,
+              "bb100_no_hh": 0.57,
+              "is_top_value": false
+            },
+            {
+              "prize": 3.0,
+              "ranks": "61-90",
+              "min_points": 450,
+              "max_points": 2071,
+              "hands_no_hh": 2106,
+              "bb100_no_hh": 0.57,
+              "is_top_value": false
+            },
+            {
+              "prize": 2.5,
+              "ranks": "91-100",
+              "min_points": 409,
+              "max_points": 1053,
+              "hands_no_hh": 1739,
+              "bb100_no_hh": 0.58,
+              "is_top_value": false
+            }
+          ]
+        },
+        {
+          "id": "nl50",
+          "name": "NL50",
+          "bb_value": 0.5,
+          "prize_levels": [
+            {
+              "prize": 150.0,
+              "ranks": "1",
+              "min_points": 3797,
+              "max_points": 7757,
+              "hands_no_hh": 11469,
+              "bb100_no_hh": 2.62,
+              "is_top_value": true
+            },
+            {
+              "prize": 120.0,
+              "ranks": "2",
+              "min_points": 3316,
+              "max_points": 8955,
+              "hands_no_hh": 10319,
+              "bb100_no_hh": 2.33,
+              "is_top_value": true
+            },
+            {
+              "prize": 100.0,
+              "ranks": "3",
+              "min_points": 2834,
+              "max_points": 6013,
+              "hands_no_hh": 8911,
+              "bb100_no_hh": 2.24,
+              "is_top_value": true
+            },
+            {
+              "prize": 85.0,
+              "ranks": "4",
+              "min_points": 2635,
+              "max_points": 4844,
+              "hands_no_hh": 8060,
+              "bb100_no_hh": 2.11,
+              "is_top_value": false
+            },
+            {
+              "prize": 70.0,
+              "ranks": "5",
+              "min_points": 2470,
+              "max_points": 4559,
+              "hands_no_hh": 7544,
+              "bb100_no_hh": 1.86,
+              "is_top_value": false
+            },
+            {
+              "prize": 55.0,
+              "ranks": "6",
+              "min_points": 2378,
+              "max_points": 4299,
+              "hands_no_hh": 6963,
+              "bb100_no_hh": 1.58,
+              "is_top_value": false
+            },
+            {
+              "prize": 45.0,
+              "ranks": "7",
+              "min_points": 2202,
+              "max_points": 4030,
+              "hands_no_hh": 6410,
+              "bb100_no_hh": 1.4,
+              "is_top_value": false
+            },
+            {
+              "prize": 35.0,
+              "ranks": "8",
+              "min_points": 2140,
+              "max_points": 3780,
+              "hands_no_hh": 5961,
+              "bb100_no_hh": 1.17,
+              "is_top_value": false
+            },
+            {
+              "prize": 30.0,
+              "ranks": "9",
+              "min_points": 1940,
+              "max_points": 3614,
+              "hands_no_hh": 5504,
+              "bb100_no_hh": 1.09,
+              "is_top_value": false
+            },
+            {
+              "prize": 25.0,
+              "ranks": "10-11",
+              "min_points": 1804,
+              "max_points": 3548,
+              "hands_no_hh": 5016,
+              "bb100_no_hh": 1.0,
+              "is_top_value": false
+            },
+            {
+              "prize": 20.0,
+              "ranks": "12-14",
+              "min_points": 1665,
+              "max_points": 2807,
+              "hands_no_hh": 4510,
+              "bb100_no_hh": 0.89,
+              "is_top_value": false
+            },
+            {
+              "prize": 18.0,
+              "ranks": "15-16",
+              "min_points": 1603,
+              "max_points": 2408,
+              "hands_no_hh": 4085,
+              "bb100_no_hh": 0.88,
+              "is_top_value": false
+            },
+            {
+              "prize": 16.0,
+              "ranks": "17-18",
+              "min_points": 1481,
+              "max_points": 2304,
+              "hands_no_hh": 3854,
+              "bb100_no_hh": 0.83,
+              "is_top_value": false
+            },
+            {
+              "prize": 15.0,
+              "ranks": "19",
+              "min_points": 1418,
+              "max_points": 2102,
+              "hands_no_hh": 3704,
+              "bb100_no_hh": 0.81,
+              "is_top_value": false
+            },
+            {
+              "prize": 14.0,
+              "ranks": "20",
+              "min_points": 1354,
+              "max_points": 2028,
+              "hands_no_hh": 3579,
+              "bb100_no_hh": 0.78,
+              "is_top_value": false
+            },
+            {
+              "prize": 13.0,
+              "ranks": "21-22",
+              "min_points": 1306,
+              "max_points": 1990,
+              "hands_no_hh": 3431,
+              "bb100_no_hh": 0.76,
+              "is_top_value": false
+            },
+            {
+              "prize": 12.0,
+              "ranks": "23-24",
+              "min_points": 1225,
+              "max_points": 1900,
+              "hands_no_hh": 3248,
+              "bb100_no_hh": 0.74,
+              "is_top_value": false
+            },
+            {
+              "prize": 11.0,
+              "ranks": "25-27",
+              "min_points": 1100,
+              "max_points": 1842,
+              "hands_no_hh": 3033,
+              "bb100_no_hh": 0.73,
+              "is_top_value": false
+            },
+            {
+              "prize": 10.0,
+              "ranks": "28-30",
+              "min_points": 1062,
+              "max_points": 1649,
+              "hands_no_hh": 2836,
+              "bb100_no_hh": 0.71,
+              "is_top_value": false
+            },
+            {
+              "prize": 9.0,
+              "ranks": "31-33",
+              "min_points": 999,
+              "max_points": 1569,
+              "hands_no_hh": 2688,
+              "bb100_no_hh": 0.67,
+              "is_top_value": false
+            },
+            {
+              "prize": 8.0,
+              "ranks": "34-37",
+              "min_points": 924,
+              "max_points": 2563,
+              "hands_no_hh": 2547,
+              "bb100_no_hh": 0.63,
+              "is_top_value": false
+            },
+            {
+              "prize": 7.0,
+              "ranks": "38-40",
+              "min_points": 908,
+              "max_points": 1439,
+              "hands_no_hh": 2373,
+              "bb100_no_hh": 0.59,
+              "is_top_value": false
+            },
+            {
+              "prize": 6.0,
+              "ranks": "41-50",
+              "min_points": 733,
+              "max_points": 1311,
+              "hands_no_hh": 2114,
+              "bb100_no_hh": 0.57,
+              "is_top_value": false
+            },
+            {
+              "prize": 5.0,
+              "ranks": "51-60",
+              "min_points": 600,
+              "max_points": 1982,
+              "hands_no_hh": 1807,
+              "bb100_no_hh": 0.55,
+              "is_top_value": false
+            }
+          ]
+        },
+        {
+          "id": "nl100",
+          "name": "NL100",
+          "bb_value": 1.0,
+          "prize_levels": [
+            {
+              "prize": 250.0,
+              "ranks": "1",
+              "min_points": 3170,
+              "max_points": 8454,
+              "hands_no_hh": 9804,
+              "bb100_no_hh": 2.55,
+              "is_top_value": true
+            },
+            {
+              "prize": 200.0,
+              "ranks": "2",
+              "min_points": 2823,
+              "max_points": 5010,
+              "hands_no_hh": 7856,
+              "bb100_no_hh": 2.55,
+              "is_top_value": true
+            },
+            {
+              "prize": 170.0,
+              "ranks": "3",
+              "min_points": 2510,
+              "max_points": 4093,
+              "hands_no_hh": 7174,
+              "bb100_no_hh": 2.37,
+              "is_top_value": true
+            },
+            {
+              "prize": 140.0,
+              "ranks": "4",
+              "min_points": 2293,
+              "max_points": 3913,
+              "hands_no_hh": 6577,
+              "bb100_no_hh": 2.13,
+              "is_top_value": false
+            },
+            {
+              "prize": 120.0,
+              "ranks": "5",
+              "min_points": 2146,
+              "max_points": 3724,
+              "hands_no_hh": 5973,
+              "bb100_no_hh": 2.01,
+              "is_top_value": false
+            },
+            {
+              "prize": 100.0,
+              "ranks": "6",
+              "min_points": 1883,
+              "max_points": 3477,
+              "hands_no_hh": 5479,
+              "bb100_no_hh": 1.83,
+              "is_top_value": false
+            },
+            {
+              "prize": 80.0,
+              "ranks": "7",
+              "min_points": 1760,
+              "max_points": 4342,
+              "hands_no_hh": 5160,
+              "bb100_no_hh": 1.55,
+              "is_top_value": false
+            },
+            {
+              "prize": 70.0,
+              "ranks": "8",
+              "min_points": 1590,
+              "max_points": 3160,
+              "hands_no_hh": 4822,
+              "bb100_no_hh": 1.45,
+              "is_top_value": false
+            },
+            {
+              "prize": 60.0,
+              "ranks": "9",
+              "min_points": 1569,
+              "max_points": 2999,
+              "hands_no_hh": 4634,
+              "bb100_no_hh": 1.29,
+              "is_top_value": false
+            },
+            {
+              "prize": 50.0,
+              "ranks": "10",
+              "min_points": 1522,
+              "max_points": 2572,
+              "hands_no_hh": 4353,
+              "bb100_no_hh": 1.15,
+              "is_top_value": false
+            },
+            {
+              "prize": 40.0,
+              "ranks": "11-13",
+              "min_points": 1270,
+              "max_points": 2437,
+              "hands_no_hh": 3983,
+              "bb100_no_hh": 1.0,
+              "is_top_value": false
+            },
+            {
+              "prize": 30.0,
+              "ranks": "14-19",
+              "min_points": 1004,
+              "max_points": 2155,
+              "hands_no_hh": 3354,
+              "bb100_no_hh": 0.89,
+              "is_top_value": false
+            },
+            {
+              "prize": 25.0,
+              "ranks": "20-21",
+              "min_points": 853,
+              "max_points": 1814,
+              "hands_no_hh": 2981,
+              "bb100_no_hh": 0.84,
+              "is_top_value": false
+            },
+            {
+              "prize": 20.0,
+              "ranks": "22-33",
+              "min_points": 639,
+              "max_points": 1920,
+              "hands_no_hh": 2457,
+              "bb100_no_hh": 0.81,
+              "is_top_value": false
+            },
+            {
+              "prize": 10.0,
+              "ranks": "34-50",
+              "min_points": 412,
+              "max_points": 1242,
+              "hands_no_hh": 1776,
+              "bb100_no_hh": 0.56,
+              "is_top_value": false
+            }
+          ]
+        },
+        {
+          "id": "nl200",
+          "name": "NL200",
+          "bb_value": 2.0,
+          "prize_levels": [
+            {
+              "prize": 500.0,
+              "ranks": "1",
+              "min_points": 3412,
+              "max_points": 6332,
+              "hands_no_hh": 9431,
+              "bb100_no_hh": 2.65,
+              "is_top_value": true
+            },
+            {
+              "prize": 420.0,
+              "ranks": "2",
+              "min_points": 2693,
+              "max_points": 4972,
+              "hands_no_hh": 8018,
+              "bb100_no_hh": 2.62,
+              "is_top_value": true
+            },
+            {
+              "prize": 360.0,
+              "ranks": "3",
+              "min_points": 2404,
+              "max_points": 4944,
+              "hands_no_hh": 7113,
+              "bb100_no_hh": 2.53,
+              "is_top_value": true
+            },
+            {
+              "prize": 300.0,
+              "ranks": "4",
+              "min_points": 2256,
+              "max_points": 4199,
+              "hands_no_hh": 6314,
+              "bb100_no_hh": 2.38,
+              "is_top_value": false
+            },
+            {
+              "prize": 260.0,
+              "ranks": "5",
+              "min_points": 1913,
+              "max_points": 4054,
+              "hands_no_hh": 5848,
+              "bb100_no_hh": 2.22,
+              "is_top_value": false
+            },
+            {
+              "prize": 220.0,
+              "ranks": "6",
+              "min_points": 1792,
+              "max_points": 4023,
+              "hands_no_hh": 5345,
+              "bb100_no_hh": 2.06,
+              "is_top_value": false
+            },
+            {
+              "prize": 190.0,
+              "ranks": "7",
+              "min_points": 1646,
+              "max_points": 3064,
+              "hands_no_hh": 4863,
+              "bb100_no_hh": 1.95,
+              "is_top_value": false
+            },
+            {
+              "prize": 160.0,
+              "ranks": "8",
+              "min_points": 1553,
+              "max_points": 2876,
+              "hands_no_hh": 4479,
+              "bb100_no_hh": 1.79,
+              "is_top_value": false
+            },
+            {
+              "prize": 130.0,
+              "ranks": "9",
+              "min_points": 1447,
+              "max_points": 2708,
+              "hands_no_hh": 4226,
+              "bb100_no_hh": 1.54,
+              "is_top_value": false
+            },
+            {
+              "prize": 110.0,
+              "ranks": "10",
+              "min_points": 1402,
+              "max_points": 2533,
+              "hands_no_hh": 3991,
+              "bb100_no_hh": 1.38,
+              "is_top_value": false
+            },
+            {
+              "prize": 100.0,
+              "ranks": "11",
+              "min_points": 1396,
+              "max_points": 2315,
+              "hands_no_hh": 3743,
+              "bb100_no_hh": 1.34,
+              "is_top_value": false
+            },
+            {
+              "prize": 90.0,
+              "ranks": "12",
+              "min_points": 1371,
+              "max_points": 2188,
+              "hands_no_hh": 3549,
+              "bb100_no_hh": 1.27,
+              "is_top_value": false
+            },
+            {
+              "prize": 80.0,
+              "ranks": "13-14",
+              "min_points": 1166,
+              "max_points": 2186,
+              "hands_no_hh": 3326,
+              "bb100_no_hh": 1.2,
+              "is_top_value": false
+            },
+            {
+              "prize": 70.0,
+              "ranks": "15-16",
+              "min_points": 1070,
+              "max_points": 1836,
+              "hands_no_hh": 2978,
+              "bb100_no_hh": 1.18,
+              "is_top_value": false
+            },
+            {
+              "prize": 60.0,
+              "ranks": "17-18",
+              "min_points": 964,
+              "max_points": 1738,
+              "hands_no_hh": 2761,
+              "bb100_no_hh": 1.09,
+              "is_top_value": false
+            },
+            {
+              "prize": 50.0,
+              "ranks": "19-22",
+              "min_points": 803,
+              "max_points": 2086,
+              "hands_no_hh": 2488,
+              "bb100_no_hh": 1.0,
+              "is_top_value": false
+            },
+            {
+              "prize": 40.0,
+              "ranks": "23-28",
+              "min_points": 665,
+              "max_points": 1440,
+              "hands_no_hh": 2066,
+              "bb100_no_hh": 0.97,
+              "is_top_value": false
+            },
+            {
+              "prize": 30.0,
+              "ranks": "29-34",
+              "min_points": 505,
+              "max_points": 1272,
+              "hands_no_hh": 1710,
+              "bb100_no_hh": 0.88,
+              "is_top_value": false
+            },
+            {
+              "prize": 20.0,
+              "ranks": "35-40",
+              "min_points": 368,
+              "max_points": 1040,
+              "hands_no_hh": 1422,
+              "bb100_no_hh": 0.7,
+              "is_top_value": false
+            }
+          ]
+        },
+        {
+          "id": "nl500",
+          "name": "NL500",
+          "bb_value": 5.0,
+          "prize_levels": [
+            {
+              "prize": 750.0,
+              "ranks": "1",
+              "min_points": 560,
+              "max_points": 2535,
+              "hands_no_hh": 3076,
+              "bb100_no_hh": 4.88,
+              "is_top_value": true
+            },
+            {
+              "prize": 580.0,
+              "ranks": "2",
+              "min_points": 509,
+              "max_points": 2353,
+              "hands_no_hh": 2700,
+              "bb100_no_hh": 4.3,
+              "is_top_value": true
+            },
+            {
+              "prize": 450.0,
+              "ranks": "3",
+              "min_points": 466,
+              "max_points": 2098,
+              "hands_no_hh": 2414,
+              "bb100_no_hh": 3.73,
+              "is_top_value": true
+            },
+            {
+              "prize": 350.0,
+              "ranks": "4",
+              "min_points": 455,
+              "max_points": 1833,
+              "hands_no_hh": 2161,
+              "bb100_no_hh": 3.24,
+              "is_top_value": false
+            },
+            {
+              "prize": 270.0,
+              "ranks": "5",
+              "min_points": 400,
+              "max_points": 1830,
+              "hands_no_hh": 2013,
+              "bb100_no_hh": 2.68,
+              "is_top_value": false
+            },
+            {
+              "prize": 230.0,
+              "ranks": "6",
+              "min_points": 373,
+              "max_points": 1738,
+              "hands_no_hh": 1870,
+              "bb100_no_hh": 2.46,
+              "is_top_value": false
+            },
+            {
+              "prize": 210.0,
+              "ranks": "7",
+              "min_points": 366,
+              "max_points": 1436,
+              "hands_no_hh": 1731,
+              "bb100_no_hh": 2.43,
+              "is_top_value": false
+            },
+            {
+              "prize": 190.0,
+              "ranks": "8",
+              "min_points": 290,
+              "max_points": 1282,
+              "hands_no_hh": 1552,
+              "bb100_no_hh": 2.45,
+              "is_top_value": false
+            },
+            {
+              "prize": 170.0,
+              "ranks": "9",
+              "min_points": 258,
+              "max_points": 1156,
+              "hands_no_hh": 1465,
+              "bb100_no_hh": 2.32,
+              "is_top_value": false
+            },
+            {
+              "prize": 150.0,
+              "ranks": "10",
+              "min_points": 238,
+              "max_points": 1113,
+              "hands_no_hh": 1364,
+              "bb100_no_hh": 2.2,
+              "is_top_value": false
+            },
+            {
+              "prize": 140.0,
+              "ranks": "11",
+              "min_points": 196,
+              "max_points": 1055,
+              "hands_no_hh": 1288,
+              "bb100_no_hh": 2.17,
+              "is_top_value": false
+            },
+            {
+              "prize": 130.0,
+              "ranks": "12",
+              "min_points": 171,
+              "max_points": 902,
+              "hands_no_hh": 1203,
+              "bb100_no_hh": 2.16,
+              "is_top_value": false
+            },
+            {
+              "prize": 120.0,
+              "ranks": "13",
+              "min_points": 156,
+              "max_points": 900,
+              "hands_no_hh": 1132,
+              "bb100_no_hh": 2.12,
+              "is_top_value": false
+            },
+            {
+              "prize": 110.0,
+              "ranks": "14",
+              "min_points": 153,
+              "max_points": 870,
+              "hands_no_hh": 1061,
+              "bb100_no_hh": 2.07,
+              "is_top_value": false
+            },
+            {
+              "prize": 100.0,
+              "ranks": "15-16",
+              "min_points": 150,
+              "max_points": 1237,
+              "hands_no_hh": 1014,
+              "bb100_no_hh": 1.97,
+              "is_top_value": false
+            },
+            {
+              "prize": 90.0,
+              "ranks": "17-18",
+              "min_points": 122,
+              "max_points": 700,
+              "hands_no_hh": 882,
+              "bb100_no_hh": 2.04,
+              "is_top_value": false
+            },
+            {
+              "prize": 80.0,
+              "ranks": "19-20",
+              "min_points": 109,
+              "max_points": 666,
+              "hands_no_hh": 801,
+              "bb100_no_hh": 2.0,
+              "is_top_value": false
+            },
+            {
+              "prize": 70.0,
+              "ranks": "21-24",
+              "min_points": 95,
+              "max_points": 586,
+              "hands_no_hh": 723,
+              "bb100_no_hh": 1.94,
+              "is_top_value": false
+            },
+            {
+              "prize": 60.0,
+              "ranks": "25-27",
+              "min_points": 91,
+              "max_points": 784,
+              "hands_no_hh": 642,
+              "bb100_no_hh": 1.87,
+              "is_top_value": false
+            },
+            {
+              "prize": 50.0,
+              "ranks": "28-30",
+              "min_points": 82,
+              "max_points": 749,
+              "hands_no_hh": 586,
+              "bb100_no_hh": 1.71,
+              "is_top_value": false
+            }
+          ]
+        },
+        {
+          "id": "nl1000",
+          "name": "NL1000",
+          "bb_value": 10.0,
+          "prize_levels": [
+            {
+              "prize": 1200.0,
+              "ranks": "1",
+              "min_points": 244,
+              "max_points": 1245,
+              "hands_no_hh": 1791,
+              "bb100_no_hh": 6.7,
+              "is_top_value": true
+            },
+            {
+              "prize": 800.0,
+              "ranks": "2",
+              "min_points": 207,
+              "max_points": 1162,
+              "hands_no_hh": 1477,
+              "bb100_no_hh": 5.42,
+              "is_top_value": true
+            },
+            {
+              "prize": 550.0,
+              "ranks": "3",
+              "min_points": 179,
+              "max_points": 1292,
+              "hands_no_hh": 1299,
+              "bb100_no_hh": 4.23,
+              "is_top_value": true
+            },
+            {
+              "prize": 430.0,
+              "ranks": "4",
+              "min_points": 156,
+              "max_points": 906,
+              "hands_no_hh": 1123,
+              "bb100_no_hh": 3.83,
+              "is_top_value": false
+            },
+            {
+              "prize": 390.0,
+              "ranks": "5",
+              "min_points": 128,
+              "max_points": 876,
+              "hands_no_hh": 1012,
+              "bb100_no_hh": 3.85,
+              "is_top_value": false
+            },
+            {
+              "prize": 350.0,
+              "ranks": "6",
+              "min_points": 124,
+              "max_points": 786,
+              "hands_no_hh": 931,
+              "bb100_no_hh": 3.76,
+              "is_top_value": false
+            },
+            {
+              "prize": 320.0,
+              "ranks": "7",
+              "min_points": 122,
+              "max_points": 760,
+              "hands_no_hh": 863,
+              "bb100_no_hh": 3.71,
+              "is_top_value": false
+            },
+            {
+              "prize": 290.0,
+              "ranks": "8",
+              "min_points": 122,
+              "max_points": 706,
+              "hands_no_hh": 786,
+              "bb100_no_hh": 3.69,
+              "is_top_value": false
+            },
+            {
+              "prize": 260.0,
+              "ranks": "9",
+              "min_points": 116,
+              "max_points": 682,
+              "hands_no_hh": 745,
+              "bb100_no_hh": 3.49,
+              "is_top_value": false
+            },
+            {
+              "prize": 240.0,
+              "ranks": "10",
+              "min_points": 108,
+              "max_points": 668,
+              "hands_no_hh": 695,
+              "bb100_no_hh": 3.45,
+              "is_top_value": false
+            },
+            {
+              "prize": 220.0,
+              "ranks": "11",
+              "min_points": 101,
+              "max_points": 637,
+              "hands_no_hh": 653,
+              "bb100_no_hh": 3.37,
+              "is_top_value": false
+            },
+            {
+              "prize": 200.0,
+              "ranks": "12",
+              "min_points": 98,
+              "max_points": 624,
+              "hands_no_hh": 612,
+              "bb100_no_hh": 3.27,
+              "is_top_value": false
+            },
+            {
+              "prize": 180.0,
+              "ranks": "13",
+              "min_points": 97,
+              "max_points": 621,
+              "hands_no_hh": 582,
+              "bb100_no_hh": 3.09,
+              "is_top_value": false
+            },
+            {
+              "prize": 170.0,
+              "ranks": "14",
+              "min_points": 80,
+              "max_points": 587,
+              "hands_no_hh": 549,
+              "bb100_no_hh": 3.1,
+              "is_top_value": false
+            },
+            {
+              "prize": 160.0,
+              "ranks": "15-16",
+              "min_points": 72,
+              "max_points": 560,
+              "hands_no_hh": 509,
+              "bb100_no_hh": 3.14,
+              "is_top_value": false
+            },
+            {
+              "prize": 150.0,
+              "ranks": "17",
+              "min_points": 68,
+              "max_points": 476,
+              "hands_no_hh": 463,
+              "bb100_no_hh": 3.24,
+              "is_top_value": false
+            },
+            {
+              "prize": 140.0,
+              "ranks": "18",
+              "min_points": 67,
+              "max_points": 451,
+              "hands_no_hh": 446,
+              "bb100_no_hh": 3.14,
+              "is_top_value": false
+            },
+            {
+              "prize": 130.0,
+              "ranks": "19",
+              "min_points": 66,
+              "max_points": 436,
+              "hands_no_hh": 426,
+              "bb100_no_hh": 3.05,
+              "is_top_value": false
+            },
+            {
+              "prize": 120.0,
+              "ranks": "20-21",
+              "min_points": 57,
+              "max_points": 432,
+              "hands_no_hh": 407,
+              "bb100_no_hh": 2.95,
+              "is_top_value": false
+            },
+            {
+              "prize": 110.0,
+              "ranks": "22-23",
+              "min_points": 74,
+              "max_points": 389,
+              "hands_no_hh": 382,
+              "bb100_no_hh": 2.88,
+              "is_top_value": false
+            },
+            {
+              "prize": 100.0,
+              "ranks": "24-25",
+              "min_points": 67,
+              "max_points": 382,
+              "hands_no_hh": 354,
+              "bb100_no_hh": 2.82,
+              "is_top_value": false
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "day_of_week": {
+    "9max": {
+      "nl2": [
+        {
+          "day": "Mon",
+          "min": 2644,
+          "avg": 3079,
+          "max": 3940,
+          "n": 9
+        },
+        {
+          "day": "Tue",
+          "min": 2654,
+          "avg": 3043,
+          "max": 3908,
+          "n": 9
+        },
+        {
+          "day": "Wed",
+          "min": 2512,
+          "avg": 3050,
+          "max": 3882,
+          "n": 9
+        },
+        {
+          "day": "Thu",
+          "min": 2493,
+          "avg": 2874,
+          "max": 3568,
+          "n": 9
+        },
+        {
+          "day": "Fri",
+          "min": 2353,
+          "avg": 2993,
+          "max": 3581,
+          "n": 9
+        },
+        {
+          "day": "Sat",
+          "min": 1848,
+          "avg": 2849,
+          "max": 3260,
+          "n": 9
+        },
+        {
+          "day": "Sun",
+          "min": 2729,
+          "avg": 3020,
+          "max": 3623,
+          "n": 8
+        }
+      ],
+      "nl5": [
+        {
+          "day": "Mon",
+          "min": 2910,
+          "avg": 3513,
+          "max": 4153,
+          "n": 9
+        },
+        {
+          "day": "Tue",
+          "min": 3209,
+          "avg": 3616,
+          "max": 4464,
+          "n": 9
+        },
+        {
+          "day": "Wed",
+          "min": 2066,
+          "avg": 3467,
+          "max": 4338,
+          "n": 9
+        },
+        {
+          "day": "Thu",
+          "min": 3057,
+          "avg": 3583,
+          "max": 4151,
+          "n": 9
+        },
+        {
+          "day": "Fri",
+          "min": 2910,
+          "avg": 3586,
+          "max": 4464,
+          "n": 9
+        },
+        {
+          "day": "Sat",
+          "min": 3066,
+          "avg": 3643,
+          "max": 4338,
+          "n": 9
+        },
+        {
+          "day": "Sun",
+          "min": 3154,
+          "avg": 3617,
+          "max": 4151,
+          "n": 8
+        }
+      ],
+      "nl10": [
+        {
+          "day": "Mon",
+          "min": 5304,
+          "avg": 6532,
+          "max": 8117,
+          "n": 9
+        },
+        {
+          "day": "Tue",
+          "min": 6072,
+          "avg": 6531,
+          "max": 7295,
+          "n": 9
+        },
+        {
+          "day": "Wed",
+          "min": 5279,
+          "avg": 6746,
+          "max": 8350,
+          "n": 9
+        },
+        {
+          "day": "Thu",
+          "min": 5304,
+          "avg": 6907,
+          "max": 10264,
+          "n": 9
+        },
+        {
+          "day": "Fri",
+          "min": 5724,
+          "avg": 6692,
+          "max": 8117,
+          "n": 9
+        },
+        {
+          "day": "Sat",
+          "min": 6115,
+          "avg": 6502,
+          "max": 7682,
+          "n": 9
+        },
+        {
+          "day": "Sun",
+          "min": 5580,
+          "avg": 7410,
+          "max": 10264,
+          "n": 8
+        }
+      ],
+      "nl25": [
+        {
+          "day": "Mon",
+          "min": 4858,
+          "avg": 6964,
+          "max": 8032,
+          "n": 9
+        },
+        {
+          "day": "Tue",
+          "min": 5301,
+          "avg": 6689,
+          "max": 7223,
+          "n": 9
+        },
+        {
+          "day": "Wed",
+          "min": 3886,
+          "avg": 6614,
+          "max": 7639,
+          "n": 9
+        },
+        {
+          "day": "Thu",
+          "min": 4858,
+          "avg": 6975,
+          "max": 8367,
+          "n": 9
+        },
+        {
+          "day": "Fri",
+          "min": 6056,
+          "avg": 7092,
+          "max": 8032,
+          "n": 9
+        },
+        {
+          "day": "Sat",
+          "min": 5301,
+          "avg": 6931,
+          "max": 7639,
+          "n": 9
+        },
+        {
+          "day": "Sun",
+          "min": 6223,
+          "avg": 7215,
+          "max": 8367,
+          "n": 8
+        }
+      ],
+      "nl50": [
+        {
+          "day": "Mon",
+          "min": 3797,
+          "avg": 5438,
+          "max": 7757,
+          "n": 9
+        },
+        {
+          "day": "Tue",
+          "min": 4572,
+          "avg": 5243,
+          "max": 6072,
+          "n": 9
+        },
+        {
+          "day": "Wed",
+          "min": 4299,
+          "avg": 5576,
+          "max": 6468,
+          "n": 9
+        },
+        {
+          "day": "Thu",
+          "min": 3797,
+          "avg": 5387,
+          "max": 6898,
+          "n": 9
+        },
+        {
+          "day": "Fri",
+          "min": 4597,
+          "avg": 5566,
+          "max": 7757,
+          "n": 9
+        },
+        {
+          "day": "Sat",
+          "min": 4572,
+          "avg": 5444,
+          "max": 6442,
+          "n": 9
+        },
+        {
+          "day": "Sun",
+          "min": 4682,
+          "avg": 5929,
+          "max": 6898,
+          "n": 8
+        }
+      ],
+      "nl100": [
+        {
+          "day": "Mon",
+          "min": 3550,
+          "avg": 4212,
+          "max": 5238,
+          "n": 9
+        },
+        {
+          "day": "Tue",
+          "min": 3170,
+          "avg": 4590,
+          "max": 7140,
+          "n": 9
+        },
+        {
+          "day": "Wed",
+          "min": 3862,
+          "avg": 5048,
+          "max": 8454,
+          "n": 9
+        },
+        {
+          "day": "Thu",
+          "min": 3728,
+          "avg": 4688,
+          "max": 6740,
+          "n": 9
+        },
+        {
+          "day": "Fri",
+          "min": 3170,
+          "avg": 4180,
+          "max": 5919,
+          "n": 9
+        },
+        {
+          "day": "Sat",
+          "min": 3921,
+          "avg": 5387,
+          "max": 8454,
+          "n": 9
+        },
+        {
+          "day": "Sun",
+          "min": 3862,
+          "avg": 4854,
+          "max": 6740,
+          "n": 8
+        }
+      ],
+      "nl200": [
+        {
+          "day": "Mon",
+          "min": 3710,
+          "avg": 4612,
+          "max": 6332,
+          "n": 9
+        },
+        {
+          "day": "Tue",
+          "min": 3876,
+          "avg": 4688,
+          "max": 5413,
+          "n": 9
+        },
+        {
+          "day": "Wed",
+          "min": 3412,
+          "avg": 4200,
+          "max": 5588,
+          "n": 9
+        },
+        {
+          "day": "Thu",
+          "min": 3710,
+          "avg": 4428,
+          "max": 5352,
+          "n": 9
+        },
+        {
+          "day": "Fri",
+          "min": 3876,
+          "avg": 4721,
+          "max": 6332,
+          "n": 9
+        },
+        {
+          "day": "Sat",
+          "min": 3412,
+          "avg": 4608,
+          "max": 5588,
+          "n": 9
+        },
+        {
+          "day": "Sun",
+          "min": 3829,
+          "avg": 4422,
+          "max": 5335,
+          "n": 8
+        }
+      ],
+      "nl500": [
+        {
+          "day": "Mon",
+          "min": 739,
+          "avg": 1436,
+          "max": 2052,
+          "n": 9
+        },
+        {
+          "day": "Tue",
+          "min": 980,
+          "avg": 1601,
+          "max": 2496,
+          "n": 9
+        },
+        {
+          "day": "Wed",
+          "min": 560,
+          "avg": 1312,
+          "max": 2342,
+          "n": 9
+        },
+        {
+          "day": "Thu",
+          "min": 739,
+          "avg": 1529,
+          "max": 2535,
+          "n": 9
+        },
+        {
+          "day": "Fri",
+          "min": 1060,
+          "avg": 1537,
+          "max": 2496,
+          "n": 9
+        },
+        {
+          "day": "Sat",
+          "min": 925,
+          "avg": 1437,
+          "max": 2342,
+          "n": 9
+        },
+        {
+          "day": "Sun",
+          "min": 1020,
+          "avg": 1489,
+          "max": 2535,
+          "n": 8
+        }
+      ],
+      "nl1000": [
+        {
+          "day": "Mon",
+          "min": 404,
+          "avg": 784,
+          "max": 1217,
+          "n": 9
+        },
+        {
+          "day": "Tue",
+          "min": 584,
+          "avg": 889,
+          "max": 1218,
+          "n": 9
+        },
+        {
+          "day": "Wed",
+          "min": 244,
+          "avg": 853,
+          "max": 1245,
+          "n": 9
+        },
+        {
+          "day": "Thu",
+          "min": 404,
+          "avg": 822,
+          "max": 1134,
+          "n": 9
+        },
+        {
+          "day": "Fri",
+          "min": 591,
+          "avg": 922,
+          "max": 1218,
+          "n": 9
+        },
+        {
+          "day": "Sat",
+          "min": 584,
+          "avg": 877,
+          "max": 1245,
+          "n": 9
+        },
+        {
+          "day": "Sun",
+          "min": 638,
+          "avg": 873,
+          "max": 1134,
+          "n": 8
+        }
+      ]
+    },
+    "regular": {
+      "nl2": [
+        {
+          "day": "Mon",
+          "min": 1510,
+          "avg": 1682,
+          "max": 1812,
+          "n": 9
+        },
+        {
+          "day": "Tue",
+          "min": 1436,
+          "avg": 1699,
+          "max": 2030,
+          "n": 9
+        },
+        {
+          "day": "Wed",
+          "min": 1360,
+          "avg": 1639,
+          "max": 1946,
+          "n": 9
+        },
+        {
+          "day": "Thu",
+          "min": 1150,
+          "avg": 1562,
+          "max": 1858,
+          "n": 9
+        },
+        {
+          "day": "Fri",
+          "min": 1579,
+          "avg": 1814,
+          "max": 2242,
+          "n": 9
+        },
+        {
+          "day": "Sat",
+          "min": 1504,
+          "avg": 1821,
+          "max": 2200,
+          "n": 9
+        },
+        {
+          "day": "Sun",
+          "min": 1553,
+          "avg": 1687,
+          "max": 1950,
+          "n": 8
+        }
+      ],
+      "nl5": [
+        {
+          "day": "Mon",
+          "min": 2800,
+          "avg": 3059,
+          "max": 3388,
+          "n": 9
+        },
+        {
+          "day": "Tue",
+          "min": 2636,
+          "avg": 3062,
+          "max": 3927,
+          "n": 9
+        },
+        {
+          "day": "Wed",
+          "min": 1753,
+          "avg": 2924,
+          "max": 3726,
+          "n": 9
+        },
+        {
+          "day": "Thu",
+          "min": 2652,
+          "avg": 3028,
+          "max": 3451,
+          "n": 9
+        },
+        {
+          "day": "Fri",
+          "min": 2636,
+          "avg": 3052,
+          "max": 3388,
+          "n": 9
+        },
+        {
+          "day": "Sat",
+          "min": 2727,
+          "avg": 3083,
+          "max": 3927,
+          "n": 9
+        },
+        {
+          "day": "Sun",
+          "min": 2484,
+          "avg": 3042,
+          "max": 3726,
+          "n": 8
+        }
+      ],
+      "nl10": [
+        {
+          "day": "Mon",
+          "min": 3568,
+          "avg": 4166,
+          "max": 5027,
+          "n": 9
+        },
+        {
+          "day": "Tue",
+          "min": 3166,
+          "avg": 4272,
+          "max": 4976,
+          "n": 9
+        },
+        {
+          "day": "Wed",
+          "min": 2593,
+          "avg": 3902,
+          "max": 5084,
+          "n": 9
+        },
+        {
+          "day": "Thu",
+          "min": 3568,
+          "avg": 4270,
+          "max": 5027,
+          "n": 9
+        },
+        {
+          "day": "Fri",
+          "min": 3610,
+          "avg": 4210,
+          "max": 4976,
+          "n": 9
+        },
+        {
+          "day": "Sat",
+          "min": 3166,
+          "avg": 4248,
+          "max": 5084,
+          "n": 9
+        },
+        {
+          "day": "Sun",
+          "min": 3258,
+          "avg": 4015,
+          "max": 4915,
+          "n": 8
+        }
+      ],
+      "nl25": [
+        {
+          "day": "Mon",
+          "min": 3474,
+          "avg": 4196,
+          "max": 4998,
+          "n": 9
+        },
+        {
+          "day": "Tue",
+          "min": 3502,
+          "avg": 4170,
+          "max": 4560,
+          "n": 9
+        },
+        {
+          "day": "Wed",
+          "min": 2305,
+          "avg": 4104,
+          "max": 4864,
+          "n": 9
+        },
+        {
+          "day": "Thu",
+          "min": 3474,
+          "avg": 4202,
+          "max": 4937,
+          "n": 9
+        },
+        {
+          "day": "Fri",
+          "min": 3496,
+          "avg": 4298,
+          "max": 4998,
+          "n": 9
+        },
+        {
+          "day": "Sat",
+          "min": 3502,
+          "avg": 4125,
+          "max": 4798,
+          "n": 9
+        },
+        {
+          "day": "Sun",
+          "min": 3637,
+          "avg": 4331,
+          "max": 4937,
+          "n": 8
+        }
+      ],
+      "nl50": [
+        {
+          "day": "Mon",
+          "min": 2907,
+          "avg": 3672,
+          "max": 4260,
+          "n": 9
+        },
+        {
+          "day": "Tue",
+          "min": 2748,
+          "avg": 4122,
+          "max": 5338,
+          "n": 9
+        },
+        {
+          "day": "Wed",
+          "min": 1224,
+          "avg": 3333,
+          "max": 4815,
+          "n": 9
+        },
+        {
+          "day": "Thu",
+          "min": 2907,
+          "avg": 4055,
+          "max": 5217,
+          "n": 9
+        },
+        {
+          "day": "Fri",
+          "min": 2748,
+          "avg": 3737,
+          "max": 4568,
+          "n": 9
+        },
+        {
+          "day": "Sat",
+          "min": 3178,
+          "avg": 3966,
+          "max": 5338,
+          "n": 9
+        },
+        {
+          "day": "Sun",
+          "min": 2880,
+          "avg": 4117,
+          "max": 5217,
+          "n": 8
+        }
+      ],
+      "nl100": [
+        {
+          "day": "Mon",
+          "min": 2371,
+          "avg": 2939,
+          "max": 3580,
+          "n": 9
+        },
+        {
+          "day": "Tue",
+          "min": 2452,
+          "avg": 3210,
+          "max": 3857,
+          "n": 9
+        },
+        {
+          "day": "Wed",
+          "min": 1835,
+          "avg": 3104,
+          "max": 5589,
+          "n": 9
+        },
+        {
+          "day": "Thu",
+          "min": 2388,
+          "avg": 3138,
+          "max": 4744,
+          "n": 9
+        },
+        {
+          "day": "Fri",
+          "min": 2371,
+          "avg": 3090,
+          "max": 3792,
+          "n": 9
+        },
+        {
+          "day": "Sat",
+          "min": 2650,
+          "avg": 3345,
+          "max": 5589,
+          "n": 9
+        },
+        {
+          "day": "Sun",
+          "min": 2655,
+          "avg": 3052,
+          "max": 4744,
+          "n": 8
+        }
+      ],
+      "nl200": [
+        {
+          "day": "Mon",
+          "min": 2307,
+          "avg": 3002,
+          "max": 3683,
+          "n": 9
+        },
+        {
+          "day": "Tue",
+          "min": 2166,
+          "avg": 2693,
+          "max": 3116,
+          "n": 9
+        },
+        {
+          "day": "Wed",
+          "min": 1969,
+          "avg": 3207,
+          "max": 4160,
+          "n": 9
+        },
+        {
+          "day": "Thu",
+          "min": 2177,
+          "avg": 2925,
+          "max": 3683,
+          "n": 9
+        },
+        {
+          "day": "Fri",
+          "min": 2502,
+          "avg": 2875,
+          "max": 3149,
+          "n": 9
+        },
+        {
+          "day": "Sat",
+          "min": 2166,
+          "avg": 2919,
+          "max": 4160,
+          "n": 9
+        },
+        {
+          "day": "Sun",
+          "min": 2177,
+          "avg": 3162,
+          "max": 4002,
+          "n": 8
+        }
+      ],
+      "nl500": [
+        {
+          "day": "Mon",
+          "min": 1746,
+          "avg": 2358,
+          "max": 2992,
+          "n": 9
+        },
+        {
+          "day": "Tue",
+          "min": 1630,
+          "avg": 2460,
+          "max": 4139,
+          "n": 9
+        },
+        {
+          "day": "Wed",
+          "min": 1605,
+          "avg": 2211,
+          "max": 2830,
+          "n": 9
+        },
+        {
+          "day": "Thu",
+          "min": 1746,
+          "avg": 2532,
+          "max": 3477,
+          "n": 9
+        },
+        {
+          "day": "Fri",
+          "min": 1630,
+          "avg": 2429,
+          "max": 4139,
+          "n": 9
+        },
+        {
+          "day": "Sat",
+          "min": 2058,
+          "avg": 2375,
+          "max": 2830,
+          "n": 9
+        },
+        {
+          "day": "Sun",
+          "min": 1796,
+          "avg": 2364,
+          "max": 3477,
+          "n": 8
+        }
+      ],
+      "nl1000": [
+        {
+          "day": "Mon",
+          "min": 868,
+          "avg": 1665,
+          "max": 2290,
+          "n": 9
+        },
+        {
+          "day": "Tue",
+          "min": 1114,
+          "avg": 1432,
+          "max": 1689,
+          "n": 9
+        },
+        {
+          "day": "Wed",
+          "min": 894,
+          "avg": 1386,
+          "max": 2304,
+          "n": 9
+        },
+        {
+          "day": "Thu",
+          "min": 868,
+          "avg": 1536,
+          "max": 2094,
+          "n": 9
+        },
+        {
+          "day": "Fri",
+          "min": 1051,
+          "avg": 1637,
+          "max": 2290,
+          "n": 9
+        },
+        {
+          "day": "Sat",
+          "min": 934,
+          "avg": 1440,
+          "max": 2304,
+          "n": 9
+        },
+        {
+          "day": "Sun",
+          "min": 894,
+          "avg": 1426,
+          "max": 2024,
+          "n": 8
+        }
+      ],
+      "nl2000": [
+        {
+          "day": "Mon",
+          "min": 1188,
+          "avg": 1394,
+          "max": 1629,
+          "n": 9
+        },
+        {
+          "day": "Tue",
+          "min": 833,
+          "avg": 1218,
+          "max": 1744,
+          "n": 9
+        },
+        {
+          "day": "Wed",
+          "min": 768,
+          "avg": 1208,
+          "max": 2116,
+          "n": 9
+        },
+        {
+          "day": "Thu",
+          "min": 853,
+          "avg": 1492,
+          "max": 2019,
+          "n": 9
+        },
+        {
+          "day": "Fri",
+          "min": 875,
+          "avg": 1292,
+          "max": 1698,
+          "n": 9
+        },
+        {
+          "day": "Sat",
+          "min": 833,
+          "avg": 1130,
+          "max": 1744,
+          "n": 9
+        },
+        {
+          "day": "Sun",
+          "min": 853,
+          "avg": 1460,
+          "max": 2116,
+          "n": 8
+        }
+      ]
+    },
+    "rush": {
+      "nl2": [
+        {
+          "day": "Mon",
+          "min": 38238,
+          "avg": 48594,
+          "max": 60003,
+          "n": 9
+        },
+        {
+          "day": "Tue",
+          "min": 41763,
+          "avg": 47794,
+          "max": 51262,
+          "n": 9
+        },
+        {
+          "day": "Wed",
+          "min": 46164,
+          "avg": 50769,
+          "max": 54601,
+          "n": 9
+        },
+        {
+          "day": "Thu",
+          "min": 40194,
+          "avg": 47023,
+          "max": 57159,
+          "n": 9
+        },
+        {
+          "day": "Fri",
+          "min": 41279,
+          "avg": 47920,
+          "max": 52801,
+          "n": 9
+        },
+        {
+          "day": "Sat",
+          "min": 38928,
+          "avg": 48958,
+          "max": 57936,
+          "n": 9
+        },
+        {
+          "day": "Sun",
+          "min": 41730,
+          "avg": 47775,
+          "max": 58432,
+          "n": 8
+        }
+      ],
+      "nl5": [
+        {
+          "day": "Mon",
+          "min": 41639,
+          "avg": 45213,
+          "max": 49696,
+          "n": 9
+        },
+        {
+          "day": "Tue",
+          "min": 36045,
+          "avg": 45247,
+          "max": 50129,
+          "n": 9
+        },
+        {
+          "day": "Wed",
+          "min": 18125,
+          "avg": 44412,
+          "max": 56337,
+          "n": 9
+        },
+        {
+          "day": "Thu",
+          "min": 41639,
+          "avg": 47111,
+          "max": 58532,
+          "n": 9
+        },
+        {
+          "day": "Fri",
+          "min": 36045,
+          "avg": 44444,
+          "max": 49133,
+          "n": 9
+        },
+        {
+          "day": "Sat",
+          "min": 40926,
+          "avg": 48232,
+          "max": 56337,
+          "n": 9
+        },
+        {
+          "day": "Sun",
+          "min": 44324,
+          "avg": 48029,
+          "max": 58532,
+          "n": 8
+        }
+      ],
+      "nl10": [
+        {
+          "day": "Mon",
+          "min": 39671,
+          "avg": 46726,
+          "max": 56362,
+          "n": 9
+        },
+        {
+          "day": "Tue",
+          "min": 39216,
+          "avg": 46292,
+          "max": 57684,
+          "n": 9
+        },
+        {
+          "day": "Wed",
+          "min": 20951,
+          "avg": 43015,
+          "max": 50343,
+          "n": 9
+        },
+        {
+          "day": "Thu",
+          "min": 39671,
+          "avg": 44340,
+          "max": 51935,
+          "n": 9
+        },
+        {
+          "day": "Fri",
+          "min": 39216,
+          "avg": 46739,
+          "max": 56362,
+          "n": 9
+        },
+        {
+          "day": "Sat",
+          "min": 40818,
+          "avg": 46939,
+          "max": 57684,
+          "n": 9
+        },
+        {
+          "day": "Sun",
+          "min": 37998,
+          "avg": 44023,
+          "max": 48639,
+          "n": 8
+        }
+      ],
+      "nl25": [
+        {
+          "day": "Mon",
+          "min": 36191,
+          "avg": 43926,
+          "max": 49322,
+          "n": 9
+        },
+        {
+          "day": "Tue",
+          "min": 40710,
+          "avg": 44945,
+          "max": 48186,
+          "n": 9
+        },
+        {
+          "day": "Wed",
+          "min": 18799,
+          "avg": 48204,
+          "max": 102036,
+          "n": 9
+        },
+        {
+          "day": "Thu",
+          "min": 36191,
+          "avg": 45799,
+          "max": 49723,
+          "n": 9
+        },
+        {
+          "day": "Fri",
+          "min": 40142,
+          "avg": 43838,
+          "max": 46752,
+          "n": 9
+        },
+        {
+          "day": "Sat",
+          "min": 36248,
+          "avg": 49716,
+          "max": 102036,
+          "n": 9
+        },
+        {
+          "day": "Sun",
+          "min": 39758,
+          "avg": 46581,
+          "max": 50815,
+          "n": 8
+        }
+      ],
+      "nl50": [
+        {
+          "day": "Mon",
+          "min": 33058,
+          "avg": 37640,
+          "max": 42143,
+          "n": 9
+        },
+        {
+          "day": "Tue",
+          "min": 28228,
+          "avg": 38627,
+          "max": 43934,
+          "n": 9
+        },
+        {
+          "day": "Wed",
+          "min": 20147,
+          "avg": 36366,
+          "max": 45465,
+          "n": 9
+        },
+        {
+          "day": "Thu",
+          "min": 31422,
+          "avg": 36171,
+          "max": 41239,
+          "n": 9
+        },
+        {
+          "day": "Fri",
+          "min": 28228,
+          "avg": 38766,
+          "max": 43934,
+          "n": 9
+        },
+        {
+          "day": "Sat",
+          "min": 32576,
+          "avg": 39540,
+          "max": 45465,
+          "n": 9
+        },
+        {
+          "day": "Sun",
+          "min": 31205,
+          "avg": 36354,
+          "max": 42951,
+          "n": 8
+        }
+      ],
+      "nl100": [
+        {
+          "day": "Mon",
+          "min": 29747,
+          "avg": 36752,
+          "max": 41132,
+          "n": 9
+        },
+        {
+          "day": "Tue",
+          "min": 25105,
+          "avg": 33198,
+          "max": 39538,
+          "n": 9
+        },
+        {
+          "day": "Wed",
+          "min": 14445,
+          "avg": 33920,
+          "max": 43718,
+          "n": 9
+        },
+        {
+          "day": "Thu",
+          "min": 27338,
+          "avg": 35566,
+          "max": 40987,
+          "n": 9
+        },
+        {
+          "day": "Fri",
+          "min": 29747,
+          "avg": 35117,
+          "max": 41132,
+          "n": 9
+        },
+        {
+          "day": "Sat",
+          "min": 25105,
+          "avg": 34284,
+          "max": 43718,
+          "n": 9
+        },
+        {
+          "day": "Sun",
+          "min": 27338,
+          "avg": 33491,
+          "max": 38158,
+          "n": 8
+        }
+      ],
+      "nl200": [
+        {
+          "day": "Mon",
+          "min": 25659,
+          "avg": 33574,
+          "max": 39659,
+          "n": 9
+        },
+        {
+          "day": "Tue",
+          "min": 26956,
+          "avg": 33158,
+          "max": 38438,
+          "n": 9
+        },
+        {
+          "day": "Wed",
+          "min": 15198,
+          "avg": 29453,
+          "max": 36946,
+          "n": 9
+        },
+        {
+          "day": "Thu",
+          "min": 28879,
+          "avg": 32191,
+          "max": 36359,
+          "n": 9
+        },
+        {
+          "day": "Fri",
+          "min": 25659,
+          "avg": 34072,
+          "max": 39659,
+          "n": 9
+        },
+        {
+          "day": "Sat",
+          "min": 26956,
+          "avg": 31489,
+          "max": 38438,
+          "n": 9
+        },
+        {
+          "day": "Sun",
+          "min": 28473,
+          "avg": 31389,
+          "max": 36946,
+          "n": 8
+        }
+      ]
+    }
+  },
+  "anomalies": {
+    "9max": {
+      "nl2": [
+        {
+          "date": "2025-12-16",
+          "points": 3908.0,
+          "z_score": 2.42,
+          "type": "high"
+        },
+        {
+          "date": "2025-12-17",
+          "points": 3881.5,
+          "z_score": 2.35,
+          "type": "high"
+        },
+        {
+          "date": "2026-01-19",
+          "points": 3940.0,
+          "z_score": 2.51,
+          "type": "high"
+        },
+        {
+          "date": "2026-01-24",
+          "points": 1847.5,
+          "z_score": -2.99,
+          "type": "low"
+        }
+      ],
+      "nl5": [
+        {
+          "date": "2025-12-09",
+          "points": 4464.0,
+          "z_score": 2.16,
+          "type": "high"
+        },
+        {
+          "date": "2025-12-31",
+          "points": 2066.0,
+          "z_score": -3.66,
+          "type": "low"
+        },
+        {
+          "date": "2026-01-09",
+          "points": 4464.0,
+          "z_score": 2.16,
+          "type": "high"
+        }
+      ],
+      "nl10": [
+        {
+          "date": "2025-12-04",
+          "points": 10264.5,
+          "z_score": 3.44,
+          "type": "high"
+        },
+        {
+          "date": "2026-01-04",
+          "points": 10264.5,
+          "z_score": 3.44,
+          "type": "high"
+        }
+      ],
+      "nl25": [
+        {
+          "date": "2025-12-29",
+          "points": 4858.0,
+          "z_score": -2.37,
+          "type": "low"
+        },
+        {
+          "date": "2025-12-31",
+          "points": 3886.0,
+          "z_score": -3.48,
+          "type": "low"
+        },
+        {
+          "date": "2026-01-29",
+          "points": 4858.0,
+          "z_score": -2.37,
+          "type": "low"
+        }
+      ],
+      "nl50": [
+        {
+          "date": "2025-12-26",
+          "points": 7757.0,
+          "z_score": 2.73,
+          "type": "high"
+        },
+        {
+          "date": "2025-12-29",
+          "points": 3797.0,
+          "z_score": -2.07,
+          "type": "low"
+        },
+        {
+          "date": "2026-01-26",
+          "points": 7757.0,
+          "z_score": 2.73,
+          "type": "high"
+        },
+        {
+          "date": "2026-01-29",
+          "points": 3797.0,
+          "z_score": -2.07,
+          "type": "low"
+        }
+      ],
+      "nl100": [
+        {
+          "date": "2025-12-03",
+          "points": 8454.0,
+          "z_score": 3.32,
+          "type": "high"
+        },
+        {
+          "date": "2025-12-13",
+          "points": 7140.0,
+          "z_score": 2.16,
+          "type": "high"
+        },
+        {
+          "date": "2026-01-03",
+          "points": 8454.0,
+          "z_score": 3.32,
+          "type": "high"
+        },
+        {
+          "date": "2026-01-13",
+          "points": 7140.0,
+          "z_score": 2.16,
+          "type": "high"
+        }
+      ],
+      "nl200": [
+        {
+          "date": "2025-12-26",
+          "points": 6332.5,
+          "z_score": 2.79,
+          "type": "high"
+        },
+        {
+          "date": "2026-01-26",
+          "points": 6332.5,
+          "z_score": 2.79,
+          "type": "high"
+        }
+      ],
+      "nl500": [
+        {
+          "date": "2025-12-02",
+          "points": 2496.0,
+          "z_score": 2.03,
+          "type": "high"
+        },
+        {
+          "date": "2025-12-11",
+          "points": 2535.0,
+          "z_score": 2.11,
+          "type": "high"
+        },
+        {
+          "date": "2026-01-02",
+          "points": 2496.0,
+          "z_score": 2.03,
+          "type": "high"
+        },
+        {
+          "date": "2026-01-11",
+          "points": 2535.0,
+          "z_score": 2.11,
+          "type": "high"
+        }
+      ],
+      "nl1000": [
+        {
+          "date": "2025-12-31",
+          "points": 244.0,
+          "z_score": -2.61,
+          "type": "low"
+        }
+      ]
+    },
+    "regular": {
+      "nl2": [
+        {
+          "date": "2025-12-12",
+          "points": 2241.5,
+          "z_score": 2.74,
+          "type": "high"
+        },
+        {
+          "date": "2025-12-19",
+          "points": 2159.5,
+          "z_score": 2.33,
+          "type": "high"
+        },
+        {
+          "date": "2026-01-10",
+          "points": 2200.5,
+          "z_score": 2.53,
+          "type": "high"
+        },
+        {
+          "date": "2026-01-29",
+          "points": 1150.0,
+          "z_score": -2.79,
+          "type": "low"
+        }
+      ],
+      "nl5": [
+        {
+          "date": "2025-12-06",
+          "points": 3927.0,
+          "z_score": 2.64,
+          "type": "high"
+        },
+        {
+          "date": "2025-12-07",
+          "points": 3726.5,
+          "z_score": 2.04,
+          "type": "high"
+        },
+        {
+          "date": "2025-12-31",
+          "points": 1753.0,
+          "z_score": -3.8,
+          "type": "low"
+        },
+        {
+          "date": "2026-01-06",
+          "points": 3927.0,
+          "z_score": 2.64,
+          "type": "high"
+        },
+        {
+          "date": "2026-01-07",
+          "points": 3726.5,
+          "z_score": 2.04,
+          "type": "high"
+        }
+      ],
+      "nl10": [
+        {
+          "date": "2025-12-31",
+          "points": 2593.0,
+          "z_score": -2.97,
+          "type": "low"
+        }
+      ],
+      "nl25": [
+        {
+          "date": "2025-12-31",
+          "points": 2305.0,
+          "z_score": -3.63,
+          "type": "low"
+        }
+      ],
+      "nl50": [
+        {
+          "date": "2025-12-31",
+          "points": 1224.0,
+          "z_score": -3.31,
+          "type": "low"
+        }
+      ],
+      "nl100": [
+        {
+          "date": "2025-12-03",
+          "points": 5589.0,
+          "z_score": 3.5,
+          "type": "high"
+        },
+        {
+          "date": "2025-12-04",
+          "points": 4743.5,
+          "z_score": 2.3,
+          "type": "high"
+        },
+        {
+          "date": "2026-01-03",
+          "points": 5589.0,
+          "z_score": 3.5,
+          "type": "high"
+        },
+        {
+          "date": "2026-01-04",
+          "points": 4743.5,
+          "z_score": 2.3,
+          "type": "high"
+        }
+      ],
+      "nl200": [
+        {
+          "date": "2025-12-21",
+          "points": 4002.0,
+          "z_score": 2.11,
+          "type": "high"
+        },
+        {
+          "date": "2025-12-24",
+          "points": 4160.5,
+          "z_score": 2.43,
+          "type": "high"
+        },
+        {
+          "date": "2025-12-31",
+          "points": 1969.0,
+          "z_score": -2.03,
+          "type": "low"
+        },
+        {
+          "date": "2026-01-21",
+          "points": 4002.0,
+          "z_score": 2.11,
+          "type": "high"
+        },
+        {
+          "date": "2026-01-24",
+          "points": 4160.5,
+          "z_score": 2.43,
+          "type": "high"
+        }
+      ],
+      "nl500": [
+        {
+          "date": "2025-12-02",
+          "points": 4139.0,
+          "z_score": 3.45,
+          "type": "high"
+        },
+        {
+          "date": "2025-12-25",
+          "points": 3477.0,
+          "z_score": 2.14,
+          "type": "high"
+        },
+        {
+          "date": "2026-01-02",
+          "points": 4139.0,
+          "z_score": 3.45,
+          "type": "high"
+        },
+        {
+          "date": "2026-01-25",
+          "points": 3477.0,
+          "z_score": 2.14,
+          "type": "high"
+        }
+      ],
+      "nl1000": [
+        {
+          "date": "2025-12-12",
+          "points": 2290.0,
+          "z_score": 2.01,
+          "type": "high"
+        },
+        {
+          "date": "2025-12-17",
+          "points": 2304.0,
+          "z_score": 2.05,
+          "type": "high"
+        },
+        {
+          "date": "2026-01-12",
+          "points": 2290.0,
+          "z_score": 2.01,
+          "type": "high"
+        },
+        {
+          "date": "2026-01-17",
+          "points": 2304.0,
+          "z_score": 2.05,
+          "type": "high"
+        }
+      ],
+      "nl2000": [
+        {
+          "date": "2025-12-11",
+          "points": 2019.0,
+          "z_score": 2.06,
+          "type": "high"
+        },
+        {
+          "date": "2025-12-28",
+          "points": 2115.5,
+          "z_score": 2.34,
+          "type": "high"
+        },
+        {
+          "date": "2026-01-11",
+          "points": 2019.0,
+          "z_score": 2.06,
+          "type": "high"
+        },
+        {
+          "date": "2026-01-28",
+          "points": 2115.5,
+          "z_score": 2.34,
+          "type": "high"
+        }
+      ]
+    },
+    "rush": {
+      "nl2": [
+        {
+          "date": "2025-12-08",
+          "points": 38238.0,
+          "z_score": -2.16,
+          "type": "low"
+        },
+        {
+          "date": "2025-12-15",
+          "points": 60003.0,
+          "z_score": 2.46,
+          "type": "high"
+        },
+        {
+          "date": "2025-12-27",
+          "points": 57936.0,
+          "z_score": 2.02,
+          "type": "high"
+        },
+        {
+          "date": "2026-01-04",
+          "points": 58432.0,
+          "z_score": 2.12,
+          "type": "high"
+        },
+        {
+          "date": "2026-01-17",
+          "points": 38928.0,
+          "z_score": -2.01,
+          "type": "low"
+        }
+      ],
+      "nl5": [
+        {
+          "date": "2025-12-04",
+          "points": 58532.0,
+          "z_score": 2.2,
+          "type": "high"
+        },
+        {
+          "date": "2025-12-31",
+          "points": 18125.0,
+          "z_score": -4.94,
+          "type": "low"
+        },
+        {
+          "date": "2026-01-04",
+          "points": 58532.0,
+          "z_score": 2.2,
+          "type": "high"
+        }
+      ],
+      "nl10": [
+        {
+          "date": "2025-12-06",
+          "points": 57684.0,
+          "z_score": 2.25,
+          "type": "high"
+        },
+        {
+          "date": "2025-12-12",
+          "points": 56362.0,
+          "z_score": 2.01,
+          "type": "high"
+        },
+        {
+          "date": "2025-12-31",
+          "points": 20951.0,
+          "z_score": -4.51,
+          "type": "low"
+        },
+        {
+          "date": "2026-01-06",
+          "points": 57684.0,
+          "z_score": 2.25,
+          "type": "high"
+        },
+        {
+          "date": "2026-01-12",
+          "points": 56362.0,
+          "z_score": 2.01,
+          "type": "high"
+        }
+      ],
+      "nl25": [
+        {
+          "date": "2025-12-03",
+          "points": 102036.0,
+          "z_score": 4.93,
+          "type": "high"
+        },
+        {
+          "date": "2025-12-31",
+          "points": 18799.0,
+          "z_score": -2.41,
+          "type": "low"
+        },
+        {
+          "date": "2026-01-03",
+          "points": 102036.0,
+          "z_score": 4.93,
+          "type": "high"
+        }
+      ],
+      "nl50": [
+        {
+          "date": "2025-12-31",
+          "points": 20147.0,
+          "z_score": -3.67,
+          "type": "low"
+        }
+      ],
+      "nl100": [
+        {
+          "date": "2025-12-31",
+          "points": 14445.0,
+          "z_score": -4.0,
+          "type": "low"
+        }
+      ],
+      "nl200": [
+        {
+          "date": "2025-12-31",
+          "points": 15198.0,
+          "z_score": -3.77,
+          "type": "low"
+        }
+      ]
+    }
+  }
+}
