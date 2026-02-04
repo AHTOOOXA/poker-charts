@@ -22,17 +22,17 @@ def get_rush_pts_per_hand(avg_pts_per_entry: float) -> float:
     Calculate pts/hand for Rush based on avg points per entry.
 
     Uses sqrt curve to account for happy hour usage:
-    - Casual players (~8k avg): 1.55 pts/hand (baseline, ~5% HH)
-    - Grinders (~32k avg): 1.70 pts/hand (heavy HH abuse, ~15-20% HH)
+    - Base rate (0% HH): 1.50 pts/hand (confirmed: 4k hands = 6k pts)
+    - Max rate (~14% HH): 1.71 pts/hand (14hr grinder with full HH)
 
-    Happy hours give 2x points during 2hr daily window.
-    Grinders maximize this, casuals don't.
+    Happy hours: 2x points during 06:00-07:59 UTC (2hr daily).
+    Rush rate: 880 hands/hr at 4 tables.
     """
     # Anchor points
-    MIN_AVG = 8000   # casual avg pts/entry
-    MAX_AVG = 32000  # grinder avg pts/entry
-    MIN_RATE = 1.55  # casual pts/hand
-    MAX_RATE = 1.70  # grinder pts/hand
+    MIN_AVG = 8000   # casual avg pts/entry (~0% HH)
+    MAX_AVG = 32000  # grinder avg pts/entry (~14% HH)
+    MIN_RATE = 1.50  # 0% happy hours (confirmed)
+    MAX_RATE = 1.71  # ~14% happy hours (theoretical max)
 
     # Normalize to 0-1 range
     t = (avg_pts_per_entry - MIN_AVG) / (MAX_AVG - MIN_AVG)
