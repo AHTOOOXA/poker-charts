@@ -379,6 +379,29 @@ def build_json_data(prize_analysis: dict, dow_analysis: dict) -> dict:
 
                 stake_data["prize_levels"].append(level)
 
+            # Calculate marginal bb/100 (extra value of pushing to next tier)
+            # prize_levels are sorted highest prize first
+            levels = stake_data["prize_levels"]
+            for i, lvl in enumerate(levels):
+                if i < len(levels) - 1:
+                    # Compare to tier below (next index = lower prize)
+                    below = levels[i + 1]
+                    extra_prize = lvl["prize"] - below["prize"]
+                    extra_hands = lvl["hands_no_hh"] - below["hands_no_hh"]
+                    if extra_hands > 0 and extra_prize > 0:
+                        lvl["extra_hands"] = extra_hands
+                        lvl["marginal_bb100"] = round(
+                            calculate_rakeback_bb100(extra_prize, extra_hands, stake), 2
+                        )
+                    else:
+                        lvl["extra_hands"] = None
+                        lvl["marginal_bb100"] = None
+
+                else:
+                    # Bottom tier: all hands are "extra" vs getting nothing
+                    lvl["extra_hands"] = lvl["hands_no_hh"]
+                    lvl["marginal_bb100"] = lvl["bb100_no_hh"]
+
             game_data["stakes"].append(stake_data)
 
         data["game_types"].append(game_data)

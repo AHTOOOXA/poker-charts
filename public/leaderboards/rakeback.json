@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-02-05T04:30:10.884980",
+  "generated_at": "2026-02-05T09:58:30.726014",
   "day_of_week": {
     "rush": {
       "easiest_day": "Thu",
@@ -70,7 +70,9 @@
               "bb100_no_hh": 4.62,
               "is_top_value": true,
               "hands_max_hh": 30694,
-              "bb100_max_hh": 4.89
+              "bb100_max_hh": 4.89,
+              "extra_hands": 2367,
+              "marginal_bb100": 10.56
             },
             {
               "prize": 25.0,
@@ -86,7 +88,9 @@
               "bb100_no_hh": 4.15,
               "is_top_value": true,
               "hands_max_hh": 28327,
-              "bb100_max_hh": 4.41
+              "bb100_max_hh": 4.41,
+              "extra_hands": 2993,
+              "marginal_bb100": 6.68
             },
             {
               "prize": 21.0,
@@ -102,7 +106,9 @@
               "bb100_no_hh": 3.88,
               "is_top_value": true,
               "hands_max_hh": 25334,
-              "bb100_max_hh": 4.14
+              "bb100_max_hh": 4.14,
+              "extra_hands": 2893,
+              "marginal_bb100": 6.91
             },
             {
               "prize": 17.0,
@@ -118,7 +124,9 @@
               "bb100_no_hh": 3.51,
               "is_top_value": false,
               "hands_max_hh": 22441,
-              "bb100_max_hh": 3.79
+              "bb100_max_hh": 3.79,
+              "extra_hands": 1704,
+              "marginal_bb100": 11.74
             },
             {
               "prize": 13.0,
@@ -134,7 +142,9 @@
               "bb100_no_hh": 2.89,
               "is_top_value": false,
               "hands_max_hh": 20737,
-              "bb100_max_hh": 3.13
+              "bb100_max_hh": 3.13,
+              "extra_hands": 1602,
+              "marginal_bb100": 9.36
             },
             {
               "prize": 10.0,
@@ -150,7 +160,9 @@
               "bb100_no_hh": 2.39,
               "is_top_value": false,
               "hands_max_hh": 19135,
-              "bb100_max_hh": 2.61
+              "bb100_max_hh": 2.61,
+              "extra_hands": 1017,
+              "marginal_bb100": 14.75
             },
             {
               "prize": 7.0,
@@ -166,7 +178,9 @@
               "bb100_no_hh": 1.76,
               "is_top_value": false,
               "hands_max_hh": 18118,
-              "bb100_max_hh": 1.93
+              "bb100_max_hh": 1.93,
+              "extra_hands": 3150,
+              "marginal_bb100": 3.17
             },
             {
               "prize": 5.0,
@@ -182,7 +196,9 @@
               "bb100_no_hh": 1.49,
               "is_top_value": false,
               "hands_max_hh": 14968,
-              "bb100_max_hh": 1.67
+              "bb100_max_hh": 1.67,
+              "extra_hands": 1118,
+              "marginal_bb100": 2.24
             },
             {
               "prize": 4.5,
@@ -198,7 +214,9 @@
               "bb100_no_hh": 1.44,
               "is_top_value": false,
               "hands_max_hh": 13850,
-              "bb100_max_hh": 1.62
+              "bb100_max_hh": 1.62,
+              "extra_hands": 1303,
+              "marginal_bb100": 1.92
             },
             {
               "prize": 4.0,
@@ -214,7 +232,9 @@
               "bb100_no_hh": 1.4,
               "is_top_value": false,
               "hands_max_hh": 12547,
-              "bb100_max_hh": 1.59
+              "bb100_max_hh": 1.59,
+              "extra_hands": 1161,
+              "marginal_bb100": 2.15
             },
             {
               "prize": 3.5,
@@ -230,7 +250,9 @@
               "bb100_no_hh": 1.33,
               "is_top_value": false,
               "hands_max_hh": 11386,
-              "bb100_max_hh": 1.54
+              "bb100_max_hh": 1.54,
+              "extra_hands": 1037,
+              "marginal_bb100": 2.41
             },
             {
               "prize": 3.0,
@@ -246,7 +268,9 @@
               "bb100_no_hh": 1.24,
               "is_top_value": false,
               "hands_max_hh": 10349,
-              "bb100_max_hh": 1.45
+              "bb100_max_hh": 1.45,
+              "extra_hands": 1160,
+              "marginal_bb100": 2.16
             },
             {
               "prize": 2.5,
@@ -262,7 +286,9 @@
               "bb100_no_hh": 1.14,
               "is_top_value": false,
               "hands_max_hh": 9189,
-              "bb100_max_hh": 1.36
+              "bb100_max_hh": 1.36,
+              "extra_hands": 2251,
+              "marginal_bb100": 1.11
             },
             {
               "prize": 2.0,
@@ -278,7 +304,9 @@
               "bb100_no_hh": 1.15,
               "is_top_value": false,
               "hands_max_hh": 6938,
-              "bb100_max_hh": 1.44
+              "bb100_max_hh": 1.44,
+              "extra_hands": 540,
+              "marginal_bb100": 1.85
             },
             {
               "prize": 1.8,
@@ -294,7 +322,9 @@
               "bb100_no_hh": 1.1,
               "is_top_value": false,
               "hands_max_hh": 6398,
-              "bb100_max_hh": 1.41
+              "bb100_max_hh": 1.41,
+              "extra_hands": 535,
+              "marginal_bb100": 2.8
             },
             {
               "prize": 1.5,
@@ -310,7 +340,9 @@
               "bb100_no_hh": 0.98,
               "is_top_value": false,
               "hands_max_hh": 5863,
-              "bb100_max_hh": 1.28
+              "bb100_max_hh": 1.28,
+              "extra_hands": 819,
+              "marginal_bb100": 0.61
             },
             {
               "prize": 1.4,
@@ -326,7 +358,9 @@
               "bb100_no_hh": 1.03,
               "is_top_value": false,
               "hands_max_hh": 5044,
-              "bb100_max_hh": 1.39
+              "bb100_max_hh": 1.39,
+              "extra_hands": 593,
+              "marginal_bb100": 1.69
             },
             {
               "prize": 1.2,
@@ -342,7 +376,9 @@
               "bb100_no_hh": 0.97,
               "is_top_value": false,
               "hands_max_hh": 4451,
-              "bb100_max_hh": 1.35
+              "bb100_max_hh": 1.35,
+              "extra_hands": 532,
+              "marginal_bb100": 0.94
             },
             {
               "prize": 1.1,
@@ -358,7 +394,9 @@
               "bb100_no_hh": 0.97,
               "is_top_value": false,
               "hands_max_hh": 3919,
-              "bb100_max_hh": 1.4
+              "bb100_max_hh": 1.4,
+              "extra_hands": 219,
+              "marginal_bb100": 2.28
             },
             {
               "prize": 1.0,
@@ -374,7 +412,9 @@
               "bb100_no_hh": 0.92,
               "is_top_value": false,
               "hands_max_hh": 3700,
-              "bb100_max_hh": 1.35
+              "bb100_max_hh": 1.35,
+              "extra_hands": 442,
+              "marginal_bb100": 1.13
             },
             {
               "prize": 0.9,
@@ -390,7 +430,9 @@
               "bb100_no_hh": 0.9,
               "is_top_value": false,
               "hands_max_hh": 3258,
-              "bb100_max_hh": 1.38
+              "bb100_max_hh": 1.38,
+              "extra_hands": 312,
+              "marginal_bb100": 1.6
             },
             {
               "prize": 0.8,
@@ -406,7 +448,9 @@
               "bb100_no_hh": 0.85,
               "is_top_value": false,
               "hands_max_hh": 2946,
-              "bb100_max_hh": 1.36
+              "bb100_max_hh": 1.36,
+              "extra_hands": 569,
+              "marginal_bb100": 0.88
             },
             {
               "prize": 0.7,
@@ -422,7 +466,9 @@
               "bb100_no_hh": 0.85,
               "is_top_value": false,
               "hands_max_hh": 2377,
-              "bb100_max_hh": 1.47
+              "bb100_max_hh": 1.47,
+              "extra_hands": 1315,
+              "marginal_bb100": 0.38
             },
             {
               "prize": 0.6,
@@ -438,7 +484,9 @@
               "bb100_no_hh": 1.06,
               "is_top_value": false,
               "hands_max_hh": 1062,
-              "bb100_max_hh": 2.82
+              "bb100_max_hh": 2.82,
+              "extra_hands": 2822,
+              "marginal_bb100": 1.06
             }
           ]
         },
@@ -461,7 +509,9 @@
               "bb100_no_hh": 3.91,
               "is_top_value": true,
               "hands_max_hh": 28900,
-              "bb100_max_hh": 4.15
+              "bb100_max_hh": 4.15,
+              "extra_hands": 1938,
+              "marginal_bb100": 15.48
             },
             {
               "prize": 45.0,
@@ -477,7 +527,9 @@
               "bb100_no_hh": 3.13,
               "is_top_value": true,
               "hands_max_hh": 26962,
-              "bb100_max_hh": 3.34
+              "bb100_max_hh": 3.34,
+              "extra_hands": 5033,
+              "marginal_bb100": 3.97
             },
             {
               "prize": 35.0,
@@ -493,7 +545,9 @@
               "bb100_no_hh": 2.95,
               "is_top_value": true,
               "hands_max_hh": 21929,
-              "bb100_max_hh": 3.19
+              "bb100_max_hh": 3.19,
+              "extra_hands": 2564,
+              "marginal_bb100": 3.9
             },
             {
               "prize": 30.0,
@@ -509,7 +563,9 @@
               "bb100_no_hh": 2.84,
               "is_top_value": false,
               "hands_max_hh": 19365,
-              "bb100_max_hh": 3.1
+              "bb100_max_hh": 3.1,
+              "extra_hands": 1445,
+              "marginal_bb100": 6.92
             },
             {
               "prize": 25.0,
@@ -525,7 +581,9 @@
               "bb100_no_hh": 2.54,
               "is_top_value": false,
               "hands_max_hh": 17920,
-              "bb100_max_hh": 2.79
+              "bb100_max_hh": 2.79,
+              "extra_hands": 1082,
+              "marginal_bb100": 9.24
             },
             {
               "prize": 20.0,
@@ -541,7 +599,9 @@
               "bb100_no_hh": 2.15,
               "is_top_value": false,
               "hands_max_hh": 16838,
-              "bb100_max_hh": 2.38
+              "bb100_max_hh": 2.38,
+              "extra_hands": 510,
+              "marginal_bb100": 15.69
             },
             {
               "prize": 16.0,
@@ -557,7 +617,9 @@
               "bb100_no_hh": 1.77,
               "is_top_value": false,
               "hands_max_hh": 16328,
-              "bb100_max_hh": 1.96
+              "bb100_max_hh": 1.96,
+              "extra_hands": 839,
+              "marginal_bb100": 9.54
             },
             {
               "prize": 12.0,
@@ -573,7 +635,9 @@
               "bb100_no_hh": 1.39,
               "is_top_value": false,
               "hands_max_hh": 15489,
-              "bb100_max_hh": 1.55
+              "bb100_max_hh": 1.55,
+              "extra_hands": 429,
+              "marginal_bb100": 9.32
             },
             {
               "prize": 10.0,
@@ -589,7 +653,9 @@
               "bb100_no_hh": 1.19,
               "is_top_value": false,
               "hands_max_hh": 15060,
-              "bb100_max_hh": 1.33
+              "bb100_max_hh": 1.33,
+              "extra_hands": 731,
+              "marginal_bb100": 5.47
             },
             {
               "prize": 8.0,
@@ -605,7 +671,9 @@
               "bb100_no_hh": 0.99,
               "is_top_value": false,
               "hands_max_hh": 14329,
-              "bb100_max_hh": 1.12
+              "bb100_max_hh": 1.12,
+              "extra_hands": 2566,
+              "marginal_bb100": 0.78
             },
             {
               "prize": 7.0,
@@ -621,7 +689,9 @@
               "bb100_no_hh": 1.04,
               "is_top_value": false,
               "hands_max_hh": 11763,
-              "bb100_max_hh": 1.19
+              "bb100_max_hh": 1.19,
+              "extra_hands": 1773,
+              "marginal_bb100": 1.13
             },
             {
               "prize": 6.0,
@@ -637,7 +707,9 @@
               "bb100_no_hh": 1.02,
               "is_top_value": false,
               "hands_max_hh": 9990,
-              "bb100_max_hh": 1.2
+              "bb100_max_hh": 1.2,
+              "extra_hands": 1194,
+              "marginal_bb100": 1.68
             },
             {
               "prize": 5.0,
@@ -653,7 +725,9 @@
               "bb100_no_hh": 0.95,
               "is_top_value": false,
               "hands_max_hh": 8796,
-              "bb100_max_hh": 1.14
+              "bb100_max_hh": 1.14,
+              "extra_hands": 870,
+              "marginal_bb100": 1.15
             },
             {
               "prize": 4.5,
@@ -669,7 +743,9 @@
               "bb100_no_hh": 0.93,
               "is_top_value": false,
               "hands_max_hh": 7926,
-              "bb100_max_hh": 1.14
+              "bb100_max_hh": 1.14,
+              "extra_hands": 824,
+              "marginal_bb100": 1.21
             },
             {
               "prize": 4.0,
@@ -685,7 +761,9 @@
               "bb100_no_hh": 0.9,
               "is_top_value": false,
               "hands_max_hh": 7102,
-              "bb100_max_hh": 1.13
+              "bb100_max_hh": 1.13,
+              "extra_hands": 2284,
+              "marginal_bb100": 0.44
             },
             {
               "prize": 3.5,
@@ -701,7 +779,9 @@
               "bb100_no_hh": 1.06,
               "is_top_value": false,
               "hands_max_hh": 4818,
-              "bb100_max_hh": 1.45
+              "bb100_max_hh": 1.45,
+              "extra_hands": 1727,
+              "marginal_bb100": 0.58
             },
             {
               "prize": 3.0,
@@ -717,7 +797,9 @@
               "bb100_no_hh": 1.24,
               "is_top_value": false,
               "hands_max_hh": 3091,
-              "bb100_max_hh": 1.94
+              "bb100_max_hh": 1.94,
+              "extra_hands": 683,
+              "marginal_bb100": 1.46
             },
             {
               "prize": 2.5,
@@ -733,7 +815,9 @@
               "bb100_no_hh": 1.2,
               "is_top_value": false,
               "hands_max_hh": 2408,
-              "bb100_max_hh": 2.08
+              "bb100_max_hh": 2.08,
+              "extra_hands": 546,
+              "marginal_bb100": 1.83
             },
             {
               "prize": 2.0,
@@ -749,7 +833,9 @@
               "bb100_no_hh": 1.1,
               "is_top_value": false,
               "hands_max_hh": 1862,
-              "bb100_max_hh": 2.15
+              "bb100_max_hh": 2.15,
+              "extra_hands": 1068,
+              "marginal_bb100": 0.94
             },
             {
               "prize": 1.5,
@@ -765,7 +851,9 @@
               "bb100_no_hh": 1.17,
               "is_top_value": false,
               "hands_max_hh": 794,
-              "bb100_max_hh": 3.78
+              "bb100_max_hh": 3.78,
+              "extra_hands": 2554,
+              "marginal_bb100": 1.17
             }
           ]
         },
@@ -788,7 +876,9 @@
               "bb100_no_hh": 2.93,
               "is_top_value": true,
               "hands_max_hh": 28946,
-              "bb100_max_hh": 3.11
+              "bb100_max_hh": 3.11,
+              "extra_hands": 2744,
+              "marginal_bb100": 7.29
             },
             {
               "prize": 70.0,
@@ -804,7 +894,9 @@
               "bb100_no_hh": 2.5,
               "is_top_value": true,
               "hands_max_hh": 26202,
-              "bb100_max_hh": 2.67
+              "bb100_max_hh": 2.67,
+              "extra_hands": 2205,
+              "marginal_bb100": 2.27
             },
             {
               "prize": 65.0,
@@ -820,7 +912,9 @@
               "bb100_no_hh": 2.52,
               "is_top_value": true,
               "hands_max_hh": 23997,
-              "bb100_max_hh": 2.71
+              "bb100_max_hh": 2.71,
+              "extra_hands": 915,
+              "marginal_bb100": 5.46
             },
             {
               "prize": 60.0,
@@ -836,7 +930,9 @@
               "bb100_no_hh": 2.42,
               "is_top_value": false,
               "hands_max_hh": 23082,
-              "bb100_max_hh": 2.6
+              "bb100_max_hh": 2.6,
+              "extra_hands": 1432,
+              "marginal_bb100": 3.49
             },
             {
               "prize": 55.0,
@@ -852,7 +948,9 @@
               "bb100_no_hh": 2.35,
               "is_top_value": false,
               "hands_max_hh": 21650,
-              "bb100_max_hh": 2.54
+              "bb100_max_hh": 2.54,
+              "extra_hands": 1167,
+              "marginal_bb100": 4.28
             },
             {
               "prize": 50.0,
@@ -868,7 +966,9 @@
               "bb100_no_hh": 2.25,
               "is_top_value": false,
               "hands_max_hh": 20483,
-              "bb100_max_hh": 2.44
+              "bb100_max_hh": 2.44,
+              "extra_hands": 517,
+              "marginal_bb100": 9.67
             },
             {
               "prize": 45.0,
@@ -884,7 +984,9 @@
               "bb100_no_hh": 2.07,
               "is_top_value": false,
               "hands_max_hh": 19966,
-              "bb100_max_hh": 2.25
+              "bb100_max_hh": 2.25,
+              "extra_hands": 1004,
+              "marginal_bb100": 4.98
             },
             {
               "prize": 40.0,
@@ -900,7 +1002,9 @@
               "bb100_no_hh": 1.93,
               "is_top_value": false,
               "hands_max_hh": 18962,
-              "bb100_max_hh": 2.11
+              "bb100_max_hh": 2.11,
+              "extra_hands": 1249,
+              "marginal_bb100": 4.0
             },
             {
               "prize": 35.0,
@@ -916,7 +1020,9 @@
               "bb100_no_hh": 1.8,
               "is_top_value": false,
               "hands_max_hh": 17713,
-              "bb100_max_hh": 1.98
+              "bb100_max_hh": 1.98,
+              "extra_hands": 368,
+              "marginal_bb100": 13.59
             },
             {
               "prize": 30.0,
@@ -932,7 +1038,9 @@
               "bb100_no_hh": 1.57,
               "is_top_value": false,
               "hands_max_hh": 17345,
-              "bb100_max_hh": 1.73
+              "bb100_max_hh": 1.73,
+              "extra_hands": 1200,
+              "marginal_bb100": 4.17
             },
             {
               "prize": 25.0,
@@ -948,7 +1056,9 @@
               "bb100_no_hh": 1.4,
               "is_top_value": false,
               "hands_max_hh": 16145,
-              "bb100_max_hh": 1.55
+              "bb100_max_hh": 1.55,
+              "extra_hands": 971,
+              "marginal_bb100": 5.15
             },
             {
               "prize": 20.0,
@@ -964,7 +1074,9 @@
               "bb100_no_hh": 1.18,
               "is_top_value": false,
               "hands_max_hh": 15174,
-              "bb100_max_hh": 1.32
+              "bb100_max_hh": 1.32,
+              "extra_hands": 769,
+              "marginal_bb100": 6.5
             },
             {
               "prize": 15.0,
@@ -980,7 +1092,9 @@
               "bb100_no_hh": 0.93,
               "is_top_value": false,
               "hands_max_hh": 14405,
-              "bb100_max_hh": 1.04
+              "bb100_max_hh": 1.04,
+              "extra_hands": 886,
+              "marginal_bb100": 5.64
             },
             {
               "prize": 10.0,
@@ -996,7 +1110,9 @@
               "bb100_no_hh": 0.65,
               "is_top_value": false,
               "hands_max_hh": 13519,
-              "bb100_max_hh": 0.74
+              "bb100_max_hh": 0.74,
+              "extra_hands": 2300,
+              "marginal_bb100": 0.43
             },
             {
               "prize": 9.0,
@@ -1012,7 +1128,9 @@
               "bb100_no_hh": 0.69,
               "is_top_value": false,
               "hands_max_hh": 11219,
-              "bb100_max_hh": 0.8
+              "bb100_max_hh": 0.8,
+              "extra_hands": 1496,
+              "marginal_bb100": 0.67
             },
             {
               "prize": 8.0,
@@ -1028,7 +1146,9 @@
               "bb100_no_hh": 0.7,
               "is_top_value": false,
               "hands_max_hh": 9723,
-              "bb100_max_hh": 0.82
+              "bb100_max_hh": 0.82,
+              "extra_hands": 1165,
+              "marginal_bb100": 0.86
             },
             {
               "prize": 7.0,
@@ -1044,7 +1164,9 @@
               "bb100_no_hh": 0.68,
               "is_top_value": false,
               "hands_max_hh": 8558,
-              "bb100_max_hh": 0.82
+              "bb100_max_hh": 0.82,
+              "extra_hands": 3581,
+              "marginal_bb100": 0.28
             },
             {
               "prize": 6.0,
@@ -1060,7 +1182,9 @@
               "bb100_no_hh": 0.89,
               "is_top_value": false,
               "hands_max_hh": 4977,
-              "bb100_max_hh": 1.21
+              "bb100_max_hh": 1.21,
+              "extra_hands": 2190,
+              "marginal_bb100": 0.46
             },
             {
               "prize": 5.0,
@@ -1076,7 +1200,9 @@
               "bb100_no_hh": 1.1,
               "is_top_value": false,
               "hands_max_hh": 2787,
-              "bb100_max_hh": 1.79
+              "bb100_max_hh": 1.79,
+              "extra_hands": 794,
+              "marginal_bb100": 1.26
             },
             {
               "prize": 4.0,
@@ -1092,7 +1218,9 @@
               "bb100_no_hh": 1.07,
               "is_top_value": false,
               "hands_max_hh": 1993,
-              "bb100_max_hh": 2.01
+              "bb100_max_hh": 2.01,
+              "extra_hands": 416,
+              "marginal_bb100": 2.4
             },
             {
               "prize": 3.0,
@@ -1108,7 +1236,9 @@
               "bb100_no_hh": 0.9,
               "is_top_value": false,
               "hands_max_hh": 1577,
-              "bb100_max_hh": 1.9
+              "bb100_max_hh": 1.9,
+              "extra_hands": 3337,
+              "marginal_bb100": 0.9
             }
           ]
         },
@@ -1131,7 +1261,9 @@
               "bb100_no_hh": 1.98,
               "is_top_value": true,
               "hands_max_hh": 28512,
-              "bb100_max_hh": 2.1
+              "bb100_max_hh": 2.1,
+              "extra_hands": 4128,
+              "marginal_bb100": 3.88
             },
             {
               "prize": 110.0,
@@ -1147,7 +1279,9 @@
               "bb100_no_hh": 1.68,
               "is_top_value": true,
               "hands_max_hh": 24384,
-              "bb100_max_hh": 1.8
+              "bb100_max_hh": 1.8,
+              "extra_hands": 1779,
+              "marginal_bb100": 2.25
             },
             {
               "prize": 100.0,
@@ -1163,7 +1297,9 @@
               "bb100_no_hh": 1.64,
               "is_top_value": true,
               "hands_max_hh": 22605,
-              "bb100_max_hh": 1.77
+              "bb100_max_hh": 1.77,
+              "extra_hands": 1633,
+              "marginal_bb100": 2.45
             },
             {
               "prize": 90.0,
@@ -1179,7 +1315,9 @@
               "bb100_no_hh": 1.58,
               "is_top_value": false,
               "hands_max_hh": 20972,
-              "bb100_max_hh": 1.72
+              "bb100_max_hh": 1.72,
+              "extra_hands": 1751,
+              "marginal_bb100": 2.28
             },
             {
               "prize": 80.0,
@@ -1195,7 +1333,9 @@
               "bb100_no_hh": 1.53,
               "is_top_value": false,
               "hands_max_hh": 19221,
-              "bb100_max_hh": 1.66
+              "bb100_max_hh": 1.66,
+              "extra_hands": 1387,
+              "marginal_bb100": 2.88
             },
             {
               "prize": 70.0,
@@ -1211,7 +1351,9 @@
               "bb100_no_hh": 1.43,
               "is_top_value": false,
               "hands_max_hh": 17834,
-              "bb100_max_hh": 1.57
+              "bb100_max_hh": 1.57,
+              "extra_hands": 1152,
+              "marginal_bb100": 3.47
             },
             {
               "prize": 60.0,
@@ -1227,7 +1369,9 @@
               "bb100_no_hh": 1.3,
               "is_top_value": false,
               "hands_max_hh": 16682,
-              "bb100_max_hh": 1.44
+              "bb100_max_hh": 1.44,
+              "extra_hands": 439,
+              "marginal_bb100": 9.11
             },
             {
               "prize": 50.0,
@@ -1243,7 +1387,9 @@
               "bb100_no_hh": 1.11,
               "is_top_value": false,
               "hands_max_hh": 16243,
-              "bb100_max_hh": 1.23
+              "bb100_max_hh": 1.23,
+              "extra_hands": 953,
+              "marginal_bb100": 4.2
             },
             {
               "prize": 40.0,
@@ -1259,7 +1405,9 @@
               "bb100_no_hh": 0.94,
               "is_top_value": false,
               "hands_max_hh": 15290,
-              "bb100_max_hh": 1.05
+              "bb100_max_hh": 1.05,
+              "extra_hands": 960,
+              "marginal_bb100": 4.17
             },
             {
               "prize": 30.0,
@@ -1275,7 +1423,9 @@
               "bb100_no_hh": 0.75,
               "is_top_value": false,
               "hands_max_hh": 14330,
-              "bb100_max_hh": 0.84
+              "bb100_max_hh": 0.84,
+              "extra_hands": 483,
+              "marginal_bb100": 8.28
             },
             {
               "prize": 20.0,
@@ -1291,7 +1441,9 @@
               "bb100_no_hh": 0.51,
               "is_top_value": false,
               "hands_max_hh": 13847,
-              "bb100_max_hh": 0.58
+              "bb100_max_hh": 0.58,
+              "extra_hands": 1865,
+              "marginal_bb100": 0.86
             },
             {
               "prize": 16.0,
@@ -1307,7 +1459,9 @@
               "bb100_no_hh": 0.47,
               "is_top_value": false,
               "hands_max_hh": 11982,
-              "bb100_max_hh": 0.53
+              "bb100_max_hh": 0.53,
+              "extra_hands": 1140,
+              "marginal_bb100": 0.35
             },
             {
               "prize": 15.0,
@@ -1323,7 +1477,9 @@
               "bb100_no_hh": 0.48,
               "is_top_value": false,
               "hands_max_hh": 10842,
-              "bb100_max_hh": 0.55
+              "bb100_max_hh": 0.55,
+              "extra_hands": 1258,
+              "marginal_bb100": 0.32
             },
             {
               "prize": 14.0,
@@ -1339,7 +1495,9 @@
               "bb100_no_hh": 0.49,
               "is_top_value": false,
               "hands_max_hh": 9584,
-              "bb100_max_hh": 0.58
+              "bb100_max_hh": 0.58,
+              "extra_hands": 807,
+              "marginal_bb100": 0.5
             },
             {
               "prize": 13.0,
@@ -1355,7 +1513,9 @@
               "bb100_no_hh": 0.49,
               "is_top_value": false,
               "hands_max_hh": 8777,
-              "bb100_max_hh": 0.59
+              "bb100_max_hh": 0.59,
+              "extra_hands": 781,
+              "marginal_bb100": 0.51
             },
             {
               "prize": 12.0,
@@ -1371,7 +1531,9 @@
               "bb100_no_hh": 0.49,
               "is_top_value": false,
               "hands_max_hh": 7996,
-              "bb100_max_hh": 0.6
+              "bb100_max_hh": 0.6,
+              "extra_hands": 731,
+              "marginal_bb100": 0.55
             },
             {
               "prize": 11.0,
@@ -1387,7 +1549,9 @@
               "bb100_no_hh": 0.49,
               "is_top_value": false,
               "hands_max_hh": 7265,
-              "bb100_max_hh": 0.61
+              "bb100_max_hh": 0.61,
+              "extra_hands": 368,
+              "marginal_bb100": 1.09
             },
             {
               "prize": 10.0,
@@ -1403,7 +1567,9 @@
               "bb100_no_hh": 0.46,
               "is_top_value": false,
               "hands_max_hh": 6897,
-              "bb100_max_hh": 0.58
+              "bb100_max_hh": 0.58,
+              "extra_hands": 3849,
+              "marginal_bb100": 0.1
             },
             {
               "prize": 9.0,
@@ -1419,7 +1585,9 @@
               "bb100_no_hh": 0.75,
               "is_top_value": false,
               "hands_max_hh": 3048,
-              "bb100_max_hh": 1.18
+              "bb100_max_hh": 1.18,
+              "extra_hands": 1774,
+              "marginal_bb100": 0.23
             },
             {
               "prize": 8.0,
@@ -1435,7 +1603,9 @@
               "bb100_no_hh": 1.05,
               "is_top_value": false,
               "hands_max_hh": 1274,
-              "bb100_max_hh": 2.51
+              "bb100_max_hh": 2.51,
+              "extra_hands": 3034,
+              "marginal_bb100": 1.05
             }
           ]
         },
@@ -1458,7 +1628,9 @@
               "bb100_no_hh": 1.95,
               "is_top_value": true,
               "hands_max_hh": 23928,
-              "bb100_max_hh": 2.09
+              "bb100_max_hh": 2.09,
+              "extra_hands": 2187,
+              "marginal_bb100": 6.4
             },
             {
               "prize": 180.0,
@@ -1474,7 +1646,9 @@
               "bb100_no_hh": 1.53,
               "is_top_value": true,
               "hands_max_hh": 21741,
-              "bb100_max_hh": 1.66
+              "bb100_max_hh": 1.66,
+              "extra_hands": 2036,
+              "marginal_bb100": 1.96
             },
             {
               "prize": 160.0,
@@ -1490,7 +1664,9 @@
               "bb100_no_hh": 1.49,
               "is_top_value": false,
               "hands_max_hh": 19705,
-              "bb100_max_hh": 1.62
+              "bb100_max_hh": 1.62,
+              "extra_hands": 1872,
+              "marginal_bb100": 1.07
             },
             {
               "prize": 150.0,
@@ -1506,7 +1682,9 @@
               "bb100_no_hh": 1.53,
               "is_top_value": false,
               "hands_max_hh": 17833,
-              "bb100_max_hh": 1.68
+              "bb100_max_hh": 1.68,
+              "extra_hands": 1601,
+              "marginal_bb100": 1.25
             },
             {
               "prize": 140.0,
@@ -1522,7 +1700,9 @@
               "bb100_no_hh": 1.56,
               "is_top_value": true,
               "hands_max_hh": 16232,
-              "bb100_max_hh": 1.72
+              "bb100_max_hh": 1.72,
+              "extra_hands": 984,
+              "marginal_bb100": 2.03
             },
             {
               "prize": 130.0,
@@ -1538,7 +1718,9 @@
               "bb100_no_hh": 1.53,
               "is_top_value": false,
               "hands_max_hh": 15248,
-              "bb100_max_hh": 1.71
+              "bb100_max_hh": 1.71,
+              "extra_hands": 718,
+              "marginal_bb100": 2.79
             },
             {
               "prize": 120.0,
@@ -1554,7 +1736,9 @@
               "bb100_no_hh": 1.47,
               "is_top_value": false,
               "hands_max_hh": 14530,
-              "bb100_max_hh": 1.65
+              "bb100_max_hh": 1.65,
+              "extra_hands": 441,
+              "marginal_bb100": 9.07
             },
             {
               "prize": 100.0,
@@ -1570,7 +1754,9 @@
               "bb100_no_hh": 1.26,
               "is_top_value": false,
               "hands_max_hh": 14089,
-              "bb100_max_hh": 1.42
+              "bb100_max_hh": 1.42,
+              "extra_hands": 846,
+              "marginal_bb100": 4.73
             },
             {
               "prize": 80.0,
@@ -1586,7 +1772,9 @@
               "bb100_no_hh": 1.07,
               "is_top_value": false,
               "hands_max_hh": 13243,
-              "bb100_max_hh": 1.21
+              "bb100_max_hh": 1.21,
+              "extra_hands": 804,
+              "marginal_bb100": 2.49
             },
             {
               "prize": 70.0,
@@ -1602,7 +1790,9 @@
               "bb100_no_hh": 0.99,
               "is_top_value": false,
               "hands_max_hh": 12439,
-              "bb100_max_hh": 1.13
+              "bb100_max_hh": 1.13,
+              "extra_hands": 943,
+              "marginal_bb100": 2.12
             },
             {
               "prize": 60.0,
@@ -1618,7 +1808,9 @@
               "bb100_no_hh": 0.91,
               "is_top_value": false,
               "hands_max_hh": 11496,
-              "bb100_max_hh": 1.04
+              "bb100_max_hh": 1.04,
+              "extra_hands": 665,
+              "marginal_bb100": 3.01
             },
             {
               "prize": 50.0,
@@ -1634,7 +1826,9 @@
               "bb100_no_hh": 0.79,
               "is_top_value": false,
               "hands_max_hh": 10831,
-              "bb100_max_hh": 0.92
+              "bb100_max_hh": 0.92,
+              "extra_hands": 281,
+              "marginal_bb100": 7.12
             },
             {
               "prize": 40.0,
@@ -1650,7 +1844,9 @@
               "bb100_no_hh": 0.65,
               "is_top_value": false,
               "hands_max_hh": 10550,
-              "bb100_max_hh": 0.76
+              "bb100_max_hh": 0.76,
+              "extra_hands": 3085,
+              "marginal_bb100": 0.65
             },
             {
               "prize": 30.0,
@@ -1666,7 +1862,9 @@
               "bb100_no_hh": 0.65,
               "is_top_value": false,
               "hands_max_hh": 7465,
-              "bb100_max_hh": 0.8
+              "bb100_max_hh": 0.8,
+              "extra_hands": 2139,
+              "marginal_bb100": 0.94
             },
             {
               "prize": 20.0,
@@ -1682,7 +1880,9 @@
               "bb100_no_hh": 0.56,
               "is_top_value": false,
               "hands_max_hh": 5326,
-              "bb100_max_hh": 0.75
+              "bb100_max_hh": 0.75,
+              "extra_hands": 4439,
+              "marginal_bb100": 0.23
             },
             {
               "prize": 15.0,
@@ -1698,7 +1898,9 @@
               "bb100_no_hh": 1.13,
               "is_top_value": false,
               "hands_max_hh": 887,
-              "bb100_max_hh": 3.38
+              "bb100_max_hh": 3.38,
+              "extra_hands": 2647,
+              "marginal_bb100": 1.13
             }
           ]
         },
@@ -1721,7 +1923,9 @@
               "bb100_no_hh": 1.76,
               "is_top_value": true,
               "hands_max_hh": 20956,
-              "bb100_max_hh": 1.91
+              "bb100_max_hh": 1.91,
+              "extra_hands": 1561,
+              "marginal_bb100": 5.12
             },
             {
               "prize": 320.0,
@@ -1737,7 +1941,9 @@
               "bb100_no_hh": 1.51,
               "is_top_value": true,
               "hands_max_hh": 19395,
-              "bb100_max_hh": 1.65
+              "bb100_max_hh": 1.65,
+              "extra_hands": 1830,
+              "marginal_bb100": 3.28
             },
             {
               "prize": 260.0,
@@ -1753,7 +1959,9 @@
               "bb100_no_hh": 1.35,
               "is_top_value": true,
               "hands_max_hh": 17565,
-              "bb100_max_hh": 1.48
+              "bb100_max_hh": 1.48,
+              "extra_hands": 1411,
+              "marginal_bb100": 2.83
             },
             {
               "prize": 220.0,
@@ -1769,7 +1977,9 @@
               "bb100_no_hh": 1.23,
               "is_top_value": false,
               "hands_max_hh": 16154,
-              "bb100_max_hh": 1.36
+              "bb100_max_hh": 1.36,
+              "extra_hands": 1356,
+              "marginal_bb100": 1.47
             },
             {
               "prize": 200.0,
@@ -1785,7 +1995,9 @@
               "bb100_no_hh": 1.21,
               "is_top_value": false,
               "hands_max_hh": 14798,
-              "bb100_max_hh": 1.35
+              "bb100_max_hh": 1.35,
+              "extra_hands": 991,
+              "marginal_bb100": 2.02
             },
             {
               "prize": 180.0,
@@ -1801,7 +2013,9 @@
               "bb100_no_hh": 1.16,
               "is_top_value": false,
               "hands_max_hh": 13807,
-              "bb100_max_hh": 1.3
+              "bb100_max_hh": 1.3,
+              "extra_hands": 1181,
+              "marginal_bb100": 1.69
             },
             {
               "prize": 160.0,
@@ -1817,7 +2031,9 @@
               "bb100_no_hh": 1.11,
               "is_top_value": false,
               "hands_max_hh": 12626,
-              "bb100_max_hh": 1.27
+              "bb100_max_hh": 1.27,
+              "extra_hands": 1078,
+              "marginal_bb100": 1.86
             },
             {
               "prize": 140.0,
@@ -1833,7 +2049,9 @@
               "bb100_no_hh": 1.05,
               "is_top_value": false,
               "hands_max_hh": 11548,
-              "bb100_max_hh": 1.21
+              "bb100_max_hh": 1.21,
+              "extra_hands": 695,
+              "marginal_bb100": 2.88
             },
             {
               "prize": 120.0,
@@ -1849,7 +2067,9 @@
               "bb100_no_hh": 0.95,
               "is_top_value": false,
               "hands_max_hh": 10853,
-              "bb100_max_hh": 1.11
+              "bb100_max_hh": 1.11,
+              "extra_hands": 476,
+              "marginal_bb100": 4.2
             },
             {
               "prize": 100.0,
@@ -1865,7 +2085,9 @@
               "bb100_no_hh": 0.82,
               "is_top_value": false,
               "hands_max_hh": 10377,
-              "bb100_max_hh": 0.96
+              "bb100_max_hh": 0.96,
+              "extra_hands": 826,
+              "marginal_bb100": 2.42
             },
             {
               "prize": 80.0,
@@ -1881,7 +2103,9 @@
               "bb100_no_hh": 0.71,
               "is_top_value": false,
               "hands_max_hh": 9551,
-              "bb100_max_hh": 0.84
+              "bb100_max_hh": 0.84,
+              "extra_hands": 1586,
+              "marginal_bb100": 1.26
             },
             {
               "prize": 60.0,
@@ -1897,7 +2121,9 @@
               "bb100_no_hh": 0.62,
               "is_top_value": false,
               "hands_max_hh": 7965,
-              "bb100_max_hh": 0.75
+              "bb100_max_hh": 0.75,
+              "extra_hands": 2237,
+              "marginal_bb100": 0.45
             },
             {
               "prize": 50.0,
@@ -1913,7 +2139,9 @@
               "bb100_no_hh": 0.67,
               "is_top_value": false,
               "hands_max_hh": 5728,
-              "bb100_max_hh": 0.87
+              "bb100_max_hh": 0.87,
+              "extra_hands": 2448,
+              "marginal_bb100": 0.41
             },
             {
               "prize": 40.0,
@@ -1929,7 +2157,9 @@
               "bb100_no_hh": 0.79,
               "is_top_value": false,
               "hands_max_hh": 3280,
-              "bb100_max_hh": 1.22
+              "bb100_max_hh": 1.22,
+              "extra_hands": 1754,
+              "marginal_bb100": 0.57
             },
             {
               "prize": 30.0,
@@ -1945,7 +2175,9 @@
               "bb100_no_hh": 0.91,
               "is_top_value": false,
               "hands_max_hh": 1526,
-              "bb100_max_hh": 1.97
+              "bb100_max_hh": 1.97,
+              "extra_hands": 3286,
+              "marginal_bb100": 0.91
             }
           ]
         },
@@ -1968,7 +2200,9 @@
               "bb100_no_hh": 1.42,
               "is_top_value": true,
               "hands_max_hh": 19373,
-              "bb100_max_hh": 1.55
+              "bb100_max_hh": 1.55,
+              "extra_hands": 1909,
+              "marginal_bb100": 2.62
             },
             {
               "prize": 500.0,
@@ -1984,7 +2218,9 @@
               "bb100_no_hh": 1.3,
               "is_top_value": true,
               "hands_max_hh": 17464,
-              "bb100_max_hh": 1.43
+              "bb100_max_hh": 1.43,
+              "extra_hands": 1407,
+              "marginal_bb100": 1.78
             },
             {
               "prize": 450.0,
@@ -2000,7 +2236,9 @@
               "bb100_no_hh": 1.26,
               "is_top_value": true,
               "hands_max_hh": 16057,
-              "bb100_max_hh": 1.4
+              "bb100_max_hh": 1.4,
+              "extra_hands": 633,
+              "marginal_bb100": 3.95
             },
             {
               "prize": 400.0,
@@ -2016,7 +2254,9 @@
               "bb100_no_hh": 1.16,
               "is_top_value": false,
               "hands_max_hh": 15424,
-              "bb100_max_hh": 1.3
+              "bb100_max_hh": 1.3,
+              "extra_hands": 1948,
+              "marginal_bb100": 1.28
             },
             {
               "prize": 350.0,
@@ -2032,7 +2272,9 @@
               "bb100_no_hh": 1.15,
               "is_top_value": false,
               "hands_max_hh": 13476,
-              "bb100_max_hh": 1.3
+              "bb100_max_hh": 1.3,
+              "extra_hands": 468,
+              "marginal_bb100": 5.34
             },
             {
               "prize": 300.0,
@@ -2048,7 +2290,9 @@
               "bb100_no_hh": 1.02,
               "is_top_value": false,
               "hands_max_hh": 13008,
-              "bb100_max_hh": 1.15
+              "bb100_max_hh": 1.15,
+              "extra_hands": 1420,
+              "marginal_bb100": 1.76
             },
             {
               "prize": 250.0,
@@ -2064,7 +2308,9 @@
               "bb100_no_hh": 0.94,
               "is_top_value": false,
               "hands_max_hh": 11588,
-              "bb100_max_hh": 1.08
+              "bb100_max_hh": 1.08,
+              "extra_hands": 298,
+              "marginal_bb100": 6.71
             },
             {
               "prize": 210.0,
@@ -2080,7 +2326,9 @@
               "bb100_no_hh": 0.8,
               "is_top_value": false,
               "hands_max_hh": 11290,
-              "bb100_max_hh": 0.93
+              "bb100_max_hh": 0.93,
+              "extra_hands": 552,
+              "marginal_bb100": 3.62
             },
             {
               "prize": 170.0,
@@ -2096,7 +2344,9 @@
               "bb100_no_hh": 0.68,
               "is_top_value": false,
               "hands_max_hh": 10738,
-              "bb100_max_hh": 0.79
+              "bb100_max_hh": 0.79,
+              "extra_hands": 1082,
+              "marginal_bb100": 1.85
             },
             {
               "prize": 130.0,
@@ -2112,7 +2362,9 @@
               "bb100_no_hh": 0.57,
               "is_top_value": false,
               "hands_max_hh": 9656,
-              "bb100_max_hh": 0.67
+              "bb100_max_hh": 0.67,
+              "extra_hands": 583,
+              "marginal_bb100": 1.72
             },
             {
               "prize": 110.0,
@@ -2128,7 +2380,9 @@
               "bb100_no_hh": 0.51,
               "is_top_value": false,
               "hands_max_hh": 9073,
-              "bb100_max_hh": 0.61
+              "bb100_max_hh": 0.61,
+              "extra_hands": 1560,
+              "marginal_bb100": 0.64
             },
             {
               "prize": 90.0,
@@ -2144,7 +2398,9 @@
               "bb100_no_hh": 0.49,
               "is_top_value": false,
               "hands_max_hh": 7513,
-              "bb100_max_hh": 0.6
+              "bb100_max_hh": 0.6,
+              "extra_hands": 2378,
+              "marginal_bb100": 0.21
             },
             {
               "prize": 80.0,
@@ -2160,7 +2416,9 @@
               "bb100_no_hh": 0.58,
               "is_top_value": false,
               "hands_max_hh": 5135,
-              "bb100_max_hh": 0.78
+              "bb100_max_hh": 0.78,
+              "extra_hands": 1185,
+              "marginal_bb100": 0.42
             },
             {
               "prize": 70.0,
@@ -2176,7 +2434,9 @@
               "bb100_no_hh": 0.61,
               "is_top_value": false,
               "hands_max_hh": 3950,
-              "bb100_max_hh": 0.89
+              "bb100_max_hh": 0.89,
+              "extra_hands": 2266,
+              "marginal_bb100": 0.22
             },
             {
               "prize": 60.0,
@@ -2192,7 +2452,9 @@
               "bb100_no_hh": 0.87,
               "is_top_value": false,
               "hands_max_hh": 1684,
-              "bb100_max_hh": 1.78
+              "bb100_max_hh": 1.78,
+              "extra_hands": 3444,
+              "marginal_bb100": 0.87
             }
           ]
         }
@@ -2221,7 +2483,9 @@
               },
               "hands_no_hh": 3550,
               "bb100_no_hh": 35.21,
-              "is_top_value": true
+              "is_top_value": true,
+              "extra_hands": 300,
+              "marginal_bb100": 83.33
             },
             {
               "prize": 20.0,
@@ -2235,7 +2499,9 @@
               },
               "hands_no_hh": 3250,
               "bb100_no_hh": 30.77,
-              "is_top_value": true
+              "is_top_value": true,
+              "extra_hands": 372,
+              "marginal_bb100": 40.32
             },
             {
               "prize": 17.0,
@@ -2249,7 +2515,9 @@
               },
               "hands_no_hh": 2878,
               "bb100_no_hh": 29.53,
-              "is_top_value": true
+              "is_top_value": true,
+              "extra_hands": 293,
+              "marginal_bb100": 51.19
             },
             {
               "prize": 14.0,
@@ -2263,7 +2531,9 @@
               },
               "hands_no_hh": 2585,
               "bb100_no_hh": 27.08,
-              "is_top_value": false
+              "is_top_value": false,
+              "extra_hands": 230,
+              "marginal_bb100": 65.22
             },
             {
               "prize": 11.0,
@@ -2277,7 +2547,9 @@
               },
               "hands_no_hh": 2355,
               "bb100_no_hh": 23.35,
-              "is_top_value": false
+              "is_top_value": false,
+              "extra_hands": 251,
+              "marginal_bb100": 39.84
             },
             {
               "prize": 9.0,
@@ -2291,7 +2563,9 @@
               },
               "hands_no_hh": 2104,
               "bb100_no_hh": 21.39,
-              "is_top_value": false
+              "is_top_value": false,
+              "extra_hands": 114,
+              "marginal_bb100": 43.86
             },
             {
               "prize": 8.0,
@@ -2305,7 +2579,9 @@
               },
               "hands_no_hh": 1990,
               "bb100_no_hh": 20.1,
-              "is_top_value": false
+              "is_top_value": false,
+              "extra_hands": 151,
+              "marginal_bb100": 33.11
             },
             {
               "prize": 7.0,
@@ -2319,7 +2595,9 @@
               },
               "hands_no_hh": 1839,
               "bb100_no_hh": 19.03,
-              "is_top_value": false
+              "is_top_value": false,
+              "extra_hands": 114,
+              "marginal_bb100": 43.86
             },
             {
               "prize": 6.0,
@@ -2333,7 +2611,9 @@
               },
               "hands_no_hh": 1725,
               "bb100_no_hh": 17.39,
-              "is_top_value": false
+              "is_top_value": false,
+              "extra_hands": 109,
+              "marginal_bb100": 45.87
             },
             {
               "prize": 5.0,
@@ -2347,7 +2627,9 @@
               },
               "hands_no_hh": 1616,
               "bb100_no_hh": 15.47,
-              "is_top_value": false
+              "is_top_value": false,
+              "extra_hands": 121,
+              "marginal_bb100": 41.32
             },
             {
               "prize": 4.0,
@@ -2361,7 +2643,9 @@
               },
               "hands_no_hh": 1495,
               "bb100_no_hh": 13.38,
-              "is_top_value": false
+              "is_top_value": false,
+              "extra_hands": 121,
+              "marginal_bb100": 20.66
             },
             {
               "prize": 3.5,
@@ -2375,7 +2659,9 @@
               },
               "hands_no_hh": 1374,
               "bb100_no_hh": 12.74,
-              "is_top_value": false
+              "is_top_value": false,
+              "extra_hands": 60,
+              "marginal_bb100": 41.67
             },
             {
               "prize": 3.0,
@@ -2389,7 +2675,9 @@
               },
               "hands_no_hh": 1314,
               "bb100_no_hh": 11.42,
-              "is_top_value": false
+              "is_top_value": false,
+              "extra_hands": 141,
+              "marginal_bb100": 17.73
             },
             {
               "prize": 2.5,
@@ -2403,7 +2691,9 @@
               },
               "hands_no_hh": 1173,
               "bb100_no_hh": 10.66,
-              "is_top_value": false
+              "is_top_value": false,
+              "extra_hands": 101,
+              "marginal_bb100": 24.75
             },
             {
               "prize": 2.0,
@@ -2417,7 +2707,9 @@
               },
               "hands_no_hh": 1072,
               "bb100_no_hh": 9.33,
-              "is_top_value": false
+              "is_top_value": false,
+              "extra_hands": 47,
+              "marginal_bb100": 21.28
             },
             {
               "prize": 1.8,
@@ -2431,7 +2723,9 @@
               },
               "hands_no_hh": 1025,
               "bb100_no_hh": 8.78,
-              "is_top_value": false
+              "is_top_value": false,
+              "extra_hands": 71,
+              "marginal_bb100": 14.08
             },
             {
               "prize": 1.6,
@@ -2445,7 +2739,9 @@
               },
               "hands_no_hh": 954,
               "bb100_no_hh": 8.39,
-              "is_top_value": false
+              "is_top_value": false,
+              "extra_hands": 47,
+              "marginal_bb100": 21.28
             },
             {
               "prize": 1.4,
@@ -2459,7 +2755,9 @@
               },
               "hands_no_hh": 907,
               "bb100_no_hh": 7.72,
-              "is_top_value": false
+              "is_top_value": false,
+              "extra_hands": 22,
+              "marginal_bb100": 45.45
             },
             {
               "prize": 1.2,
@@ -2473,7 +2771,9 @@
               },
               "hands_no_hh": 885,
               "bb100_no_hh": 6.78,
-              "is_top_value": false
+              "is_top_value": false,
+              "extra_hands": 44,
+              "marginal_bb100": 22.73
             },
             {
               "prize": 1.0,
@@ -2487,7 +2787,9 @@
               },
               "hands_no_hh": 841,
               "bb100_no_hh": 5.95,
-              "is_top_value": false
+              "is_top_value": false,
+              "extra_hands": 145,
+              "marginal_bb100": 6.9
             },
             {
               "prize": 0.8,
@@ -2501,7 +2803,9 @@
               },
               "hands_no_hh": 696,
               "bb100_no_hh": 5.75,
-              "is_top_value": false
+              "is_top_value": false,
+              "extra_hands": 103,
+              "marginal_bb100": 9.71
             },
             {
               "prize": 0.6,
@@ -2515,7 +2819,9 @@
               },
               "hands_no_hh": 593,
               "bb100_no_hh": 5.06,
-              "is_top_value": false
+              "is_top_value": false,
+              "extra_hands": 101,
+              "marginal_bb100": 9.9
             },
             {
               "prize": 0.4,
@@ -2529,7 +2835,9 @@
               },
               "hands_no_hh": 492,
               "bb100_no_hh": 4.07,
-              "is_top_value": false
+              "is_top_value": false,
+              "extra_hands": 61,
+              "marginal_bb100": 8.2
             },
             {
               "prize": 0.3,
@@ -2543,7 +2851,9 @@
               },
               "hands_no_hh": 431,
               "bb100_no_hh": 3.48,
-              "is_top_value": false
+              "is_top_value": false,
+              "extra_hands": 83,
+              "marginal_bb100": 6.02
             },
             {
               "prize": 0.2,
@@ -2557,7 +2867,9 @@
               },
               "hands_no_hh": 348,
               "bb100_no_hh": 2.87,
-              "is_top_value": false
+              "is_top_value": false,
+              "extra_hands": 80,
+              "marginal_bb100": 6.25
             },
             {
               "prize": 0.1,
@@ -2571,7 +2883,9 @@
               },
               "hands_no_hh": 268,
               "bb100_no_hh": 1.87,
-              "is_top_value": false
+              "is_top_value": false,
+              "extra_hands": 268,
+              "marginal_bb100": 1.87
             }
           ]
         },
@@ -2592,7 +2906,9 @@
               },
               "hands_no_hh": 6265,
               "bb100_no_hh": 12.77,
-              "is_top_value": true
+              "is_top_value": true,
+              "extra_hands": 650,
+              "marginal_bb100": 30.77
             },
             {
               "prize": 30.0,
@@ -2606,7 +2922,9 @@
               },
               "hands_no_hh": 5615,
               "bb100_no_hh": 10.69,
-              "is_top_value": true
+              "is_top_value": true,
+              "extra_hands": 510,
+              "marginal_bb100": 23.53
             },
             {
               "prize": 24.0,
@@ -2620,7 +2938,9 @@
               },
               "hands_no_hh": 5105,
               "bb100_no_hh": 9.4,
-              "is_top_value": true
+              "is_top_value": true,
+              "extra_hands": 420,
+              "marginal_bb100": 19.05
             },
             {
               "prize": 20.0,
@@ -2634,7 +2954,9 @@
               },
               "hands_no_hh": 4685,
               "bb100_no_hh": 8.54,
-              "is_top_value": false
+              "is_top_value": false,
+              "extra_hands": 364,
+              "marginal_bb100": 10.99
             },
             {
               "prize": 18.0,
@@ -2648,7 +2970,9 @@
               },
               "hands_no_hh": 4321,
               "bb100_no_hh": 8.33,
-              "is_top_value": false
+              "is_top_value": false,
+              "extra_hands": 198,
+              "marginal_bb100": 20.2
             },
             {
               "prize": 16.0,
@@ -2662,7 +2986,9 @@
               },
               "hands_no_hh": 4123,
               "bb100_no_hh": 7.76,
-              "is_top_value": false
+              "is_top_value": false,
+              "extra_hands": 200,
+              "marginal_bb100": 20.0
             },
             {
               "prize": 14.0,
@@ -2676,7 +3002,9 @@
               },
               "hands_no_hh": 3923,
               "bb100_no_hh": 7.14,
-              "is_top_value": false
+              "is_top_value": false,
+              "extra_hands": 291,
+              "marginal_bb100": 13.75
             },
             {
               "prize": 12.0,
@@ -2690,7 +3018,9 @@
               },
               "hands_no_hh": 3632,
               "bb100_no_hh": 6.61,
-              "is_top_value": false
+              "is_top_value": false,
+              "extra_hands": 194,
+              "marginal_bb100": 20.62
             },
             {
               "prize": 10.0,
@@ -2704,7 +3034,9 @@
               },
               "hands_no_hh": 3438,
               "bb100_no_hh": 5.82,
-              "is_top_value": false
+              "is_top_value": false,
+              "extra_hands": 119,
+              "marginal_bb100": 33.61
             },
             {
               "prize": 8.0,
@@ -2718,7 +3050,9 @@
               },
               "hands_no_hh": 3319,
               "bb100_no_hh": 4.82,
-              "is_top_value": false
+              "is_top_value": false,
+              "extra_hands": 182,
+              "marginal_bb100": 10.99
             },
             {
               "prize": 7.0,
@@ -2732,7 +3066,9 @@
               },
               "hands_no_hh": 3137,
               "bb100_no_hh": 4.46,
-              "is_top_value": false
+              "is_top_value": false,
+              "extra_hands": 131,
+              "marginal_bb100": 15.27
             },
             {
               "prize": 6.0,
@@ -2746,7 +3082,9 @@
               },
               "hands_no_hh": 3006,
               "bb100_no_hh": 3.99,
-              "is_top_value": false
+              "is_top_value": false,
+              "extra_hands": 321,
+              "marginal_bb100": 6.23
             },
             {
               "prize": 5.0,
@@ -2760,7 +3098,9 @@
               },
               "hands_no_hh": 2685,
               "bb100_no_hh": 3.72,
-              "is_top_value": false
+              "is_top_value": false,
+              "extra_hands": 288,
+              "marginal_bb100": 3.47
             },
             {
               "prize": 4.5,
@@ -2774,7 +3114,9 @@
               },
               "hands_no_hh": 2397,
               "bb100_no_hh": 3.75,
-              "is_top_value": false
+              "is_top_value": false,
+              "extra_hands": 266,
+              "marginal_bb100": 3.76
             },
             {
               "prize": 4.0,
@@ -2788,7 +3130,9 @@
               },
               "hands_no_hh": 2131,
               "bb100_no_hh": 3.75,
-              "is_top_value": false
+              "is_top_value": false,
+              "extra_hands": 79,
+              "marginal_bb100": 12.66
             },
             {
               "prize": 3.5,
@@ -2802,7 +3146,9 @@
               },
               "hands_no_hh": 2052,
               "bb100_no_hh": 3.41,
-              "is_top_value": false
+              "is_top_value": false,
+              "extra_hands": 186,
+              "marginal_bb100": 5.38
             },
             {
               "prize": 3.0,
@@ -2816,7 +3162,9 @@
               },
               "hands_no_hh": 1866,
               "bb100_no_hh": 3.22,
-              "is_top_value": false
+              "is_top_value": false,
+              "extra_hands": 208,
+              "marginal_bb100": 4.81
             },
             {
               "prize": 2.5,
@@ -2830,7 +3178,9 @@
               },
               "hands_no_hh": 1658,
               "bb100_no_hh": 3.02,
-              "is_top_value": false
+              "is_top_value": false,
+              "extra_hands": 65,
+              "marginal_bb100": 15.38
             },
             {
               "prize": 2.0,
@@ -2844,7 +3194,9 @@
               },
               "hands_no_hh": 1593,
               "bb100_no_hh": 2.51,
-              "is_top_value": false
+              "is_top_value": false,
+              "extra_hands": 41,
+              "marginal_bb100": 9.76
             },
             {
               "prize": 1.8,
@@ -2858,7 +3210,9 @@
               },
               "hands_no_hh": 1552,
               "bb100_no_hh": 2.32,
-              "is_top_value": false
+              "is_top_value": false,
+              "extra_hands": 26,
+              "marginal_bb100": 15.38
             },
             {
               "prize": 1.6,
@@ -2872,7 +3226,9 @@
               },
               "hands_no_hh": 1526,
               "bb100_no_hh": 2.1,
-              "is_top_value": false
+              "is_top_value": false,
+              "extra_hands": 166,
+              "marginal_bb100": 2.41
             },
             {
               "prize": 1.4,
@@ -2886,7 +3242,9 @@
               },
               "hands_no_hh": 1360,
               "bb100_no_hh": 2.06,
-              "is_top_value": false
+              "is_top_value": false,
+              "extra_hands": 128,
+              "marginal_bb100": 3.12
             },
             {
               "prize": 1.2,
@@ -2900,7 +3258,9 @@
               },
               "hands_no_hh": 1232,
               "bb100_no_hh": 1.95,
-              "is_top_value": false
+              "is_top_value": false,
+              "extra_hands": 94,
+              "marginal_bb100": 4.26
             },
             {
               "prize": 1.0,
@@ -2914,7 +3274,9 @@
               },
               "hands_no_hh": 1138,
               "bb100_no_hh": 1.76,
-              "is_top_value": false
+              "is_top_value": false,
+              "extra_hands": 155,
+              "marginal_bb100": 2.58
             },
             {
               "prize": 0.8,
@@ -2928,7 +3290,9 @@
               },
               "hands_no_hh": 983,
               "bb100_no_hh": 1.63,
-              "is_top_value": false
+              "is_top_value": false,
+              "extra_hands": 208,
+              "marginal_bb100": 1.92
             },
             {
               "prize": 0.6,
@@ -2942,7 +3306,9 @@
               },
               "hands_no_hh": 775,
               "bb100_no_hh": 1.55,
-              "is_top_value": false
+              "is_top_value": false,
+              "extra_hands": 122,
+              "marginal_bb100": 3.28
             },
             {
               "prize": 0.4,
@@ -2956,7 +3322,9 @@
               },
               "hands_no_hh": 653,
               "bb100_no_hh": 1.23,
-              "is_top_value": false
+              "is_top_value": false,
+              "extra_hands": 171,
+              "marginal_bb100": 2.34
             },
             {
               "prize": 0.2,
@@ -2970,7 +3338,9 @@
               },
               "hands_no_hh": 482,
               "bb100_no_hh": 0.83,
-              "is_top_value": false
+              "is_top_value": false,
+              "extra_hands": 482,
+              "marginal_bb100": 0.83
             }
           ]
         },
@@ -2991,7 +3361,9 @@
               },
               "hands_no_hh": 8639,
               "bb100_no_hh": 6.95,
-              "is_top_value": true
+              "is_top_value": true,
+              "extra_hands": 825,
+              "marginal_bb100": 18.18
             },
             {
               "prize": 45.0,
@@ -3005,7 +3377,9 @@
               },
               "hands_no_hh": 7814,
               "bb100_no_hh": 5.76,
-              "is_top_value": true
+              "is_top_value": true,
+              "extra_hands": 942,
+              "marginal_bb100": 10.62
             },
             {
               "prize": 35.0,
@@ -3019,7 +3393,9 @@
               },
               "hands_no_hh": 6872,
               "bb100_no_hh": 5.09,
-              "is_top_value": true
+              "is_top_value": true,
+              "extra_hands": 739,
+              "marginal_bb100": 6.77
             },
             {
               "prize": 30.0,
@@ -3033,7 +3409,9 @@
               },
               "hands_no_hh": 6133,
               "bb100_no_hh": 4.89,
-              "is_top_value": false
+              "is_top_value": false,
+              "extra_hands": 504,
+              "marginal_bb100": 9.92
             },
             {
               "prize": 25.0,
@@ -3047,7 +3425,9 @@
               },
               "hands_no_hh": 5629,
               "bb100_no_hh": 4.44,
-              "is_top_value": false
+              "is_top_value": false,
+              "extra_hands": 310,
+              "marginal_bb100": 16.13
             },
             {
               "prize": 20.0,
@@ -3061,7 +3441,9 @@
               },
               "hands_no_hh": 5319,
               "bb100_no_hh": 3.76,
-              "is_top_value": false
+              "is_top_value": false,
+              "extra_hands": 354,
+              "marginal_bb100": 11.3
             },
             {
               "prize": 16.0,
@@ -3075,7 +3457,9 @@
               },
               "hands_no_hh": 4965,
               "bb100_no_hh": 3.22,
-              "is_top_value": false
+              "is_top_value": false,
+              "extra_hands": 118,
+              "marginal_bb100": 25.42
             },
             {
               "prize": 13.0,
@@ -3089,7 +3473,9 @@
               },
               "hands_no_hh": 4847,
               "bb100_no_hh": 2.68,
-              "is_top_value": false
+              "is_top_value": false,
+              "extra_hands": 346,
+              "marginal_bb100": 5.78
             },
             {
               "prize": 11.0,
@@ -3103,7 +3489,9 @@
               },
               "hands_no_hh": 4501,
               "bb100_no_hh": 2.44,
-              "is_top_value": false
+              "is_top_value": false,
+              "extra_hands": 290,
+              "marginal_bb100": 6.9
             },
             {
               "prize": 9.0,
@@ -3117,7 +3505,9 @@
               },
               "hands_no_hh": 4211,
               "bb100_no_hh": 2.14,
-              "is_top_value": false
+              "is_top_value": false,
+              "extra_hands": 193,
+              "marginal_bb100": 5.18
             },
             {
               "prize": 8.0,
@@ -3131,7 +3521,9 @@
               },
               "hands_no_hh": 4018,
               "bb100_no_hh": 1.99,
-              "is_top_value": false
+              "is_top_value": false,
+              "extra_hands": 286,
+              "marginal_bb100": 3.5
             },
             {
               "prize": 7.0,
@@ -3145,7 +3537,9 @@
               },
               "hands_no_hh": 3732,
               "bb100_no_hh": 1.88,
-              "is_top_value": false
+              "is_top_value": false,
+              "extra_hands": 329,
+              "marginal_bb100": 3.04
             },
             {
               "prize": 6.0,
@@ -3159,7 +3553,9 @@
               },
               "hands_no_hh": 3403,
               "bb100_no_hh": 1.76,
-              "is_top_value": false
+              "is_top_value": false,
+              "extra_hands": 430,
+              "marginal_bb100": 2.33
             },
             {
               "prize": 5.0,
@@ -3173,7 +3569,9 @@
               },
               "hands_no_hh": 2973,
               "bb100_no_hh": 1.68,
-              "is_top_value": false
+              "is_top_value": false,
+              "extra_hands": 321,
+              "marginal_bb100": 3.12
             },
             {
               "prize": 4.0,
@@ -3187,7 +3585,9 @@
               },
               "hands_no_hh": 2652,
               "bb100_no_hh": 1.51,
-              "is_top_value": false
+              "is_top_value": false,
+              "extra_hands": 484,
+              "marginal_bb100": 2.07
             },
             {
               "prize": 3.0,
@@ -3201,7 +3601,9 @@
               },
               "hands_no_hh": 2168,
               "bb100_no_hh": 1.38,
-              "is_top_value": false
+              "is_top_value": false,
+              "extra_hands": 463,
+              "marginal_bb100": 2.16
             },
             {
               "prize": 2.0,
@@ -3215,7 +3617,9 @@
               },
               "hands_no_hh": 1705,
               "bb100_no_hh": 1.17,
-              "is_top_value": false
+              "is_top_value": false,
+              "extra_hands": 247,
+              "marginal_bb100": 2.02
             },
             {
               "prize": 1.5,
@@ -3229,7 +3633,9 @@
               },
               "hands_no_hh": 1458,
               "bb100_no_hh": 1.03,
-              "is_top_value": false
+              "is_top_value": false,
+              "extra_hands": 176,
+              "marginal_bb100": 1.7
             },
             {
               "prize": 1.2,
@@ -3243,7 +3649,9 @@
               },
               "hands_no_hh": 1282,
               "bb100_no_hh": 0.94,
-              "is_top_value": false
+              "is_top_value": false,
+              "extra_hands": 396,
+              "marginal_bb100": 0.51
             },
             {
               "prize": 1.0,
@@ -3257,7 +3665,9 @@
               },
               "hands_no_hh": 886,
               "bb100_no_hh": 1.13,
-              "is_top_value": false
+              "is_top_value": false,
+              "extra_hands": 204,
+              "marginal_bb100": 2.45
             },
             {
               "prize": 0.5,
@@ -3271,7 +3681,9 @@
               },
               "hands_no_hh": 682,
               "bb100_no_hh": 0.73,
-              "is_top_value": false
+              "is_top_value": false,
+              "extra_hands": 682,
+              "marginal_bb100": 0.73
             }
           ]
         },
@@ -3292,7 +3704,9 @@
               },
               "hands_no_hh": 8711,
               "bb100_no_hh": 4.59,
-              "is_top_value": true
+              "is_top_value": true,
+              "extra_hands": 801,
+              "marginal_bb100": 9.99
             },
             {
               "prize": 80.0,
@@ -3306,7 +3720,9 @@
               },
               "hands_no_hh": 7910,
               "bb100_no_hh": 4.05,
-              "is_top_value": true
+              "is_top_value": true,
+              "extra_hands": 724,
+              "marginal_bb100": 8.29
             },
             {
               "prize": 65.0,
@@ -3320,7 +3736,9 @@
               },
               "hands_no_hh": 7186,
               "bb100_no_hh": 3.62,
-              "is_top_value": true
+              "is_top_value": true,
+              "extra_hands": 569,
+              "marginal_bb100": 10.54
             },
             {
               "prize": 50.0,
@@ -3334,7 +3752,9 @@
               },
               "hands_no_hh": 6617,
               "bb100_no_hh": 3.02,
-              "is_top_value": false
+              "is_top_value": false,
+              "extra_hands": 630,
+              "marginal_bb100": 9.52
             },
             {
               "prize": 35.0,
@@ -3348,7 +3768,9 @@
               },
               "hands_no_hh": 5987,
               "bb100_no_hh": 2.34,
-              "is_top_value": false
+              "is_top_value": false,
+              "extra_hands": 546,
+              "marginal_bb100": 7.33
             },
             {
               "prize": 25.0,
@@ -3362,7 +3784,9 @@
               },
               "hands_no_hh": 5441,
               "bb100_no_hh": 1.84,
-              "is_top_value": false
+              "is_top_value": false,
+              "extra_hands": 355,
+              "marginal_bb100": 5.63
             },
             {
               "prize": 20.0,
@@ -3376,7 +3800,9 @@
               },
               "hands_no_hh": 5086,
               "bb100_no_hh": 1.57,
-              "is_top_value": false
+              "is_top_value": false,
+              "extra_hands": 295,
+              "marginal_bb100": 5.42
             },
             {
               "prize": 16.0,
@@ -3390,7 +3816,9 @@
               },
               "hands_no_hh": 4791,
               "bb100_no_hh": 1.34,
-              "is_top_value": false
+              "is_top_value": false,
+              "extra_hands": 432,
+              "marginal_bb100": 2.78
             },
             {
               "prize": 13.0,
@@ -3404,7 +3832,9 @@
               },
               "hands_no_hh": 4359,
               "bb100_no_hh": 1.19,
-              "is_top_value": false
+              "is_top_value": false,
+              "extra_hands": 159,
+              "marginal_bb100": 5.03
             },
             {
               "prize": 11.0,
@@ -3418,7 +3848,9 @@
               },
               "hands_no_hh": 4200,
               "bb100_no_hh": 1.05,
-              "is_top_value": false
+              "is_top_value": false,
+              "extra_hands": 206,
+              "marginal_bb100": 1.94
             },
             {
               "prize": 10.0,
@@ -3432,7 +3864,9 @@
               },
               "hands_no_hh": 3994,
               "bb100_no_hh": 1.0,
-              "is_top_value": false
+              "is_top_value": false,
+              "extra_hands": 350,
+              "marginal_bb100": 1.14
             },
             {
               "prize": 9.0,
@@ -3446,7 +3880,9 @@
               },
               "hands_no_hh": 3644,
               "bb100_no_hh": 0.99,
-              "is_top_value": false
+              "is_top_value": false,
+              "extra_hands": 276,
+              "marginal_bb100": 1.45
             },
             {
               "prize": 8.0,
@@ -3460,7 +3896,9 @@
               },
               "hands_no_hh": 3368,
               "bb100_no_hh": 0.95,
-              "is_top_value": false
+              "is_top_value": false,
+              "extra_hands": 485,
+              "marginal_bb100": 0.82
             },
             {
               "prize": 7.0,
@@ -3474,7 +3912,9 @@
               },
               "hands_no_hh": 2883,
               "bb100_no_hh": 0.97,
-              "is_top_value": false
+              "is_top_value": false,
+              "extra_hands": 319,
+              "marginal_bb100": 1.25
             },
             {
               "prize": 6.0,
@@ -3488,7 +3928,9 @@
               },
               "hands_no_hh": 2564,
               "bb100_no_hh": 0.94,
-              "is_top_value": false
+              "is_top_value": false,
+              "extra_hands": 273,
+              "marginal_bb100": 1.47
             },
             {
               "prize": 5.0,
@@ -3502,7 +3944,9 @@
               },
               "hands_no_hh": 2291,
               "bb100_no_hh": 0.87,
-              "is_top_value": false
+              "is_top_value": false,
+              "extra_hands": 681,
+              "marginal_bb100": 0.59
             },
             {
               "prize": 4.0,
@@ -3516,7 +3960,9 @@
               },
               "hands_no_hh": 1610,
               "bb100_no_hh": 0.99,
-              "is_top_value": false
+              "is_top_value": false,
+              "extra_hands": 422,
+              "marginal_bb100": 0.95
             },
             {
               "prize": 3.0,
@@ -3530,7 +3976,9 @@
               },
               "hands_no_hh": 1188,
               "bb100_no_hh": 1.01,
-              "is_top_value": false
+              "is_top_value": false,
+              "extra_hands": 286,
+              "marginal_bb100": 1.4
             },
             {
               "prize": 2.0,
@@ -3544,7 +3992,9 @@
               },
               "hands_no_hh": 902,
               "bb100_no_hh": 0.89,
-              "is_top_value": false
+              "is_top_value": false,
+              "extra_hands": 207,
+              "marginal_bb100": 1.93
             },
             {
               "prize": 1.0,
@@ -3558,7 +4008,9 @@
               },
               "hands_no_hh": 695,
               "bb100_no_hh": 0.58,
-              "is_top_value": false
+              "is_top_value": false,
+              "extra_hands": 695,
+              "marginal_bb100": 0.58
             }
           ]
         },
@@ -3579,7 +4031,9 @@
               },
               "hands_no_hh": 8133,
               "bb100_no_hh": 2.95,
-              "is_top_value": true
+              "is_top_value": true,
+              "extra_hands": 1024,
+              "marginal_bb100": 5.86
             },
             {
               "prize": 90.0,
@@ -3593,7 +4047,9 @@
               },
               "hands_no_hh": 7109,
               "bb100_no_hh": 2.53,
-              "is_top_value": true
+              "is_top_value": true,
+              "extra_hands": 868,
+              "marginal_bb100": 4.61
             },
             {
               "prize": 70.0,
@@ -3607,7 +4063,9 @@
               },
               "hands_no_hh": 6241,
               "bb100_no_hh": 2.24,
-              "is_top_value": true
+              "is_top_value": true,
+              "extra_hands": 1225,
+              "marginal_bb100": 2.45
             },
             {
               "prize": 55.0,
@@ -3621,7 +4079,9 @@
               },
               "hands_no_hh": 5016,
               "bb100_no_hh": 2.19,
-              "is_top_value": false
+              "is_top_value": false,
+              "extra_hands": 465,
+              "marginal_bb100": 6.45
             },
             {
               "prize": 40.0,
@@ -3635,7 +4095,9 @@
               },
               "hands_no_hh": 4551,
               "bb100_no_hh": 1.76,
-              "is_top_value": false
+              "is_top_value": false,
+              "extra_hands": 358,
+              "marginal_bb100": 5.59
             },
             {
               "prize": 30.0,
@@ -3649,7 +4111,9 @@
               },
               "hands_no_hh": 4193,
               "bb100_no_hh": 1.43,
-              "is_top_value": false
+              "is_top_value": false,
+              "extra_hands": 351,
+              "marginal_bb100": 2.85
             },
             {
               "prize": 25.0,
@@ -3663,7 +4127,9 @@
               },
               "hands_no_hh": 3842,
               "bb100_no_hh": 1.3,
-              "is_top_value": false
+              "is_top_value": false,
+              "extra_hands": 299,
+              "marginal_bb100": 3.34
             },
             {
               "prize": 20.0,
@@ -3677,7 +4143,9 @@
               },
               "hands_no_hh": 3543,
               "bb100_no_hh": 1.13,
-              "is_top_value": false
+              "is_top_value": false,
+              "extra_hands": 88,
+              "marginal_bb100": 11.36
             },
             {
               "prize": 15.0,
@@ -3691,7 +4159,9 @@
               },
               "hands_no_hh": 3455,
               "bb100_no_hh": 0.87,
-              "is_top_value": false
+              "is_top_value": false,
+              "extra_hands": 274,
+              "marginal_bb100": 2.19
             },
             {
               "prize": 12.0,
@@ -3705,7 +4175,9 @@
               },
               "hands_no_hh": 3181,
               "bb100_no_hh": 0.75,
-              "is_top_value": false
+              "is_top_value": false,
+              "extra_hands": 186,
+              "marginal_bb100": 1.08
             },
             {
               "prize": 11.0,
@@ -3719,7 +4191,9 @@
               },
               "hands_no_hh": 2995,
               "bb100_no_hh": 0.73,
-              "is_top_value": false
+              "is_top_value": false,
+              "extra_hands": 312,
+              "marginal_bb100": 0.64
             },
             {
               "prize": 10.0,
@@ -3733,7 +4207,9 @@
               },
               "hands_no_hh": 2683,
               "bb100_no_hh": 0.75,
-              "is_top_value": false
+              "is_top_value": false,
+              "extra_hands": 138,
+              "marginal_bb100": 1.45
             },
             {
               "prize": 9.0,
@@ -3747,7 +4223,9 @@
               },
               "hands_no_hh": 2545,
               "bb100_no_hh": 0.71,
-              "is_top_value": false
+              "is_top_value": false,
+              "extra_hands": 275,
+              "marginal_bb100": 0.73
             },
             {
               "prize": 8.0,
@@ -3761,7 +4239,9 @@
               },
               "hands_no_hh": 2270,
               "bb100_no_hh": 0.7,
-              "is_top_value": false
+              "is_top_value": false,
+              "extra_hands": 180,
+              "marginal_bb100": 1.11
             },
             {
               "prize": 7.0,
@@ -3775,7 +4255,9 @@
               },
               "hands_no_hh": 2090,
               "bb100_no_hh": 0.67,
-              "is_top_value": false
+              "is_top_value": false,
+              "extra_hands": 270,
+              "marginal_bb100": 0.74
             },
             {
               "prize": 6.0,
@@ -3789,7 +4271,9 @@
               },
               "hands_no_hh": 1820,
               "bb100_no_hh": 0.66,
-              "is_top_value": false
+              "is_top_value": false,
+              "extra_hands": 447,
+              "marginal_bb100": 0.45
             },
             {
               "prize": 5.0,
@@ -3803,7 +4287,9 @@
               },
               "hands_no_hh": 1373,
               "bb100_no_hh": 0.73,
-              "is_top_value": false
+              "is_top_value": false,
+              "extra_hands": 129,
+              "marginal_bb100": 1.55
             },
             {
               "prize": 4.0,
@@ -3817,7 +4303,9 @@
               },
               "hands_no_hh": 1244,
               "bb100_no_hh": 0.64,
-              "is_top_value": false
+              "is_top_value": false,
+              "extra_hands": 300,
+              "marginal_bb100": 0.33
             },
             {
               "prize": 3.5,
@@ -3831,7 +4319,9 @@
               },
               "hands_no_hh": 944,
               "bb100_no_hh": 0.74,
-              "is_top_value": false
+              "is_top_value": false,
+              "extra_hands": 182,
+              "marginal_bb100": 0.55
             },
             {
               "prize": 3.0,
@@ -3845,7 +4335,9 @@
               },
               "hands_no_hh": 762,
               "bb100_no_hh": 0.79,
-              "is_top_value": false
+              "is_top_value": false,
+              "extra_hands": 254,
+              "marginal_bb100": 0.39
             },
             {
               "prize": 2.5,
@@ -3859,7 +4351,9 @@
               },
               "hands_no_hh": 508,
               "bb100_no_hh": 0.98,
-              "is_top_value": false
+              "is_top_value": false,
+              "extra_hands": 508,
+              "marginal_bb100": 0.98
             }
           ]
         },
@@ -3880,7 +4374,9 @@
               },
               "hands_no_hh": 6185,
               "bb100_no_hh": 3.23,
-              "is_top_value": true
+              "is_top_value": true,
+              "extra_hands": 765,
+              "marginal_bb100": 5.23
             },
             {
               "prize": 160.0,
@@ -3894,7 +4390,9 @@
               },
               "hands_no_hh": 5420,
               "bb100_no_hh": 2.95,
-              "is_top_value": true
+              "is_top_value": true,
+              "extra_hands": 474,
+              "marginal_bb100": 6.33
             },
             {
               "prize": 130.0,
@@ -3908,7 +4406,9 @@
               },
               "hands_no_hh": 4946,
               "bb100_no_hh": 2.63,
-              "is_top_value": true
+              "is_top_value": true,
+              "extra_hands": 475,
+              "marginal_bb100": 6.32
             },
             {
               "prize": 100.0,
@@ -3922,7 +4422,9 @@
               },
               "hands_no_hh": 4471,
               "bb100_no_hh": 2.24,
-              "is_top_value": false
+              "is_top_value": false,
+              "extra_hands": 282,
+              "marginal_bb100": 7.09
             },
             {
               "prize": 80.0,
@@ -3936,7 +4438,9 @@
               },
               "hands_no_hh": 4189,
               "bb100_no_hh": 1.91,
-              "is_top_value": false
+              "is_top_value": false,
+              "extra_hands": 324,
+              "marginal_bb100": 6.17
             },
             {
               "prize": 60.0,
@@ -3950,7 +4454,9 @@
               },
               "hands_no_hh": 3865,
               "bb100_no_hh": 1.55,
-              "is_top_value": false
+              "is_top_value": false,
+              "extra_hands": 304,
+              "marginal_bb100": 3.29
             },
             {
               "prize": 50.0,
@@ -3964,7 +4470,9 @@
               },
               "hands_no_hh": 3561,
               "bb100_no_hh": 1.4,
-              "is_top_value": false
+              "is_top_value": false,
+              "extra_hands": 274,
+              "marginal_bb100": 3.65
             },
             {
               "prize": 40.0,
@@ -3978,7 +4486,9 @@
               },
               "hands_no_hh": 3287,
               "bb100_no_hh": 1.22,
-              "is_top_value": false
+              "is_top_value": false,
+              "extra_hands": 146,
+              "marginal_bb100": 6.85
             },
             {
               "prize": 30.0,
@@ -3992,7 +4502,9 @@
               },
               "hands_no_hh": 3141,
               "bb100_no_hh": 0.96,
-              "is_top_value": false
+              "is_top_value": false,
+              "extra_hands": 223,
+              "marginal_bb100": 2.24
             },
             {
               "prize": 25.0,
@@ -4006,7 +4518,9 @@
               },
               "hands_no_hh": 2918,
               "bb100_no_hh": 0.86,
-              "is_top_value": false
+              "is_top_value": false,
+              "extra_hands": 437,
+              "marginal_bb100": 1.14
             },
             {
               "prize": 20.0,
@@ -4020,7 +4534,9 @@
               },
               "hands_no_hh": 2481,
               "bb100_no_hh": 0.81,
-              "is_top_value": false
+              "is_top_value": false,
+              "extra_hands": 518,
+              "marginal_bb100": 0.97
             },
             {
               "prize": 15.0,
@@ -4034,7 +4550,9 @@
               },
               "hands_no_hh": 1963,
               "bb100_no_hh": 0.76,
-              "is_top_value": false
+              "is_top_value": false,
+              "extra_hands": 592,
+              "marginal_bb100": 0.84
             },
             {
               "prize": 10.0,
@@ -4048,7 +4566,9 @@
               },
               "hands_no_hh": 1371,
               "bb100_no_hh": 0.73,
-              "is_top_value": false
+              "is_top_value": false,
+              "extra_hands": 407,
+              "marginal_bb100": 0.49
             },
             {
               "prize": 8.0,
@@ -4062,7 +4582,9 @@
               },
               "hands_no_hh": 964,
               "bb100_no_hh": 0.83,
-              "is_top_value": false
+              "is_top_value": false,
+              "extra_hands": 224,
+              "marginal_bb100": 0.89
             },
             {
               "prize": 6.0,
@@ -4076,7 +4598,9 @@
               },
               "hands_no_hh": 740,
               "bb100_no_hh": 0.81,
-              "is_top_value": false
+              "is_top_value": false,
+              "extra_hands": 196,
+              "marginal_bb100": 0.51
             },
             {
               "prize": 5.0,
@@ -4090,7 +4614,9 @@
               },
               "hands_no_hh": 544,
               "bb100_no_hh": 0.92,
-              "is_top_value": false
+              "is_top_value": false,
+              "extra_hands": 544,
+              "marginal_bb100": 0.92
             }
           ]
         },
@@ -4111,7 +4637,9 @@
               },
               "hands_no_hh": 6098,
               "bb100_no_hh": 2.87,
-              "is_top_value": true
+              "is_top_value": true,
+              "extra_hands": 616,
+              "marginal_bb100": 6.49
             },
             {
               "prize": 270.0,
@@ -4125,7 +4653,9 @@
               },
               "hands_no_hh": 5482,
               "bb100_no_hh": 2.46,
-              "is_top_value": true
+              "is_top_value": true,
+              "extra_hands": 801,
+              "marginal_bb100": 3.75
             },
             {
               "prize": 210.0,
@@ -4139,7 +4669,9 @@
               },
               "hands_no_hh": 4681,
               "bb100_no_hh": 2.24,
-              "is_top_value": true
+              "is_top_value": true,
+              "extra_hands": 428,
+              "marginal_bb100": 4.67
             },
             {
               "prize": 170.0,
@@ -4153,7 +4685,9 @@
               },
               "hands_no_hh": 4253,
               "bb100_no_hh": 2.0,
-              "is_top_value": false
+              "is_top_value": false,
+              "extra_hands": 604,
+              "marginal_bb100": 3.31
             },
             {
               "prize": 130.0,
@@ -4167,7 +4701,9 @@
               },
               "hands_no_hh": 3649,
               "bb100_no_hh": 1.78,
-              "is_top_value": false
+              "is_top_value": false,
+              "extra_hands": 335,
+              "marginal_bb100": 4.48
             },
             {
               "prize": 100.0,
@@ -4181,7 +4717,9 @@
               },
               "hands_no_hh": 3314,
               "bb100_no_hh": 1.51,
-              "is_top_value": false
+              "is_top_value": false,
+              "extra_hands": 173,
+              "marginal_bb100": 5.78
             },
             {
               "prize": 80.0,
@@ -4195,7 +4733,9 @@
               },
               "hands_no_hh": 3141,
               "bb100_no_hh": 1.27,
-              "is_top_value": false
+              "is_top_value": false,
+              "extra_hands": 258,
+              "marginal_bb100": 3.88
             },
             {
               "prize": 60.0,
@@ -4209,7 +4749,9 @@
               },
               "hands_no_hh": 2883,
               "bb100_no_hh": 1.04,
-              "is_top_value": false
+              "is_top_value": false,
+              "extra_hands": 371,
+              "marginal_bb100": 1.35
             },
             {
               "prize": 50.0,
@@ -4223,7 +4765,9 @@
               },
               "hands_no_hh": 2512,
               "bb100_no_hh": 1.0,
-              "is_top_value": false
+              "is_top_value": false,
+              "extra_hands": 219,
+              "marginal_bb100": 2.28
             },
             {
               "prize": 40.0,
@@ -4237,7 +4781,9 @@
               },
               "hands_no_hh": 2293,
               "bb100_no_hh": 0.87,
-              "is_top_value": false
+              "is_top_value": false,
+              "extra_hands": 360,
+              "marginal_bb100": 1.39
             },
             {
               "prize": 30.0,
@@ -4251,7 +4797,9 @@
               },
               "hands_no_hh": 1933,
               "bb100_no_hh": 0.78,
-              "is_top_value": false
+              "is_top_value": false,
+              "extra_hands": 287,
+              "marginal_bb100": 0.87
             },
             {
               "prize": 25.0,
@@ -4265,7 +4813,9 @@
               },
               "hands_no_hh": 1646,
               "bb100_no_hh": 0.76,
-              "is_top_value": false
+              "is_top_value": false,
+              "extra_hands": 339,
+              "marginal_bb100": 0.74
             },
             {
               "prize": 20.0,
@@ -4279,7 +4829,9 @@
               },
               "hands_no_hh": 1307,
               "bb100_no_hh": 0.77,
-              "is_top_value": false
+              "is_top_value": false,
+              "extra_hands": 596,
+              "marginal_bb100": 0.42
             },
             {
               "prize": 15.0,
@@ -4293,7 +4845,9 @@
               },
               "hands_no_hh": 711,
               "bb100_no_hh": 1.05,
-              "is_top_value": false
+              "is_top_value": false,
+              "extra_hands": 268,
+              "marginal_bb100": 0.93
             },
             {
               "prize": 10.0,
@@ -4307,7 +4861,9 @@
               },
               "hands_no_hh": 443,
               "bb100_no_hh": 1.13,
-              "is_top_value": false
+              "is_top_value": false,
+              "extra_hands": 443,
+              "marginal_bb100": 1.13
             }
           ]
         },
@@ -4328,7 +4884,9 @@
               },
               "hands_no_hh": 4954,
               "bb100_no_hh": 2.02,
-              "is_top_value": true
+              "is_top_value": true,
+              "extra_hands": 756,
+              "marginal_bb100": 2.65
             },
             {
               "prize": 400.0,
@@ -4342,7 +4900,9 @@
               },
               "hands_no_hh": 4198,
               "bb100_no_hh": 1.91,
-              "is_top_value": true
+              "is_top_value": true,
+              "extra_hands": 650,
+              "marginal_bb100": 2.46
             },
             {
               "prize": 320.0,
@@ -4356,7 +4916,9 @@
               },
               "hands_no_hh": 3548,
               "bb100_no_hh": 1.8,
-              "is_top_value": true
+              "is_top_value": true,
+              "extra_hands": 621,
+              "marginal_bb100": 1.93
             },
             {
               "prize": 260.0,
@@ -4370,7 +4932,9 @@
               },
               "hands_no_hh": 2927,
               "bb100_no_hh": 1.78,
-              "is_top_value": false
+              "is_top_value": false,
+              "extra_hands": 230,
+              "marginal_bb100": 4.35
             },
             {
               "prize": 210.0,
@@ -4384,7 +4948,9 @@
               },
               "hands_no_hh": 2697,
               "bb100_no_hh": 1.56,
-              "is_top_value": false
+              "is_top_value": false,
+              "extra_hands": 211,
+              "marginal_bb100": 3.79
             },
             {
               "prize": 170.0,
@@ -4398,7 +4964,9 @@
               },
               "hands_no_hh": 2486,
               "bb100_no_hh": 1.37,
-              "is_top_value": false
+              "is_top_value": false,
+              "extra_hands": 131,
+              "marginal_bb100": 4.58
             },
             {
               "prize": 140.0,
@@ -4412,7 +4980,9 @@
               },
               "hands_no_hh": 2355,
               "bb100_no_hh": 1.19,
-              "is_top_value": false
+              "is_top_value": false,
+              "extra_hands": 234,
+              "marginal_bb100": 2.56
             },
             {
               "prize": 110.0,
@@ -4426,7 +4996,9 @@
               },
               "hands_no_hh": 2121,
               "bb100_no_hh": 1.04,
-              "is_top_value": false
+              "is_top_value": false,
+              "extra_hands": 40,
+              "marginal_bb100": 10.0
             },
             {
               "prize": 90.0,
@@ -4440,7 +5012,9 @@
               },
               "hands_no_hh": 2081,
               "bb100_no_hh": 0.86,
-              "is_top_value": false
+              "is_top_value": false,
+              "extra_hands": 248,
+              "marginal_bb100": 1.61
             },
             {
               "prize": 70.0,
@@ -4454,7 +5028,9 @@
               },
               "hands_no_hh": 1833,
               "bb100_no_hh": 0.76,
-              "is_top_value": false
+              "is_top_value": false,
+              "extra_hands": 445,
+              "marginal_bb100": 0.45
             },
             {
               "prize": 60.0,
@@ -4468,7 +5044,9 @@
               },
               "hands_no_hh": 1388,
               "bb100_no_hh": 0.86,
-              "is_top_value": false
+              "is_top_value": false,
+              "extra_hands": 252,
+              "marginal_bb100": 0.79
             },
             {
               "prize": 50.0,
@@ -4482,7 +5060,9 @@
               },
               "hands_no_hh": 1136,
               "bb100_no_hh": 0.88,
-              "is_top_value": false
+              "is_top_value": false,
+              "extra_hands": 302,
+              "marginal_bb100": 0.66
             },
             {
               "prize": 40.0,
@@ -4496,7 +5076,9 @@
               },
               "hands_no_hh": 834,
               "bb100_no_hh": 0.96,
-              "is_top_value": false
+              "is_top_value": false,
+              "extra_hands": 301,
+              "marginal_bb100": 0.66
             },
             {
               "prize": 30.0,
@@ -4510,7 +5092,9 @@
               },
               "hands_no_hh": 533,
               "bb100_no_hh": 1.13,
-              "is_top_value": false
+              "is_top_value": false,
+              "extra_hands": 215,
+              "marginal_bb100": 0.47
             },
             {
               "prize": 25.0,
@@ -4524,7 +5108,9 @@
               },
               "hands_no_hh": 318,
               "bb100_no_hh": 1.57,
-              "is_top_value": false
+              "is_top_value": false,
+              "extra_hands": 318,
+              "marginal_bb100": 1.57
             }
           ]
         },
@@ -4545,7 +5131,9 @@
               },
               "hands_no_hh": 3141,
               "bb100_no_hh": 2.55,
-              "is_top_value": true
+              "is_top_value": true,
+              "extra_hands": 563,
+              "marginal_bb100": 4.44
             },
             {
               "prize": 550.0,
@@ -4559,7 +5147,9 @@
               },
               "hands_no_hh": 2578,
               "bb100_no_hh": 2.13,
-              "is_top_value": true
+              "is_top_value": true,
+              "extra_hands": 472,
+              "marginal_bb100": 3.18
             },
             {
               "prize": 400.0,
@@ -4573,7 +5163,9 @@
               },
               "hands_no_hh": 2106,
               "bb100_no_hh": 1.9,
-              "is_top_value": false
+              "is_top_value": false,
+              "extra_hands": 298,
+              "marginal_bb100": 4.03
             },
             {
               "prize": 280.0,
@@ -4587,7 +5179,9 @@
               },
               "hands_no_hh": 1808,
               "bb100_no_hh": 1.55,
-              "is_top_value": false
+              "is_top_value": false,
+              "extra_hands": 213,
+              "marginal_bb100": 3.76
             },
             {
               "prize": 200.0,
@@ -4601,7 +5195,9 @@
               },
               "hands_no_hh": 1595,
               "bb100_no_hh": 1.25,
-              "is_top_value": false
+              "is_top_value": false,
+              "extra_hands": 147,
+              "marginal_bb100": 2.72
             },
             {
               "prize": 160.0,
@@ -4615,7 +5211,9 @@
               },
               "hands_no_hh": 1448,
               "bb100_no_hh": 1.1,
-              "is_top_value": false
+              "is_top_value": false,
+              "extra_hands": 164,
+              "marginal_bb100": 1.22
             },
             {
               "prize": 140.0,
@@ -4629,7 +5227,9 @@
               },
               "hands_no_hh": 1284,
               "bb100_no_hh": 1.09,
-              "is_top_value": false
+              "is_top_value": false,
+              "extra_hands": 78,
+              "marginal_bb100": 2.56
             },
             {
               "prize": 120.0,
@@ -4643,7 +5243,9 @@
               },
               "hands_no_hh": 1206,
               "bb100_no_hh": 1.0,
-              "is_top_value": false
+              "is_top_value": false,
+              "extra_hands": 136,
+              "marginal_bb100": 0.74
             },
             {
               "prize": 110.0,
@@ -4657,7 +5259,9 @@
               },
               "hands_no_hh": 1070,
               "bb100_no_hh": 1.03,
-              "is_top_value": false
+              "is_top_value": false,
+              "extra_hands": 110,
+              "marginal_bb100": 0.91
             },
             {
               "prize": 100.0,
@@ -4671,7 +5275,9 @@
               },
               "hands_no_hh": 960,
               "bb100_no_hh": 1.04,
-              "is_top_value": false
+              "is_top_value": false,
+              "extra_hands": 109,
+              "marginal_bb100": 0.92
             },
             {
               "prize": 90.0,
@@ -4685,7 +5291,9 @@
               },
               "hands_no_hh": 851,
               "bb100_no_hh": 1.06,
-              "is_top_value": false
+              "is_top_value": false,
+              "extra_hands": 110,
+              "marginal_bb100": 0.91
             },
             {
               "prize": 80.0,
@@ -4699,7 +5307,9 @@
               },
               "hands_no_hh": 741,
               "bb100_no_hh": 1.08,
-              "is_top_value": false
+              "is_top_value": false,
+              "extra_hands": 137,
+              "marginal_bb100": 0.73
             },
             {
               "prize": 70.0,
@@ -4713,7 +5323,9 @@
               },
               "hands_no_hh": 604,
               "bb100_no_hh": 1.16,
-              "is_top_value": false
+              "is_top_value": false,
+              "extra_hands": 204,
+              "marginal_bb100": 0.49
             },
             {
               "prize": 60.0,
@@ -4727,7 +5339,9 @@
               },
               "hands_no_hh": 400,
               "bb100_no_hh": 1.5,
-              "is_top_value": false
+              "is_top_value": false,
+              "extra_hands": 144,
+              "marginal_bb100": 0.69
             },
             {
               "prize": 50.0,
@@ -4741,7 +5355,9 @@
               },
               "hands_no_hh": 256,
               "bb100_no_hh": 1.95,
-              "is_top_value": true
+              "is_top_value": true,
+              "extra_hands": 256,
+              "marginal_bb100": 1.95
             }
           ]
         },
@@ -4762,7 +5378,9 @@
               },
               "hands_no_hh": 2636,
               "bb100_no_hh": 2.66,
-              "is_top_value": true
+              "is_top_value": true,
+              "extra_hands": 340,
+              "marginal_bb100": 8.82
             },
             {
               "prize": 800.0,
@@ -4776,7 +5394,9 @@
               },
               "hands_no_hh": 2296,
               "bb100_no_hh": 1.74,
-              "is_top_value": true
+              "is_top_value": true,
+              "extra_hands": 401,
+              "marginal_bb100": 3.74
             },
             {
               "prize": 500.0,
@@ -4790,7 +5410,9 @@
               },
               "hands_no_hh": 1895,
               "bb100_no_hh": 1.32,
-              "is_top_value": false
+              "is_top_value": false,
+              "extra_hands": 337,
+              "marginal_bb100": 1.78
             },
             {
               "prize": 380.0,
@@ -4804,7 +5426,9 @@
               },
               "hands_no_hh": 1558,
               "bb100_no_hh": 1.22,
-              "is_top_value": false
+              "is_top_value": false,
+              "extra_hands": 123,
+              "marginal_bb100": 2.44
             },
             {
               "prize": 320.0,
@@ -4818,7 +5442,9 @@
               },
               "hands_no_hh": 1435,
               "bb100_no_hh": 1.11,
-              "is_top_value": false
+              "is_top_value": false,
+              "extra_hands": 146,
+              "marginal_bb100": 0.68
             },
             {
               "prize": 300.0,
@@ -4832,7 +5458,9 @@
               },
               "hands_no_hh": 1289,
               "bb100_no_hh": 1.16,
-              "is_top_value": false
+              "is_top_value": false,
+              "extra_hands": 137,
+              "marginal_bb100": 0.73
             },
             {
               "prize": 280.0,
@@ -4846,7 +5474,9 @@
               },
               "hands_no_hh": 1152,
               "bb100_no_hh": 1.22,
-              "is_top_value": false
+              "is_top_value": false,
+              "extra_hands": 98,
+              "marginal_bb100": 1.02
             },
             {
               "prize": 260.0,
@@ -4860,7 +5490,9 @@
               },
               "hands_no_hh": 1054,
               "bb100_no_hh": 1.23,
-              "is_top_value": false
+              "is_top_value": false,
+              "extra_hands": 90,
+              "marginal_bb100": 1.11
             },
             {
               "prize": 240.0,
@@ -4874,7 +5506,9 @@
               },
               "hands_no_hh": 964,
               "bb100_no_hh": 1.24,
-              "is_top_value": false
+              "is_top_value": false,
+              "extra_hands": 96,
+              "marginal_bb100": 1.04
             },
             {
               "prize": 220.0,
@@ -4888,7 +5522,9 @@
               },
               "hands_no_hh": 868,
               "bb100_no_hh": 1.27,
-              "is_top_value": false
+              "is_top_value": false,
+              "extra_hands": 98,
+              "marginal_bb100": 1.02
             },
             {
               "prize": 200.0,
@@ -4902,7 +5538,9 @@
               },
               "hands_no_hh": 770,
               "bb100_no_hh": 1.3,
-              "is_top_value": false
+              "is_top_value": false,
+              "extra_hands": 85,
+              "marginal_bb100": 1.18
             },
             {
               "prize": 180.0,
@@ -4916,7 +5554,9 @@
               },
               "hands_no_hh": 685,
               "bb100_no_hh": 1.31,
-              "is_top_value": false
+              "is_top_value": false,
+              "extra_hands": 102,
+              "marginal_bb100": 0.98
             },
             {
               "prize": 160.0,
@@ -4930,7 +5570,9 @@
               },
               "hands_no_hh": 583,
               "bb100_no_hh": 1.37,
-              "is_top_value": false
+              "is_top_value": false,
+              "extra_hands": 92,
+              "marginal_bb100": 1.09
             },
             {
               "prize": 140.0,
@@ -4944,7 +5586,9 @@
               },
               "hands_no_hh": 491,
               "bb100_no_hh": 1.43,
-              "is_top_value": false
+              "is_top_value": false,
+              "extra_hands": 82,
+              "marginal_bb100": 1.22
             },
             {
               "prize": 120.0,
@@ -4958,7 +5602,9 @@
               },
               "hands_no_hh": 409,
               "bb100_no_hh": 1.47,
-              "is_top_value": false
+              "is_top_value": false,
+              "extra_hands": 82,
+              "marginal_bb100": 1.22
             },
             {
               "prize": 100.0,
@@ -4972,7 +5618,9 @@
               },
               "hands_no_hh": 327,
               "bb100_no_hh": 1.53,
-              "is_top_value": true
+              "is_top_value": true,
+              "extra_hands": 327,
+              "marginal_bb100": 1.53
             }
           ]
         }
@@ -5001,7 +5649,9 @@
               },
               "hands_no_hh": 6128,
               "bb100_no_hh": 20.4,
-              "is_top_value": true
+              "is_top_value": true,
+              "extra_hands": 559,
+              "marginal_bb100": 35.78
             },
             {
               "prize": 21.0,
@@ -5015,7 +5665,9 @@
               },
               "hands_no_hh": 5569,
               "bb100_no_hh": 18.85,
-              "is_top_value": true
+              "is_top_value": true,
+              "extra_hands": 589,
+              "marginal_bb100": 25.47
             },
             {
               "prize": 18.0,
@@ -5029,7 +5681,9 @@
               },
               "hands_no_hh": 4980,
               "bb100_no_hh": 18.07,
-              "is_top_value": true
+              "is_top_value": true,
+              "extra_hands": 488,
+              "marginal_bb100": 30.74
             },
             {
               "prize": 15.0,
@@ -5043,7 +5697,9 @@
               },
               "hands_no_hh": 4492,
               "bb100_no_hh": 16.7,
-              "is_top_value": false
+              "is_top_value": false,
+              "extra_hands": 333,
+              "marginal_bb100": 30.03
             },
             {
               "prize": 13.0,
@@ -5057,7 +5713,9 @@
               },
               "hands_no_hh": 4159,
               "bb100_no_hh": 15.63,
-              "is_top_value": false
+              "is_top_value": false,
+              "extra_hands": 541,
+              "marginal_bb100": 18.48
             },
             {
               "prize": 11.0,
@@ -5071,7 +5729,9 @@
               },
               "hands_no_hh": 3618,
               "bb100_no_hh": 15.2,
-              "is_top_value": false
+              "is_top_value": false,
+              "extra_hands": 260,
+              "marginal_bb100": 38.46
             },
             {
               "prize": 9.0,
@@ -5085,7 +5745,9 @@
               },
               "hands_no_hh": 3358,
               "bb100_no_hh": 13.4,
-              "is_top_value": false
+              "is_top_value": false,
+              "extra_hands": 190,
+              "marginal_bb100": 26.32
             },
             {
               "prize": 8.0,
@@ -5099,7 +5761,9 @@
               },
               "hands_no_hh": 3168,
               "bb100_no_hh": 12.63,
-              "is_top_value": false
+              "is_top_value": false,
+              "extra_hands": 232,
+              "marginal_bb100": 21.55
             },
             {
               "prize": 7.0,
@@ -5113,7 +5777,9 @@
               },
               "hands_no_hh": 2936,
               "bb100_no_hh": 11.92,
-              "is_top_value": false
+              "is_top_value": false,
+              "extra_hands": 151,
+              "marginal_bb100": 33.11
             },
             {
               "prize": 6.0,
@@ -5127,7 +5793,9 @@
               },
               "hands_no_hh": 2785,
               "bb100_no_hh": 10.77,
-              "is_top_value": false
+              "is_top_value": false,
+              "extra_hands": 129,
+              "marginal_bb100": 38.76
             },
             {
               "prize": 5.0,
@@ -5141,7 +5809,9 @@
               },
               "hands_no_hh": 2656,
               "bb100_no_hh": 9.41,
-              "is_top_value": false
+              "is_top_value": false,
+              "extra_hands": 89,
+              "marginal_bb100": 28.09
             },
             {
               "prize": 4.5,
@@ -5155,7 +5825,9 @@
               },
               "hands_no_hh": 2567,
               "bb100_no_hh": 8.77,
-              "is_top_value": false
+              "is_top_value": false,
+              "extra_hands": 65,
+              "marginal_bb100": 38.46
             },
             {
               "prize": 4.0,
@@ -5169,7 +5841,9 @@
               },
               "hands_no_hh": 2502,
               "bb100_no_hh": 7.99,
-              "is_top_value": false
+              "is_top_value": false,
+              "extra_hands": 213,
+              "marginal_bb100": 11.74
             },
             {
               "prize": 3.5,
@@ -5183,7 +5857,9 @@
               },
               "hands_no_hh": 2289,
               "bb100_no_hh": 7.65,
-              "is_top_value": false
+              "is_top_value": false,
+              "extra_hands": 131,
+              "marginal_bb100": 19.08
             },
             {
               "prize": 3.0,
@@ -5197,7 +5873,9 @@
               },
               "hands_no_hh": 2158,
               "bb100_no_hh": 6.95,
-              "is_top_value": false
+              "is_top_value": false,
+              "extra_hands": 266,
+              "marginal_bb100": 9.4
             },
             {
               "prize": 2.5,
@@ -5211,7 +5889,9 @@
               },
               "hands_no_hh": 1892,
               "bb100_no_hh": 6.61,
-              "is_top_value": false
+              "is_top_value": false,
+              "extra_hands": 111,
+              "marginal_bb100": 22.52
             },
             {
               "prize": 2.0,
@@ -5225,7 +5905,9 @@
               },
               "hands_no_hh": 1781,
               "bb100_no_hh": 5.61,
-              "is_top_value": false
+              "is_top_value": false,
+              "extra_hands": 108,
+              "marginal_bb100": 9.26
             },
             {
               "prize": 1.8,
@@ -5239,7 +5921,9 @@
               },
               "hands_no_hh": 1673,
               "bb100_no_hh": 5.38,
-              "is_top_value": false
+              "is_top_value": false,
+              "extra_hands": 64,
+              "marginal_bb100": 15.62
             },
             {
               "prize": 1.6,
@@ -5253,7 +5937,9 @@
               },
               "hands_no_hh": 1609,
               "bb100_no_hh": 4.97,
-              "is_top_value": false
+              "is_top_value": false,
+              "extra_hands": 115,
+              "marginal_bb100": 8.7
             },
             {
               "prize": 1.4,
@@ -5267,7 +5953,9 @@
               },
               "hands_no_hh": 1494,
               "bb100_no_hh": 4.69,
-              "is_top_value": false
+              "is_top_value": false,
+              "extra_hands": 93,
+              "marginal_bb100": 10.75
             },
             {
               "prize": 1.2,
@@ -5281,7 +5969,9 @@
               },
               "hands_no_hh": 1401,
               "bb100_no_hh": 4.28,
-              "is_top_value": false
+              "is_top_value": false,
+              "extra_hands": 171,
+              "marginal_bb100": 5.85
             },
             {
               "prize": 1.0,
@@ -5295,7 +5985,9 @@
               },
               "hands_no_hh": 1230,
               "bb100_no_hh": 4.07,
-              "is_top_value": false
+              "is_top_value": false,
+              "extra_hands": 133,
+              "marginal_bb100": 7.52
             },
             {
               "prize": 0.8,
@@ -5309,7 +6001,9 @@
               },
               "hands_no_hh": 1097,
               "bb100_no_hh": 3.65,
-              "is_top_value": false
+              "is_top_value": false,
+              "extra_hands": 163,
+              "marginal_bb100": 6.13
             },
             {
               "prize": 0.6,
@@ -5323,7 +6017,9 @@
               },
               "hands_no_hh": 934,
               "bb100_no_hh": 3.21,
-              "is_top_value": false
+              "is_top_value": false,
+              "extra_hands": 128,
+              "marginal_bb100": 7.81
             },
             {
               "prize": 0.4,
@@ -5337,7 +6033,9 @@
               },
               "hands_no_hh": 806,
               "bb100_no_hh": 2.48,
-              "is_top_value": false
+              "is_top_value": false,
+              "extra_hands": 94,
+              "marginal_bb100": 5.32
             },
             {
               "prize": 0.3,
@@ -5351,7 +6049,9 @@
               },
               "hands_no_hh": 712,
               "bb100_no_hh": 2.11,
-              "is_top_value": false
+              "is_top_value": false,
+              "extra_hands": 104,
+              "marginal_bb100": 4.81
             },
             {
               "prize": 0.2,
@@ -5365,7 +6065,9 @@
               },
               "hands_no_hh": 608,
               "bb100_no_hh": 1.64,
-              "is_top_value": false
+              "is_top_value": false,
+              "extra_hands": 608,
+              "marginal_bb100": 1.64
             }
           ]
         },
@@ -5386,7 +6088,9 @@
               },
               "hands_no_hh": 7432,
               "bb100_no_hh": 13.46,
-              "is_top_value": true
+              "is_top_value": true,
+              "extra_hands": 673,
+              "marginal_bb100": 17.83
             },
             {
               "prize": 44.0,
@@ -5400,7 +6104,9 @@
               },
               "hands_no_hh": 6759,
               "bb100_no_hh": 13.02,
-              "is_top_value": true
+              "is_top_value": true,
+              "extra_hands": 602,
+              "marginal_bb100": 19.93
             },
             {
               "prize": 38.0,
@@ -5414,7 +6120,9 @@
               },
               "hands_no_hh": 6157,
               "bb100_no_hh": 12.34,
-              "is_top_value": true
+              "is_top_value": true,
+              "extra_hands": 235,
+              "marginal_bb100": 51.06
             },
             {
               "prize": 32.0,
@@ -5428,7 +6136,9 @@
               },
               "hands_no_hh": 5922,
               "bb100_no_hh": 10.81,
-              "is_top_value": false
+              "is_top_value": false,
+              "extra_hands": 490,
+              "marginal_bb100": 16.33
             },
             {
               "prize": 28.0,
@@ -5442,7 +6152,9 @@
               },
               "hands_no_hh": 5432,
               "bb100_no_hh": 10.31,
-              "is_top_value": false
+              "is_top_value": false,
+              "extra_hands": 330,
+              "marginal_bb100": 24.24
             },
             {
               "prize": 24.0,
@@ -5456,7 +6168,9 @@
               },
               "hands_no_hh": 5102,
               "bb100_no_hh": 9.41,
-              "is_top_value": false
+              "is_top_value": false,
+              "extra_hands": 272,
+              "marginal_bb100": 29.41
             },
             {
               "prize": 20.0,
@@ -5470,7 +6184,9 @@
               },
               "hands_no_hh": 4830,
               "bb100_no_hh": 8.28,
-              "is_top_value": false
+              "is_top_value": false,
+              "extra_hands": 371,
+              "marginal_bb100": 16.17
             },
             {
               "prize": 17.0,
@@ -5484,7 +6200,9 @@
               },
               "hands_no_hh": 4459,
               "bb100_no_hh": 7.63,
-              "is_top_value": false
+              "is_top_value": false,
+              "extra_hands": 401,
+              "marginal_bb100": 9.98
             },
             {
               "prize": 15.0,
@@ -5498,7 +6216,9 @@
               },
               "hands_no_hh": 4058,
               "bb100_no_hh": 7.39,
-              "is_top_value": false
+              "is_top_value": false,
+              "extra_hands": 217,
+              "marginal_bb100": 18.43
             },
             {
               "prize": 13.0,
@@ -5512,7 +6232,9 @@
               },
               "hands_no_hh": 3841,
               "bb100_no_hh": 6.77,
-              "is_top_value": false
+              "is_top_value": false,
+              "extra_hands": 98,
+              "marginal_bb100": 40.82
             },
             {
               "prize": 11.0,
@@ -5526,7 +6248,9 @@
               },
               "hands_no_hh": 3743,
               "bb100_no_hh": 5.88,
-              "is_top_value": false
+              "is_top_value": false,
+              "extra_hands": 232,
+              "marginal_bb100": 8.62
             },
             {
               "prize": 10.0,
@@ -5540,7 +6264,9 @@
               },
               "hands_no_hh": 3511,
               "bb100_no_hh": 5.7,
-              "is_top_value": false
+              "is_top_value": false,
+              "extra_hands": 118,
+              "marginal_bb100": 16.95
             },
             {
               "prize": 9.0,
@@ -5554,7 +6280,9 @@
               },
               "hands_no_hh": 3393,
               "bb100_no_hh": 5.31,
-              "is_top_value": false
+              "is_top_value": false,
+              "extra_hands": 265,
+              "marginal_bb100": 7.55
             },
             {
               "prize": 8.0,
@@ -5568,7 +6296,9 @@
               },
               "hands_no_hh": 3128,
               "bb100_no_hh": 5.12,
-              "is_top_value": false
+              "is_top_value": false,
+              "extra_hands": 187,
+              "marginal_bb100": 10.7
             },
             {
               "prize": 7.0,
@@ -5582,7 +6312,9 @@
               },
               "hands_no_hh": 2941,
               "bb100_no_hh": 4.76,
-              "is_top_value": false
+              "is_top_value": false,
+              "extra_hands": 196,
+              "marginal_bb100": 10.2
             },
             {
               "prize": 6.0,
@@ -5596,7 +6328,9 @@
               },
               "hands_no_hh": 2745,
               "bb100_no_hh": 4.37,
-              "is_top_value": false
+              "is_top_value": false,
+              "extra_hands": 139,
+              "marginal_bb100": 14.39
             },
             {
               "prize": 5.0,
@@ -5610,7 +6344,9 @@
               },
               "hands_no_hh": 2606,
               "bb100_no_hh": 3.84,
-              "is_top_value": false
+              "is_top_value": false,
+              "extra_hands": 470,
+              "marginal_bb100": 4.26
             },
             {
               "prize": 4.0,
@@ -5624,7 +6360,9 @@
               },
               "hands_no_hh": 2136,
               "bb100_no_hh": 3.75,
-              "is_top_value": false
+              "is_top_value": false,
+              "extra_hands": 141,
+              "marginal_bb100": 14.18
             },
             {
               "prize": 3.0,
@@ -5638,7 +6376,9 @@
               },
               "hands_no_hh": 1995,
               "bb100_no_hh": 3.01,
-              "is_top_value": false
+              "is_top_value": false,
+              "extra_hands": 228,
+              "marginal_bb100": 4.39
             },
             {
               "prize": 2.5,
@@ -5652,7 +6392,9 @@
               },
               "hands_no_hh": 1767,
               "bb100_no_hh": 2.83,
-              "is_top_value": false
+              "is_top_value": false,
+              "extra_hands": 241,
+              "marginal_bb100": 4.15
             },
             {
               "prize": 2.0,
@@ -5666,7 +6408,9 @@
               },
               "hands_no_hh": 1526,
               "bb100_no_hh": 2.62,
-              "is_top_value": false
+              "is_top_value": false,
+              "extra_hands": 189,
+              "marginal_bb100": 4.23
             },
             {
               "prize": 1.6,
@@ -5680,7 +6424,9 @@
               },
               "hands_no_hh": 1337,
               "bb100_no_hh": 2.39,
-              "is_top_value": false
+              "is_top_value": false,
+              "extra_hands": 116,
+              "marginal_bb100": 6.9
             },
             {
               "prize": 1.2,
@@ -5694,7 +6440,9 @@
               },
               "hands_no_hh": 1221,
               "bb100_no_hh": 1.97,
-              "is_top_value": false
+              "is_top_value": false,
+              "extra_hands": 211,
+              "marginal_bb100": 1.9
             },
             {
               "prize": 1.0,
@@ -5708,7 +6456,9 @@
               },
               "hands_no_hh": 1010,
               "bb100_no_hh": 1.98,
-              "is_top_value": false
+              "is_top_value": false,
+              "extra_hands": 201,
+              "marginal_bb100": 4.98
             },
             {
               "prize": 0.5,
@@ -5722,7 +6472,9 @@
               },
               "hands_no_hh": 809,
               "bb100_no_hh": 1.24,
-              "is_top_value": false
+              "is_top_value": false,
+              "extra_hands": 809,
+              "marginal_bb100": 1.24
             }
           ]
         },
@@ -5743,7 +6495,9 @@
               },
               "hands_no_hh": 13501,
               "bb100_no_hh": 4.44,
-              "is_top_value": true
+              "is_top_value": true,
+              "extra_hands": 1088,
+              "marginal_bb100": 9.19
             },
             {
               "prize": 50.0,
@@ -5757,7 +6511,9 @@
               },
               "hands_no_hh": 12413,
               "bb100_no_hh": 4.03,
-              "is_top_value": true
+              "is_top_value": true,
+              "extra_hands": 856,
+              "marginal_bb100": 7.01
             },
             {
               "prize": 44.0,
@@ -5771,7 +6527,9 @@
               },
               "hands_no_hh": 11557,
               "bb100_no_hh": 3.81,
-              "is_top_value": true
+              "is_top_value": true,
+              "extra_hands": 1207,
+              "marginal_bb100": 4.97
             },
             {
               "prize": 38.0,
@@ -5785,7 +6543,9 @@
               },
               "hands_no_hh": 10350,
               "bb100_no_hh": 3.67,
-              "is_top_value": false
+              "is_top_value": false,
+              "extra_hands": 777,
+              "marginal_bb100": 7.72
             },
             {
               "prize": 32.0,
@@ -5799,7 +6559,9 @@
               },
               "hands_no_hh": 9573,
               "bb100_no_hh": 3.34,
-              "is_top_value": false
+              "is_top_value": false,
+              "extra_hands": 568,
+              "marginal_bb100": 10.56
             },
             {
               "prize": 26.0,
@@ -5813,7 +6575,9 @@
               },
               "hands_no_hh": 9005,
               "bb100_no_hh": 2.89,
-              "is_top_value": false
+              "is_top_value": false,
+              "extra_hands": 533,
+              "marginal_bb100": 7.5
             },
             {
               "prize": 22.0,
@@ -5827,7 +6591,9 @@
               },
               "hands_no_hh": 8472,
               "bb100_no_hh": 2.6,
-              "is_top_value": false
+              "is_top_value": false,
+              "extra_hands": 685,
+              "marginal_bb100": 5.84
             },
             {
               "prize": 18.0,
@@ -5841,7 +6607,9 @@
               },
               "hands_no_hh": 7787,
               "bb100_no_hh": 2.31,
-              "is_top_value": false
+              "is_top_value": false,
+              "extra_hands": 424,
+              "marginal_bb100": 7.08
             },
             {
               "prize": 15.0,
@@ -5855,7 +6623,9 @@
               },
               "hands_no_hh": 7363,
               "bb100_no_hh": 2.04,
-              "is_top_value": false
+              "is_top_value": false,
+              "extra_hands": 385,
+              "marginal_bb100": 5.19
             },
             {
               "prize": 13.0,
@@ -5869,7 +6639,9 @@
               },
               "hands_no_hh": 6978,
               "bb100_no_hh": 1.86,
-              "is_top_value": false
+              "is_top_value": false,
+              "extra_hands": 272,
+              "marginal_bb100": 7.35
             },
             {
               "prize": 11.0,
@@ -5883,7 +6655,9 @@
               },
               "hands_no_hh": 6706,
               "bb100_no_hh": 1.64,
-              "is_top_value": false
+              "is_top_value": false,
+              "extra_hands": 266,
+              "marginal_bb100": 3.76
             },
             {
               "prize": 10.0,
@@ -5897,7 +6671,9 @@
               },
               "hands_no_hh": 6440,
               "bb100_no_hh": 1.55,
-              "is_top_value": false
+              "is_top_value": false,
+              "extra_hands": 294,
+              "marginal_bb100": 3.4
             },
             {
               "prize": 9.0,
@@ -5911,7 +6687,9 @@
               },
               "hands_no_hh": 6146,
               "bb100_no_hh": 1.46,
-              "is_top_value": false
+              "is_top_value": false,
+              "extra_hands": 534,
+              "marginal_bb100": 1.87
             },
             {
               "prize": 8.0,
@@ -5925,7 +6703,9 @@
               },
               "hands_no_hh": 5612,
               "bb100_no_hh": 1.43,
-              "is_top_value": false
+              "is_top_value": false,
+              "extra_hands": 453,
+              "marginal_bb100": 2.21
             },
             {
               "prize": 7.0,
@@ -5939,7 +6719,9 @@
               },
               "hands_no_hh": 5159,
               "bb100_no_hh": 1.36,
-              "is_top_value": false
+              "is_top_value": false,
+              "extra_hands": 351,
+              "marginal_bb100": 2.85
             },
             {
               "prize": 6.0,
@@ -5953,7 +6735,9 @@
               },
               "hands_no_hh": 4808,
               "bb100_no_hh": 1.25,
-              "is_top_value": false
+              "is_top_value": false,
+              "extra_hands": 654,
+              "marginal_bb100": 1.53
             },
             {
               "prize": 5.0,
@@ -5967,7 +6751,9 @@
               },
               "hands_no_hh": 4154,
               "bb100_no_hh": 1.2,
-              "is_top_value": false
+              "is_top_value": false,
+              "extra_hands": 194,
+              "marginal_bb100": 5.15
             },
             {
               "prize": 4.0,
@@ -5981,7 +6767,9 @@
               },
               "hands_no_hh": 3960,
               "bb100_no_hh": 1.01,
-              "is_top_value": false
+              "is_top_value": false,
+              "extra_hands": 579,
+              "marginal_bb100": 1.73
             },
             {
               "prize": 3.0,
@@ -5995,7 +6783,9 @@
               },
               "hands_no_hh": 3381,
               "bb100_no_hh": 0.89,
-              "is_top_value": false
+              "is_top_value": false,
+              "extra_hands": 467,
+              "marginal_bb100": 1.07
             },
             {
               "prize": 2.5,
@@ -6009,7 +6799,9 @@
               },
               "hands_no_hh": 2914,
               "bb100_no_hh": 0.86,
-              "is_top_value": false
+              "is_top_value": false,
+              "extra_hands": 526,
+              "marginal_bb100": 0.95
             },
             {
               "prize": 2.0,
@@ -6023,7 +6815,9 @@
               },
               "hands_no_hh": 2388,
               "bb100_no_hh": 0.84,
-              "is_top_value": false
+              "is_top_value": false,
+              "extra_hands": 407,
+              "marginal_bb100": 1.23
             },
             {
               "prize": 1.5,
@@ -6037,7 +6831,9 @@
               },
               "hands_no_hh": 1981,
               "bb100_no_hh": 0.76,
-              "is_top_value": false
+              "is_top_value": false,
+              "extra_hands": 377,
+              "marginal_bb100": 1.33
             },
             {
               "prize": 1.0,
@@ -6051,7 +6847,9 @@
               },
               "hands_no_hh": 1604,
               "bb100_no_hh": 0.62,
-              "is_top_value": false
+              "is_top_value": false,
+              "extra_hands": 1604,
+              "marginal_bb100": 0.62
             }
           ]
         },
@@ -6072,7 +6870,9 @@
               },
               "hands_no_hh": 14721,
               "bb100_no_hh": 3.26,
-              "is_top_value": true
+              "is_top_value": true,
+              "extra_hands": 1699,
+              "marginal_bb100": 4.71
             },
             {
               "prize": 100.0,
@@ -6086,7 +6886,9 @@
               },
               "hands_no_hh": 13022,
               "bb100_no_hh": 3.07,
-              "is_top_value": true
+              "is_top_value": true,
+              "extra_hands": 447,
+              "marginal_bb100": 17.9
             },
             {
               "prize": 80.0,
@@ -6100,7 +6902,9 @@
               },
               "hands_no_hh": 12575,
               "bb100_no_hh": 2.54,
-              "is_top_value": true
+              "is_top_value": true,
+              "extra_hands": 1456,
+              "marginal_bb100": 4.12
             },
             {
               "prize": 65.0,
@@ -6114,7 +6918,9 @@
               },
               "hands_no_hh": 11119,
               "bb100_no_hh": 2.34,
-              "is_top_value": false
+              "is_top_value": false,
+              "extra_hands": 447,
+              "marginal_bb100": 13.42
             },
             {
               "prize": 50.0,
@@ -6128,7 +6934,9 @@
               },
               "hands_no_hh": 10672,
               "bb100_no_hh": 1.87,
-              "is_top_value": false
+              "is_top_value": false,
+              "extra_hands": 884,
+              "marginal_bb100": 4.52
             },
             {
               "prize": 40.0,
@@ -6142,7 +6950,9 @@
               },
               "hands_no_hh": 9788,
               "bb100_no_hh": 1.63,
-              "is_top_value": false
+              "is_top_value": false,
+              "extra_hands": 981,
+              "marginal_bb100": 2.04
             },
             {
               "prize": 35.0,
@@ -6156,7 +6966,9 @@
               },
               "hands_no_hh": 8807,
               "bb100_no_hh": 1.59,
-              "is_top_value": false
+              "is_top_value": false,
+              "extra_hands": 349,
+              "marginal_bb100": 5.73
             },
             {
               "prize": 30.0,
@@ -6170,7 +6982,9 @@
               },
               "hands_no_hh": 8458,
               "bb100_no_hh": 1.42,
-              "is_top_value": false
+              "is_top_value": false,
+              "extra_hands": 477,
+              "marginal_bb100": 4.19
             },
             {
               "prize": 25.0,
@@ -6184,7 +6998,9 @@
               },
               "hands_no_hh": 7981,
               "bb100_no_hh": 1.25,
-              "is_top_value": false
+              "is_top_value": false,
+              "extra_hands": 474,
+              "marginal_bb100": 4.22
             },
             {
               "prize": 20.0,
@@ -6198,7 +7014,9 @@
               },
               "hands_no_hh": 7507,
               "bb100_no_hh": 1.07,
-              "is_top_value": false
+              "is_top_value": false,
+              "extra_hands": 736,
+              "marginal_bb100": 2.72
             },
             {
               "prize": 15.0,
@@ -6212,7 +7030,9 @@
               },
               "hands_no_hh": 6771,
               "bb100_no_hh": 0.89,
-              "is_top_value": false
+              "is_top_value": false,
+              "extra_hands": 180,
+              "marginal_bb100": 2.22
             },
             {
               "prize": 14.0,
@@ -6226,7 +7046,9 @@
               },
               "hands_no_hh": 6591,
               "bb100_no_hh": 0.85,
-              "is_top_value": false
+              "is_top_value": false,
+              "extra_hands": 339,
+              "marginal_bb100": 1.18
             },
             {
               "prize": 13.0,
@@ -6240,7 +7062,9 @@
               },
               "hands_no_hh": 6252,
               "bb100_no_hh": 0.83,
-              "is_top_value": false
+              "is_top_value": false,
+              "extra_hands": 230,
+              "marginal_bb100": 1.74
             },
             {
               "prize": 12.0,
@@ -6254,7 +7078,9 @@
               },
               "hands_no_hh": 6022,
               "bb100_no_hh": 0.8,
-              "is_top_value": false
+              "is_top_value": false,
+              "extra_hands": 733,
+              "marginal_bb100": 0.55
             },
             {
               "prize": 11.0,
@@ -6268,7 +7094,9 @@
               },
               "hands_no_hh": 5289,
               "bb100_no_hh": 0.83,
-              "is_top_value": false
+              "is_top_value": false,
+              "extra_hands": 246,
+              "marginal_bb100": 1.63
             },
             {
               "prize": 10.0,
@@ -6282,7 +7110,9 @@
               },
               "hands_no_hh": 5043,
               "bb100_no_hh": 0.79,
-              "is_top_value": false
+              "is_top_value": false,
+              "extra_hands": 304,
+              "marginal_bb100": 1.32
             },
             {
               "prize": 9.0,
@@ -6296,7 +7126,9 @@
               },
               "hands_no_hh": 4739,
               "bb100_no_hh": 0.76,
-              "is_top_value": false
+              "is_top_value": false,
+              "extra_hands": 403,
+              "marginal_bb100": 0.99
             },
             {
               "prize": 8.0,
@@ -6310,7 +7142,9 @@
               },
               "hands_no_hh": 4336,
               "bb100_no_hh": 0.74,
-              "is_top_value": false
+              "is_top_value": false,
+              "extra_hands": 335,
+              "marginal_bb100": 1.19
             },
             {
               "prize": 7.0,
@@ -6324,7 +7158,9 @@
               },
               "hands_no_hh": 4001,
               "bb100_no_hh": 0.7,
-              "is_top_value": false
+              "is_top_value": false,
+              "extra_hands": 553,
+              "marginal_bb100": 0.72
             },
             {
               "prize": 6.0,
@@ -6338,7 +7174,9 @@
               },
               "hands_no_hh": 3448,
               "bb100_no_hh": 0.7,
-              "is_top_value": false
+              "is_top_value": false,
+              "extra_hands": 263,
+              "marginal_bb100": 1.52
             },
             {
               "prize": 5.0,
@@ -6352,7 +7190,9 @@
               },
               "hands_no_hh": 3185,
               "bb100_no_hh": 0.63,
-              "is_top_value": false
+              "is_top_value": false,
+              "extra_hands": 698,
+              "marginal_bb100": 0.57
             },
             {
               "prize": 4.0,
@@ -6366,7 +7206,9 @@
               },
               "hands_no_hh": 2487,
               "bb100_no_hh": 0.64,
-              "is_top_value": false
+              "is_top_value": false,
+              "extra_hands": 633,
+              "marginal_bb100": 0.63
             },
             {
               "prize": 3.0,
@@ -6380,7 +7222,9 @@
               },
               "hands_no_hh": 1854,
               "bb100_no_hh": 0.65,
-              "is_top_value": false
+              "is_top_value": false,
+              "extra_hands": 161,
+              "marginal_bb100": 1.24
             },
             {
               "prize": 2.5,
@@ -6394,7 +7238,9 @@
               },
               "hands_no_hh": 1693,
               "bb100_no_hh": 0.59,
-              "is_top_value": false
+              "is_top_value": false,
+              "extra_hands": 1693,
+              "marginal_bb100": 0.59
             }
           ]
         },
@@ -6415,7 +7261,9 @@
               },
               "hands_no_hh": 11369,
               "bb100_no_hh": 2.64,
-              "is_top_value": true
+              "is_top_value": true,
+              "extra_hands": 1424,
+              "marginal_bb100": 4.21
             },
             {
               "prize": 120.0,
@@ -6429,7 +7277,9 @@
               },
               "hands_no_hh": 9945,
               "bb100_no_hh": 2.41,
-              "is_top_value": true
+              "is_top_value": true,
+              "extra_hands": 1208,
+              "marginal_bb100": 3.31
             },
             {
               "prize": 100.0,
@@ -6443,7 +7293,9 @@
               },
               "hands_no_hh": 8737,
               "bb100_no_hh": 2.29,
-              "is_top_value": true
+              "is_top_value": true,
+              "extra_hands": 403,
+              "marginal_bb100": 7.44
             },
             {
               "prize": 85.0,
@@ -6457,7 +7309,9 @@
               },
               "hands_no_hh": 8334,
               "bb100_no_hh": 2.04,
-              "is_top_value": false
+              "is_top_value": false,
+              "extra_hands": 755,
+              "marginal_bb100": 3.97
             },
             {
               "prize": 70.0,
@@ -6471,7 +7325,9 @@
               },
               "hands_no_hh": 7579,
               "bb100_no_hh": 1.85,
-              "is_top_value": false
+              "is_top_value": false,
+              "extra_hands": 499,
+              "marginal_bb100": 6.01
             },
             {
               "prize": 55.0,
@@ -6485,7 +7341,9 @@
               },
               "hands_no_hh": 7080,
               "bb100_no_hh": 1.55,
-              "is_top_value": false
+              "is_top_value": false,
+              "extra_hands": 676,
+              "marginal_bb100": 2.96
             },
             {
               "prize": 45.0,
@@ -6499,7 +7357,9 @@
               },
               "hands_no_hh": 6404,
               "bb100_no_hh": 1.41,
-              "is_top_value": false
+              "is_top_value": false,
+              "extra_hands": 419,
+              "marginal_bb100": 4.77
             },
             {
               "prize": 35.0,
@@ -6513,7 +7373,9 @@
               },
               "hands_no_hh": 5985,
               "bb100_no_hh": 1.17,
-              "is_top_value": false
+              "is_top_value": false,
+              "extra_hands": 467,
+              "marginal_bb100": 2.14
             },
             {
               "prize": 30.0,
@@ -6527,7 +7389,9 @@
               },
               "hands_no_hh": 5518,
               "bb100_no_hh": 1.09,
-              "is_top_value": false
+              "is_top_value": false,
+              "extra_hands": 570,
+              "marginal_bb100": 1.75
             },
             {
               "prize": 25.0,
@@ -6541,7 +7405,9 @@
               },
               "hands_no_hh": 4948,
               "bb100_no_hh": 1.01,
-              "is_top_value": false
+              "is_top_value": false,
+              "extra_hands": 625,
+              "marginal_bb100": 1.6
             },
             {
               "prize": 20.0,
@@ -6555,7 +7421,9 @@
               },
               "hands_no_hh": 4323,
               "bb100_no_hh": 0.93,
-              "is_top_value": false
+              "is_top_value": false,
+              "extra_hands": 319,
+              "marginal_bb100": 1.25
             },
             {
               "prize": 18.0,
@@ -6569,7 +7437,9 @@
               },
               "hands_no_hh": 4004,
               "bb100_no_hh": 0.9,
-              "is_top_value": false
+              "is_top_value": false,
+              "extra_hands": 231,
+              "marginal_bb100": 1.73
             },
             {
               "prize": 16.0,
@@ -6583,7 +7453,9 @@
               },
               "hands_no_hh": 3773,
               "bb100_no_hh": 0.85,
-              "is_top_value": false
+              "is_top_value": false,
+              "extra_hands": 83,
+              "marginal_bb100": 2.41
             },
             {
               "prize": 15.0,
@@ -6597,7 +7469,9 @@
               },
               "hands_no_hh": 3690,
               "bb100_no_hh": 0.81,
-              "is_top_value": false
+              "is_top_value": false,
+              "extra_hands": 155,
+              "marginal_bb100": 1.29
             },
             {
               "prize": 14.0,
@@ -6611,7 +7485,9 @@
               },
               "hands_no_hh": 3535,
               "bb100_no_hh": 0.79,
-              "is_top_value": false
+              "is_top_value": false,
+              "extra_hands": 166,
+              "marginal_bb100": 1.2
             },
             {
               "prize": 13.0,
@@ -6625,7 +7501,9 @@
               },
               "hands_no_hh": 3369,
               "bb100_no_hh": 0.77,
-              "is_top_value": false
+              "is_top_value": false,
+              "extra_hands": 167,
+              "marginal_bb100": 1.2
             },
             {
               "prize": 12.0,
@@ -6639,7 +7517,9 @@
               },
               "hands_no_hh": 3202,
               "bb100_no_hh": 0.75,
-              "is_top_value": false
+              "is_top_value": false,
+              "extra_hands": 272,
+              "marginal_bb100": 0.74
             },
             {
               "prize": 11.0,
@@ -6653,7 +7533,9 @@
               },
               "hands_no_hh": 2930,
               "bb100_no_hh": 0.75,
-              "is_top_value": false
+              "is_top_value": false,
+              "extra_hands": 154,
+              "marginal_bb100": 1.3
             },
             {
               "prize": 10.0,
@@ -6667,7 +7549,9 @@
               },
               "hands_no_hh": 2776,
               "bb100_no_hh": 0.72,
-              "is_top_value": false
+              "is_top_value": false,
+              "extra_hands": 164,
+              "marginal_bb100": 1.22
             },
             {
               "prize": 9.0,
@@ -6681,7 +7565,9 @@
               },
               "hands_no_hh": 2612,
               "bb100_no_hh": 0.69,
-              "is_top_value": false
+              "is_top_value": false,
+              "extra_hands": 173,
+              "marginal_bb100": 1.16
             },
             {
               "prize": 8.0,
@@ -6695,7 +7581,9 @@
               },
               "hands_no_hh": 2439,
               "bb100_no_hh": 0.66,
-              "is_top_value": false
+              "is_top_value": false,
+              "extra_hands": 99,
+              "marginal_bb100": 2.02
             },
             {
               "prize": 7.0,
@@ -6709,7 +7597,9 @@
               },
               "hands_no_hh": 2340,
               "bb100_no_hh": 0.6,
-              "is_top_value": false
+              "is_top_value": false,
+              "extra_hands": 388,
+              "marginal_bb100": 0.52
             },
             {
               "prize": 6.0,
@@ -6723,7 +7613,9 @@
               },
               "hands_no_hh": 1952,
               "bb100_no_hh": 0.61,
-              "is_top_value": false
+              "is_top_value": false,
+              "extra_hands": 305,
+              "marginal_bb100": 0.66
             },
             {
               "prize": 5.0,
@@ -6737,7 +7629,9 @@
               },
               "hands_no_hh": 1647,
               "bb100_no_hh": 0.61,
-              "is_top_value": false
+              "is_top_value": false,
+              "extra_hands": 1647,
+              "marginal_bb100": 0.61
             }
           ]
         },
@@ -6758,7 +7652,9 @@
               },
               "hands_no_hh": 9267,
               "bb100_no_hh": 2.7,
-              "is_top_value": true
+              "is_top_value": true,
+              "extra_hands": 1650,
+              "marginal_bb100": 3.03
             },
             {
               "prize": 200.0,
@@ -6772,7 +7668,9 @@
               },
               "hands_no_hh": 7617,
               "bb100_no_hh": 2.63,
-              "is_top_value": true
+              "is_top_value": true,
+              "extra_hands": 391,
+              "marginal_bb100": 7.67
             },
             {
               "prize": 170.0,
@@ -6786,7 +7684,9 @@
               },
               "hands_no_hh": 7226,
               "bb100_no_hh": 2.35,
-              "is_top_value": true
+              "is_top_value": true,
+              "extra_hands": 595,
+              "marginal_bb100": 5.04
             },
             {
               "prize": 140.0,
@@ -6800,7 +7700,9 @@
               },
               "hands_no_hh": 6631,
               "bb100_no_hh": 2.11,
-              "is_top_value": false
+              "is_top_value": false,
+              "extra_hands": 848,
+              "marginal_bb100": 2.36
             },
             {
               "prize": 120.0,
@@ -6814,7 +7716,9 @@
               },
               "hands_no_hh": 5783,
               "bb100_no_hh": 2.08,
-              "is_top_value": false
+              "is_top_value": false,
+              "extra_hands": 415,
+              "marginal_bb100": 4.82
             },
             {
               "prize": 100.0,
@@ -6828,7 +7732,9 @@
               },
               "hands_no_hh": 5368,
               "bb100_no_hh": 1.86,
-              "is_top_value": false
+              "is_top_value": false,
+              "extra_hands": 411,
+              "marginal_bb100": 4.87
             },
             {
               "prize": 80.0,
@@ -6842,7 +7748,9 @@
               },
               "hands_no_hh": 4957,
               "bb100_no_hh": 1.61,
-              "is_top_value": false
+              "is_top_value": false,
+              "extra_hands": 162,
+              "marginal_bb100": 6.17
             },
             {
               "prize": 70.0,
@@ -6856,7 +7764,9 @@
               },
               "hands_no_hh": 4795,
               "bb100_no_hh": 1.46,
-              "is_top_value": false
+              "is_top_value": false,
+              "extra_hands": 214,
+              "marginal_bb100": 4.67
             },
             {
               "prize": 60.0,
@@ -6870,7 +7780,9 @@
               },
               "hands_no_hh": 4581,
               "bb100_no_hh": 1.31,
-              "is_top_value": false
+              "is_top_value": false,
+              "extra_hands": 200,
+              "marginal_bb100": 5.0
             },
             {
               "prize": 50.0,
@@ -6884,7 +7796,9 @@
               },
               "hands_no_hh": 4381,
               "bb100_no_hh": 1.14,
-              "is_top_value": false
+              "is_top_value": false,
+              "extra_hands": 470,
+              "marginal_bb100": 2.13
             },
             {
               "prize": 40.0,
@@ -6898,7 +7812,9 @@
               },
               "hands_no_hh": 3911,
               "bb100_no_hh": 1.02,
-              "is_top_value": false
+              "is_top_value": false,
+              "extra_hands": 732,
+              "marginal_bb100": 1.37
             },
             {
               "prize": 30.0,
@@ -6912,7 +7828,9 @@
               },
               "hands_no_hh": 3179,
               "bb100_no_hh": 0.94,
-              "is_top_value": false
+              "is_top_value": false,
+              "extra_hands": 284,
+              "marginal_bb100": 1.76
             },
             {
               "prize": 25.0,
@@ -6926,7 +7844,9 @@
               },
               "hands_no_hh": 2895,
               "bb100_no_hh": 0.86,
-              "is_top_value": false
+              "is_top_value": false,
+              "extra_hands": 735,
+              "marginal_bb100": 0.68
             },
             {
               "prize": 20.0,
@@ -6940,7 +7860,9 @@
               },
               "hands_no_hh": 2160,
               "bb100_no_hh": 0.93,
-              "is_top_value": false
+              "is_top_value": false,
+              "extra_hands": 671,
+              "marginal_bb100": 1.49
             },
             {
               "prize": 10.0,
@@ -6954,7 +7876,9 @@
               },
               "hands_no_hh": 1489,
               "bb100_no_hh": 0.67,
-              "is_top_value": false
+              "is_top_value": false,
+              "extra_hands": 1489,
+              "marginal_bb100": 0.67
             }
           ]
         },
@@ -6975,7 +7899,9 @@
               },
               "hands_no_hh": 9226,
               "bb100_no_hh": 2.71,
-              "is_top_value": true
+              "is_top_value": true,
+              "extra_hands": 1238,
+              "marginal_bb100": 3.23
             },
             {
               "prize": 420.0,
@@ -6989,7 +7915,9 @@
               },
               "hands_no_hh": 7988,
               "bb100_no_hh": 2.63,
-              "is_top_value": true
+              "is_top_value": true,
+              "extra_hands": 1003,
+              "marginal_bb100": 2.99
             },
             {
               "prize": 360.0,
@@ -7003,7 +7931,9 @@
               },
               "hands_no_hh": 6985,
               "bb100_no_hh": 2.58,
-              "is_top_value": true
+              "is_top_value": true,
+              "extra_hands": 832,
+              "marginal_bb100": 3.61
             },
             {
               "prize": 300.0,
@@ -7017,7 +7947,9 @@
               },
               "hands_no_hh": 6153,
               "bb100_no_hh": 2.44,
-              "is_top_value": false
+              "is_top_value": false,
+              "extra_hands": 344,
+              "marginal_bb100": 5.81
             },
             {
               "prize": 260.0,
@@ -7031,7 +7963,9 @@
               },
               "hands_no_hh": 5809,
               "bb100_no_hh": 2.24,
-              "is_top_value": false
+              "is_top_value": false,
+              "extra_hands": 663,
+              "marginal_bb100": 3.02
             },
             {
               "prize": 220.0,
@@ -7045,7 +7979,9 @@
               },
               "hands_no_hh": 5146,
               "bb100_no_hh": 2.14,
-              "is_top_value": false
+              "is_top_value": false,
+              "extra_hands": 476,
+              "marginal_bb100": 3.15
             },
             {
               "prize": 190.0,
@@ -7059,7 +7995,9 @@
               },
               "hands_no_hh": 4670,
               "bb100_no_hh": 2.03,
-              "is_top_value": false
+              "is_top_value": false,
+              "extra_hands": 298,
+              "marginal_bb100": 5.03
             },
             {
               "prize": 160.0,
@@ -7073,7 +8011,9 @@
               },
               "hands_no_hh": 4372,
               "bb100_no_hh": 1.83,
-              "is_top_value": false
+              "is_top_value": false,
+              "extra_hands": 122,
+              "marginal_bb100": 12.3
             },
             {
               "prize": 130.0,
@@ -7087,7 +8027,9 @@
               },
               "hands_no_hh": 4250,
               "bb100_no_hh": 1.53,
-              "is_top_value": false
+              "is_top_value": false,
+              "extra_hands": 242,
+              "marginal_bb100": 4.13
             },
             {
               "prize": 110.0,
@@ -7101,7 +8043,9 @@
               },
               "hands_no_hh": 4008,
               "bb100_no_hh": 1.37,
-              "is_top_value": false
+              "is_top_value": false,
+              "extra_hands": 268,
+              "marginal_bb100": 1.87
             },
             {
               "prize": 100.0,
@@ -7115,7 +8059,9 @@
               },
               "hands_no_hh": 3740,
               "bb100_no_hh": 1.34,
-              "is_top_value": false
+              "is_top_value": false,
+              "extra_hands": 193,
+              "marginal_bb100": 2.59
             },
             {
               "prize": 90.0,
@@ -7129,7 +8075,9 @@
               },
               "hands_no_hh": 3547,
               "bb100_no_hh": 1.27,
-              "is_top_value": false
+              "is_top_value": false,
+              "extra_hands": 280,
+              "marginal_bb100": 1.79
             },
             {
               "prize": 80.0,
@@ -7143,7 +8091,9 @@
               },
               "hands_no_hh": 3267,
               "bb100_no_hh": 1.22,
-              "is_top_value": false
+              "is_top_value": false,
+              "extra_hands": 345,
+              "marginal_bb100": 1.45
             },
             {
               "prize": 70.0,
@@ -7157,7 +8107,9 @@
               },
               "hands_no_hh": 2922,
               "bb100_no_hh": 1.2,
-              "is_top_value": false
+              "is_top_value": false,
+              "extra_hands": 256,
+              "marginal_bb100": 1.95
             },
             {
               "prize": 60.0,
@@ -7171,7 +8123,9 @@
               },
               "hands_no_hh": 2666,
               "bb100_no_hh": 1.13,
-              "is_top_value": false
+              "is_top_value": false,
+              "extra_hands": 348,
+              "marginal_bb100": 1.44
             },
             {
               "prize": 50.0,
@@ -7185,7 +8139,9 @@
               },
               "hands_no_hh": 2318,
               "bb100_no_hh": 1.08,
-              "is_top_value": false
+              "is_top_value": false,
+              "extra_hands": 417,
+              "marginal_bb100": 1.2
             },
             {
               "prize": 40.0,
@@ -7199,7 +8155,9 @@
               },
               "hands_no_hh": 1901,
               "bb100_no_hh": 1.05,
-              "is_top_value": false
+              "is_top_value": false,
+              "extra_hands": 387,
+              "marginal_bb100": 1.29
             },
             {
               "prize": 30.0,
@@ -7213,7 +8171,9 @@
               },
               "hands_no_hh": 1514,
               "bb100_no_hh": 0.99,
-              "is_top_value": false
+              "is_top_value": false,
+              "extra_hands": 200,
+              "marginal_bb100": 2.5
             },
             {
               "prize": 20.0,
@@ -7227,7 +8187,9 @@
               },
               "hands_no_hh": 1314,
               "bb100_no_hh": 0.76,
-              "is_top_value": false
+              "is_top_value": false,
+              "extra_hands": 1314,
+              "marginal_bb100": 0.76
             }
           ]
         },
@@ -7248,7 +8210,9 @@
               },
               "hands_no_hh": 2723,
               "bb100_no_hh": 5.51,
-              "is_top_value": true
+              "is_top_value": true,
+              "extra_hands": 327,
+              "marginal_bb100": 10.4
             },
             {
               "prize": 580.0,
@@ -7262,7 +8226,9 @@
               },
               "hands_no_hh": 2396,
               "bb100_no_hh": 4.84,
-              "is_top_value": true
+              "is_top_value": true,
+              "extra_hands": 236,
+              "marginal_bb100": 11.02
             },
             {
               "prize": 450.0,
@@ -7276,7 +8242,9 @@
               },
               "hands_no_hh": 2160,
               "bb100_no_hh": 4.17,
-              "is_top_value": true
+              "is_top_value": true,
+              "extra_hands": 95,
+              "marginal_bb100": 21.05
             },
             {
               "prize": 350.0,
@@ -7290,7 +8258,9 @@
               },
               "hands_no_hh": 2065,
               "bb100_no_hh": 3.39,
-              "is_top_value": false
+              "is_top_value": false,
+              "extra_hands": 75,
+              "marginal_bb100": 21.33
             },
             {
               "prize": 270.0,
@@ -7304,7 +8274,9 @@
               },
               "hands_no_hh": 1990,
               "bb100_no_hh": 2.71,
-              "is_top_value": false
+              "is_top_value": false,
+              "extra_hands": 224,
+              "marginal_bb100": 3.57
             },
             {
               "prize": 230.0,
@@ -7318,7 +8290,9 @@
               },
               "hands_no_hh": 1766,
               "bb100_no_hh": 2.6,
-              "is_top_value": false
+              "is_top_value": false,
+              "extra_hands": 175,
+              "marginal_bb100": 2.29
             },
             {
               "prize": 210.0,
@@ -7332,7 +8306,9 @@
               },
               "hands_no_hh": 1591,
               "bb100_no_hh": 2.64,
-              "is_top_value": false
+              "is_top_value": false,
+              "extra_hands": 202,
+              "marginal_bb100": 1.98
             },
             {
               "prize": 190.0,
@@ -7346,7 +8322,9 @@
               },
               "hands_no_hh": 1389,
               "bb100_no_hh": 2.74,
-              "is_top_value": false
+              "is_top_value": false,
+              "extra_hands": 110,
+              "marginal_bb100": 3.64
             },
             {
               "prize": 170.0,
@@ -7360,7 +8338,9 @@
               },
               "hands_no_hh": 1279,
               "bb100_no_hh": 2.66,
-              "is_top_value": false
+              "is_top_value": false,
+              "extra_hands": 9,
+              "marginal_bb100": 44.44
             },
             {
               "prize": 150.0,
@@ -7374,7 +8354,9 @@
               },
               "hands_no_hh": 1270,
               "bb100_no_hh": 2.36,
-              "is_top_value": false
+              "is_top_value": false,
+              "extra_hands": 39,
+              "marginal_bb100": 5.13
             },
             {
               "prize": 140.0,
@@ -7388,7 +8370,9 @@
               },
               "hands_no_hh": 1231,
               "bb100_no_hh": 2.27,
-              "is_top_value": false
+              "is_top_value": false,
+              "extra_hands": 63,
+              "marginal_bb100": 3.17
             },
             {
               "prize": 130.0,
@@ -7402,7 +8386,9 @@
               },
               "hands_no_hh": 1168,
               "bb100_no_hh": 2.23,
-              "is_top_value": false
+              "is_top_value": false,
+              "extra_hands": 75,
+              "marginal_bb100": 2.67
             },
             {
               "prize": 120.0,
@@ -7416,7 +8402,9 @@
               },
               "hands_no_hh": 1093,
               "bb100_no_hh": 2.2,
-              "is_top_value": false
+              "is_top_value": false,
+              "extra_hands": 48,
+              "marginal_bb100": 4.17
             },
             {
               "prize": 110.0,
@@ -7430,7 +8418,9 @@
               },
               "hands_no_hh": 1045,
               "bb100_no_hh": 2.11,
-              "is_top_value": false
+              "is_top_value": false,
+              "extra_hands": 131,
+              "marginal_bb100": 1.53
             },
             {
               "prize": 100.0,
@@ -7444,7 +8434,9 @@
               },
               "hands_no_hh": 914,
               "bb100_no_hh": 2.19,
-              "is_top_value": false
+              "is_top_value": false,
+              "extra_hands": 155,
+              "marginal_bb100": 1.29
             },
             {
               "prize": 90.0,
@@ -7458,7 +8450,9 @@
               },
               "hands_no_hh": 759,
               "bb100_no_hh": 2.37,
-              "is_top_value": false
+              "is_top_value": false,
+              "extra_hands": 45,
+              "marginal_bb100": 4.44
             },
             {
               "prize": 80.0,
@@ -7472,7 +8466,9 @@
               },
               "hands_no_hh": 714,
               "bb100_no_hh": 2.24,
-              "is_top_value": false
+              "is_top_value": false,
+              "extra_hands": 104,
+              "marginal_bb100": 1.92
             },
             {
               "prize": 70.0,
@@ -7486,7 +8482,9 @@
               },
               "hands_no_hh": 610,
               "bb100_no_hh": 2.3,
-              "is_top_value": false
+              "is_top_value": false,
+              "extra_hands": 68,
+              "marginal_bb100": 2.94
             },
             {
               "prize": 60.0,
@@ -7500,7 +8498,9 @@
               },
               "hands_no_hh": 542,
               "bb100_no_hh": 2.21,
-              "is_top_value": false
+              "is_top_value": false,
+              "extra_hands": 6,
+              "marginal_bb100": 33.33
             },
             {
               "prize": 50.0,
@@ -7514,7 +8514,9 @@
               },
               "hands_no_hh": 536,
               "bb100_no_hh": 1.87,
-              "is_top_value": false
+              "is_top_value": false,
+              "extra_hands": 536,
+              "marginal_bb100": 1.87
             }
           ]
         },
@@ -7535,7 +8537,9 @@
               },
               "hands_no_hh": 1808,
               "bb100_no_hh": 6.64,
-              "is_top_value": true
+              "is_top_value": true,
+              "extra_hands": 369,
+              "marginal_bb100": 10.84
             },
             {
               "prize": 800.0,
@@ -7549,7 +8553,9 @@
               },
               "hands_no_hh": 1439,
               "bb100_no_hh": 5.56,
-              "is_top_value": true
+              "is_top_value": true,
+              "extra_hands": 244,
+              "marginal_bb100": 10.25
             },
             {
               "prize": 550.0,
@@ -7563,7 +8569,9 @@
               },
               "hands_no_hh": 1195,
               "bb100_no_hh": 4.6,
-              "is_top_value": true
+              "is_top_value": true,
+              "extra_hands": 144,
+              "marginal_bb100": 8.33
             },
             {
               "prize": 430.0,
@@ -7577,7 +8585,9 @@
               },
               "hands_no_hh": 1051,
               "bb100_no_hh": 4.09,
-              "is_top_value": false
+              "is_top_value": false,
+              "extra_hands": 93,
+              "marginal_bb100": 4.3
             },
             {
               "prize": 390.0,
@@ -7591,7 +8601,9 @@
               },
               "hands_no_hh": 958,
               "bb100_no_hh": 4.07,
-              "is_top_value": false
+              "is_top_value": false,
+              "extra_hands": 107,
+              "marginal_bb100": 3.74
             },
             {
               "prize": 350.0,
@@ -7605,7 +8617,9 @@
               },
               "hands_no_hh": 851,
               "bb100_no_hh": 4.11,
-              "is_top_value": false
+              "is_top_value": false,
+              "extra_hands": 12,
+              "marginal_bb100": 25.0
             },
             {
               "prize": 320.0,
@@ -7619,7 +8633,9 @@
               },
               "hands_no_hh": 839,
               "bb100_no_hh": 3.81,
-              "is_top_value": false
+              "is_top_value": false,
+              "extra_hands": 72,
+              "marginal_bb100": 4.17
             },
             {
               "prize": 290.0,
@@ -7633,7 +8649,9 @@
               },
               "hands_no_hh": 767,
               "bb100_no_hh": 3.78,
-              "is_top_value": false
+              "is_top_value": false,
+              "extra_hands": 59,
+              "marginal_bb100": 5.08
             },
             {
               "prize": 260.0,
@@ -7647,7 +8665,9 @@
               },
               "hands_no_hh": 708,
               "bb100_no_hh": 3.67,
-              "is_top_value": false
+              "is_top_value": false,
+              "extra_hands": 23,
+              "marginal_bb100": 8.7
             },
             {
               "prize": 240.0,
@@ -7661,7 +8681,9 @@
               },
               "hands_no_hh": 685,
               "bb100_no_hh": 3.5,
-              "is_top_value": false
+              "is_top_value": false,
+              "extra_hands": 35,
+              "marginal_bb100": 5.71
             },
             {
               "prize": 220.0,
@@ -7675,7 +8697,9 @@
               },
               "hands_no_hh": 650,
               "bb100_no_hh": 3.38,
-              "is_top_value": false
+              "is_top_value": false,
+              "extra_hands": 48,
+              "marginal_bb100": 4.17
             },
             {
               "prize": 200.0,
@@ -7689,7 +8713,9 @@
               },
               "hands_no_hh": 602,
               "bb100_no_hh": 3.32,
-              "is_top_value": false
+              "is_top_value": false,
+              "extra_hands": 59,
+              "marginal_bb100": 3.39
             },
             {
               "prize": 180.0,
@@ -7703,7 +8729,9 @@
               },
               "hands_no_hh": 543,
               "bb100_no_hh": 3.31,
-              "is_top_value": false
+              "is_top_value": false,
+              "extra_hands": 29,
+              "marginal_bb100": 3.45
             },
             {
               "prize": 170.0,
@@ -7717,7 +8745,9 @@
               },
               "hands_no_hh": 514,
               "bb100_no_hh": 3.31,
-              "is_top_value": false
+              "is_top_value": false,
+              "extra_hands": 37,
+              "marginal_bb100": 2.7
             },
             {
               "prize": 160.0,
@@ -7731,7 +8761,9 @@
               },
               "hands_no_hh": 477,
               "bb100_no_hh": 3.35,
-              "is_top_value": false
+              "is_top_value": false,
+              "extra_hands": 15,
+              "marginal_bb100": 6.67
             },
             {
               "prize": 150.0,
@@ -7745,7 +8777,9 @@
               },
               "hands_no_hh": 462,
               "bb100_no_hh": 3.25,
-              "is_top_value": false
+              "is_top_value": false,
+              "extra_hands": 23,
+              "marginal_bb100": 4.35
             },
             {
               "prize": 140.0,
@@ -7759,7 +8793,9 @@
               },
               "hands_no_hh": 439,
               "bb100_no_hh": 3.19,
-              "is_top_value": false
+              "is_top_value": false,
+              "extra_hands": 14,
+              "marginal_bb100": 7.14
             },
             {
               "prize": 130.0,
@@ -7773,7 +8809,9 @@
               },
               "hands_no_hh": 425,
               "bb100_no_hh": 3.06,
-              "is_top_value": false
+              "is_top_value": false,
+              "extra_hands": 21,
+              "marginal_bb100": 4.76
             },
             {
               "prize": 120.0,
@@ -7787,7 +8825,9 @@
               },
               "hands_no_hh": 404,
               "bb100_no_hh": 2.97,
-              "is_top_value": false
+              "is_top_value": false,
+              "extra_hands": 34,
+              "marginal_bb100": 2.94
             },
             {
               "prize": 110.0,
@@ -7801,7 +8841,9 @@
               },
               "hands_no_hh": 370,
               "bb100_no_hh": 2.97,
-              "is_top_value": false
+              "is_top_value": false,
+              "extra_hands": 20,
+              "marginal_bb100": 5.0
             },
             {
               "prize": 100.0,
@@ -7815,7 +8857,9 @@
               },
               "hands_no_hh": 350,
               "bb100_no_hh": 2.86,
-              "is_top_value": false
+              "is_top_value": false,
+              "extra_hands": 350,
+              "marginal_bb100": 2.86
             }
           ]
         }

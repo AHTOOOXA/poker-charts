@@ -18,6 +18,8 @@ interface PrizeLevel {
   is_top_value: boolean
   hands_max_hh?: number
   bb100_max_hh?: number
+  extra_hands?: number | null
+  marginal_bb100?: number | null
 }
 
 interface Stake {
@@ -57,7 +59,7 @@ function formatNumber(n: number): string {
 
 function formatHandsCompact(n: number): string {
   if (n >= 1000) {
-    return `${(n / 1000).toFixed(0)}k`
+    return `${(n / 1000).toFixed(1)}k`
   }
   return n.toFixed(0)
 }
@@ -81,6 +83,8 @@ function StakeTable({ stake, hasHappyHour }: { stake: Stake; hasHappyHour: boole
             <th className="py-2 px-2 text-right font-medium text-neutral-600" title="Maximum score needed (hardest day)">Max</th>
             <th className="py-2 px-2 text-right font-medium">Hands</th>
             <th className="py-2 px-2 text-right font-medium">bb/100</th>
+            <th className="py-2 px-2 text-right font-medium text-cyan-400/70" title="Extra hands needed vs tier below">+Hands</th>
+            <th className="py-2 px-2 text-right font-medium text-cyan-400/70" title="Marginal bb/100: effective rakeback of only the extra hands needed to reach this tier from the one below">Δ</th>
             {hasHappyHour && (
               <>
                 <th className="py-2 px-2 text-right font-medium text-amber-500/70">HH</th>
@@ -102,12 +106,12 @@ function StakeTable({ stake, hasHappyHour }: { stake: Stake; hasHappyHour: boole
                 {level.ranks}
               </td>
               <td className="py-1.5 px-2 text-right font-medium">
+                {level.is_top_value && (
+                  <span className="mr-0.5 text-emerald-500 text-xs">★</span>
+                )}
                 <span className={cn(level.is_top_value && 'text-emerald-400')}>
                   ${level.prize}
                 </span>
-                {level.is_top_value && (
-                  <span className="ml-0.5 text-emerald-500 text-xs">★</span>
-                )}
               </td>
               <td className="py-1.5 px-2 text-right text-neutral-600 font-mono text-xs">
                 {formatNumber(level.distribution.min)}
@@ -134,6 +138,12 @@ function StakeTable({ stake, hasHappyHour }: { stake: Stake; hasHappyHour: boole
                 )}
               >
                 {level.bb100_no_hh.toFixed(2)}
+              </td>
+              <td className="py-1.5 px-2 text-right font-mono text-xs text-cyan-400/70">
+                {level.extra_hands != null ? formatHandsCompact(level.extra_hands) : '—'}
+              </td>
+              <td className="py-1.5 px-2 text-right font-mono text-xs text-cyan-400/70">
+                {level.marginal_bb100 != null ? level.marginal_bb100.toFixed(1) : '—'}
               </td>
               {hasHappyHour && (
                 <>
@@ -270,6 +280,7 @@ export function RakebackAnalysis() {
           <span>
             <span className="text-emerald-400">★</span> Best value (top 3 bb/100)
           </span>
+          <span className="text-cyan-400/70">+Hands / Δ = Extra volume &amp; marginal bb/100 vs tier below</span>
           {currentGame?.has_happy_hour && (
             <span className="text-amber-500/70">HH = Max happy hour bonus</span>
           )}
