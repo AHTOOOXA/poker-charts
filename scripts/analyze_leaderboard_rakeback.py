@@ -7,9 +7,9 @@ Outputs:
 - Markdown report for documentation
 
 Includes:
-- Rakeback by prize level for each (gamemode, stake)
-- Score variance analysis
-- Temporal patterns and anomaly detection
+- Points distribution per prize tier (for swarm plot visualization)
+- Hands and bb/100 calculations (with and without Happy Hour)
+- Day-of-week variance analysis
 """
 
 import csv
@@ -43,31 +43,33 @@ PTS_PER_HAND = {
 # Max happy hour bonus (Rush only): 4 tables × 220 hands/hr × 2 hours × 1.5 pts/hand
 MAX_HH_BONUS = 2640
 
+# Holiday dates to exclude from day-of-week analysis
+HOLIDAYS = {
+    '2025-12-24', '2025-12-25', '2025-12-26',  # Christmas
+    '2025-12-31', '2026-01-01', '2026-01-02',  # New Year
+    '2026-01-06',  # Epiphany
+}
+
 
 def parse_csv_files(leaderboards_dir: Path) -> list[dict]:
     """Parse all CSV files and return list of entries."""
     entries = []
 
     for csv_file in leaderboards_dir.glob("*.csv"):
-        # Skip non-leaderboard files
         if csv_file.stem in ("stats",):
             continue
 
-        # Parse filename
         parts = csv_file.stem.split("-")
 
         if len(parts) >= 6 and parts[0] == "rush":
-            # rush-holdem-nl25-2026-01-18
             game_type = "rush"
             stake = parts[2]
             date_str = f"{parts[3]}-{parts[4]}-{parts[5]}"
         elif len(parts) >= 5 and parts[0] == "holdem9max":
-            # holdem9max-nl25-2026-01-18
             game_type = "9max"
             stake = parts[1]
             date_str = f"{parts[2]}-{parts[3]}-{parts[4]}"
         elif len(parts) >= 5 and parts[0] == "holdem":
-            # holdem-nl25-2026-01-18
             game_type = "regular"
             stake = parts[1]
             date_str = f"{parts[2]}-{parts[3]}-{parts[4]}"
@@ -76,6 +78,14 @@ def parse_csv_files(leaderboards_dir: Path) -> list[dict]:
 
         if stake not in STAKE_TO_BB:
             continue
+
+        try:
+            dt = datetime.strptime(date_str, "%Y-%m-%d")
+            dow = dt.strftime("%a")
+        except ValueError:
+            continue
+
+        is_holiday = date_str in HOLIDAYS
 
         with open(csv_file, "r", encoding="utf-8") as f:
             reader = csv.DictReader(f)
@@ -88,6 +98,8 @@ def parse_csv_files(leaderboards_dir: Path) -> list[dict]:
                     if rank > 0 and prize > 0:
                         entries.append({
                             "date": date_str,
+                            "dow": dow,
+                            "is_holiday": is_holiday,
                             "game_type": game_type,
                             "stake": stake,
                             "rank": rank,
@@ -101,16 +113,10 @@ def parse_csv_files(leaderboards_dir: Path) -> list[dict]:
 
 
 def calculate_hands(points: float, game_type: str, max_hh: bool = False) -> int:
-    """
-    Calculate hands needed to earn given points.
-
-    For Rush with max HH: hands = (points - 2640) / 1.5
-    Otherwise: hands = points / pts_per_hand
-    """
+    """Calculate hands needed to earn given points."""
     base_rate = PTS_PER_HAND[game_type]
 
     if game_type == "rush" and max_hh:
-        # Subtract max HH bonus, then divide by base rate
         adjusted_points = max(0, points - MAX_HH_BONUS)
         return int(adjusted_points / base_rate)
     else:
@@ -126,15 +132,28 @@ def calculate_rakeback_bb100(prize: float, hands: int, stake: str) -> float:
     return (prize_in_bb / hands) * 100
 
 
+def percentile(sorted_list: list, p: float) -> float:
+    """Calculate percentile from sorted list."""
+    if not sorted_list:
+        return 0
+    k = (len(sorted_list) - 1) * p
+    f = int(k)
+    c = f + 1 if f + 1 < len(sorted_list) else f
+    return sorted_list[f] + (sorted_list[c] - sorted_list[f]) * (k - f)
+
+
 def analyze_prize_levels(entries: list[dict]) -> dict:
     """
     Group entries by (game_type, stake, prize) and calculate statistics.
+
+    For each prize tier, we track the MINIMUM score needed to win that prize
+    (i.e., the cutoff - the lowest-scoring person who still won that prize each day).
     """
-    # Group by game_type -> stake -> prize
-    grouped = defaultdict(lambda: defaultdict(lambda: defaultdict(list)))
+    # Group by game_type -> stake -> prize -> date -> entries
+    grouped = defaultdict(lambda: defaultdict(lambda: defaultdict(lambda: defaultdict(list))))
 
     for e in entries:
-        grouped[e["game_type"]][e["stake"]][e["prize"]].append(e)
+        grouped[e["game_type"]][e["stake"]][e["prize"]][e["date"]].append(e)
 
     results = {}
 
@@ -145,25 +164,39 @@ def analyze_prize_levels(entries: list[dict]) -> dict:
             prize_stats = []
 
             for prize in sorted(grouped[game_type][stake].keys(), reverse=True):
-                prize_entries = grouped[game_type][stake][prize]
-                points_list = [e["points"] for e in prize_entries]
-                ranks = [e["rank"] for e in prize_entries]
+                # For each day, find the MINIMUM score that won this prize
+                # (the cutoff - lowest rank in this prize tier)
+                daily_minimums = []
+                all_ranks = []
 
-                n = len(points_list)
-                avg_points = statistics.mean(points_list)
-                min_points = min(points_list)
-                max_points = max(points_list)
-                std_points = statistics.stdev(points_list) if n > 1 else 0
-                cv = (std_points / avg_points * 100) if avg_points > 0 else 0
+                for date, day_entries in grouped[game_type][stake][prize].items():
+                    # Find the entry with the highest rank (lowest placement) for this prize
+                    # That person had the minimum score needed to win this prize
+                    min_score_entry = max(day_entries, key=lambda e: e["rank"])
+                    daily_minimums.append(min_score_entry["points"])
+                    all_ranks.extend([e["rank"] for e in day_entries])
+
+                n = len(daily_minimums)
+                if n < 2:
+                    continue
+
+                points_list = sorted(daily_minimums)
+
+                # Calculate percentiles for distribution of daily minimums
+                p_min = min(points_list)
+                p25 = percentile(points_list, 0.25)
+                p50 = percentile(points_list, 0.50)  # median
+                p75 = percentile(points_list, 0.75)
+                p_max = max(points_list)
 
                 # Rank range
-                min_rank = min(ranks)
-                max_rank = max(ranks)
+                min_rank = min(all_ranks)
+                max_rank = max(all_ranks)
                 rank_str = str(min_rank) if min_rank == max_rank else f"{min_rank}-{max_rank}"
 
-                # Calculate hands and rakeback for both scenarios
-                hands_no_hh = calculate_hands(avg_points, game_type, max_hh=False)
-                hands_max_hh = calculate_hands(avg_points, game_type, max_hh=True)
+                # Calculate hands and rakeback using median
+                hands_no_hh = calculate_hands(p50, game_type, max_hh=False)
+                hands_max_hh = calculate_hands(p50, game_type, max_hh=True)
 
                 bb100_no_hh = calculate_rakeback_bb100(prize, hands_no_hh, stake)
                 bb100_max_hh = calculate_rakeback_bb100(prize, hands_max_hh, stake)
@@ -172,11 +205,15 @@ def analyze_prize_levels(entries: list[dict]) -> dict:
                     "prize": prize,
                     "ranks": rank_str,
                     "count": n,
-                    "avg_points": avg_points,
-                    "min_points": min_points,
-                    "max_points": max_points,
-                    "std_points": std_points,
-                    "cv": cv,
+                    # Distribution of daily minimum scores (cutoffs)
+                    "distribution": {
+                        "min": round(p_min),
+                        "p25": round(p25),
+                        "median": round(p50),
+                        "p75": round(p75),
+                        "max": round(p_max),
+                    },
+                    # Calculated metrics
                     "hands_no_hh": hands_no_hh,
                     "hands_max_hh": hands_max_hh,
                     "bb100_no_hh": bb100_no_hh,
@@ -188,86 +225,165 @@ def analyze_prize_levels(entries: list[dict]) -> dict:
     return results
 
 
-def analyze_temporal_patterns(entries: list[dict]) -> dict:
-    """Analyze day-of-week patterns and detect anomalies for rank 1 scores."""
-    # Group by game_type -> stake -> date -> entries
-    by_date = defaultdict(lambda: defaultdict(lambda: defaultdict(list)))
+def analyze_day_of_week(entries: list[dict]) -> dict:
+    """
+    Analyze day-of-week patterns for rank 1 across stakes.
+    Returns summary for the disclaimer.
+    """
+    # Filter out holidays for cleaner day-of-week analysis
+    non_holiday = [e for e in entries if not e["is_holiday"]]
 
-    for e in entries:
-        by_date[e["game_type"]][e["stake"]][e["date"]].append(e)
+    # Weight by stake (lower stakes = bigger pools = more weight)
+    stake_weights = {
+        'nl2': 5, 'nl5': 4, 'nl10': 3, 'nl25': 2,
+        'nl50': 1, 'nl100': 0.5, 'nl200': 0.25,
+    }
 
-    results = {"day_of_week": {}, "anomalies": {}}
-    dow_order = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"]
+    days = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun']
 
-    for game_type in sorted(by_date.keys()):
-        results["day_of_week"][game_type] = {}
+    results = {}
 
-        for stake in sorted(by_date[game_type].keys(), key=lambda s: STAKE_TO_BB.get(s, 0)):
-            # Get rank 1 score for each date
-            rank1_by_date = {}
-            for date, date_entries in by_date[game_type][stake].items():
-                rank1 = [e for e in date_entries if e["rank"] == 1]
-                if rank1:
-                    rank1_by_date[date] = rank1[0]["points"]
+    for game_type in ['rush', 'regular', '9max']:
+        game_entries = [e for e in non_holiday if e['game_type'] == game_type]
+        if not game_entries:
+            continue
 
-            if not rank1_by_date:
-                continue
+        # Collect weighted rankings
+        weighted_rankings = defaultdict(list)
 
-            # Day of week analysis - min/avg/max rank 1 score by day
-            dow_scores = defaultdict(list)
-            for date, pts in rank1_by_date.items():
-                dt = datetime.strptime(date, "%Y-%m-%d")
-                dow = dt.strftime("%A")
-                dow_scores[dow].append(pts)
+        stakes = set(e['stake'] for e in game_entries)
+        for stake in stakes:
+            weight = stake_weights.get(stake, 1)
+            stake_entries = [e for e in game_entries if e['stake'] == stake]
 
-            dow_stats = []
-            for dow in dow_order:
-                scores = dow_scores.get(dow, [])
-                if scores:
-                    dow_stats.append({
-                        "day": dow[:3],
-                        "min": round(min(scores)),
-                        "avg": round(statistics.mean(scores)),
-                        "max": round(max(scores)),
-                        "n": len(scores),
-                    })
-            results["day_of_week"][game_type][stake] = dow_stats
+            # Get top 3 prize tiers
+            top_prizes = sorted(set(e['prize'] for e in stake_entries), reverse=True)[:3]
 
-    # Anomaly detection (dates with unusually high/low top scores)
-    for game_type in sorted(by_date.keys()):
-        results["anomalies"][game_type] = {}
+            for prize in top_prizes:
+                prize_entries = [e for e in stake_entries if e['prize'] == prize]
 
-        for stake in sorted(by_date[game_type].keys(), key=lambda s: STAKE_TO_BB.get(s, 0)):
-            # Get top score (rank 1) for each date
-            top_scores = []
-            for date, date_entries in by_date[game_type][stake].items():
-                rank1_entries = [e for e in date_entries if e["rank"] == 1]
-                if rank1_entries:
-                    top_scores.append({"date": date, "points": rank1_entries[0]["points"]})
+                by_day = defaultdict(list)
+                for e in prize_entries:
+                    by_day[e['dow']].append(e['points'])
 
-            if len(top_scores) < 7:
-                continue
+                day_medians = {
+                    day: statistics.median(pts)
+                    for day, pts in by_day.items()
+                    if len(pts) >= 2
+                }
 
-            points_list = [s["points"] for s in top_scores]
-            mean_pts = statistics.mean(points_list)
-            std_pts = statistics.stdev(points_list)
+                if len(day_medians) >= 5:
+                    sorted_days = sorted(day_medians.keys(), key=lambda d: day_medians[d])
+                    for rank, day in enumerate(sorted_days, 1):
+                        weighted_rankings[day].append((rank, weight))
 
-            # Flag dates > 2 std devs from mean
-            anomalies = []
-            for s in top_scores:
-                z_score = (s["points"] - mean_pts) / std_pts if std_pts > 0 else 0
-                if abs(z_score) > 2:
-                    anomalies.append({
-                        "date": s["date"],
-                        "points": s["points"],
-                        "z_score": round(z_score, 2),
-                        "type": "high" if z_score > 0 else "low",
-                    })
+        # Calculate weighted average rank per day
+        day_scores = {}
+        for day in days:
+            entries_for_day = weighted_rankings.get(day, [])
+            if entries_for_day:
+                weighted_sum = sum(rank * weight for rank, weight in entries_for_day)
+                total_weight = sum(weight for _, weight in entries_for_day)
+                day_scores[day] = weighted_sum / total_weight
 
-            if anomalies:
-                results["anomalies"][game_type][stake] = sorted(anomalies, key=lambda x: x["date"])
+        if day_scores:
+            sorted_days = sorted(day_scores.keys(), key=lambda d: day_scores[d])
+            easiest = sorted_days[0]
+            hardest = sorted_days[-1]
+
+            # Calculate variance percentage
+            if easiest in day_scores and hardest in day_scores:
+                # Get actual point difference for top prizes
+                variance_samples = []
+                for stake in stakes:
+                    stake_entries = [e for e in game_entries if e['stake'] == stake]
+                    top_prize = max(e['prize'] for e in stake_entries)
+                    prize_entries = [e for e in stake_entries if e['prize'] == top_prize]
+
+                    by_day = defaultdict(list)
+                    for e in prize_entries:
+                        by_day[e['dow']].append(e['points'])
+
+                    if easiest in by_day and hardest in by_day:
+                        easy_med = statistics.median(by_day[easiest])
+                        hard_med = statistics.median(by_day[hardest])
+                        if easy_med > 0:
+                            variance_samples.append((hard_med - easy_med) / easy_med * 100)
+
+                # Use median of absolute variances to avoid cancellation
+                avg_variance = statistics.median([abs(v) for v in variance_samples]) if variance_samples else 15
+            else:
+                avg_variance = 15
+
+            results[game_type] = {
+                "easiest_day": easiest,
+                "hardest_day": hardest,
+                "variance_pct": round(avg_variance),
+                "day_scores": {day: round(score, 2) for day, score in day_scores.items()},
+            }
 
     return results
+
+
+def build_json_data(prize_analysis: dict, dow_analysis: dict) -> dict:
+    """Build JSON data structure for the web app."""
+    game_names = {"rush": "Rush & Cash", "regular": "Regular Holdem", "9max": "9-max Holdem"}
+
+    data = {
+        "generated_at": datetime.now().isoformat(),
+        "day_of_week": dow_analysis,
+        "game_types": [],
+    }
+
+    for game_type in ["rush", "regular", "9max"]:
+        if game_type not in prize_analysis:
+            continue
+
+        game_data = {
+            "id": game_type,
+            "name": game_names[game_type],
+            "has_happy_hour": game_type == "rush",
+            "pts_per_hand": PTS_PER_HAND[game_type],
+            "stakes": [],
+        }
+
+        for stake in prize_analysis[game_type]:
+            stats = prize_analysis[game_type][stake]
+            if not stats:
+                continue
+
+            # Find top 3 best value (highest bb/100)
+            sorted_by_value = sorted(stats, key=lambda x: x["bb100_no_hh"], reverse=True)
+            top3_prizes = {s["prize"] for s in sorted_by_value[:3]}
+
+            stake_data = {
+                "id": stake,
+                "name": stake.upper(),
+                "bb_value": STAKE_TO_BB[stake],
+                "prize_levels": [],
+            }
+
+            for s in stats:
+                level = {
+                    "prize": s["prize"],
+                    "ranks": s["ranks"],
+                    "distribution": s["distribution"],
+                    "hands_no_hh": s["hands_no_hh"],
+                    "bb100_no_hh": round(s["bb100_no_hh"], 2),
+                    "is_top_value": s["prize"] in top3_prizes,
+                }
+
+                if game_type == "rush":
+                    level["hands_max_hh"] = s["hands_max_hh"]
+                    level["bb100_max_hh"] = round(s["bb100_max_hh"], 2)
+
+                stake_data["prize_levels"].append(level)
+
+            game_data["stakes"].append(stake_data)
+
+        data["game_types"].append(game_data)
+
+    return data
 
 
 def format_number(n: float) -> str:
@@ -277,12 +393,25 @@ def format_number(n: float) -> str:
     return f"{n:.0f}"
 
 
-def generate_markdown_report(prize_analysis: dict, temporal: dict) -> str:
+def generate_markdown_report(prize_analysis: dict, dow_analysis: dict) -> str:
     """Generate the markdown report."""
     lines = [
         "# GGPoker Leaderboard Rakeback Analysis",
         "",
         "Effective rakeback in bb/100 calculated from leaderboard prize data.",
+        "",
+        "## Day of Week Patterns",
+        "",
+    ]
+
+    for game_type, dow_data in dow_analysis.items():
+        game_names = {"rush": "Rush & Cash", "regular": "Regular Holdem", "9max": "9-max Holdem"}
+        lines.append(f"**{game_names.get(game_type, game_type)}:** "
+                    f"{dow_data['easiest_day']} is easiest, "
+                    f"{dow_data['hardest_day']} is hardest "
+                    f"(~{dow_data['variance_pct']}% variance)")
+
+    lines.extend([
         "",
         "## Methodology",
         "",
@@ -299,17 +428,13 @@ def generate_markdown_report(prize_analysis: dict, temporal: dict) -> str:
         "",
         "**Happy Hour (Rush only):**",
         "- Max daily bonus: 2,640 pts (4 tables × 220 hands/hr × 2 hrs × 1.5 pts)",
-        "- 0% HH: `hands = points / 1.5`",
-        "- Max HH: `hands = (points - 2640) / 1.5`",
         "",
         "---",
         "",
-    ]
+    ])
 
-    # Game type display names
     game_names = {"rush": "Rush & Cash", "regular": "Regular Holdem", "9max": "9-max Holdem"}
 
-    # Prize level tables
     for game_type in ["rush", "regular", "9max"]:
         if game_type not in prize_analysis:
             continue
@@ -325,170 +450,36 @@ def generate_markdown_report(prize_analysis: dict, temporal: dict) -> str:
             lines.append(f"### {stake.upper()}")
             lines.append("")
 
-            # Header differs for Rush (has HH columns) vs Regular/9max
             if game_type == "rush":
-                lines.append("| Prize | Ranks | N | Avg Pts | Range | CV% | Hands (0%HH) | bb/100 | Hands (maxHH) | bb/100 |")
-                lines.append("|------:|:-----:|--:|--------:|------:|----:|-------------:|-------:|--------------:|-------:|")
+                lines.append("| Prize | Ranks | Points (p25-med-p75) | Hands | bb/100 | HH Hands | HH bb/100 |")
+                lines.append("|------:|:-----:|---------------------:|------:|-------:|---------:|----------:|")
             else:
-                lines.append("| Prize | Ranks | N | Avg Pts | Range | CV% | Hands | bb/100 |")
-                lines.append("|------:|:-----:|--:|--------:|------:|----:|------:|-------:|")
+                lines.append("| Prize | Ranks | Points (p25-med-p75) | Hands | bb/100 |")
+                lines.append("|------:|:-----:|---------------------:|------:|-------:|")
 
             for s in stats:
-                range_str = f"{format_number(s['min_points'])}-{format_number(s['max_points'])}"
+                d = s["distribution"]
+                pts_str = f"{format_number(d['p25'])}-{format_number(d['median'])}-{format_number(d['p75'])}"
 
                 if game_type == "rush":
                     lines.append(
-                        f"| ${s['prize']:.0f} | {s['ranks']} | {s['count']} | "
-                        f"{format_number(s['avg_points'])} | {range_str} | {s['cv']:.0f}% | "
+                        f"| ${s['prize']:.0f} | {s['ranks']} | {pts_str} | "
                         f"{format_number(s['hands_no_hh'])} | {s['bb100_no_hh']:.2f} | "
                         f"{format_number(s['hands_max_hh'])} | {s['bb100_max_hh']:.2f} |"
                     )
                 else:
                     lines.append(
-                        f"| ${s['prize']:.0f} | {s['ranks']} | {s['count']} | "
-                        f"{format_number(s['avg_points'])} | {range_str} | {s['cv']:.0f}% | "
+                        f"| ${s['prize']:.0f} | {s['ranks']} | {pts_str} | "
                         f"{format_number(s['hands_no_hh'])} | {s['bb100_no_hh']:.2f} |"
                     )
 
             lines.append("")
 
-    # Day of week patterns
-    lines.append("---")
-    lines.append("")
-    lines.append("## Day of Week Patterns")
-    lines.append("")
-    lines.append("Points needed for rank 1 by day of week (min/avg/max).")
-    lines.append("")
-
-    for game_type in ["rush", "regular", "9max"]:
-        if game_type not in temporal["day_of_week"]:
-            continue
-
-        lines.append(f"### {game_names[game_type]}")
-        lines.append("")
-
-        for stake in temporal["day_of_week"][game_type]:
-            stats = temporal["day_of_week"][game_type][stake]
-            if not stats:
-                continue
-
-            lines.append(f"**{stake.upper()}:**")
-            for s in stats:
-                lines.append(f"  {s['day']}: {format_number(s['min'])}-{format_number(s['avg'])}-{format_number(s['max'])}")
-            lines.append("")
-
-        lines.append("")
-
-    # Anomalies
-    lines.append("---")
-    lines.append("")
-    lines.append("## Anomalies Detected")
-    lines.append("")
-    lines.append("Dates where competition was unusually high or low (>2 std dev from mean).")
-    lines.append("")
-
-    has_anomalies = False
-    for game_type in ["rush", "regular", "9max"]:
-        if game_type not in temporal["anomalies"]:
-            continue
-
-        game_anomalies = temporal["anomalies"][game_type]
-        if not game_anomalies:
-            continue
-
-        has_anomalies = True
-        lines.append(f"### {game_names[game_type]}")
-        lines.append("")
-
-        for stake in game_anomalies:
-            anomalies = game_anomalies[stake]
-            lines.append(f"**{stake.upper()}:**")
-            for a in anomalies:
-                emoji = "📈" if a["type"] == "high" else "📉"
-                lines.append(f"- {a['date']}: {format_number(a['points'])} pts (z={a['z_score']}) {emoji}")
-            lines.append("")
-
-    if not has_anomalies:
-        lines.append("No significant anomalies detected.")
-        lines.append("")
-
-    # Footer
     lines.append("---")
     lines.append("")
     lines.append(f"*Generated: {datetime.now().strftime('%Y-%m-%d %H:%M')}*")
 
     return "\n".join(lines)
-
-
-def build_json_data(prize_analysis: dict, temporal: dict) -> dict:
-    """Build JSON data structure for the web app."""
-    game_names = {"rush": "Rush & Cash", "regular": "Regular Holdem", "9max": "9-max Holdem"}
-
-    data = {
-        "generated_at": datetime.now().isoformat(),
-        "game_types": [],
-    }
-
-    for game_type in ["rush", "regular", "9max"]:
-        if game_type not in prize_analysis:
-            continue
-
-        game_data = {
-            "id": game_type,
-            "name": game_names[game_type],
-            "has_happy_hour": game_type == "rush",
-            "stakes": [],
-        }
-
-        for stake in prize_analysis[game_type]:
-            stats = prize_analysis[game_type][stake]
-            if not stats:
-                continue
-
-            # Find top 3 best value (highest bb/100 for 0% HH)
-            sorted_by_value = sorted(stats, key=lambda x: x["bb100_no_hh"], reverse=True)
-            top3_prizes = {s["prize"] for s in sorted_by_value[:3]}
-
-            stake_data = {
-                "id": stake,
-                "name": stake.upper(),
-                "bb_value": STAKE_TO_BB[stake],
-                "prize_levels": [],
-            }
-
-            for s in stats:
-                level = {
-                    "prize": s["prize"],
-                    "ranks": s["ranks"],
-                    "min_points": round(s["min_points"]),
-                    "max_points": round(s["max_points"]),
-                    "hands_no_hh": s["hands_no_hh"],
-                    "bb100_no_hh": round(s["bb100_no_hh"], 2),
-                    "is_top_value": s["prize"] in top3_prizes,
-                }
-
-                if game_type == "rush":
-                    level["hands_max_hh"] = s["hands_max_hh"]
-                    level["bb100_max_hh"] = round(s["bb100_max_hh"], 2)
-
-                stake_data["prize_levels"].append(level)
-
-            game_data["stakes"].append(stake_data)
-
-        data["game_types"].append(game_data)
-
-    # Add day of week patterns (rank 1 scores)
-    data["day_of_week"] = {}
-    for game_type in temporal["day_of_week"]:
-        data["day_of_week"][game_type] = temporal["day_of_week"][game_type]
-
-    # Add anomalies (unusual competition days)
-    data["anomalies"] = {}
-    for game_type in temporal.get("anomalies", {}):
-        if temporal["anomalies"][game_type]:
-            data["anomalies"][game_type] = temporal["anomalies"][game_type]
-
-    return data
 
 
 def main():
@@ -508,25 +499,24 @@ def main():
     print("Analyzing prize levels...")
     prize_analysis = analyze_prize_levels(entries)
 
-    print("Analyzing temporal patterns...")
-    temporal = analyze_temporal_patterns(entries)
+    print("Analyzing day-of-week patterns...")
+    dow_analysis = analyze_day_of_week(entries)
 
     print("Generating JSON data...")
-    json_data = build_json_data(prize_analysis, temporal)
+    json_data = build_json_data(prize_analysis, dow_analysis)
     with open(json_file, "w", encoding="utf-8") as f:
         json.dump(json_data, f, indent=2, ensure_ascii=False)
     print(f"JSON saved to: {json_file}")
 
     print("Generating markdown report...")
-    report = generate_markdown_report(prize_analysis, temporal)
+    report = generate_markdown_report(prize_analysis, dow_analysis)
     markdown_file.write_text(report)
     print(f"Markdown saved to: {markdown_file}")
 
     # Print summary
-    total_stakes = sum(len(stakes) for stakes in prize_analysis.values())
-    print(f"\nSummary:")
-    print(f"  Game types: {', '.join(prize_analysis.keys())}")
-    print(f"  Total stake/game combinations: {total_stakes}")
+    print(f"\nDay of Week Summary:")
+    for game, data in dow_analysis.items():
+        print(f"  {game}: {data['easiest_day']} (easiest) → {data['hardest_day']} (hardest), ~{data['variance_pct']}% variance")
 
 
 if __name__ == "__main__":

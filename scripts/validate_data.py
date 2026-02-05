@@ -593,12 +593,76 @@ class DataValidator:
         return issues
 
     # =========================================================================
-    # CHECK 11: STATS.JSON CONSISTENCY
+    # CHECK 11: RANK-POINTS INVERSION (lower rank has more points)
+    # =========================================================================
+
+    def check_rank_points_inversion(self, raw_files: dict) -> int:
+        """Detect when a lower-ranked player has more points than a higher-ranked player.
+
+        This indicates bad data - points should always decrease as rank increases.
+        Example: rank 11 with 62k points when rank 1 only has 55k.
+        """
+        print("\n[11] RANK-POINTS INVERSION")
+
+        issues = 0
+
+        for (game_type, stake, date_str), data in raw_files.items():
+            entries = data["data"]
+            if len(entries) < 2:
+                continue
+
+            label = game_type_label(game_type)
+            inversions = []
+
+            # Check each pair of consecutive entries
+            for i in range(1, len(entries)):
+                prev_entry = entries[i - 1]
+                curr_entry = entries[i]
+
+                prev_rank = prev_entry.get("rank", 0)
+                curr_rank = curr_entry.get("rank", 0)
+                prev_pts = float(prev_entry.get("points", 0))
+                curr_pts = float(curr_entry.get("points", 0))
+
+                # Current rank should have fewer or equal points than previous rank
+                if curr_pts > prev_pts and curr_rank > prev_rank:
+                    inversions.append({
+                        "rank": curr_rank,
+                        "points": curr_pts,
+                        "prev_rank": prev_rank,
+                        "prev_points": prev_pts,
+                        "nickname": curr_entry.get("nickname", "?"),
+                    })
+
+            if inversions:
+                # Report the worst inversion (biggest point difference)
+                worst = max(inversions, key=lambda x: x["points"] - x["prev_points"])
+                diff = worst["points"] - worst["prev_points"]
+                self.log(
+                    f"[{label}] {stake} {date_str}: rank {worst['rank']} ({worst['nickname']}) "
+                    f"has {worst['points']:.0f} pts but rank {worst['prev_rank']} only has {worst['prev_points']:.0f} pts "
+                    f"(+{diff:.0f} inversion)",
+                    "error"
+                )
+                issues += 1
+
+                # Show all inversions in verbose mode
+                if self.verbose and len(inversions) > 1:
+                    for inv in inversions:
+                        self.log(f"    rank {inv['rank']}: {inv['points']:.0f} > rank {inv['prev_rank']}: {inv['prev_points']:.0f}", "warning")
+
+        if issues == 0:
+            self.log("No rank-points inversions detected", "success")
+
+        return issues
+
+    # =========================================================================
+    # CHECK 12: STATS.JSON CONSISTENCY
     # =========================================================================
 
     def check_stats_consistency(self, csv_files: dict) -> int:
         """Verify stats.json matches CSV totals."""
-        print("\n[11] STATS.JSON CONSISTENCY")
+        print("\n[12] STATS.JSON CONSISTENCY")
 
         if not STATS_FILE.exists():
             self.log("stats.json not found - run build_leaderboard_stats.py", "warning")
@@ -622,12 +686,12 @@ class DataValidator:
         return issues
 
     # =========================================================================
-    # CHECK 12: DATE COVERAGE
+    # CHECK 13: DATE COVERAGE
     # =========================================================================
 
     def check_date_coverage(self, raw_files: dict) -> int:
         """Check for missing dates or stakes."""
-        print("\n[12] DATE COVERAGE")
+        print("\n[13] DATE COVERAGE")
 
         issues = 0
         stakes_by_type = {
@@ -711,6 +775,7 @@ class DataValidator:
         self.check_row_count_outliers(raw_files)
         self.check_minimum_row_counts(raw_files)
         self.check_rank_gaps(raw_files)
+        critical_issues += self.check_rank_points_inversion(raw_files)
         critical_issues += self.check_stats_consistency(csv_files)
         self.check_date_coverage(raw_files)
 
