@@ -73,24 +73,24 @@ function StakeTable({ stake, hasHappyHour }: { stake: Stake; hasHappyHour: boole
     <div className="rounded-lg border border-neutral-800/50 overflow-hidden">
       <table className="w-full text-sm">
         <thead>
-          <tr className="text-left text-neutral-500 text-xs bg-neutral-900/50">
+          <tr className="text-neutral-500 text-xs bg-neutral-900/50">
             <th className="py-2 px-2 text-center font-medium">Ranks</th>
             <th className="py-2 px-2 text-right font-medium">Prize</th>
-            <th className="py-2 px-2 text-right font-medium text-neutral-600" title="Minimum score needed (easiest day)">Min</th>
+            <th className="py-2 px-2 text-right font-medium text-neutral-600 border-l border-neutral-800/50" title="Minimum score needed (easiest day)">Min</th>
             <th className="py-2 px-2 text-right font-medium" title="25th percentile">p25</th>
             <th className="py-2 px-2 text-right font-medium text-violet-400/70" title="Median score needed (typical day)">Med</th>
             <th className="py-2 px-2 text-right font-medium" title="75th percentile">p75</th>
             <th className="py-2 px-2 text-right font-medium text-neutral-600" title="Maximum score needed (hardest day)">Max</th>
-            <th className="py-2 px-2 text-right font-medium">Hands</th>
+            <th className="py-2 px-2 text-right font-medium border-l border-neutral-800/50">Hands</th>
             <th className="py-2 px-2 text-right font-medium">bb/100</th>
-            <th className="py-2 px-2 text-right font-medium text-cyan-400/70" title="Extra hands needed vs tier below">+Hands</th>
-            <th className="py-2 px-2 text-right font-medium text-cyan-400/70" title="Marginal bb/100: effective rakeback of only the extra hands needed to reach this tier from the one below">Δ</th>
             {hasHappyHour && (
               <>
-                <th className="py-2 px-2 text-right font-medium text-amber-500/70">HH</th>
+                <th className="py-2 px-2 text-right font-medium text-amber-500/70 border-l border-neutral-800/50">HH</th>
                 <th className="py-2 px-2 text-right font-medium text-amber-500/70">bb/100</th>
               </>
             )}
+            <th className="py-2 px-2 text-right font-medium text-cyan-400/70 border-l border-neutral-800/50" title="Extra hands needed vs tier below">+Hands</th>
+            <th className="py-2 px-2 text-right font-medium text-cyan-400/70" title="Marginal bb/100: effective rakeback of only the extra hands needed to reach this tier from the one below">Δ</th>
           </tr>
         </thead>
         <tbody>
@@ -99,7 +99,7 @@ function StakeTable({ stake, hasHappyHour }: { stake: Stake; hasHappyHour: boole
               key={idx}
               className={cn(
                 'border-t border-neutral-800/30 transition-colors hover:bg-neutral-800/30',
-                level.is_top_value && 'bg-emerald-500/5'
+                level.is_top_value ? 'bg-emerald-500/5' : idx % 2 === 1 && 'bg-neutral-900/30'
               )}
             >
               <td className="py-1.5 px-2 text-center text-neutral-400 text-xs">
@@ -113,7 +113,7 @@ function StakeTable({ stake, hasHappyHour }: { stake: Stake; hasHappyHour: boole
                   ${level.prize}
                 </span>
               </td>
-              <td className="py-1.5 px-2 text-right text-neutral-600 font-mono text-xs">
+              <td className="py-1.5 px-2 text-right text-neutral-600 font-mono text-xs border-l border-neutral-800/50">
                 {formatNumber(level.distribution.min)}
               </td>
               <td className="py-1.5 px-2 text-right text-neutral-400 font-mono text-xs">
@@ -128,7 +128,7 @@ function StakeTable({ stake, hasHappyHour }: { stake: Stake; hasHappyHour: boole
               <td className="py-1.5 px-2 text-right text-neutral-600 font-mono text-xs">
                 {formatNumber(level.distribution.max)}
               </td>
-              <td className="py-1.5 px-2 text-right text-neutral-400 font-mono text-xs">
+              <td className="py-1.5 px-2 text-right text-neutral-400 font-mono text-xs border-l border-neutral-800/50">
                 {formatHandsCompact(level.hands_no_hh)}
               </td>
               <td
@@ -139,15 +139,9 @@ function StakeTable({ stake, hasHappyHour }: { stake: Stake; hasHappyHour: boole
               >
                 {level.bb100_no_hh.toFixed(2)}
               </td>
-              <td className="py-1.5 px-2 text-right font-mono text-xs text-cyan-400/70">
-                {level.extra_hands != null ? formatHandsCompact(level.extra_hands) : '—'}
-              </td>
-              <td className="py-1.5 px-2 text-right font-mono text-xs text-cyan-400/70">
-                {level.marginal_bb100 != null ? level.marginal_bb100.toFixed(1) : '—'}
-              </td>
               {hasHappyHour && (
                 <>
-                  <td className="py-1.5 px-2 text-right text-amber-500/50 font-mono text-xs">
+                  <td className="py-1.5 px-2 text-right text-amber-500/50 font-mono text-xs border-l border-neutral-800/50">
                     {formatHandsCompact(level.hands_max_hh ?? 0)}
                   </td>
                   <td className="py-1.5 px-2 text-right text-amber-400 font-semibold text-xs">
@@ -155,6 +149,12 @@ function StakeTable({ stake, hasHappyHour }: { stake: Stake; hasHappyHour: boole
                   </td>
                 </>
               )}
+              <td className="py-1.5 px-2 text-right font-mono text-xs text-cyan-400/70 border-l border-neutral-800/50">
+                {level.extra_hands != null ? formatHandsCompact(level.extra_hands) : '—'}
+              </td>
+              <td className="py-1.5 px-2 text-right font-mono text-xs text-cyan-400/70">
+                {level.marginal_bb100 != null ? level.marginal_bb100.toFixed(1) : '—'}
+              </td>
             </tr>
           ))}
         </tbody>
