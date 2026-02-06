@@ -1,4 +1,5 @@
-import { useMemo, useState } from 'react'
+import { useMemo, useState, useCallback } from 'react'
+import { useSearch, useNavigate } from '@tanstack/react-router'
 import { PlayerSearchInput } from './PlayerSearchInput'
 import { PlayerFilters } from './PlayerFilters'
 import { PlayerList } from './PlayerList'
@@ -7,7 +8,12 @@ import { convertToQwerty } from '@/lib/search'
 import type { RegType, Stake } from '@/types/player'
 
 export function PlayerSearch() {
-  const [search, setSearch] = useState('')
+  const { q } = useSearch({ from: '/leaderboard/' })
+  const navigate = useNavigate({ from: '/leaderboard/' })
+  const search = q
+  const setSearch = useCallback((value: string) => {
+    navigate({ search: { q: value || undefined } as never, replace: true })
+  }, [navigate])
   const [selectedRegTypes, setSelectedRegTypes] = useState<RegType[]>([])
   const [selectedStakes, setSelectedStakes] = useState<Stake[]>([])
   const [sortBy, setSortBy] = useState<SortOption>('hands')

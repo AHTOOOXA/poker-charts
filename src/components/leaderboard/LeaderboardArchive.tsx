@@ -1,4 +1,5 @@
-import { useMemo, useState } from 'react'
+import { useMemo, useCallback } from 'react'
+import { useSearch, useNavigate } from '@tanstack/react-router'
 import { getLeaderboardResults, getDatesForStake, getStakesCovered, type GameType } from '@/data/players'
 import { STAKES, STAKE_LABELS, type Stake, type RegType, type PlayerType } from '@/types/player'
 import { RegTypeBadge } from '@/components/players/RegTypeBadge'
@@ -14,13 +15,28 @@ const REG_TO_PLAYER_TYPE: Record<RegType, PlayerType> = {
 }
 
 export function LeaderboardArchive() {
+  const search = useSearch({ from: '/leaderboard/archive' })
+  const navigate = useNavigate({ from: '/leaderboard/archive' })
   const availableStakes = useMemo(() => {
     const covered = new Set(getStakesCovered())
     return STAKES.filter(s => covered.has(s))
   }, [])
-  const [selectedStake, setSelectedStake] = useState<Stake>('nl100')
-  const [gameType, setGameType] = useState<GameType>('rush')
-  const [selectedDate, setSelectedDate] = useState<string>('')
+  const selectedStake = (search.stake as Stake) || 'nl100'
+  const gameType = (search.game as GameType) || 'rush'
+  const selectedDate = search.date || ''
+
+  const updateSearch = useCallback((updates: Record<string, string | undefined>) => {
+    navigate({ search: { ...search, ...updates } as never, replace: true })
+  }, [navigate, search])
+  const setSelectedStake = useCallback((value: Stake) => {
+    updateSearch({ stake: value, date: undefined })
+  }, [updateSearch])
+  const setGameType = useCallback((value: GameType) => {
+    updateSearch({ game: value, date: undefined })
+  }, [updateSearch])
+  const setSelectedDate = useCallback((value: string) => {
+    updateSearch({ date: value || undefined })
+  }, [updateSearch])
 
   const availableDates = useMemo(
     () => getDatesForStake(selectedStake, gameType),

@@ -1,14 +1,29 @@
-import { useState } from 'react'
+import { Link, Outlet } from '@tanstack/react-router'
 import { PlayerSearch } from '@/components/players/PlayerSearch'
-import { LeaderboardArchive } from './LeaderboardArchive'
+import { LeaderboardArchive as LeaderboardArchiveView } from './LeaderboardArchive'
 import { RakebackAnalysis } from './RakebackAnalysis'
 import { cn } from '@/lib/utils'
 import { getDatesCovered } from '@/data/players'
 
-type ViewMode = 'players' | 'archive' | 'rakeback'
+function TabLink({ to, label, exact }: { to: string; label: string; exact?: boolean }) {
+  return (
+    <Link
+      to={to}
+      activeOptions={{ exact }}
+      className={cn(
+        'px-3 py-1.5 rounded-md text-sm font-medium transition-colors',
+        'text-neutral-400 hover:text-neutral-200'
+      )}
+      activeProps={{
+        className: 'bg-neutral-700 text-white',
+      }}
+    >
+      {label}
+    </Link>
+  )
+}
 
 export function LeaderboardPage() {
-  const [viewMode, setViewMode] = useState<ViewMode>('players')
   const dates = getDatesCovered()
   const firstDate = dates[0]
   const lastDate = dates[dates.length - 1]
@@ -18,39 +33,9 @@ export function LeaderboardPage() {
       {/* View mode toggle + date range */}
       <div className="flex items-center gap-4 mb-4">
         <div className="flex gap-1 p-1 bg-neutral-900/50 rounded-lg w-fit">
-        <button
-          onClick={() => setViewMode('players')}
-          className={cn(
-            'px-3 py-1.5 rounded-md text-sm font-medium transition-colors',
-            viewMode === 'players'
-              ? 'bg-neutral-700 text-white'
-              : 'text-neutral-400 hover:text-neutral-200'
-          )}
-        >
-          Player Search
-        </button>
-        <button
-          onClick={() => setViewMode('archive')}
-          className={cn(
-            'px-3 py-1.5 rounded-md text-sm font-medium transition-colors',
-            viewMode === 'archive'
-              ? 'bg-neutral-700 text-white'
-              : 'text-neutral-400 hover:text-neutral-200'
-          )}
-        >
-          Results Archive
-        </button>
-        <button
-          onClick={() => setViewMode('rakeback')}
-          className={cn(
-            'px-3 py-1.5 rounded-md text-sm font-medium transition-colors',
-            viewMode === 'rakeback'
-              ? 'bg-neutral-700 text-white'
-              : 'text-neutral-400 hover:text-neutral-200'
-          )}
-        >
-          Rakeback
-        </button>
+          <TabLink to="/leaderboard" label="Player Search" exact />
+          <TabLink to="/leaderboard/archive" label="Results Archive" />
+          <TabLink to="/leaderboard/rakeback" label="Rakeback" />
         </div>
         <span className="text-xs text-neutral-500">
           {firstDate} — {lastDate}
@@ -59,10 +44,18 @@ export function LeaderboardPage() {
 
       {/* Content */}
       <div className="flex-1 overflow-hidden">
-        {viewMode === 'players' && <PlayerSearch />}
-        {viewMode === 'archive' && <LeaderboardArchive />}
-        {viewMode === 'rakeback' && <RakebackAnalysis />}
+        <Outlet />
       </div>
     </div>
   )
+}
+
+export function LeaderboardPlayers() {
+  return <PlayerSearch />
+}
+
+export { LeaderboardArchiveView as LeaderboardArchive }
+
+export function LeaderboardRakeback() {
+  return <RakebackAnalysis />
 }

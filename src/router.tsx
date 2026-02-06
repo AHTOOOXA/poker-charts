@@ -6,7 +6,7 @@ import { HandGrid } from '@/components/chart/HandGrid'
 import { ChartControls } from '@/components/ChartControls'
 import { Legend } from '@/components/Legend'
 import { ProviderSelector } from '@/components/ProviderSelector'
-import { LeaderboardPage } from '@/components/leaderboard/LeaderboardPage'
+import { LeaderboardPage, LeaderboardPlayers, LeaderboardArchive, LeaderboardRakeback } from '@/components/leaderboard/LeaderboardPage'
 import { ChartTranscriber } from '@/components/transcribe/ChartTranscriber'
 import { AnalyzerPage } from '@/components/analyze/AnalyzerPage'
 import { getCell } from '@/data/ranges'
@@ -153,6 +153,36 @@ const leaderboardRoute = createRoute({
   component: LeaderboardPage,
 })
 
+const leaderboardIndexRoute = createRoute({
+  getParentRoute: () => leaderboardRoute,
+  path: '/',
+  component: LeaderboardPlayers,
+  validateSearch: (search: Record<string, unknown>) => ({
+    q: (search.q as string) || '',
+  }),
+})
+
+const leaderboardArchiveRoute = createRoute({
+  getParentRoute: () => leaderboardRoute,
+  path: '/archive',
+  component: LeaderboardArchive,
+  validateSearch: (search: Record<string, unknown>) => ({
+    stake: (search.stake as string) || '',
+    game: (search.game as string) || '',
+    date: (search.date as string) || '',
+  }),
+})
+
+const leaderboardRakebackRoute = createRoute({
+  getParentRoute: () => leaderboardRoute,
+  path: '/rakeback',
+  component: LeaderboardRakeback,
+  validateSearch: (search: Record<string, unknown>) => ({
+    game: (search.game as string) || '',
+    stake: (search.stake as string) || '',
+  }),
+})
+
 const transcribeRoute = createRoute({
   getParentRoute: () => rootRoute,
   path: '/transcribe',
@@ -167,7 +197,11 @@ const analyzeRoute = createRoute({
 
 const routeTree = rootRoute.addChildren([
   indexRoute,
-  leaderboardRoute,
+  leaderboardRoute.addChildren([
+    leaderboardIndexRoute,
+    leaderboardArchiveRoute,
+    leaderboardRakebackRoute,
+  ]),
   transcribeRoute,
   analyzeRoute,
 ])

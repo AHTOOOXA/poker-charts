@@ -1,4 +1,5 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useCallback } from 'react'
+import { useSearch, useNavigate } from '@tanstack/react-router'
 import { cn } from '@/lib/utils'
 
 interface Distribution {
@@ -165,11 +166,20 @@ function StakeTable({ stake, hasHappyHour }: { stake: Stake; hasHappyHour: boole
 }
 
 export function RakebackAnalysis() {
+  const search = useSearch({ from: '/leaderboard/rakeback' })
+  const navigate = useNavigate({ from: '/leaderboard/rakeback' })
   const [data, setData] = useState<RakebackData | null>(null)
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
-  const [selectedGame, setSelectedGame] = useState<string>('rush')
-  const [selectedStake, setSelectedStake] = useState<string | null>(null)
+  const selectedGame = search.game || 'rush'
+  const selectedStakeParam = search.stake || ''
+
+  const setSelectedGame = useCallback((value: string) => {
+    navigate({ search: { game: value || undefined, stake: undefined } as never, replace: true })
+  }, [navigate])
+  const setSelectedStake = useCallback((value: string) => {
+    navigate({ search: { ...search, stake: value || undefined } as never, replace: true })
+  }, [navigate, search])
 
   useEffect(() => {
     fetch('/leaderboards/rakeback.json')
@@ -179,10 +189,6 @@ export function RakebackAnalysis() {
       })
       .then((json: RakebackData) => {
         setData(json)
-        const game = json.game_types.find(g => g.id === selectedGame)
-        if (game?.stakes.length) {
-          setSelectedStake(game.stakes[0].id)
-        }
         setLoading(false)
       })
       .catch(err => {
@@ -191,14 +197,11 @@ export function RakebackAnalysis() {
       })
   }, [])
 
-  useEffect(() => {
-    if (data) {
-      const game = data.game_types.find(g => g.id === selectedGame)
-      if (game?.stakes.length) {
-        setSelectedStake(game.stakes[0].id)
-      }
-    }
-  }, [selectedGame, data])
+  // Resolve effective stake: use URL param if valid, otherwise first available
+  const currentGame = data?.game_types.find(g => g.id === selectedGame)
+  const selectedStake = currentGame?.stakes.some(s => s.id === selectedStakeParam)
+    ? selectedStakeParam
+    : currentGame?.stakes[0]?.id ?? null
 
   if (loading) {
     return (
@@ -216,7 +219,6 @@ export function RakebackAnalysis() {
     )
   }
 
-  const currentGame = data.game_types.find(g => g.id === selectedGame)
   const currentStake = currentGame?.stakes.find(s => s.id === selectedStake)
   const dowData = data.day_of_week?.[selectedGame]
 
