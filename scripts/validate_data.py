@@ -596,6 +596,12 @@ class DataValidator:
     # CHECK 11: RANK-POINTS INVERSION (lower rank has more points)
     # =========================================================================
 
+    # Known source data issues: the leaderboard itself has rank/points inversions
+    # on these dates. Confirmed by multiple independent scrapes.
+    INVERSION_EXCEPTIONS = {
+        "2026-01-03",  # All game types/stakes have inversions on this date (source bug)
+    }
+
     def check_rank_points_inversion(self, raw_files: dict) -> int:
         """Detect when a lower-ranked player has more points than a higher-ranked player.
 
@@ -607,6 +613,9 @@ class DataValidator:
         issues = 0
 
         for (game_type, stake, date_str), data in raw_files.items():
+            # Skip known source data issues
+            if date_str in self.INVERSION_EXCEPTIONS:
+                continue
             entries = data["data"]
             if len(entries) < 2:
                 continue
