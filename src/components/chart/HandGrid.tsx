@@ -67,7 +67,8 @@ function HandCell({ hand, cell, compact, interactive, onMouseDown, onMouseEnter 
     )
   }
 
-  // Weighted cell - render with fill height and horizontal action bands
+  // Weighted cell - horizontal color bands from bottom
+  // Width = action frequency, all bands same height = weight (previous street frequency)
   let accumulatedWidth = 0
   return (
     <div
@@ -81,14 +82,14 @@ function HandCell({ hand, cell, compact, interactive, onMouseDown, onMouseEnter 
         compact ? 'text-[8px] sm:text-[10px]' : 'text-[9px] sm:text-[11px]'
       )}
     >
-      {/* Horizontal action bands within the fill height (left to right: aggressive to passive) */}
+      {/* Horizontal bands from bottom, left to right: aggressive to passive */}
       {sortedActions.map(([action, percent]) => {
         const left = accumulatedWidth
         accumulatedWidth += percent
         return (
           <div
             key={action}
-            className={cn('absolute top-0', ACTION_COLORS[action])}
+            className={cn('absolute bottom-0', ACTION_COLORS[action])}
             style={{
               left: `${left}%`,
               width: `${percent}%`,

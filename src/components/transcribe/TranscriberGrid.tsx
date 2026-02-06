@@ -54,7 +54,7 @@ function MiniCell({ hand, cell, onMouseDown, onMouseEnter }: MiniCellProps) {
     )
   }
 
-  // Weighted cell - horizontal bands within fill height
+  // Weighted cell - horizontal bands from bottom, all same height = weight
   let accumulatedWidth = 0
   return (
     <div
@@ -71,7 +71,7 @@ function MiniCell({ hand, cell, onMouseDown, onMouseEnter }: MiniCellProps) {
         return (
           <div
             key={action}
-            className={cn('absolute top-0', ACTION_COLORS[action])}
+            className={cn('absolute bottom-0', ACTION_COLORS[action])}
             style={{
               left: `${left}%`,
               width: `${percent}%`,
