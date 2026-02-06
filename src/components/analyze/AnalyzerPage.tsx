@@ -1,6 +1,6 @@
 import { useMemo } from 'react'
 import { useAnalyzerStore } from '@/stores/analyzerStore'
-import { analyzeRange, groupCategories, resolveRanges } from '@/lib/analyzer'
+import { analyzeRange, groupCategories, resolveRanges, countRangeCombos } from '@/lib/analyzer'
 import type { Chart } from '@/data/ranges'
 import type { Card, Grouping } from '@/types/poker'
 import { HandGrid } from '@/components/chart/HandGrid'
@@ -47,16 +47,7 @@ function RangeAnalysis({
     return chart[handName] || 'fold'
   }
 
-  const comboCount = useMemo(() => {
-    let total = 0
-    for (const [hand, cell] of Object.entries(chart)) {
-      if (cell === 'fold') continue
-      const isPair = hand.length === 2
-      const isSuited = hand.endsWith('s')
-      total += isPair ? 6 : isSuited ? 4 : 12
-    }
-    return total
-  }, [chart])
+  const comboCount = useMemo(() => countRangeCombos(chart), [chart])
 
   return (
     <div className="space-y-4">

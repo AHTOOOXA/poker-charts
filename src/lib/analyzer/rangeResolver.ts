@@ -1,7 +1,7 @@
-import type { Action, Position, Provider, ActionWeights, WeightedCell } from '@/types/poker'
+import type { Action, Position, Provider, ActionWeights, WeightedCell, Scenario } from '@/types/poker'
 import { POSITIONS, normalizeCell } from '@/types/poker'
 import { POSTFLOP_ORDER } from '@/constants/poker'
-import { getChart, type Chart } from '@/data/ranges'
+import { getChart, getParentWeight, type Chart } from '@/data/ranges'
 
 type PotType = 'srp' | '3bet'
 
@@ -99,6 +99,34 @@ export function getValidOopPositions(ipPosition: Position): Position[] {
   return POSTFLOP_ORDER.slice(0, ipIdx)
 }
 
+/**
+ * Multiply each cell's weight by its parent weight from the previous decision point.
+ * This accounts for how often the hero reaches this scenario.
+ */
+function applyParentWeight(
+  chart: Chart,
+  provider: Provider,
+  hero: Position,
+  scenario: Scenario,
+  villain?: Position
+): Chart {
+  const result: Chart = {}
+  for (const [hand, cell] of Object.entries(chart)) {
+    if (cell === 'fold') continue
+    const pw = getParentWeight(provider, hero, scenario, hand, villain)
+    if (pw >= 100) {
+      result[hand] = cell
+      continue
+    }
+    if (pw <= 0) continue
+    const { weight, actions } = normalizeCell(cell)
+    const cascaded = (weight * pw) / 100
+    if (cascaded <= 0) continue
+    result[hand] = { weight: cascaded, actions } as WeightedCell
+  }
+  return result
+}
+
 export interface ResolvedRanges {
   oopRange: Chart
   ipRange: Chart
@@ -191,13 +219,16 @@ export function resolveRanges(
 
     if (oopIsOpener) {
       // OOP opened, IP 3bet, OOP called the 3bet
-      // OOP range = vs-3bet (call)
+      // OOP range = vs-3bet (call) — needs parent weight from OOP's RFI
       // IP range = vs-open (raise = 3bet)
       const oopChart = getChart(provider, oopPosition, 'vs-3bet', ipPosition)
       const ipChart = getChart(provider, ipPosition, 'vs-open', oopPosition)
 
+      const oopFiltered = filterChartByActions(oopChart, ['call'])
+      const oopWeighted = applyParentWeight(oopFiltered, provider, oopPosition, 'vs-3bet', ipPosition)
+
       return {
-        oopRange: filterChartByActions(oopChart, ['call']),
+        oopRange: oopWeighted,
         ipRange: filterChartByActions(ipChart, ['raise', 'allin']),
         oopDescription: `${oopPosition} vs ${ipPosition} 3bet (call)`,
         ipDescription: `${ipPosition} 3bet vs ${oopPosition}`,
@@ -206,13 +237,16 @@ export function resolveRanges(
     } else {
       // IP opened, OOP 3bet, IP called the 3bet
       // OOP range = vs-open (raise = 3bet)
-      // IP range = vs-3bet (call)
+      // IP range = vs-3bet (call) — needs parent weight from IP's RFI
       const oopChart = getChart(provider, oopPosition, 'vs-open', ipPosition)
       const ipChart = getChart(provider, ipPosition, 'vs-3bet', oopPosition)
 
+      const ipFiltered = filterChartByActions(ipChart, ['call'])
+      const ipWeighted = applyParentWeight(ipFiltered, provider, ipPosition, 'vs-3bet', oopPosition)
+
       return {
         oopRange: filterChartByActions(oopChart, ['raise', 'allin']),
-        ipRange: filterChartByActions(ipChart, ['call']),
+        ipRange: ipWeighted,
         oopDescription: `${oopPosition} 3bet vs ${ipPosition}`,
         ipDescription: `${ipPosition} vs ${oopPosition} 3bet (call)`,
         isValid: true,
@@ -222,17 +256,17 @@ export function resolveRanges(
 }
 
 /**
- * Count total combos in a range (non-fold hands)
+ * Count total combos in a range, weighted by cell weight.
  */
 export function countRangeCombos(chart: Chart): number {
   let total = 0
   for (const [hand, cell] of Object.entries(chart)) {
     if (cell === 'fold') continue
-    // Determine combo count based on hand type
+    const { weight } = normalizeCell(cell)
     const isPair = hand.length === 2 && hand[0] === hand[1]
     const isSuited = hand.endsWith('s')
     const baseCombos = isPair ? 6 : isSuited ? 4 : 12
-    total += baseCombos
+    total += baseCombos * (weight / 100)
   }
-  return total
+  return Math.round(total * 10) / 10
 }

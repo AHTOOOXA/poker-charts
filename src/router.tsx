@@ -9,7 +9,7 @@ import { ProviderSelector } from '@/components/ProviderSelector'
 import { LeaderboardPage, LeaderboardPlayers, LeaderboardArchive, LeaderboardRakeback } from '@/components/leaderboard/LeaderboardPage'
 import { ChartTranscriber } from '@/components/transcribe/ChartTranscriber'
 import { AnalyzerPage } from '@/components/analyze/AnalyzerPage'
-import { getCell } from '@/data/ranges'
+import { getCellWithCascadedWeight } from '@/data/ranges'
 import { useChartStore } from '@/stores/chartStore'
 import { POSITIONS, SCENARIOS, type Position, type Scenario } from '@/types/poker'
 
@@ -121,7 +121,7 @@ function ChartsPage() {
             <HandGrid
               key={scenarioId}
               getCell={(hand: string) =>
-                getCell(provider, position, scenarioId, hand, scenarioVillain || undefined)
+                getCellWithCascadedWeight(provider, position, scenarioId, hand, scenarioVillain || undefined)
               }
               compact
               title={config?.label}
