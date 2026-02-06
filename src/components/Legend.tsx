@@ -16,10 +16,12 @@ export function Legend() {
           <span className="text-xs text-neutral-400 font-medium">{label}</span>
         </div>
       ))}
+      {/* Mixed example: 70% weight, 60% raise / 40% call */}
       <div className="flex items-center gap-2">
-        <div className="w-4 h-4 rounded-sm overflow-hidden flex flex-col">
-          <div className="h-1/2 bg-neutral-800" />
-          <div className="h-1/2 bg-sky-600" />
+        <div className="w-4 h-4 rounded-sm overflow-hidden relative bg-neutral-800">
+          {/* Horizontal bands within fill height */}
+          <div className="absolute top-0 left-0 w-[60%] h-[70%] bg-sky-600" />
+          <div className="absolute top-0 left-[60%] w-[40%] h-[70%] bg-emerald-600" />
         </div>
         <span className="text-xs text-neutral-400 font-medium">Mixed</span>
       </div>

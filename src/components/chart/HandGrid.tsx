@@ -1,7 +1,7 @@
 import { memo } from 'react'
 import { cn } from '@/lib/utils'
 import { ACTION_COLORS, ACTION_TEXT } from '@/constants/poker'
-import { HAND_GRID, RANKS, type Cell, type Hand } from '@/types/poker'
+import { HAND_GRID, RANKS, normalizeCell, getSortedActions, type Cell, type Hand } from '@/types/poker'
 
 interface HandCellProps {
   hand: Hand
@@ -13,8 +13,6 @@ interface HandCellProps {
 }
 
 function HandCell({ hand, cell, compact, interactive, onMouseDown, onMouseEnter }: HandCellProps) {
-  const isSplit = Array.isArray(cell)
-
   const handleMouseDown = interactive && onMouseDown
     ? (e: React.MouseEvent) => onMouseDown(hand.name, e)
     : undefined
@@ -23,49 +21,86 @@ function HandCell({ hand, cell, compact, interactive, onMouseDown, onMouseEnter 
     ? () => onMouseEnter(hand.name)
     : undefined
 
-  if (isSplit) {
-    // First action is more aggressive (bottom), second is less aggressive (top)
-    const [bottom, top] = cell
+  const { weight, actions } = normalizeCell(cell)
+  const sortedActions = getSortedActions(actions)
+
+  // Not in range (weight = 0) - render empty/fold cell
+  if (weight === 0 || sortedActions.length === 0) {
     return (
       <div
         onMouseDown={handleMouseDown}
         onMouseEnter={handleMouseEnter}
         className={cn(
-          'aspect-square flex items-center justify-center relative overflow-hidden',
+          'aspect-square flex items-center justify-center',
+          'font-semibold tracking-tight',
           'rounded-[2px]',
           interactive ? 'cursor-crosshair' : 'cursor-default',
-          compact ? 'text-[8px] sm:text-[10px]' : 'text-[9px] sm:text-[11px]'
+          compact ? 'text-[8px] sm:text-[10px]' : 'text-[9px] sm:text-[11px]',
+          ACTION_COLORS.fold,
+          ACTION_TEXT.fold
         )}
       >
-        {/* Top half (passive) */}
-        <div className={cn('absolute inset-0 h-1/2', ACTION_COLORS[top])} />
-        {/* Bottom half (aggressive) */}
-        <div className={cn('absolute inset-0 top-1/2 h-1/2', ACTION_COLORS[bottom])} />
-        {/* Text overlay */}
-        <span className="relative z-10 font-semibold text-white mix-blend-difference">
-          {hand.name}
-        </span>
+        {hand.name}
       </div>
     )
   }
 
-  // Solid cell
-  const action = cell
+  // Full weight (100%) with single action - render solid cell
+  if (weight === 100 && sortedActions.length === 1) {
+    const [action] = sortedActions[0]
+    return (
+      <div
+        onMouseDown={handleMouseDown}
+        onMouseEnter={handleMouseEnter}
+        className={cn(
+          'aspect-square flex items-center justify-center',
+          'font-semibold tracking-tight',
+          'rounded-[2px]',
+          interactive ? 'cursor-crosshair' : 'cursor-default',
+          compact ? 'text-[8px] sm:text-[10px]' : 'text-[9px] sm:text-[11px]',
+          ACTION_COLORS[action],
+          ACTION_TEXT[action]
+        )}
+      >
+        {hand.name}
+      </div>
+    )
+  }
+
+  // Weighted cell - render with fill height and horizontal action bands
+  let accumulatedWidth = 0
   return (
     <div
       onMouseDown={handleMouseDown}
       onMouseEnter={handleMouseEnter}
       className={cn(
-        'aspect-square flex items-center justify-center',
-        'font-semibold tracking-tight',
+        'aspect-square flex items-center justify-center relative overflow-hidden',
         'rounded-[2px]',
+        ACTION_COLORS.fold, // Background for unfilled portion
         interactive ? 'cursor-crosshair' : 'cursor-default',
-        compact ? 'text-[8px] sm:text-[10px]' : 'text-[9px] sm:text-[11px]',
-        ACTION_COLORS[action],
-        ACTION_TEXT[action]
+        compact ? 'text-[8px] sm:text-[10px]' : 'text-[9px] sm:text-[11px]'
       )}
     >
-      {hand.name}
+      {/* Horizontal action bands within the fill height (left to right: aggressive to passive) */}
+      {sortedActions.map(([action, percent]) => {
+        const left = accumulatedWidth
+        accumulatedWidth += percent
+        return (
+          <div
+            key={action}
+            className={cn('absolute top-0', ACTION_COLORS[action])}
+            style={{
+              left: `${left}%`,
+              width: `${percent}%`,
+              height: `${weight}%`,
+            }}
+          />
+        )
+      })}
+      {/* Text overlay */}
+      <span className="relative z-10 font-semibold text-white mix-blend-difference">
+        {hand.name}
+      </span>
     </div>
   )
 }

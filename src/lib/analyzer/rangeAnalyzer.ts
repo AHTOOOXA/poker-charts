@@ -1,5 +1,5 @@
-import type { Action, Card, Cell, HandCategory } from '@/types/poker'
-import { HAND_GRID } from '@/types/poker'
+import type { Card, Cell, HandCategory, ActionWeights } from '@/types/poker'
+import { HAND_GRID, normalizeCell } from '@/types/poker'
 import type { Chart } from '@/data/ranges'
 import { getAvailableCombos } from './comboCounter'
 import { evaluateHand } from './handEvaluator'
@@ -23,13 +23,23 @@ export interface AnalysisResult {
 }
 
 /**
- * Get the actions for a cell, handling split cells
+ * Get the weight of a hand for combo counting based on filters
+ * Returns a value 0-1 representing the fraction of combos that match filters
  */
-function getCellActions(cell: Cell): Action[] {
-  if (Array.isArray(cell)) {
-    return cell
+function getHandWeight(cell: Cell, showRaise: boolean, showCall: boolean): number {
+  const { weight, actions } = normalizeCell(cell)
+  if (weight === 0) return 0
+
+  let actionWeight = 0
+  if (showRaise) {
+    actionWeight += (actions.raise || 0) / 100
+    actionWeight += (actions.allin || 0) / 100
   }
-  return [cell]
+  if (showCall) {
+    actionWeight += (actions.call || 0) / 100
+  }
+
+  return (weight / 100) * actionWeight
 }
 
 /**
@@ -40,42 +50,21 @@ function shouldIncludeHand(
   showRaise: boolean,
   showCall: boolean
 ): boolean {
-  const actions = getCellActions(cell)
-
-  for (const action of actions) {
-    if (action === 'fold') continue
-    if ((action === 'raise' || action === 'allin') && showRaise) return true
-    if (action === 'call' && showCall) return true
-  }
-
-  return false
+  return getHandWeight(cell, showRaise, showCall) > 0
 }
 
 /**
- * Get the weight of a hand for combo counting (handles split cells)
+ * Get action weights from cell
  */
-function getHandWeight(cell: Cell, showRaise: boolean, showCall: boolean): number {
-  const actions = getCellActions(cell)
+function getCellActions(cell: Cell): ActionWeights {
+  return normalizeCell(cell).actions
+}
 
-  if (actions.length === 1) {
-    return 1
-  }
-
-  // Split cell - calculate weight based on filters
-  let weight = 0
-  const actionWeight = 1 / actions.length
-
-  for (const action of actions) {
-    if (action === 'fold') continue
-    if ((action === 'raise' || action === 'allin') && showRaise) {
-      weight += actionWeight
-    }
-    if (action === 'call' && showCall) {
-      weight += actionWeight
-    }
-  }
-
-  return weight
+/**
+ * Get range weight from cell (0-100)
+ */
+function getCellWeight(cell: Cell): number {
+  return normalizeCell(cell).weight
 }
 
 /**
@@ -108,19 +97,19 @@ export function analyzeRange(
       const cell = range[hand.name] || 'fold'
 
       // Count by action (before filtering)
-      const actions = getCellActions(cell)
+      const cellWeight = getCellWeight(cell)
+      const cellActions = getCellActions(cell)
       const availableCombos = getAvailableCombos(hand.name, board)
       const baseCombos = availableCombos.length
 
-      if (actions.length === 1) {
-        actionCounts[actions[0]] += baseCombos
-      } else {
-        // Split cell - distribute evenly
-        const perAction = baseCombos / actions.length
-        for (const action of actions) {
-          actionCounts[action] += perAction
-        }
+      // Distribute combos by range weight and action distribution
+      const inRangeCombos = baseCombos * (cellWeight / 100)
+      for (const action of ['fold', 'call', 'raise', 'allin'] as const) {
+        const pct = cellActions[action] || 0
+        actionCounts[action] += inRangeCombos * (pct / 100)
       }
+      // Combos not in range count as fold
+      actionCounts.fold += baseCombos - inRangeCombos
 
       // Skip if doesn't match filters
       if (!shouldIncludeHand(cell, showRaise, showCall)) {

@@ -1,5 +1,5 @@
-import type { Action, Position, Provider } from '@/types/poker'
-import { POSITIONS } from '@/types/poker'
+import type { Action, Position, Provider, ActionWeights, WeightedCell } from '@/types/poker'
+import { POSITIONS, normalizeCell } from '@/types/poker'
 import { POSTFLOP_ORDER } from '@/constants/poker'
 import { getChart, type Chart } from '@/data/ranges'
 
@@ -16,19 +16,41 @@ export function filterChartByActions(
 
   const filtered: Chart = {}
   for (const [hand, cell] of Object.entries(chart)) {
-    const actions = Array.isArray(cell) ? cell : [cell]
-    const hasAllowedAction = actions.some((a) => allowedActions.includes(a))
-    if (hasAllowedAction) {
-      // Keep only the allowed actions
-      if (Array.isArray(cell)) {
-        const filteredActions = cell.filter((a) => allowedActions.includes(a))
-        if (filteredActions.length === 1) {
-          filtered[hand] = filteredActions[0]
-        } else if (filteredActions.length > 1) {
-          filtered[hand] = filteredActions as [Action, Action]
+    const { weight, actions } = normalizeCell(cell)
+    if (weight === 0) continue
+
+    // Build new action weights with only allowed actions
+    const newActions: ActionWeights = {}
+    let totalAllowed = 0
+
+    for (const action of allowedActions) {
+      if (actions[action] && actions[action]! > 0) {
+        newActions[action] = actions[action]
+        totalAllowed += actions[action]!
+      }
+    }
+
+    if (totalAllowed > 0) {
+      // Normalize actions to 100% if we filtered out some
+      if (totalAllowed < 100) {
+        for (const action of allowedActions) {
+          if (newActions[action]) {
+            newActions[action] = (newActions[action]! / totalAllowed) * 100
+          }
         }
-      } else if (allowedActions.includes(cell)) {
-        filtered[hand] = cell
+      }
+
+      // Calculate new weight (original weight * fraction of actions kept)
+      const newWeight = weight * (totalAllowed / 100)
+
+      // Simplify to single action if only one and full weight
+      const entries = Object.entries(newActions).filter(([, v]) => v && v > 0)
+      if (entries.length === 1 && newWeight === 100) {
+        filtered[hand] = entries[0][0] as Action
+      } else if (entries.length === 1) {
+        filtered[hand] = { weight: newWeight, actions: { [entries[0][0]]: 100 } } as WeightedCell
+      } else {
+        filtered[hand] = { weight: newWeight, actions: newActions }
       }
     }
   }

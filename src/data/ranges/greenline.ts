@@ -9,6 +9,7 @@ export const charts: Record<string, Chart> = {
   // ============================================
 
   // UTG 14% - Sizing: 3bb
+  // Testing weighted cells for visual verification
   'UTG-RFI': {
     'AA': 'raise', 'AKs': 'raise', 'AQs': 'raise', 'AJs': 'raise', 'ATs': 'raise',
     'A9s': 'raise', 'A8s': 'raise', 'A7s': 'raise', 'A6s': 'raise', 'A5s': 'raise',
@@ -16,15 +17,18 @@ export const charts: Record<string, Chart> = {
     'AKo': 'raise', 'KK': 'raise', 'KQs': 'raise', 'KJs': 'raise', 'KTs': 'raise',
     'AQo': 'raise', 'KQo': 'raise', 'QQ': 'raise', 'QJs': 'raise', 'QTs': 'raise',
     'AJo': 'raise', 'JJ': 'raise', 'JTs': 'raise',
-    'ATo': ['raise', 'fold'], 'TT': 'raise', 'T9s': 'raise',
+    // Test weighted cells with different weights
+    'ATo': { weight: 60, actions: { raise: 100 } },  // 60% fill, solid raise
+    'TT': 'raise', 'T9s': 'raise',
     '99': 'raise', '98s': 'raise',
-    '88': 'raise', '87s': ['raise', 'fold'],
+    '88': 'raise',
+    '87s': { weight: 40, actions: { raise: 70, fold: 30 } },  // 40% fill, 70/30 split
     '77': 'raise',
     '66': 'raise',
     '55': 'raise',
-    '44': ['raise', 'fold'],
-    '33': ['raise', 'fold'],
-    '22': ['raise', 'fold'],
+    '44': { weight: 80, actions: { raise: 50, fold: 50 } },  // 80% fill, 50/50 split
+    '33': { weight: 50, actions: { raise: 60, call: 25, fold: 15 } },  // 50% fill, 3-way split
+    '22': { weight: 30, actions: { raise: 100 } },  // 30% fill, solid raise
   },
 
   // MP 16% - Sizing: 3bb

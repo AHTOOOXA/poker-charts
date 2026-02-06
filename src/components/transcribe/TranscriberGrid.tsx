@@ -1,9 +1,9 @@
 /* eslint-disable react-refresh/only-export-components */
 import { cn } from '@/lib/utils'
 import { ACTION_COLORS, ACTION_TEXT } from '@/constants/poker'
-import { HAND_GRID, RANKS, type Action } from '@/types/poker'
+import { HAND_GRID, RANKS, normalizeCell, getSortedActions, type Cell } from '@/types/poker'
 
-type EditorCell = Action | [Action, Action]
+type EditorCell = Cell
 type GridState = Record<string, EditorCell>
 
 export { type EditorCell, type GridState }
@@ -16,51 +16,90 @@ interface MiniCellProps {
 }
 
 function MiniCell({ hand, cell, onMouseDown, onMouseEnter }: MiniCellProps) {
-  const isSplit = Array.isArray(cell)
-  const action = isSplit ? cell[0] : (cell || 'fold')
+  const { weight, actions } = normalizeCell(cell || 'fold')
+  const sortedActions = getSortedActions(actions)
 
-  if (isSplit) {
-    const [bottom, top] = cell
+  // Not in range - fold cell
+  if (weight === 0 || sortedActions.length === 0) {
     return (
       <div
         onMouseDown={onMouseDown}
         onMouseEnter={onMouseEnter}
-        className="aspect-square flex items-center justify-center relative overflow-hidden rounded-[2px] cursor-crosshair text-[9px] sm:text-[11px]"
+        className={cn(
+          'aspect-square flex items-center justify-center font-semibold tracking-tight rounded-[2px] cursor-crosshair text-[9px] sm:text-[11px]',
+          ACTION_COLORS.fold,
+          ACTION_TEXT.fold
+        )}
       >
-        <div className={cn('absolute inset-0 h-1/2', ACTION_COLORS[top])} />
-        <div className={cn('absolute inset-0 top-1/2 h-1/2', ACTION_COLORS[bottom])} />
-        <span className="relative z-10 font-semibold text-white mix-blend-difference">{hand}</span>
+        {hand}
       </div>
     )
   }
 
+  // Full weight with single action - solid cell
+  if (weight === 100 && sortedActions.length === 1) {
+    const [action] = sortedActions[0]
+    return (
+      <div
+        onMouseDown={onMouseDown}
+        onMouseEnter={onMouseEnter}
+        className={cn(
+          'aspect-square flex items-center justify-center font-semibold tracking-tight rounded-[2px] cursor-crosshair text-[9px] sm:text-[11px]',
+          ACTION_COLORS[action],
+          ACTION_TEXT[action]
+        )}
+      >
+        {hand}
+      </div>
+    )
+  }
+
+  // Weighted cell - horizontal bands within fill height
+  let accumulatedWidth = 0
   return (
     <div
       onMouseDown={onMouseDown}
       onMouseEnter={onMouseEnter}
       className={cn(
-        'aspect-square flex items-center justify-center font-semibold tracking-tight rounded-[2px] cursor-crosshair text-[9px] sm:text-[11px]',
-        ACTION_COLORS[action],
-        ACTION_TEXT[action]
+        'aspect-square flex items-center justify-center relative overflow-hidden rounded-[2px] cursor-crosshair text-[9px] sm:text-[11px]',
+        ACTION_COLORS.fold
       )}
     >
-      {hand}
+      {sortedActions.map(([action, percent]) => {
+        const left = accumulatedWidth
+        accumulatedWidth += percent
+        return (
+          <div
+            key={action}
+            className={cn('absolute top-0', ACTION_COLORS[action])}
+            style={{
+              left: `${left}%`,
+              width: `${percent}%`,
+              height: `${weight}%`,
+            }}
+          />
+        )
+      })}
+      <span className="relative z-10 font-semibold text-white mix-blend-difference">{hand}</span>
     </div>
   )
 }
 
-function isFoldCell(cell: EditorCell | undefined): boolean {
-  if (!cell) return true
-  if (Array.isArray(cell)) return cell[0] === 'fold' && cell[1] === 'fold'
-  return cell === 'fold'
+function getCellPlayWeight(cell: EditorCell | undefined): number {
+  if (!cell) return 0
+  const { weight, actions } = normalizeCell(cell)
+  // Calculate % of combos that are played (not folded)
+  const foldPct = actions.fold || 0
+  const playPct = 100 - foldPct
+  return (weight / 100) * (playPct / 100)
 }
 
 export function calcRangeStats(grid: GridState) {
   let pairs = 0, suited = 0, offsuit = 0
 
   for (const [hand, cell] of Object.entries(grid)) {
-    if (isFoldCell(cell)) continue
-    const weight = Array.isArray(cell) ? 0.5 : 1
+    const weight = getCellPlayWeight(cell)
+    if (weight === 0) continue
 
     if (hand.length === 2) pairs += 6 * weight
     else if (hand.endsWith('s')) suited += 4 * weight

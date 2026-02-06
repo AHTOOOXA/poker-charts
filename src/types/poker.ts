@@ -88,9 +88,59 @@ export type Position = (typeof POSITIONS)[number]
 export const ACTIONS = ['fold', 'call', 'raise', 'allin'] as const
 export type Action = (typeof ACTIONS)[number]
 
-// A cell can be solid (one action) or split (two actions shown as left|right)
-// Split cells represent mixed/marginal hands
-export type Cell = Action | [Action, Action]
+// Action distribution - percentages for each action (should sum to 100)
+export type ActionWeights = Partial<Record<Action, number>>
+
+// Full weighted cell with range weight and action distribution
+export interface WeightedCell {
+  // Range weight: what % of this hand is in the range (0-100)
+  // Displays as fill height from TOP of cell
+  weight: number
+  // Action distribution for the in-range portion (should sum to 100)
+  // Displays as horizontal bands LEFT to RIGHT (aggressive to passive)
+  actions: ActionWeights
+}
+
+// A cell can be:
+// - Single action: "raise" (= 100% weight, 100% raise)
+// - Legacy tuple: ["raise", "call"] (= 100% weight, 50/50 split)
+// - Full weighted: { weight: 60, actions: { raise: 70, call: 30 } }
+export type Cell = Action | [Action, Action] | WeightedCell
+
+// Check if cell is a WeightedCell object
+function isWeightedCell(cell: Cell): cell is WeightedCell {
+  return typeof cell === 'object' && !Array.isArray(cell) && 'weight' in cell
+}
+
+// Normalize any Cell format to WeightedCell
+export function normalizeCell(cell: Cell): WeightedCell {
+  // Already a WeightedCell
+  if (isWeightedCell(cell)) {
+    return cell
+  }
+  // Single action = 100% weight, 100% that action
+  if (typeof cell === 'string') {
+    return { weight: 100, actions: { [cell]: 100 } }
+  }
+  // Legacy tuple [action, action] = 100% weight, 50/50 split
+  if (Array.isArray(cell)) {
+    const [a, b] = cell
+    if (a === b) return { weight: 100, actions: { [a]: 100 } }
+    return { weight: 100, actions: { [a]: 50, [b]: 50 } }
+  }
+  // Fallback
+  return { weight: 0, actions: {} }
+}
+
+// Action display order: aggressive (left) to passive (right)
+const ACTION_ORDER: Action[] = ['allin', 'raise', 'call', 'fold']
+
+// Get ordered action entries sorted by display order
+export function getSortedActions(actions: ActionWeights): [Action, number][] {
+  return ACTION_ORDER
+    .filter(action => actions[action] && actions[action]! > 0)
+    .map(action => [action, actions[action]!] as [Action, number])
+}
 
 export type HandType = 'pair' | 'suited' | 'offsuit'
 
