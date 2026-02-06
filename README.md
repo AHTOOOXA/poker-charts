@@ -1,73 +1,89 @@
-# React + TypeScript + Vite
+# Poker Lab
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Study tools and public leaderboard browser for online poker.
 
-Currently, two official plugins are available:
+**Live:** [ahtoooxa.github.io/poker-charts](https://ahtoooxa.github.io/poker-charts/)
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## Features
 
-## React Compiler
+### Preflop Ranges
+Interactive 13x13 hand grid viewer for GTO preflop charts. Supports multiple chart providers, all 6 positions, and scenarios including RFI, vs-open, vs-3bet, and vs-4bet. Cells support weighted ranges and multi-action splits with visual frequency indicators.
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+### GG Leaderboards
+Browser for publicly available GGPoker/Natural8 daily leaderboard results.
 
-## Expanding the ESLint configuration
+- **Player Search** — look up any player's leaderboard history with fuzzy search and Russian keyboard layout auto-detection
+- **Results Archive** — historical daily results filterable by stake, game type, and date
+- **Rakeback Analysis** — prize tier distributions, hands needed, and marginal bb/100 breakdowns with happy hour bonuses
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+### Range Analyzer
+Postflop equity breakdown tool. Input a board and compare OOP vs IP ranges with hand category breakdowns (made hands, draws, air), combo counting, and pie chart visualizations.
 
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+## Tech Stack
 
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
+| Layer | Tech |
+|-------|------|
+| Runtime | Bun |
+| Framework | React 19 |
+| Build | Vite 7 |
+| Language | TypeScript (strict) |
+| Styling | Tailwind CSS v4 + shadcn/ui |
+| Routing | TanStack Router |
+| State | Zustand + localStorage persistence |
+| Charts | Recharts |
+| Validation | Zod |
+| Deploy | GitHub Pages + GitHub Actions |
+| Data pipeline | Python (Playwright, pandas) |
 
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+## Architecture
+
+Static frontend SPA — no backend, no database. All data is bundled at build time or loaded from static JSON.
+
+```
+src/
+  components/       # React components organized by feature
+    chart/           # Hand grid, cells
+    leaderboard/     # Leaderboard pages (search, archive, rakeback)
+    players/         # Player cards, badges, filters, timeline
+    analyze/         # Range analyzer
+  data/
+    ranges/          # Preflop chart data (static TS modules)
+  stores/            # Zustand stores
+  types/             # TypeScript types
+  lib/               # Utilities
+
+leaderboards/        # Public leaderboard data (CSV + JSON)
+scripts/             # Python data pipeline (scraping, aggregation)
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+### Data Pipeline
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+Leaderboard data is collected from Natural8's publicly accessible leaderboard pages using Playwright, aggregated with Python scripts, and bundled as static JSON.
 
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+## Development
+
+```bash
+bun install          # Install dependencies
+bun dev              # Dev server at localhost:7272
+bun run build        # Type-check + production build
+bun run lint         # ESLint
+bun test             # Vitest
 ```
+
+## Important Notice
+
+> **This is an off-the-table study and research tool only.**
+>
+> This application must **not** be used during live poker sessions. The author does not use it during gameplay and does not recommend doing so. Using third-party tools while playing may violate your poker platform's terms of service and result in account restrictions.
+
+This project is an independent study tool. It is **not** affiliated with, endorsed by, or connected to GGPoker, Natural8, or any other poker operator.
+
+- **No real-time assistance** — this app does not interact with any poker client during gameplay
+- **No hand history access** — no hand histories are imported, parsed, or stored
+- **No private data** — all leaderboard data is sourced from publicly accessible pages on Natural8's website
+
+Players are responsible for ensuring their use of any tools complies with the terms of service of their poker platform.
+
+## License
+
+MIT
