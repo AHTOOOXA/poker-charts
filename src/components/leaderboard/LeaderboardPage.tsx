@@ -38,7 +38,7 @@ export function LeaderboardPage() {
           <TabLink to="/leaderboard/rakeback" label="Rakeback" />
         </div>
         <span className="text-xs text-neutral-500">
-          {firstDate} — {lastDate}
+          {firstDate} — {lastDate} · Data from public Natural8 leaderboards
         </span>
       </div>
 

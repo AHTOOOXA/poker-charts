@@ -8,6 +8,7 @@ import { Legend } from '@/components/Legend'
 import { ProviderSelector } from '@/components/ProviderSelector'
 import { LeaderboardPage, LeaderboardPlayers, LeaderboardArchive, LeaderboardRakeback } from '@/components/leaderboard/LeaderboardPage'
 import { AnalyzerPage } from '@/components/analyze/AnalyzerPage'
+import { DisclaimerPage } from '@/components/DisclaimerPage'
 import { getCellWithCascadedWeight } from '@/data/ranges'
 import { useChartStore } from '@/stores/chartStore'
 import { POSITIONS, SCENARIOS, type Position, type Scenario } from '@/types/poker'
@@ -49,6 +50,7 @@ function RootLayout() {
       {/* Footer */}
       <footer className="relative z-10 px-4 py-3 border-t border-neutral-800/50 text-center text-xs text-neutral-600">
         Off-the-table study tool only. Not for use during live play. Not affiliated with GGPoker or Natural8.
+        {' '}<Link to="/disclaimer" className="underline underline-offset-2 hover:text-neutral-400">Disclaimer</Link>
       </footer>
     </div>
   )
@@ -185,6 +187,12 @@ const leaderboardRakebackRoute = createRoute({
   }),
 })
 
+const disclaimerRoute = createRoute({
+  getParentRoute: () => rootRoute,
+  path: '/disclaimer',
+  component: DisclaimerPage,
+})
+
 const analyzeRoute = createRoute({
   getParentRoute: () => rootRoute,
   path: '/analyze',
@@ -199,6 +207,7 @@ const routeTree = rootRoute.addChildren([
     leaderboardRakebackRoute,
   ]),
   analyzeRoute,
+  disclaimerRoute,
 ])
 
 export const router = createRouter({ routeTree })

@@ -2,6 +2,13 @@
 """
 Leaderboard Scraper - LLM-friendly, non-interactive
 
+Collects publicly available leaderboard data from Natural8's promotion pages.
+No authentication or login is required — all data is visible to any visitor at:
+  https://www.natural8.com/en/promotions/rush-and-cash-daily-leaderboard
+  https://www.natural8.com/en/promotions/holdem-daily-leaderboard
+
+No hand histories, private player data, or game client data is accessed.
+
 Scrapes Natural8 poker leaderboards via Playwright server.
 
 PREREQUISITES:
