@@ -27,12 +27,16 @@ const VARIANT_STYLES = {
     border: 'border-emerald-500/30',
     title: 'text-emerald-500',
   },
+  '9max': {
+    border: 'border-sky-500/30',
+    title: 'text-sky-500',
+  },
 }
 
 interface GameTypeSectionProps {
   title: string
   stats: GameTypeStats
-  variant: 'rush' | 'holdem'
+  variant: 'rush' | 'holdem' | '9max'
 }
 
 export function GameTypeSection({ title, stats, variant }: GameTypeSectionProps) {
@@ -156,13 +160,14 @@ export function GameTypeSection({ title, stats, variant }: GameTypeSectionProps)
 
 interface GameTypeSkeletonProps {
   title: string
-  variant: 'rush' | 'holdem'
+  variant: 'rush' | 'holdem' | '9max'
 }
 
 export function GameTypeSkeleton({ title, variant }: GameTypeSkeletonProps) {
   const styles = {
     rush: { border: 'border-amber-500/10', title: 'text-amber-500/40' },
     holdem: { border: 'border-emerald-500/10', title: 'text-emerald-500/40' },
+    '9max': { border: 'border-sky-500/10', title: 'text-sky-500/40' },
   }[variant]
 
   return (

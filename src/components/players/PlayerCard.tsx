@@ -30,7 +30,8 @@ function generateCopyText(player: PlayerStats): string {
 
   const rushHands = player.rush.estimated_hands
   const regularHands = player.regular.estimated_hands
-  const totalGameHands = rushHands + regularHands
+  const ninemaxHands = player['9max'].estimated_hands
+  const totalGameHands = rushHands + regularHands + ninemaxHands
 
   let gameType = ''
   if (totalGameHands > 0) {
@@ -127,7 +128,7 @@ export function PlayerCard({ player }: PlayerCardProps) {
       </div>
 
       {/* Game Types */}
-      <div className="grid grid-cols-2 gap-3 mb-3 items-stretch">
+      <div className="grid grid-cols-3 gap-3 mb-3 items-stretch">
         {player.rush.estimated_hands > 0 ? (
           <GameTypeSection title="Rush & Cash" stats={player.rush} variant="rush" />
         ) : (
@@ -137,6 +138,11 @@ export function PlayerCard({ player }: PlayerCardProps) {
           <GameTypeSection title="Hold'em" stats={player.regular} variant="holdem" />
         ) : (
           <GameTypeSkeleton title="Hold'em" variant="holdem" />
+        )}
+        {player['9max'].estimated_hands > 0 ? (
+          <GameTypeSection title="9-Max" stats={player['9max']} variant="9max" />
+        ) : (
+          <GameTypeSkeleton title="9-Max" variant="9max" />
         )}
       </div>
 

@@ -87,6 +87,17 @@ export function LeaderboardArchive() {
           >
             Regular
           </button>
+          <button
+            onClick={() => setGameType('9max')}
+            className={cn(
+              'px-2 py-0.5 rounded text-xs font-medium border transition-colors',
+              gameType === '9max'
+                ? 'bg-sky-500/20 text-sky-400 border-sky-500/40'
+                : 'bg-neutral-800/50 text-neutral-500 border-neutral-700/30 hover:border-sky-500/30'
+            )}
+          >
+            9-Max
+          </button>
 
           <span className="text-neutral-700 mx-1">|</span>
 

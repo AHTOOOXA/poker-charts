@@ -74,6 +74,7 @@ function decodePlayerStats(
     total_prize: raw.total_prize,
     rush: decodeGameTypeStats(raw.rush, dates, stakes),
     regular: decodeGameTypeStats(raw.regular, dates, stakes),
+    '9max': decodeGameTypeStats(raw['9max'], dates, stakes),
   }
 }
 
@@ -240,7 +241,7 @@ export function getStakesCovered(): Stake[] {
   return data.summary.stakes_covered
 }
 
-export type GameType = 'rush' | 'regular'
+export type GameType = 'rush' | 'regular' | '9max'
 
 export interface LeaderboardResult {
   nickname: string

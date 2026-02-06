@@ -228,13 +228,16 @@ def build_player_stats(entries: list[dict], latest_date: str) -> list[dict]:
         })
 
     # Build final list
-    # Hand estimation based on real data calibration (AHTOOOXA Dec 1 - Jan 24):
+    # Hand estimation:
     # Rush & Cash: 114K hands = 176K points = 1.55 pts/hand (baseline, ~5% HH)
-    # Rush grinders get up to 1.70 pts/hand due to happy hour abuse
-    # Regular Holdem: 12K hands = 5.7K points = 0.48 pts/hand
-    # 9-max Holdem: assumed similar to regular (0.48 pts/hand)
+    #   Rush grinders get up to 1.70 pts/hand due to happy hour (2x) abuse
+    # Regular/9max Holdem: 1 point per raked hand.
+    #   Happy Hour (06:00-07:59 UTC) gives 1.5x boost.
+    #   Not every hand is raked — folding preflop = no rake = no point.
+    # Regular 6max: 0.48 pts/hand (calibrated from AHTOOOXA sample)
+    # 9max: lower than 6max — you fold more often with 9 players.
     POINTS_PER_HAND_REGULAR = 0.48
-    POINTS_PER_HAND_9MAX = 0.48
+    POINTS_PER_HAND_9MAX = 0.36
 
     def build_game_type_output(gt_stats: dict, game_type: str, rush_avg_pts_entry: float = 0) -> dict:
         """Build output for a game type (rush, regular, or 9max)."""
@@ -333,7 +336,7 @@ def build_player_stats(entries: list[dict], latest_date: str) -> list[dict]:
         if estimated_hands > 0 and total_points > 0:
             weighted_pts_per_hand = total_points / estimated_hands
         else:
-            weighted_pts_per_hand = POINTS_PER_HAND_RUSH  # fallback
+            weighted_pts_per_hand = POINTS_PER_HAND_REGULAR  # fallback
 
         # Estimate hands per date for calendar display (using weighted average)
         hands_by_date = {date: int(pts / weighted_pts_per_hand) if weighted_pts_per_hand > 0 else 0

@@ -105,6 +105,7 @@ export interface PlayerStats {
   // Game type breakdowns
   rush: GameTypeStats
   regular: GameTypeStats
+  '9max': GameTypeStats
 }
 
 // Raw player stats from JSON (with compact entries)
