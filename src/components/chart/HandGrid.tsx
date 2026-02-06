@@ -99,7 +99,7 @@ function HandCell({ hand, cell, compact, interactive, onMouseDown, onMouseEnter 
         )
       })}
       {/* Text overlay */}
-      <span className="relative z-10 font-semibold text-white mix-blend-difference">
+      <span className="relative z-10 font-semibold text-white">
         {hand.name}
       </span>
     </div>

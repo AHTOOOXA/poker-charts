@@ -8,30 +8,20 @@ import type { PlayerStats, PlayerType } from '@/types/player'
 import { STAKE_LABELS, STAKES } from '@/types/player'
 import { getDatesCovered } from '@/data/players'
 
-// Classify player into 4 tiers based on volume
-// Thresholds calibrated for 60-day dataset (2 months)
+// Classify player into 3 tiers based on volume
 function classifyPlayer(player: PlayerStats): PlayerType {
   const hands = player.estimated_hands
   const days = player.days_active
   const hpd = days > 0 ? hands / days : 0
 
-  // BOT: 25k+ hands/day is ~21+ hours of 4-table Rush - inhuman
-  if (hpd >= 25000) return 'BOT'
-
-  // GRIND: 100k+ hands/month (200k over 60 days) - this is their job
-  if (hands >= 200000) return 'GRIND'
-
-  // REG: 30k+ hands/month (60k over 60 days) - serious regular
+  if (hpd >= 25000) return 'HV'
   if (hands >= 60000) return 'REG'
-
-  // REC: everyone else - recreational
   return 'REC'
 }
 
-// Generate copy text for HUD notes
+// Generate copy text summary
 function generateCopyText(player: PlayerStats): string {
-  const playerTypeRaw = classifyPlayer(player)
-  const playerType = playerTypeRaw === 'BOT' ? '🚨BOT' : playerTypeRaw
+  const playerType = classifyPlayer(player)
 
   const handsPerDay = player.days_active > 0
     ? formatNumber(Math.round(player.estimated_hands / player.days_active))

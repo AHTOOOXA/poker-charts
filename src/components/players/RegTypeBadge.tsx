@@ -2,13 +2,9 @@ import { cn } from '@/lib/utils'
 import type { PlayerType } from '@/types/player'
 
 const PLAYER_TYPE_STYLES: Record<PlayerType, { colors: string; label: string }> = {
-  BOT: {
+  HV: {
     colors: 'bg-red-500/20 text-red-400 border-red-500/30',
-    label: '🚨 BOT',
-  },
-  GRIND: {
-    colors: 'bg-emerald-500/20 text-emerald-400 border-emerald-500/30',
-    label: 'GRIND',
+    label: 'HV',
   },
   REG: {
     colors: 'bg-teal-500/20 text-teal-400 border-teal-500/30',

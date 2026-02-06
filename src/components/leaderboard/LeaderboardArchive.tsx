@@ -5,9 +5,9 @@ import { STAKES, STAKE_LABELS, type Stake, type RegType, type PlayerType } from 
 import { RegTypeBadge } from '@/components/players/RegTypeBadge'
 import { cn } from '@/lib/utils'
 
-// Map old RegType to new PlayerType for display
+// Map old RegType to PlayerType for display
 const REG_TO_PLAYER_TYPE: Record<RegType, PlayerType> = {
-  grinder: 'GRIND',
+  grinder: 'REG',
   regular: 'REG',
   casual: 'REC',
   new: 'REC',

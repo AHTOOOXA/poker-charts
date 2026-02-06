@@ -7,7 +7,6 @@ import { ChartControls } from '@/components/ChartControls'
 import { Legend } from '@/components/Legend'
 import { ProviderSelector } from '@/components/ProviderSelector'
 import { LeaderboardPage, LeaderboardPlayers, LeaderboardArchive, LeaderboardRakeback } from '@/components/leaderboard/LeaderboardPage'
-import { ChartTranscriber } from '@/components/transcribe/ChartTranscriber'
 import { AnalyzerPage } from '@/components/analyze/AnalyzerPage'
 import { getCellWithCascadedWeight } from '@/data/ranges'
 import { useChartStore } from '@/stores/chartStore'
@@ -28,16 +27,14 @@ function RootLayout() {
         <div className="flex items-center justify-between">
           <h1 className="text-base font-semibold tracking-wide">
             <span className="bg-gradient-to-r from-neutral-200 to-neutral-400 bg-clip-text text-transparent">
-              Poker Charts
+              Poker Lab
             </span>
           </h1>
 
           {/* Navigation tabs */}
           <nav className="flex gap-1">
-            <NavLink to="/" label="Charts" exact />
-            <NavLink to="/leaderboard" label="Leaderboard" />
-            <NavLink to="/transcribe" label="Transcribe" />
-            <NavLink to="/analyze" label="Analyze" />
+            <NavLink to="/" label="Preflop Ranges" exact />
+            <NavLink to="/leaderboard" label="GG Leaderboards" />
           </nav>
         </div>
       </header>
@@ -183,12 +180,6 @@ const leaderboardRakebackRoute = createRoute({
   }),
 })
 
-const transcribeRoute = createRoute({
-  getParentRoute: () => rootRoute,
-  path: '/transcribe',
-  component: ChartTranscriber,
-})
-
 const analyzeRoute = createRoute({
   getParentRoute: () => rootRoute,
   path: '/analyze',
@@ -202,7 +193,6 @@ const routeTree = rootRoute.addChildren([
     leaderboardArchiveRoute,
     leaderboardRakebackRoute,
   ]),
-  transcribeRoute,
   analyzeRoute,
 ])
 

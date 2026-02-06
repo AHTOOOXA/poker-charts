@@ -20,6 +20,12 @@ type ChartState = {
   setVillain: (v: Position | null) => void
 }
 
+// Migrate localStorage from old key
+if (localStorage.getItem('poker-chart') && !localStorage.getItem('poker-lab')) {
+  localStorage.setItem('poker-lab', localStorage.getItem('poker-chart')!)
+  localStorage.removeItem('poker-chart')
+}
+
 const defaultState = {
   provider: 'pekarstas' as Provider,
   position: 'BTN' as Position,
@@ -35,7 +41,7 @@ export const useChartStore = create(
       setVillain: (villain) => set({ villain }),
     }),
     {
-      name: 'poker-chart',
+      name: 'poker-lab',
       merge: (persisted, current) => {
         // Validate persisted state, fall back to defaults if invalid
         const result = chartStateSchema.safeParse(persisted)
