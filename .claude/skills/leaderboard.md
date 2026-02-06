@@ -135,6 +135,7 @@ The website uses different iframe group IDs for each month. Current config in `s
 GROUP_IDS = {
     (2025, 12): {"rush": "1247", "holdem": "1250", "holdem9max": "1251"},
     (2026, 1): {"rush": "1266", "holdem": "1269", "holdem9max": "1270"},
+    (2026, 2): {"rush": "1285", "holdem": "1288", "holdem9max": "1289"},
     # Add new months here
 }
 ```
