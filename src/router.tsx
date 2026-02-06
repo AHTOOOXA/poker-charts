@@ -45,6 +45,11 @@ function RootLayout() {
           <Outlet />
         </ErrorBoundary>
       </main>
+
+      {/* Footer */}
+      <footer className="relative z-10 px-4 py-3 border-t border-neutral-800/50 text-center text-xs text-neutral-600">
+        Off-the-table study tool only. Not for use during live play. Not affiliated with GGPoker or Natural8.
+      </footer>
     </div>
   )
 }
