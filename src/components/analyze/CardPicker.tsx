@@ -1,20 +1,7 @@
 import { cn } from '@/lib/utils'
 import type { Card, Rank, Suit } from '@/types/poker'
 import { RANKS, SUITS } from '@/types/poker'
-
-const SUIT_SYMBOLS: Record<Suit, string> = {
-  s: '♠',
-  h: '♥',
-  d: '♦',
-  c: '♣',
-}
-
-const SUIT_COLORS: Record<Suit, string> = {
-  s: 'text-neutral-300',
-  h: 'text-red-500',
-  d: 'text-blue-400',
-  c: 'text-green-500',
-}
+import { SUIT_SYMBOLS, SUIT_NAMES, RANK_NAMES, SUIT_COLORS } from '@/constants/cards'
 
 interface CardPickerProps {
   selectedCards: Card[]
@@ -41,10 +28,11 @@ export function CardPicker({
               'w-5 text-center text-lg',
               SUIT_COLORS[suit]
             )}
+            aria-hidden="true"
           >
             {SUIT_SYMBOLS[suit]}
           </span>
-          <div className="flex gap-[2px]">
+          <div className="flex gap-[2px]" role="group" aria-label={`${SUIT_NAMES[suit]} cards`}>
             {RANKS.map((rank) => {
               const selected = isSelected(rank, suit)
               const disabled = !selected && isFull
@@ -54,6 +42,8 @@ export function CardPicker({
                   key={`${rank}${suit}`}
                   onClick={() => onCardClick({ rank, suit })}
                   disabled={disabled}
+                  aria-label={`${RANK_NAMES[rank]} of ${SUIT_NAMES[suit]}${selected ? ', selected' : ''}`}
+                  aria-pressed={selected}
                   className={cn(
                     'w-6 h-8 sm:w-7 sm:h-9 rounded text-xs sm:text-sm font-semibold',
                     'transition-all duration-100',

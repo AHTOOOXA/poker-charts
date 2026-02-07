@@ -1,27 +1,7 @@
 import { cn } from '@/lib/utils'
-import type { Card, Suit } from '@/types/poker'
+import type { Card } from '@/types/poker'
+import { SUIT_SYMBOLS, SUIT_NAMES, RANK_NAMES, SUIT_COLORS, SUIT_BG } from '@/constants/cards'
 import { X } from 'lucide-react'
-
-const SUIT_SYMBOLS: Record<Suit, string> = {
-  s: '♠',
-  h: '♥',
-  d: '♦',
-  c: '♣',
-}
-
-const SUIT_COLORS: Record<Suit, string> = {
-  s: 'text-neutral-200',
-  h: 'text-red-500',
-  d: 'text-blue-400',
-  c: 'text-green-500',
-}
-
-const SUIT_BG: Record<Suit, string> = {
-  s: 'bg-neutral-800',
-  h: 'bg-red-950',
-  d: 'bg-blue-950',
-  c: 'bg-green-950',
-}
 
 interface CardSlotProps {
   card?: Card
@@ -52,6 +32,7 @@ function CardSlot({ card, label, onClick }: CardSlotProps) {
     <div className="flex flex-col items-center gap-1">
       <button
         onClick={onClick}
+        aria-label={`Remove ${RANK_NAMES[card.rank]} of ${SUIT_NAMES[card.suit]}`}
         className={cn(
           'w-12 h-16 sm:w-14 sm:h-20 rounded-lg',
           'border-2 border-neutral-600',
@@ -68,6 +49,7 @@ function CardSlot({ card, label, onClick }: CardSlotProps) {
           {SUIT_SYMBOLS[card.suit]}
         </span>
         <div
+          aria-hidden="true"
           className={cn(
             'absolute -top-1.5 -right-1.5',
             'w-5 h-5 rounded-full bg-red-600',

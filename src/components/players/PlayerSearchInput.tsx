@@ -52,6 +52,7 @@ export function PlayerSearchInput({
             setLocalValue('')
             onChange('')
           }}
+          aria-label="Clear search"
           className="absolute right-2 top-1/2 -translate-y-1/2 text-neutral-500 hover:text-white transition-colors"
         >
           <svg

@@ -3,6 +3,7 @@ import { useSearch, useNavigate } from '@tanstack/react-router'
 import { getLeaderboardResults, getDatesForStake, getStakesCovered, type GameType } from '@/data/players'
 import { STAKES, STAKE_LABELS, type Stake, type RegType, type PlayerType } from '@/types/player'
 import { RegTypeBadge } from '@/components/players/RegTypeBadge'
+import { formatDateLong } from '@/lib/format'
 import { cn } from '@/lib/utils'
 
 // Map old RegType to PlayerType for display
@@ -52,11 +53,6 @@ export function LeaderboardArchive() {
     if (!effectiveDate) return []
     return getLeaderboardResults(effectiveDate, selectedStake, gameType)
   }, [effectiveDate, selectedStake, gameType])
-
-  const formatDate = (date: string) => {
-    const d = new Date(date)
-    return d.toLocaleDateString('en-US', { weekday: 'short', month: 'short', day: 'numeric' })
-  }
 
   return (
     <div className="flex flex-col h-full max-w-xl mx-auto">
@@ -123,11 +119,12 @@ export function LeaderboardArchive() {
           <select
             value={effectiveDate}
             onChange={e => setSelectedDate(e.target.value)}
+            aria-label="Select leaderboard date"
             className="bg-neutral-800/50 text-neutral-200 px-3 py-1 rounded text-xs border border-neutral-700/50 focus:outline-none focus:border-neutral-500 cursor-pointer"
           >
             {availableDates.map(date => (
               <option key={date} value={date}>
-                {formatDate(date)}
+                {formatDateLong(date)}
               </option>
             ))}
           </select>

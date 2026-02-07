@@ -134,10 +134,14 @@ export const HandGrid = memo(function HandGrid({ getCell, compact, title, subtit
       )}
 
       {/* Grid container */}
-      <div className={cn(
-        'relative bg-neutral-900/50 backdrop-blur-sm rounded-lg border border-neutral-800/50',
-        compact ? 'p-2' : 'p-3'
-      )}>
+      <div
+        role="grid"
+        aria-label={title ? `${title} hand range grid` : 'Hand range grid'}
+        className={cn(
+          'relative bg-neutral-900/50 backdrop-blur-sm rounded-lg border border-neutral-800/50',
+          compact ? 'p-2' : 'p-3'
+        )}
+      >
         {/* Column headers */}
         <div className="grid grid-cols-[auto_repeat(13,1fr)] gap-[2px] mb-[2px]">
           <div className={compact ? 'w-4 sm:w-5' : 'w-5 sm:w-6'} />

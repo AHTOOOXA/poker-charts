@@ -49,7 +49,11 @@ function RootLayout() {
       {/* Main content */}
       <main className="relative z-10 flex-1 p-4 flex flex-col overflow-auto">
         <ErrorBoundary>
-          <Suspense>
+          <Suspense fallback={
+            <div className="flex-1 flex items-center justify-center">
+              <div className="w-6 h-6 border-2 border-neutral-700 border-t-neutral-400 rounded-full animate-spin" />
+            </div>
+          }>
             <Outlet />
           </Suspense>
         </ErrorBoundary>
