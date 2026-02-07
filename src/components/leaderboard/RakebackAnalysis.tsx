@@ -65,8 +65,20 @@ function formatHandsCompact(n: number): string {
   return n.toFixed(0)
 }
 
+function formatHours(hands: number, handsPerHour: number): string {
+  const hours = hands / handsPerHour
+  if (hours >= 10) return `${Math.round(hours)}h`
+  return `${hours.toFixed(1)}h`
+}
 
-function StakeTable({ stake, hasHappyHour }: { stake: Stake; hasHappyHour: boolean }) {
+// HH is 2x points for 2 hours. Hands during HH earn double,
+// so each HH hand saves one normal hand. Dynamic based on hands/hr.
+function calcHhHands(handsNoHh: number, hph: number): number {
+  const hhHandsAvailable = 2 * hph
+  return Math.max(Math.ceil(handsNoHh / 2), handsNoHh - hhHandsAvailable)
+}
+
+function StakeTable({ stake, hasHappyHour, handsPerHour }: { stake: Stake; hasHappyHour: boolean; handsPerHour: number }) {
   // Show all prize levels
   const displayLevels = stake.prize_levels
 
@@ -84,10 +96,12 @@ function StakeTable({ stake, hasHappyHour }: { stake: Stake; hasHappyHour: boole
             <th className="py-2 px-2 text-right font-medium text-neutral-600" title="Maximum score needed (hardest day)">Max</th>
             <th className="py-2 px-2 text-right font-medium border-l border-neutral-800/50">Hands</th>
             <th className="py-2 px-2 text-right font-medium">bb/100</th>
+            <th className="py-2 px-2 text-right font-medium text-orange-400/70" title="Estimated hours to grind">~Hrs</th>
             {hasHappyHour && (
               <>
-                <th className="py-2 px-2 text-right font-medium text-amber-500/70 border-l border-neutral-800/50">HH</th>
+                <th className="py-2 px-2 text-right font-medium text-amber-500/70 border-l border-neutral-800/50" title="Hands with happy hour (2hrs of 2x points, based on your hands/hr)">HH</th>
                 <th className="py-2 px-2 text-right font-medium text-amber-500/70">bb/100</th>
+                <th className="py-2 px-2 text-right font-medium text-orange-400/70" title="Estimated hours with happy hour">~Hrs</th>
               </>
             )}
             <th className="py-2 px-2 text-right font-medium text-cyan-400/70 border-l border-neutral-800/50" title="Extra hands needed vs tier below">+Hands</th>
@@ -140,16 +154,26 @@ function StakeTable({ stake, hasHappyHour }: { stake: Stake; hasHappyHour: boole
               >
                 {level.bb100_no_hh.toFixed(2)}
               </td>
-              {hasHappyHour && (
-                <>
-                  <td className="py-1.5 px-2 text-right text-amber-500/50 font-mono text-xs border-l border-neutral-800/50">
-                    {formatHandsCompact(level.hands_max_hh ?? 0)}
-                  </td>
-                  <td className="py-1.5 px-2 text-right text-amber-400 font-semibold text-xs">
-                    {level.bb100_max_hh?.toFixed(2)}
-                  </td>
-                </>
-              )}
+              <td className="py-1.5 px-2 text-right text-orange-400/70 font-mono text-xs">
+                {formatHours(level.hands_no_hh, handsPerHour)}
+              </td>
+              {hasHappyHour && (() => {
+                const hhHands = calcHhHands(level.hands_no_hh, handsPerHour)
+                const hhBb100 = (level.prize / stake.bb_value) / hhHands * 100
+                return (
+                  <>
+                    <td className="py-1.5 px-2 text-right text-amber-500/50 font-mono text-xs border-l border-neutral-800/50">
+                      {formatHandsCompact(hhHands)}
+                    </td>
+                    <td className="py-1.5 px-2 text-right text-amber-400 font-semibold text-xs">
+                      {hhBb100.toFixed(2)}
+                    </td>
+                    <td className="py-1.5 px-2 text-right text-orange-400/70 font-mono text-xs">
+                      {formatHours(hhHands, handsPerHour)}
+                    </td>
+                  </>
+                )
+              })()}
               <td className="py-1.5 px-2 text-right font-mono text-xs text-cyan-400/70 border-l border-neutral-800/50">
                 {level.extra_hands != null ? formatHandsCompact(level.extra_hands) : '—'}
               </td>
@@ -173,12 +197,20 @@ export function RakebackAnalysis() {
   const [error, setError] = useState<string | null>(null)
   const selectedGame = search.game || 'rush'
   const selectedStakeParam = search.stake || ''
+  const hphParam = search.hph ? Number(search.hph) : 1000
+  const handsPerHour = hphParam > 0 ? hphParam : 1000
+  const [hphInput, setHphInput] = useState(search.hph || '1000')
 
   const setSelectedGame = useCallback((value: string) => {
-    void navigate({ search: { game: value || undefined, stake: undefined } as never, replace: true })
-  }, [navigate])
+    void navigate({ search: { game: value || undefined, stake: undefined, hph: search.hph || undefined } as never, replace: true })
+  }, [navigate, search.hph])
   const setSelectedStake = useCallback((value: string) => {
     void navigate({ search: { ...search, stake: value || undefined } as never, replace: true })
+  }, [navigate, search])
+  const commitHph = useCallback((value: string) => {
+    const n = Number(value)
+    const hph = n > 0 ? String(n) : undefined
+    void navigate({ search: { ...search, hph } as never, replace: true })
   }, [navigate, search])
 
   useEffect(() => {
@@ -287,20 +319,38 @@ export function RakebackAnalysis() {
           </span>
           <span className="text-cyan-400/70">+Hands / Δ = Extra volume &amp; marginal bb/100 vs tier below</span>
           {currentGame?.has_happy_hour && (
-            <span className="text-amber-500/70">HH = Max happy hour bonus</span>
+            <span className="text-amber-500/70">HH = 2hrs of 2x pts</span>
           )}
           {currentGame && (
             <span className="text-neutral-600">
               {currentGame.pts_per_hand} pts/hand
             </span>
           )}
+          <span className="ml-auto" />
+          <label className="flex items-center gap-1.5 text-neutral-400">
+            <span className="text-orange-400/70">⏱</span>
+            <input
+              type="text"
+              inputMode="numeric"
+              placeholder="1000"
+              value={hphInput}
+              onChange={e => {
+                const v = e.target.value.replace(/[^0-9]/g, '')
+                setHphInput(v)
+              }}
+              onBlur={e => commitHph(e.target.value)}
+              onKeyDown={e => { if (e.key === 'Enter') commitHph(hphInput) }}
+              className="w-24 px-1.5 py-0.5 rounded bg-neutral-800/80 border border-neutral-700/50 text-neutral-200 text-xs font-mono text-right placeholder:text-neutral-600 focus:outline-none focus:border-orange-500/50"
+            />
+            <span className="text-neutral-600">h/hr</span>
+          </label>
         </div>
       </div>
 
       {/* Table */}
       <div className="flex-1 overflow-auto -mx-4 px-4">
         {currentStake && currentGame && (
-          <StakeTable stake={currentStake} hasHappyHour={currentGame.has_happy_hour} />
+          <StakeTable stake={currentStake} hasHappyHour={currentGame.has_happy_hour} handsPerHour={handsPerHour} />
         )}
       </div>
     </div>
