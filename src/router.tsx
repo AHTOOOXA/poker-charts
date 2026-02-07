@@ -197,7 +197,7 @@ const leaderboardRakebackRoute = createRoute({
   validateSearch: (search: Record<string, unknown>) => ({
     game: (search.game as string) || '',
     stake: (search.stake as string) || '',
-    hph: search.hph ? String(search.hph) : '',
+    hph: (search.hph as string) || '',
   }),
 })
 
