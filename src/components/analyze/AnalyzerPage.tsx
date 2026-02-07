@@ -15,6 +15,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select'
+import { OOP_COLOR, IP_COLOR } from '@/constants/breakdown'
 
 interface RangeAnalysisProps {
   title: string
@@ -176,7 +177,7 @@ export function AnalyzerPage() {
                 chart={resolvedRanges.oopRange}
                 board={board}
                 grouping={grouping}
-                color="#f97316" // orange
+                color={OOP_COLOR}
               />
             </div>
 
@@ -188,7 +189,7 @@ export function AnalyzerPage() {
                 chart={resolvedRanges.ipRange}
                 board={board}
                 grouping={grouping}
-                color="#22c55e" // green
+                color={IP_COLOR}
               />
             </div>
           </div>

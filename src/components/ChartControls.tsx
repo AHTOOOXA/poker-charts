@@ -1,3 +1,4 @@
+import { useRef } from 'react'
 import { useChartStore } from '@/stores/chartStore'
 import { type Position } from '@/types/poker'
 import { cn } from '@/lib/utils'
@@ -13,11 +14,40 @@ interface PositionGridProps {
 }
 
 function PositionGrid({ label, selected, onSelect, disabled = [] }: PositionGridProps) {
+  const gridRef = useRef<HTMLDivElement>(null)
+
+  const handleKeyDown = (e: React.KeyboardEvent, index: number) => {
+    let nextIndex: number | null = null
+
+    switch (e.key) {
+      case 'ArrowRight':
+        nextIndex = index + 1
+        break
+      case 'ArrowLeft':
+        nextIndex = index - 1
+        break
+      case 'ArrowDown':
+        nextIndex = index + 3
+        break
+      case 'ArrowUp':
+        nextIndex = index - 3
+        break
+      default:
+        return
+    }
+
+    if (nextIndex === null || nextIndex < 0 || nextIndex >= POSITION_ORDER.length) return
+    e.preventDefault()
+
+    const buttons = gridRef.current?.querySelectorAll<HTMLButtonElement>('button')
+    buttons?.[nextIndex]?.focus()
+  }
+
   return (
-    <div className="flex flex-col gap-2">
+    <div className="flex flex-col gap-2" role="group" aria-label={label}>
       <span className="text-neutral-500 text-xs uppercase tracking-wide text-center">{label}</span>
-      <div className="grid grid-cols-3 gap-1.5">
-        {POSITION_ORDER.map(p => {
+      <div ref={gridRef} className="grid grid-cols-3 gap-1.5">
+        {POSITION_ORDER.map((p, i) => {
           const isDisabled = disabled.includes(p)
           const isSelected = selected === p
           const isDealer = p === 'BTN'
@@ -25,7 +55,9 @@ function PositionGrid({ label, selected, onSelect, disabled = [] }: PositionGrid
             <button
               key={p}
               onClick={() => !isDisabled && onSelect(p)}
+              onKeyDown={(e) => handleKeyDown(e, i)}
               disabled={isDisabled}
+              aria-pressed={isSelected}
               className={cn(
                 'relative px-4 py-2.5 rounded-lg text-sm font-semibold transition-all',
                 isDisabled && 'opacity-30 cursor-not-allowed',
@@ -37,7 +69,7 @@ function PositionGrid({ label, selected, onSelect, disabled = [] }: PositionGrid
             >
               {p}
               {isDealer && (
-                <span className="absolute -top-1 -right-1 w-4 h-4 bg-amber-500 rounded-full text-[9px] font-bold text-black flex items-center justify-center shadow">
+                <span aria-label="Dealer" className="absolute -top-1 -right-1 w-4 h-4 bg-amber-500 rounded-full text-[9px] font-bold text-black flex items-center justify-center shadow">
                   D
                 </span>
               )}
@@ -58,12 +90,12 @@ export function ChartControls() {
   return (
     <div className="flex items-start justify-center gap-8">
       <PositionGrid
-        label="I'm on"
+        label="Hero position"
         selected={position}
         onSelect={setPosition}
       />
       <PositionGrid
-        label="vs"
+        label="Villain position"
         selected={villain}
         onSelect={setVillain}
         disabled={disabledVillains}

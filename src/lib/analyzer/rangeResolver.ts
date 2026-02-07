@@ -24,9 +24,10 @@ export function filterChartByActions(
     let totalAllowed = 0
 
     for (const action of allowedActions) {
-      if (actions[action] && actions[action]! > 0) {
-        newActions[action] = actions[action]
-        totalAllowed += actions[action]!
+      const val = actions[action]
+      if (val && val > 0) {
+        newActions[action] = val
+        totalAllowed += val
       }
     }
 
@@ -34,8 +35,9 @@ export function filterChartByActions(
       // Normalize actions to 100% if we filtered out some
       if (totalAllowed < 100) {
         for (const action of allowedActions) {
-          if (newActions[action]) {
-            newActions[action] = (newActions[action]! / totalAllowed) * 100
+          const v = newActions[action]
+          if (v) {
+            newActions[action] = (v / totalAllowed) * 100
           }
         }
       }

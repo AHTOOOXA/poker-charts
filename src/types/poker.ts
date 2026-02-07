@@ -138,8 +138,8 @@ const ACTION_ORDER: Action[] = ['allin', 'raise', 'call', 'fold']
 // Get ordered action entries sorted by display order
 export function getSortedActions(actions: ActionWeights): [Action, number][] {
   return ACTION_ORDER
-    .filter(action => actions[action] && actions[action]! > 0)
-    .map(action => [action, actions[action]!] as [Action, number])
+    .filter(action => (actions[action] ?? 0) > 0)
+    .map(action => [action, actions[action]!])
 }
 
 export type HandType = 'pair' | 'suited' | 'offsuit'

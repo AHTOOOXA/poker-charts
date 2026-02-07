@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import { Copy, Check } from 'lucide-react'
 import { formatNumber } from '@/lib/format'
 import { RegTypeBadge } from './RegTypeBadge'
@@ -60,7 +60,14 @@ interface PlayerCardProps {
 
 export function PlayerCard({ player }: PlayerCardProps) {
   const [copied, setCopied] = useState(false)
+  const copyTimerRef = useRef<ReturnType<typeof setTimeout>>(null)
   const allDates = getDatesCovered()
+
+  useEffect(() => {
+    return () => {
+      if (copyTimerRef.current) clearTimeout(copyTimerRef.current)
+    }
+  }, [])
 
   const handsPerDay = player.days_active > 0
     ? Math.round(player.estimated_hands / player.days_active)
@@ -71,10 +78,14 @@ export function PlayerCard({ player }: PlayerCardProps) {
 
   const copyText = generateCopyText(player)
 
-  const handleCopy = async () => {
-    await navigator.clipboard.writeText(copyText)
-    setCopied(true)
-    setTimeout(() => setCopied(false), 1500)
+  const handleCopy = () => {
+    navigator.clipboard.writeText(copyText).then(
+      () => {
+        setCopied(true)
+        copyTimerRef.current = setTimeout(() => setCopied(false), 1500)
+      },
+      () => { /* clipboard write failed — ignore silently */ }
+    )
   }
 
   return (

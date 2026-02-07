@@ -1,7 +1,10 @@
 {
   "name": "poker-lab",
   "private": true,
-  "version": "0.0.0",
+  "version": "0.1.0",
+  "description": "Interactive poker study tools with GTO preflop charts and leaderboard analytics",
+  "repository": "https://github.com/AHTOOOXA/poker-charts",
+  "license": "MIT",
   "type": "module",
   "scripts": {
     "dev": "vite",

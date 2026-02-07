@@ -12,7 +12,7 @@ export function Legend() {
     <div className="flex items-center justify-center gap-6 py-2">
       {LEGEND_ITEMS.map(({ label, color }) => (
         <div key={label} className="flex items-center gap-2">
-          <div className={cn('w-4 h-4 rounded-sm', color)} />
+          <div className={cn('w-4 h-4 rounded-sm', color)} aria-hidden="true" />
           <span className="text-xs text-neutral-400 font-medium">{label}</span>
         </div>
       ))}

@@ -12,7 +12,7 @@ export function PlayerSearch() {
   const navigate = useNavigate({ from: '/leaderboard/' })
   const search = q
   const setSearch = useCallback((value: string) => {
-    navigate({ search: { q: value || undefined } as never, replace: true })
+    void navigate({ search: { q: value || undefined } as never, replace: true })
   }, [navigate])
   const [selectedRegTypes, setSelectedRegTypes] = useState<RegType[]>([])
   const [selectedStakes, setSelectedStakes] = useState<Stake[]>([])

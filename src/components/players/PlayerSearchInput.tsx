@@ -15,9 +15,10 @@ export function PlayerSearchInput({
   const [localValue, setLocalValue] = useState(value)
   const lastEmittedRef = useRef(value)
 
-  // Only sync external value changes (not our own debounced updates coming back)
+  // Sync external value changes (not our own debounced updates coming back)
   useEffect(() => {
     if (value !== lastEmittedRef.current) {
+      // eslint-disable-next-line react-hooks/set-state-in-effect -- intentional sync of external prop to local state
       setLocalValue(value)
       lastEmittedRef.current = value
     }

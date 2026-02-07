@@ -11,6 +11,18 @@ export default defineConfig({
       '@': path.resolve(__dirname, './src'),
     },
   },
+  build: {
+    rollupOptions: {
+      output: {
+        manualChunks: {
+          'vendor-react': ['react', 'react-dom'],
+          'vendor-router': ['@tanstack/react-router'],
+          'vendor-charts': ['recharts'],
+          'vendor-ui': ['@radix-ui/react-popover', '@radix-ui/react-select', 'lucide-react'],
+        },
+      },
+    },
+  },
   server: {
     port: 7272,
   },

@@ -1,46 +1,9 @@
 import { PieChart, Pie, Cell, ResponsiveContainer, Tooltip } from 'recharts'
 import type { CategoryResult } from '@/lib/analyzer'
-import { CATEGORY_CONFIGS } from '@/types/poker'
+import { getCategoryColor, getCategoryLabel } from '@/constants/breakdown'
 
 interface BreakdownPieChartProps {
   results: CategoryResult[]
-}
-
-// Custom labels for grouped categories
-const GROUP_LABELS: Record<string, string> = {
-  'made-hands': 'Made Hands',
-  draws: 'Draws',
-  nothing: 'Nothing',
-  'strong-made': 'Strong Made',
-  'two-pair': 'Two Pair',
-  'top-pair': 'Top Pair+',
-  'other-pair': 'Other Pairs',
-}
-
-const GROUP_COLORS: Record<string, string> = {
-  'made-hands': '#6366F1',
-  draws: '#EAB308',
-  nothing: '#6B7280',
-  'strong-made': '#8B5CF6',
-  'two-pair': '#0EA5E9',
-  'top-pair': '#14B8A6',
-  'other-pair': '#22C55E',
-}
-
-function getCategoryColor(category: string): string {
-  if (GROUP_COLORS[category]) {
-    return GROUP_COLORS[category]
-  }
-  const config = CATEGORY_CONFIGS.find((c) => c.id === category)
-  return config?.color || '#6B7280'
-}
-
-function getCategoryLabel(category: string): string {
-  if (GROUP_LABELS[category]) {
-    return GROUP_LABELS[category]
-  }
-  const config = CATEGORY_CONFIGS.find((c) => c.id === category)
-  return config?.label || category
 }
 
 interface CustomTooltipProps {

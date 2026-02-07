@@ -100,8 +100,8 @@ function levenshteinDistance(a: string, b: string): number {
   if (b.length === 0) return a.length
 
   // Use two rows instead of full matrix for memory efficiency
-  let prevRow = Array.from({ length: b.length + 1 }, (_, i) => i)
-  let currRow = new Array(b.length + 1)
+  let prevRow: number[] = Array.from({ length: b.length + 1 }, (_, i) => i)
+  let currRow: number[] = new Array<number>(b.length + 1)
 
   for (let i = 1; i <= a.length; i++) {
     currRow[0] = i
@@ -116,7 +116,9 @@ function levenshteinDistance(a: string, b: string): number {
     }
 
     // Swap rows
-    ;[prevRow, currRow] = [currRow, prevRow]
+    const temp = prevRow
+    prevRow = currRow
+    currRow = temp
   }
 
   return prevRow[b.length]

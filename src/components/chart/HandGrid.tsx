@@ -69,7 +69,11 @@ function HandCell({ hand, cell, compact, interactive, onMouseDown, onMouseEnter 
 
   // Weighted cell - horizontal color bands from bottom
   // Width = action frequency, all bands same height = weight (previous street frequency)
-  let accumulatedWidth = 0
+  // Pre-compute left offsets to avoid mutation during render
+  const offsets = sortedActions.reduce<number[]>((acc, _, i) => {
+    acc.push(i === 0 ? 0 : acc[i - 1] + sortedActions[i - 1][1])
+    return acc
+  }, [])
   return (
     <div
       onMouseDown={handleMouseDown}
@@ -83,9 +87,8 @@ function HandCell({ hand, cell, compact, interactive, onMouseDown, onMouseEnter 
       )}
     >
       {/* Horizontal bands from bottom, left to right: aggressive to passive */}
-      {sortedActions.map(([action, percent]) => {
-        const left = accumulatedWidth
-        accumulatedWidth += percent
+      {sortedActions.map(([action, percent], i) => {
+        const left = offsets[i]
         return (
           <div
             key={action}

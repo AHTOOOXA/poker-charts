@@ -1,44 +1,13 @@
 import { cn } from '@/lib/utils'
 import type { CategoryResult } from '@/lib/analyzer'
 import type { HandCategory } from '@/types/poker'
-import { CATEGORY_CONFIGS } from '@/types/poker'
+import { GROUP_LABELS, GROUP_COLORS, getCategoryConfig } from '@/constants/breakdown'
 
 interface BreakdownTableProps {
   results: CategoryResult[]
   totalCombos: number
   highlightedCategories: HandCategory[]
   onCategoryClick: (category: HandCategory) => void
-}
-
-function getCategoryConfig(category: string) {
-  return (
-    CATEGORY_CONFIGS.find((c) => c.id === category) || {
-      id: category as HandCategory,
-      label: category,
-      color: '#6B7280',
-    }
-  )
-}
-
-// Custom labels for grouped categories
-const GROUP_LABELS: Record<string, string> = {
-  'made-hands': 'Made Hands',
-  draws: 'Draws',
-  nothing: 'Nothing',
-  'strong-made': 'Strong Made',
-  'two-pair': 'Two Pair',
-  'top-pair': 'Top Pair+',
-  'other-pair': 'Other Pairs',
-}
-
-const GROUP_COLORS: Record<string, string> = {
-  'made-hands': '#6366F1',
-  draws: '#EAB308',
-  nothing: '#6B7280',
-  'strong-made': '#8B5CF6',
-  'two-pair': '#0EA5E9',
-  'top-pair': '#14B8A6',
-  'other-pair': '#22C55E',
 }
 
 export function BreakdownTable({
@@ -63,13 +32,13 @@ export function BreakdownTable({
         const label = isGrouped || config.label
         const color = isGrouped ? GROUP_COLORS[result.category] : config.color
         const isHighlighted = highlightedCategories.includes(
-          result.category as HandCategory
+          result.category
         )
 
         return (
           <button
             key={result.category}
-            onClick={() => onCategoryClick(result.category as HandCategory)}
+            onClick={() => onCategoryClick(result.category)}
             className={cn(
               'w-full flex items-center gap-3 px-3 py-2 rounded-lg',
               'transition-colors text-left',
@@ -82,6 +51,7 @@ export function BreakdownTable({
             <div
               className="w-3 h-3 rounded-sm flex-shrink-0"
               style={{ backgroundColor: color }}
+              aria-hidden="true"
             />
 
             {/* Category name */}

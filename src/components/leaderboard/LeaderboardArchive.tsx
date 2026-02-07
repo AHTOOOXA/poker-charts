@@ -26,7 +26,7 @@ export function LeaderboardArchive() {
   const selectedDate = search.date || ''
 
   const updateSearch = useCallback((updates: Record<string, string | undefined>) => {
-    navigate({ search: { ...search, ...updates } as never, replace: true })
+    void navigate({ search: { ...search, ...updates } as never, replace: true })
   }, [navigate, search])
   const setSelectedStake = useCallback((value: Stake) => {
     updateSearch({ stake: value, date: undefined })

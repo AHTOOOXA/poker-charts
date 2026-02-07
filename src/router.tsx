@@ -1,4 +1,5 @@
 /* eslint-disable react-refresh/only-export-components */
+import { lazy, Suspense } from 'react'
 import { createRouter, createRootRoute, createRoute, Link, Outlet } from '@tanstack/react-router'
 import { ErrorBoundary } from '@/components/ErrorBoundary'
 import { cn } from '@/lib/utils'
@@ -6,12 +7,17 @@ import { HandGrid } from '@/components/chart/HandGrid'
 import { ChartControls } from '@/components/ChartControls'
 import { Legend } from '@/components/Legend'
 import { ProviderSelector } from '@/components/ProviderSelector'
-import { LeaderboardPage, LeaderboardPlayers, LeaderboardArchive, LeaderboardRakeback } from '@/components/leaderboard/LeaderboardPage'
-import { AnalyzerPage } from '@/components/analyze/AnalyzerPage'
-import { DisclaimerPage } from '@/components/DisclaimerPage'
 import { getCellWithCascadedWeight } from '@/data/ranges'
 import { useChartStore } from '@/stores/chartStore'
 import { POSITIONS, SCENARIOS, type Position, type Scenario } from '@/types/poker'
+
+// Lazy-loaded route components
+const LeaderboardPage = lazy(() => import('@/components/leaderboard/LeaderboardPage').then(m => ({ default: m.LeaderboardPage })))
+const LeaderboardPlayers = lazy(() => import('@/components/leaderboard/LeaderboardPage').then(m => ({ default: m.LeaderboardPlayers })))
+const LeaderboardArchive = lazy(() => import('@/components/leaderboard/LeaderboardPage').then(m => ({ default: m.LeaderboardArchive })))
+const LeaderboardRakeback = lazy(() => import('@/components/leaderboard/LeaderboardPage').then(m => ({ default: m.LeaderboardRakeback })))
+const AnalyzerPage = lazy(() => import('@/components/analyze/AnalyzerPage').then(m => ({ default: m.AnalyzerPage })))
+const DisclaimerPage = lazy(() => import('@/components/DisclaimerPage').then(m => ({ default: m.DisclaimerPage })))
 
 // Root layout component
 function RootLayout() {
@@ -33,7 +39,7 @@ function RootLayout() {
           </h1>
 
           {/* Navigation tabs */}
-          <nav className="flex gap-1">
+          <nav aria-label="Main navigation" className="flex gap-1">
             <NavLink to="/" label="Preflop Ranges" exact />
             <NavLink to="/leaderboard" label="GG Leaderboards" />
           </nav>
@@ -43,7 +49,9 @@ function RootLayout() {
       {/* Main content */}
       <main className="relative z-10 flex-1 p-4 flex flex-col overflow-auto">
         <ErrorBoundary>
-          <Outlet />
+          <Suspense>
+            <Outlet />
+          </Suspense>
         </ErrorBoundary>
       </main>
 
@@ -67,6 +75,7 @@ function NavLink({ to, label, exact }: { to: string; label: string; exact?: bool
       )}
       activeProps={{
         className: 'bg-neutral-800/50 text-white',
+        'aria-current': 'page',
       }}
     >
       {label}

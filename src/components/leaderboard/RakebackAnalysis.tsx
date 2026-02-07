@@ -175,14 +175,15 @@ export function RakebackAnalysis() {
   const selectedStakeParam = search.stake || ''
 
   const setSelectedGame = useCallback((value: string) => {
-    navigate({ search: { game: value || undefined, stake: undefined } as never, replace: true })
+    void navigate({ search: { game: value || undefined, stake: undefined } as never, replace: true })
   }, [navigate])
   const setSelectedStake = useCallback((value: string) => {
-    navigate({ search: { ...search, stake: value || undefined } as never, replace: true })
+    void navigate({ search: { ...search, stake: value || undefined } as never, replace: true })
   }, [navigate, search])
 
   useEffect(() => {
-    fetch('/leaderboards/rakeback.json')
+    const controller = new AbortController()
+    fetch('/leaderboards/rakeback.json', { signal: controller.signal })
       .then(res => {
         if (!res.ok) throw new Error('Failed to load rakeback data')
         return res.json()
@@ -191,10 +192,12 @@ export function RakebackAnalysis() {
         setData(json)
         setLoading(false)
       })
-      .catch(err => {
-        setError(err.message)
+      .catch((err: unknown) => {
+        if (err instanceof DOMException && err.name === 'AbortError') return
+        setError(err instanceof Error ? err.message : 'Unknown error')
         setLoading(false)
       })
+    return () => controller.abort()
   }, [])
 
   // Resolve effective stake: use URL param if valid, otherwise first available
